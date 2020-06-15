@@ -5,9 +5,12 @@
 
 <!-- badges: start -->
 
+[![R build
+status](https://github.com/Metropolitan-Council/regionalparks.acs/workflows/R-CMD-check/badge.svg)](https://github.com/Metropolitan-Council/regionalparks.acs/actions)
 <!-- badges: end -->
 
-The goal of regionalparks.acs is to …
+The goal of regionalparks.acs is to visualize both regional parks and
+regional demographics.
 
 ## Installation
 
