@@ -9,11 +9,11 @@ library(sf)
 
 temp <- tempfile()
 download.file("https://resources.gisdata.mn.gov/pub/gdrs/data/pub/us_mn_state_metc/society_census_acs/xlsx_society_census_acs.zip",
-              destfile = temp
+  destfile = temp
 )
 
-ct <- readxl::read_xlsx(unzip(temp, "CensusACSTract.xlsx")) %>% 
-  janitor::clean_names() %>% 
+ct <- readxl::read_xlsx(unzip(temp, "CensusACSTract.xlsx")) %>%
+  janitor::clean_names() %>%
   filter(state == 27)
 
 fs::file_delete("CensusACSTract.xlsx")
@@ -86,9 +86,11 @@ ct_merge <- right_join(ct_foreign, ct_disability) %>%
 
 ## ----------------------------------------------------------------------------------------------------------------------------------------------------
 
-census_tract <- tigris::tracts(state = "MN",
-               class = "sf") %>% 
-  select(GEOID) %>% 
+census_tract <- tigris::tracts(
+  state = "MN",
+  class = "sf"
+) %>%
+  select(GEOID) %>%
   left_join(ct_merge, by = c("GEOID" = "geoid2"))
 
 

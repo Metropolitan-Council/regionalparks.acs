@@ -9,11 +9,11 @@ library(janitor)
 
 temp <- tempfile()
 download.file("https://resources.gisdata.mn.gov/pub/gdrs/data/pub/us_mn_state_metc/society_census_acs/xlsx_society_census_acs.zip",
-              destfile = temp
+  destfile = temp
 )
 
-bg <- readxl::read_xlsx(unzip(temp, "CensusACSBlockGroup.xlsx")) %>% 
-  janitor::clean_names() %>% 
+bg <- readxl::read_xlsx(unzip(temp, "CensusACSBlockGroup.xlsx")) %>%
+  janitor::clean_names() %>%
   filter(state == 27)
 
 fs::file_delete("CensusACSBlockGroup.xlsx")
@@ -67,9 +67,11 @@ bg_merge <- right_join(bg_age, bg_race) %>%
 
 ## -----------------------------------------------------------------------------------------------------------------------------------------------------
 
-block_group <- tigris::block_groups(state = "MN",
-                                   class = "sf") %>% 
-  select(GEOID) %>% 
+block_group <- tigris::block_groups(
+  state = "MN",
+  class = "sf"
+) %>%
+  select(GEOID) %>%
   left_join(bg_merge, by = c("GEOID" = "geoid2"))
 
 

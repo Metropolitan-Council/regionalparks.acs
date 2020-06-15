@@ -11,7 +11,7 @@ download.file("ftp://ftp.gisdata.mn.gov/pub/gdrs/data/pub/us_mn_state_metc/plan_
   destfile = temp
 )
 
-parks <- sf::read_sf(unzip(temp, "plan_parks_regional.gpkg")) %>% 
+parks <- sf::read_sf(unzip(temp, "plan_parks_regional.gpkg")) %>%
   filter(STATUS == "Existing") %>%
   group_by(PARKNAME, Label, AGENCY) %>%
   summarize(do_union = TRUE) %>%
@@ -43,7 +43,7 @@ trails <- sf::read_sf(unzip(temp, "trans_regional_trails_exst_plan.gpkg")) %>%
     agency = Agency
   ) %>%
   st_transform(4326) %>%
-  st_as_sf() %>% 
+  st_as_sf() %>%
   sf::st_make_valid()
 
 
