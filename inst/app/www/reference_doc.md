@@ -12,7 +12,7 @@ parks and trails system and the demographic characteristics of the
 census tracts surrounding them.
 
 The Map tab displays census tracts in the Twin Cities metropolitan area.
-The tracts’ colors correspond to 2013-2017 (5-year) American Community
+The tracts’ colors correspond to 2014-2018 (5-year) American Community
 Survey (ACS) demographic metric selected by the user. Each demographic
 characteristic is shown as a percentage of the total population, with
 the exception of median household income, which is displayed in dollars.
@@ -50,5 +50,5 @@ development.
 
 <right style="font-size: 1rem; text-align: right; display: block;">
 *Last updated 2020-06-15*  
-Build ID: 2020-06-15.roten.5fff7f3  
+Build ID: 2020-06-15.roten.635e818  
 </right>
