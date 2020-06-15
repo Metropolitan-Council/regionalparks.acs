@@ -39,11 +39,12 @@ trails <- sf::read_sf(unzip(temp, "trans_regional_trails_exst_plan.gpkg")) %>%
   summarize(do_union = TRUE) %>%
   ungroup() %>%
   select(
-    name = Label,
+    name = NAME,
     agency = Agency
   ) %>%
   st_transform(4326) %>%
-  st_as_sf()
+  st_as_sf() %>% 
+  sf::st_make_valid()
 
 
 fs::file_delete("trans_regional_trails_exst_plan.gpkg")
