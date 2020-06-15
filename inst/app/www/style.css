@@ -1,6 +1,6 @@
 h1, h2, h3, h4, h5, h6 {
   margin-top: 0;
-  margin-bottom: 2rem;
+  margin-bottom: 1rem;
   font-weight: 300;
   color: var(--council-blue);
   font-family: Light, Helvetica, Tahoma, Geneva, "Arial Narrow", Arial,  sans-serif;
@@ -14,7 +14,7 @@ h5 { font-size: 2.0rem; line-height: 1.5;  letter-spacing: -.05rem; }
 h6 { font-size: 1.5rem; line-height: 1.6;  letter-spacing: 0; }
 
 body, p{
-  font-size: 1.6rem; /* currently ems cause chrome bug misinterpreting rems on body element */
+  font-size: 1.5rem; /* currently ems cause chrome bug misinterpreting rems on body element */
   line-height: 1.6;
   font-weight: 100;
   font-family: Roman, Helvetica, Tahoma, Geneva, Arial, sans-serif;
@@ -36,12 +36,21 @@ hr {
 	width: 99%;
 }
 
+#input_demos_ui_1-controls_ct {
+z-index: 1000;
+  
+}
 
+#inputCensusTracts {
+	margin-left: 5%;
+	z-index: 1000;
+
+}
 .navbar-default {
 	background-color: white;
 	border-color: white;
 	color: var(--council-black);
-
+	font-size: 1.8rem;
 }
 
 .navbar-brand {
