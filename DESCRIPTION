@@ -1,0 +1,35 @@
+Package: regionalparks.acs
+Title: Regional Parks and the American Community Survey
+Version: 0.0.0.9000
+Authors@R: 
+    c(person(given = "Metropolitan Council",
+             role = "cph"),
+      person(given = "Liz",
+             family = "Roten",
+             role = c("cre", "aut"),
+             email = "liz.roten@metc.state.mn.us"))
+Description: Visualize Regional Parks and ACS demographics.
+License: MIT + file LICENSE
+Imports: 
+    config (>= 0.3),
+    golem (>= 0.2.1),
+    shiny (>= 1.4.0.2),
+    leaflet (>= 2.0.3),
+    dplyr (>= 1.0.0),
+    sf (>= 0.9.3),
+    data.table (>= 1.12.8),
+    magrittr (>= 1.5),
+    councilR (>= 0.1.0),
+    htmltools (>= 0.4.0),
+    processx,
+    attempt,
+    DT,
+    glue
+Encoding: UTF-8
+LazyData: true
+RoxygenNote: 7.1.0
+Roxygen: list(markdown = TRUE)
+Depends: 
+    R (>= 2.10)
+Suggests: 
+    testthat
