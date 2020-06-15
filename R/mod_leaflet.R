@@ -61,7 +61,8 @@ mod_leaflet_server <- function(input, output, session) {
                                                        color = councilR::colors$suppGray, weight = 6,
                                                        bringToFront = TRUE)
                    
-      ) %>% 
+      ) %>%
+      hideGroup("Regional Trails") %>% 
       addLayersControl(
         position = "bottomright",
         overlayGroups = c("Regional Parks",
