@@ -8,6 +8,7 @@ app_ui <- function(request) {
   tagList(
     # Leave this function for adding external resources
     golem_add_external_resources(),
+    
     # List the first level UI elements here
     navbarPage("Regional Parks and the American Community Survey",
       id = "nav",
@@ -22,12 +23,12 @@ app_ui <- function(request) {
       tabPanel(
         "Notes",
         mod_notes_ui("notes_ui_1")
-      ),
-
-      footer = tags$a(
-        href = "https://metrocouncil.org", target = "_blank",
-        img(src = "www/main-logo.png", align = "right", style = "padding: 1%")
       )
+
+      # footer = tags$a(
+      #   href = "https://metrocouncil.org", target = "_blank",
+      #   img(src = "www/main-logo.png", align = "right", style = "padding: 1%")
+      # )
     )
   )
 }
