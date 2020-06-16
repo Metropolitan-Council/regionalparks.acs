@@ -1,6 +1,7 @@
 Package: regionalparks.acs
 Title: Regional Parks and the American Community Survey
 Version: 0.0.0.9000
+Date: 2020-06-16
 Authors@R: 
     c(person(given = "Metropolitan Council",
              role = "cph"),
@@ -9,7 +10,6 @@ Authors@R:
              role = c("cre", "aut"),
              email = "liz.roten@metc.state.mn.us"))
 Description: Visualize Regional Parks and ACS demographics.
-Date: 2020-06-16
 License: MIT + file LICENSE
 Depends: 
     R (>= 2.10)
