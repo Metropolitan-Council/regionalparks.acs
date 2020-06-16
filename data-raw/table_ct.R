@@ -42,7 +42,24 @@ table_ct <- data.table(
     "nothisppop_percent",
     "medianhhi"
   )
-)
+) %>% 
+  dplyr::rowwise() %>% 
+  dplyr::mutate(pal= 
+           if("Orig" %in% stringr::str_sub(category, start = 1L, end = 4L)){
+    "YlGn"
+  } else if("Disa" %in% stringr::str_sub(category, start = 1L, end = 4L)) {
+    "OrRd"
+  } else if("Age," %in% stringr::str_sub(category, start = 1L, end = 4L)){
+    "BuPu"
+  } else if("Race" %in% stringr::str_sub(category, start = 1L, end = 4L)){
+    "RdPu"
+  } else if("Ethn" %in% stringr::str_sub(category, start = 1L, end = 4L)){
+    "YlGnBu"
+  } else if("Inco" %in% stringr::str_sub(category, start = 1L, end = 4L)){
+    # "viridis"
+    "PuRd"
+  }) %>% 
+  as.data.table()
 
 
 
