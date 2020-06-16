@@ -16,48 +16,48 @@ mod_input_demos_ui <- function(id) {
       draggable = TRUE, top = 60, left = "auto", right = 20, bottom = "auto",
       width = 330, height = "auto",
       ## radio button inputs -----
-      HTML("<div id='inputCensusTracts' class='form-group shiny-input-radiogroup shiny-input-container shiny-bound-input'>
-              <label class='control-label' for='inputCensusTracts'><div></div></label>
+      HTML("<div id='input_demos_ui_1-inputCensusTracts' class='form-group shiny-input-radiogroup shiny-input-container shiny-bound-input'>
+              <label class='control-label' for='input_demos_ui_1-inputCensusTracts'><div></div></label>
               <div class='shiny-options-group'>
                    <div>
 <h5>Age</h5>
 </div>
 <div class='radio'>
                   <label>
-                    <input type='radio' name='inputCensusTracts' value='Age, under 18'>
+                    <input type='radio' name='input_demos_ui_1-inputCensusTracts' value='Age, under 18'>
                     <span>Age, under 18</span>
                   </label>
                 </div>
  <div class='radio'>
                   <label>
-                    <input type='radio' name='inputCensusTracts' value='Age, 10-19' checked='checked'>
+                    <input type='radio' name='input_demos_ui_1-inputCensusTracts' value='Age, 10-19' checked='checked'>
                     <span>Age, 10-19</span>
                   </label>
                 </div>
                 <div class='radio'>
                   <label>
-                    <input type='radio' name='inputCensusTracts' value='Age, 18-39' checked='checked'>
+                    <input type='radio' name='input_demos_ui_1-inputCensusTracts' value='Age, 18-39' checked='checked'>
                     <span>Age, 18-39</span>
                   </label>
                 </div>
                 <div class='radio'>
                   <label>
-                    <input type='radio' name='inputCensusTracts' value='Age, 40-64'>
+                    <input type='radio' name='input_demos_ui_1-inputCensusTracts' value='Age, 40-64'>
                     <span>Age, 40-64</span>
                   </label>
                 </div>
                 <div class='radio'>
                   <label>
-                    <input type='radio' name='inputCensusTracts' value='Age, 65 and over'>
+                    <input type='radio' name='input_demos_ui_1-inputCensusTracts' value='Age, 65 and over'>
                     <span>Age, 65 and over</span>
                   </label>
                 </div>
-                
+
                 <div>
   <h5>Disability</h5>
 </div><div class='radio'>
                   <label>
-                    <input type='radio' name='inputCensusTracts' value='Disability, any disability'>
+                    <input type='radio' name='input_demos_ui_1-inputCensusTracts' value='Disability, any disability'>
                     <span>Disability, any disability</span>
                   </label>
                 </div>
@@ -66,80 +66,80 @@ mod_input_demos_ui <- function(id) {
 
 </div><div class='radio'>
                   <label>
-                    <input type='radio' name='inputCensusTracts' value='Ethnicity, Hispanic'>
+                    <input type='radio' name='input_demos_ui_1-inputCensusTracts' value='Ethnicity, Hispanic'>
                     <span>Ethnicity, Hispanic</span>
                   </label>
                 </div>
                 <div class='radio'>
                   <label>
-                    <input type='radio' name='inputCensusTracts' value='Ethnicity, Not Hispanic'>
+                    <input type='radio' name='input_demos_ui_1-inputCensusTracts' value='Ethnicity, Not Hispanic'>
                     <span>Ethnicity, Not Hispanic</span>
                   </label>
                 </div>
                 <div><h5>Income</h5></div><div class='radio'>
                   <label>
-                    <input type='radio' name='inputCensusTracts' value='Income, Median Household Income'>
+                    <input type='radio' name='input_demos_ui_1-inputCensusTracts' value='Income, Median Household Income'>
                     <span>Income, Median Household Income</span>
                   </label>
                 </div>
                 <div><h5>National Origin</h5></div><div class='radio'>
                   <label>
-                    <input type='radio' name='inputCensusTracts' value='Origin, foreign-born'>
+                    <input type='radio' name='input_demos_ui_1-inputCensusTracts' value='Origin, foreign-born'>
                     <span>Origin, foreign-born</span>
                   </label>
                 </div>
                 <div class='radio'>
                   <label>
-                    <input type='radio' name='inputCensusTracts' value='Origin, US-born'>
+                    <input type='radio' name='input_demos_ui_1-inputCensusTracts' value='Origin, US-born'>
                     <span>Origin, US-born</span>
                   </label>
                 </div>
                 <h5>Race</h5><div class='radio'>
                   <label>
-                    <input type='radio' name='inputCensusTracts' value='Race, American Indian'>
+                    <input type='radio' name='input_demos_ui_1-inputCensusTracts' value='Race, American Indian'>
                     <span>Race, American Indian</span>
                   </label>
                 </div>
                 <div class='radio'>
                   <label>
-                    <input type='radio' name='inputCensusTracts' value='Race, Asian'>
+                    <input type='radio' name='input_demos_ui_1-inputCensusTracts' value='Race, Asian'>
                     <span>Race, Asian</span>
                   </label>
                 </div>
                 <div class='radio'>
                   <label>
-                    <input type='radio' name='inputCensusTracts' value='Race, Black'>
+                    <input type='radio' name='input_demos_ui_1-inputCensusTracts' value='Race, Black'>
                     <span>Race, Black</span>
                   </label>
                 </div>
                 <div class='radio'>
                   <label>
-                    <input type='radio' name='inputCensusTracts' value='Race, Pacific Islander'>
+                    <input type='radio' name='input_demos_ui_1-inputCensusTracts' value='Race, Pacific Islander'>
                     <span>Race, Pacific Islander</span>
                   </label>
                 </div>
                 <div class='radio'>
                   <label>
-                    <input type='radio' name='inputCensusTracts' value='Race, White'>
+                    <input type='radio' name='input_demos_ui_1-inputCensusTracts' value='Race, White'>
                     <span>Race, White</span>
                   </label>
                 </div>
                 <div class='radio'>
                   <label>
-                    <input type='radio' name='inputCensusTracts' value='Race, Multiracial'>
+                    <input type='radio' name='input_demos_ui_1-inputCensusTracts' value='Race, Multiracial'>
                     <span>Race, Multiracial</span>
                   </label>
                 </div>
                  <div class='radio'>
                   <label>
-                    <input type='radio' name='inputCensusTracts' value='Race, Other'>
+                    <input type='radio' name='input_demos_ui_1-inputCensusTracts' value='Race, Other'>
                     <span>Race, Other</span>
                   </label>
                 </div>
               </div>
             </div>")
-      # radioButtons(inputId = "inputCensusTracts", label = "Census Tracts",
-      #              choices = sort(table_ct$category))
+      # radioButtons(inputId = ns("inputCensusTracts"), label = "Census Tracts",
+                   # choices = sort(table_ct$category))
     )
   )
 }
@@ -149,6 +149,33 @@ mod_input_demos_ui <- function(id) {
 #' @noRd
 mod_input_demos_server <- function(input, output, session) {
   ns <- session$ns
+  
+  tract_data <- reactive({
+    # browser()
+    dat <- census_tract[input$inputCensusTracts]
+    return(dat)
+  })
+  
+  color_pal <- reactive({
+    dplyr::filter(table_ct, category == input$inputCensusTracts)[[3]]
+  })
+  
+  vals <- reactiveValues()
+  
+  observeEvent(input$inputCensusTracts, {
+    vals$selected_var <- input$inputCensusTracts
+  })
+  
+  observeEvent(input$inputCensusTracts, {
+    vals$tract_data <- tract_data()
+  })
+
+  observeEvent(input$inputCensusTracts, {
+    vals$color_pal <- color_pal()
+  })
+  
+    
+  return(vals)
 }
 
 ## To be copied in the UI
