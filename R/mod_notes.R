@@ -10,15 +10,14 @@
 mod_notes_ui <- function(id) {
   ns <- NS(id)
   tagList(
-    shiny::wellPanel(
+    shiny::div( id = "notes",
       includeMarkdown(system.file("app/www/reference_doc.md", package = "regionalparks.acs")),
       # p(id = 'update', em("0.0.8. Last updated",
       #                     max(file.info('ui.R')$mtime,
       #                         file.info('server.R')$mtime,
       #                         file.info('global.R')$mtime),
       #                     " by ", tags$a(href = 'mailto:liz.roten@metc.state.mn.us', 'Liz Roten' )))
-    )
-  )
+  ))
 }
 
 #' notes Server Function
