@@ -142,9 +142,9 @@ mod_input_demos_ui <- function(id) {
         href = "https://metrocouncil.org", target = "_blank",
         img(src = "www/mark.png", align = "right", style = "padding: 1%")
       )
-      
+
       # radioButtons(inputId = ns("inputCensusTracts"), label = "Census Tracts",
-                   # choices = sort(table_ct$category))
+      # choices = sort(table_ct$category))
     )
   )
 }
@@ -154,17 +154,17 @@ mod_input_demos_ui <- function(id) {
 #' @noRd
 mod_input_demos_server <- function(input, output, session) {
   ns <- session$ns
- 
-  
+
+
   vals <- reactiveValues()
-  
+
   observeEvent(input$inputCensusTracts, {
     vals$selected_var <- input$inputCensusTracts
     vals$color_pal <- dplyr::filter(table_ct, category == input$inputCensusTracts)[[3]]
     vals$tract_data <- census_tract[input$inputCensusTracts]
   })
-  
-    
+
+
   return(vals)
 }
 

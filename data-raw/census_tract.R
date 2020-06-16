@@ -9,7 +9,7 @@ library(sf)
 
 temp <- tempfile()
 download.file("https://resources.gisdata.mn.gov/pub/gdrs/data/pub/us_mn_state_metc/society_census_acs/xlsx_society_census_acs.zip",
-              destfile = temp
+  destfile = temp
 )
 
 ct <- readxl::read_xlsx(unzip(temp, "CensusACSTract.xlsx")) %>%
@@ -22,7 +22,7 @@ fs::file_delete("CensusACSTract.xlsx")
 ## -----------------------------------------------------------------------------------------------------------------------------------------------------
 ct_age <- ct %>%
   select(geoid, geoid2, poptotal, f_10_14, f_15_19, m_10_14, m_15_19, ageunder18, age18_39, age40_64, age65up) %>%
-  rowwise() %>% 
+  rowwise() %>%
   mutate(
     age_10_19_percent = round(sum(f_10_14, f_15_19, m_10_14, m_15_19) / poptotal, digits = 2) * 100,
     ageunder18_percent = round(ageunder18 / poptotal, digits = 2) * 100,
@@ -94,68 +94,74 @@ census_tract_spatial <- tigris::tracts(
   select(GEOID) %>%
   right_join(ct_merge, by = c("GEOID" = "geoid2"))
 
-census_tract <- census_tract_spatial %>% 
-  select(GEOID, 
-         "usborncit_percent",
-         "forborn_percent",
-         "anydis_percent",
-         "age_10_19_percent",
-         "ageunder18_percent",
-         "age18_39_percent",
-         "age40_64_percent",
-         "age65up_percent",
-         "whitenh_percent",
-         "blacknh_percent",
-         "asiannh_percent",
-         "amindnh_percent",
-         "pacificnh_percent",
-         "othernh_percent",
-         "multracenh_percent",
-         "hisppop_percent",
-         "nothisppop_percent",
-         "medianhhi",
-         geometry
+census_tract <- census_tract_spatial %>%
+  select(
+    GEOID,
+    "usborncit_percent",
+    "forborn_percent",
+    "anydis_percent",
+    "age_10_19_percent",
+    "ageunder18_percent",
+    "age18_39_percent",
+    "age40_64_percent",
+    "age65up_percent",
+    "whitenh_percent",
+    "blacknh_percent",
+    "asiannh_percent",
+    "amindnh_percent",
+    "pacificnh_percent",
+    "othernh_percent",
+    "multracenh_percent",
+    "hisppop_percent",
+    "nothisppop_percent",
+    "medianhhi",
+    geometry
   )
 
-names(census_tract) <- c("GEOID",
-                         "Origin, US-born",
-                         "Origin, foreign-born",
-                         "Disability, any disability",
-                         "Age, 10-19",
-                         "Age, under 18",
-                         "Age, 18-39",
-                         "Age, 40-64",
-                         "Age, 65 and over",
-                         "Race, White",
-                         "Race, Black",
-                         "Race, Asian",
-                         "Race, American Indian",
-                         "Race, Pacific Islander",
-                         "Race, Other",
-                         "Race, Multiracial",
-                         "Ethnicity, Hispanic",
-                         "Ethnicity, Not Hispanic",
-                         "Income, Median Household Income",
-                         "geometry"
+names(census_tract) <- c(
+  "GEOID",
+  "Origin, US-born",
+  "Origin, foreign-born",
+  "Disability, any disability",
+  "Age, 10-19",
+  "Age, under 18",
+  "Age, 18-39",
+  "Age, 40-64",
+  "Age, 65 and over",
+  "Race, White",
+  "Race, Black",
+  "Race, Asian",
+  "Race, American Indian",
+  "Race, Pacific Islander",
+  "Race, Other",
+  "Race, Multiracial",
+  "Ethnicity, Hispanic",
+  "Ethnicity, Not Hispanic",
+  "Income, Median Household Income",
+  "geometry"
 )
 
 # library(ggplot2)
 # ggplot() + geom_sf(data = census_tract)
 
 
-county_outlines <- tigris::counties(state = "MN",
-                                    class = "sf") %>% 
-  dplyr::filter(NAME %in% c("Hennepin",
-      "Dakota",
-      "Carver",
-      "Ramsey",
-      "Anoka",
-      "Scott",
-      "Washington")) %>% 
-  dplyr::select(NAME) %>% 
+county_outlines <- tigris::counties(
+  state = "MN",
+  class = "sf"
+) %>%
+  dplyr::filter(NAME %in% c(
+    "Hennepin",
+    "Dakota",
+    "Carver",
+    "Ramsey",
+    "Anoka",
+    "Scott",
+    "Washington"
+  )) %>%
+  dplyr::select(NAME) %>%
   sf::st_transform(4326)
-  
-usethis::use_data(county_outlines, overwrite = TRUE)  
+
+usethis::use_data(county_outlines, overwrite = TRUE)
 
 
 usethis::use_data(census_tract, overwrite = TRUE)
