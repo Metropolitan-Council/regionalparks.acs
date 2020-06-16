@@ -137,7 +137,12 @@ mod_input_demos_ui <- function(id) {
                   </label>
                 </div>
               </div>
-            </div>")
+            </div>"),
+      tags$a(
+        href = "https://metrocouncil.org", target = "_blank",
+        img(src = "www/mark.png", align = "right", style = "padding: 1%")
+      )
+      
       # radioButtons(inputId = ns("inputCensusTracts"), label = "Census Tracts",
                    # choices = sort(table_ct$category))
     )
@@ -149,29 +154,14 @@ mod_input_demos_ui <- function(id) {
 #' @noRd
 mod_input_demos_server <- function(input, output, session) {
   ns <- session$ns
-  
-  tract_data <- reactive({
-    # browser()
-    dat <- census_tract[input$inputCensusTracts]
-    return(dat)
-  })
-  
-  color_pal <- reactive({
-    dplyr::filter(table_ct, category == input$inputCensusTracts)[[3]]
-  })
+ 
   
   vals <- reactiveValues()
   
   observeEvent(input$inputCensusTracts, {
     vals$selected_var <- input$inputCensusTracts
-  })
-  
-  observeEvent(input$inputCensusTracts, {
-    vals$tract_data <- tract_data()
-  })
-
-  observeEvent(input$inputCensusTracts, {
-    vals$color_pal <- color_pal()
+    vals$color_pal <- dplyr::filter(table_ct, category == input$inputCensusTracts)[[3]]
+    vals$tract_data <- census_tract[input$inputCensusTracts]
   })
   
     
