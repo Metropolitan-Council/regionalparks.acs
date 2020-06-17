@@ -82,4 +82,4 @@ block_group <- tigris::block_groups(
 
 
 
-usethis::use_data(block_group, overwrite = TRUE)
+# usethis::use_data(block_group, overwrite = TRUE)
