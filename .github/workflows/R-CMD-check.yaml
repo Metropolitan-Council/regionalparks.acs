@@ -14,11 +14,10 @@ jobs:
     runs-on: ${{ matrix.config.os }}
     name: ${{ matrix.config.os }} (${{ matrix.config.r }})
     strategy:
-      fail-fast: false
+      fail-fast: true
       matrix:
         config: 
           - {os: windows-latest, r: 'release'}
-          - {os: macOS-latest, r: 'release'}
           - {os: ubuntu-latest, r: 'release', container: rocker/geospatial}
 
     env:
@@ -47,11 +46,6 @@ jobs:
           path: ${{ env.R_LIBS_USER }}
           key: ${{ runner.os }}-${{ hashFiles('.github/R-version') }}-1-${{ hashFiles('.github/depends.Rds') }}
           restore-keys: ${{ runner.os }}-${{ hashFiles('.github/R-version') }}-1-
-
-      - name: Install units for Mac
-        if: runner.os == 'macOS'
-        run: |
-          brew install udunits
     
       - name: Install system dependencies
         if: runner.os == 'Linux'
