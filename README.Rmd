@@ -22,13 +22,22 @@ knitr::opts_chunk$set(
 
 <!-- badges: end -->
 
-The goal of regionalparks.acs is to visualize both regional parks and regional demographics. 
+The goal of `{regionalparks.acs}` is to visualize both regional parks and trails and demographic characteristics of surrounding census tracts. We use data from the American Community Survey, 2014-2018 release.  
+
+## Backend  
+
+This app is built using R Shiny under the `{golem}` framework.  
 
 ## Installation
 
-You can install the released version of regionalparks.acs from [CRAN](https://CRAN.R-project.org) with:
+You can install the released version of regionalparks.acs from GitHub with:
 
 ``` r
-install.packages("regionalparks.acs")
+library(remotes)
+remotes::install_github("Metropolitan-Council/regionalparks.acs")
 ```
+
+## Code of Conduct
+
+Please note that the `{regionalparks.acs}` project is released with a [Contributor Code of Conduct](https://contributor-covenant.org/version/2/0/CODE_OF_CONDUCT.html). By contributing to this project, you agree to abide by its terms.
 
