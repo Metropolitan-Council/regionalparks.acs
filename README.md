@@ -23,8 +23,8 @@ This app is built using R Shiny under the `{golem}` framework.
 
 ## Installation
 
-You can install the released version of regionalparks.acs from GitHub
-with:
+You can install the released version of `{regionalparks.acs}` from
+GitHub with:
 
 ``` r
 library(remotes)
