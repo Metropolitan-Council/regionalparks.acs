@@ -1,6 +1,8 @@
 ## code to prepare `table_ct` dataset goes here
 
 library(data.table)
+library(dplyr)
+
 table_ct <- data.table(
   category = c(
     "Origin, US-born",

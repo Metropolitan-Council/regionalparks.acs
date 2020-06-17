@@ -1,9 +1,16 @@
 ## code to prepare `park_trail_geog` dataset goes here
 
 pkgload::load_all()
+requireNamespace("readxl", quietly = TRUE)
+requireNamespace("fs", quietly = TRUE)
+requireNamespace("tigris", quietly = TRUE)
+requireNamespace("janitor", quietly = TRUE)
+
 library(dplyr)
 library(fs)
 library(sf)
+library(tigris)
+library(janitor)
 
 ## Parks -----------------------------------------------------------------------
 temp <- tempfile()
