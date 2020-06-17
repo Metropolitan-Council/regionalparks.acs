@@ -9,6 +9,7 @@
 #' @importFrom shiny NS tagList
 #' @import leaflet
 #' @import councilR
+#' @import leaflet.extras
 mod_leaflet_ui <- function(id) {
   ns <- NS(id)
   tagList(
@@ -19,6 +20,9 @@ mod_leaflet_ui <- function(id) {
 #' leaflet Server Function
 #'
 #' @noRd
+#' @import leaflet
+#' @import councilR
+#' @import leaflet.extras
 mod_leaflet_server <- function(input, output, session, tract_data = tract_data) {
   ns <- session$ns
 
@@ -82,17 +86,41 @@ mod_leaflet_server <- function(input, output, session, tract_data = tract_data) 
           bringToFront = TRUE
         )
       ) %>%
-      hideGroup(c(
-        "Regional Trails",
-        "County Outlines"
-      )) %>%
+      leaflet.extras::addDrawToolbar(
+        targetGroup = "Drawings",
+        polygonOptions = FALSE,
+        polylineOptions = FALSE,
+        rectangleOptions = FALSE,
+        markerOptions = FALSE,
+        circleMarkerOptions = FALSE,
+        circleOptions = drawCircleOptions(
+          showRadius = "mi",
+          feet = FALSE,
+          metric = FALSE,
+          shapeOptions = drawShapeOptions(
+            weight = 4,
+            # clickable = TRUE,
+            color = councilR::colors$suppBlack,
+            fill = FALSE
+          )
+        ),
+        editOptions = editToolbarOptions()
+      ) %>%
+      addStyleEditor() %>%
+      hideGroup(
+        c(
+          "Regional Trails",
+          "County Outlines"
+        )
+      ) %>%
       addLayersControl(
         position = "bottomright",
         overlayGroups = c(
           "Regional Parks",
           "Regional Trails",
           "County Outlines",
-          "Census Tracts"
+          "Census Tracts",
+          "Drawings"
         ),
         baseGroups = c(
           "Carto Positron",
