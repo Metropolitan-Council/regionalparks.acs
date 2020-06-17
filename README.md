@@ -1,12 +1,13 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# regionalparks.acs
+# Regional Parks and the American Community Survey
 
 <!-- badges: start -->
 
 [![R build
 status](https://github.com/Metropolitan-Council/regionalparks.acs/workflows/R-CMD-check/badge.svg)](https://github.com/Metropolitan-Council/regionalparks.acs/actions)
+![R-CMD-check-deploy](https://github.com/Metropolitan-Council/regionalparks.acs/workflows/R-CMD-check-deploy/badge.svg)
 [![Lifecycle:
 experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental)
 [![App](https://img.shields.io/website-up-down-green-red/http/shields.io.svg)](https://metrotransitmn.shinyapps.io/regional-parks-acs/)
