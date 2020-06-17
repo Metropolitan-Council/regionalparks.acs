@@ -9,3 +9,6 @@ $run_dev.*
 ^\.github$
 ^app\.R$
 ^rsconnect$
+^reference_doc\.Rmd$
+^reference_doc\.md$
+^deploy\.sh$
