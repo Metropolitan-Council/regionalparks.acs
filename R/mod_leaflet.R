@@ -79,6 +79,7 @@ mod_leaflet_server <- function(input, output, session, tract_data = tract_data) 
         color = councilR::colors$suppGray,
         smoothFactor = 0.3,
         opacity = 0.5,
+        options = pathOptions(pane = "parks_geo"),
         popup = ~ paste0(park_trail_geog$trail$name, "<br>", "<em>", park_trail_geog$trail$agency, "</em>"),
         highlightOptions = highlightOptions(
           stroke = TRUE,
