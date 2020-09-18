@@ -33,9 +33,9 @@ mod_leaflet_server <- function(input, output, session, tract_data = tract_data) 
         provider = providers$Esri.WorldImagery,
         group = "Esri Imagery"
       ) %>%
-      addProviderTiles("CartoDB.DarkMatter",
-        group = "Carto DarkMatter"
-      ) %>%
+      # addProviderTiles("CartoDB.DarkMatter",
+      #   group = "Carto DarkMatter"
+      # ) %>%
       addProviderTiles("CartoDB.Positron",
         group = "Carto Positron"
       ) %>%
@@ -44,17 +44,20 @@ mod_leaflet_server <- function(input, output, session, tract_data = tract_data) 
         data = park_trail_geog$park,
         group = "Regional Parks",
         stroke = TRUE,
-        weight = 0.5,
+        # weight = 0.5,
         color = councilR::colors$suppWhite,
         fill = TRUE,
         fillColor = councilR::colors$playGreen,
-        fillOpacity = 0.8,
+        fillOpacity = 1,#0.8,
         options = pathOptions(pane = "parks_geo"),
         highlightOptions = highlightOptions(
-          stroke = TRUE, color = "white", weight = 2,
-          bringToFront = TRUE
+          stroke = TRUE, 
+          color = "white", weight = 6,
+          bringToFront = TRUE,
+          opacity = 1
         ),
-        popup = ~ paste0(park_trail_geog$park$name, "<br>", "<em>", park_trail_geog$park$agency, "</em>"),
+        popup = ~ paste0(park_trail_geog$park$name, "<br>", "<em>", 
+                         park_trail_geog$park$agency, "</em>"),
         popupOptions = popupOptions(
           closeButton = FALSE,
           style = list(
@@ -68,22 +71,25 @@ mod_leaflet_server <- function(input, output, session, tract_data = tract_data) 
         group = "County Outlines",
         fill = FALSE,
         stroke = TRUE,
-        weight = 0.75,
+        weight = 2,#0.75,
         color = councilR::colors$suppGray
       ) %>%
       addPolylines(
         data = park_trail_geog$trail,
         group = "Regional Trails",
         stroke = TRUE,
-        weight = 3,
-        color = councilR::colors$suppGray,
+        weight = 3, #3,
+        color = councilR::colors$playGreen,
         smoothFactor = 0.3,
-        opacity = 0.5,
+        opacity = 1, #0.5,
         options = pathOptions(pane = "parks_geo"),
-        popup = ~ paste0(park_trail_geog$trail$name, "<br>", "<em>", park_trail_geog$trail$agency, "</em>"),
+        popup = ~ paste0(park_trail_geog$trail$name, "<br>", "<em>", 
+                         park_trail_geog$trail$agency, "</em>"),
         highlightOptions = highlightOptions(
           stroke = TRUE,
-          color = councilR::colors$suppGray, weight = 6,
+          # color = councilR::colors$suppGray, 
+          color = "white",
+          weight = 6,
           bringToFront = TRUE
         )
       ) %>%
@@ -110,7 +116,7 @@ mod_leaflet_server <- function(input, output, session, tract_data = tract_data) 
       addStyleEditor() %>%
       hideGroup(
         c(
-          "Regional Trails",
+          # "Regional Trails",
           "County Outlines"
         )
       ) %>%

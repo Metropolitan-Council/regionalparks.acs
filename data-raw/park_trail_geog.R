@@ -72,15 +72,16 @@ download.file("https://resources.gisdata.mn.gov/pub/gdrs/data/pub/us_mn_state_me
               destfile = temp
 )
 
-trailsearch <- sf::read_sf(unzip(temp, "trans_regional_trails_search_cor.gpkg"))# %>%
-  group_by(NAME, Label, Agency) %>%
+trailsearch <- sf::read_sf(unzip(temp, "trans_regional_trails_search_cor.gpkg")) %>%
+  group_by(NAME, AGENCY) %>%
   summarize(do_union = TRUE) %>%
   ungroup() %>%
   select(
     name = NAME,
-    agency = Agency
+    agency = AGENCY
   ) %>%
-    mutate(Status = "Trail - search") %>%
+    mutate(status = "Trail - search",
+           agency = "none") %>%
   st_transform(4326) %>%
   st_as_sf() %>%
   sf::st_make_valid()
@@ -91,25 +92,25 @@ fs::file_delete("trans_regional_trails_search_cor.gpkg")
 
 ## Park Search ----------------------------------------------------------------------
 temp <- tempfile()
-download.file("https://resources.gisdata.mn.gov/pub/gdrs/data/pub/us_mn_state_metc/plan_parks_regional_search/gpkg_plan_parks_regional_search.zip",
+download.file("https://resources.gisdata.mn.gov/pub/gdrs/data/pub/us_mn_state_metc/plan_parks_regional_search_areas/gpkg_plan_parks_regional_search_areas.zip",
               destfile = temp
 )
 
-parksearch <- sf::read_sf(unzip(temp, "plan_parks_regional_search.gpkg"))# %>%
-group_by(NAME, Label, Agency) %>%
+parksearch <- sf::read_sf(unzip(temp, "plan_parks_regional_search_areas.gpkg")) %>%
+group_by(NAME, Label) %>%
   summarize(do_union = TRUE) %>%
   ungroup() %>%
   select(
     name = NAME,
-    agency = Agency
   ) %>%
-  mutate(Status = "Park - search") %>%
+  mutate(status = "Park - search",
+         agency = "none") %>%
   st_transform(4326) %>%
   st_as_sf() %>%
   sf::st_make_valid()
 
 
-fs::file_delete("plan_parks_regional_search.gpkg")
+fs::file_delete("plan_parks_regional_search_areas.gpkg")
 
 ## Combine ---------------------------------------------------------------------
 park_trail_geog <- list(parks, trails, 
