@@ -81,5 +81,6 @@ block_group <- tigris::block_groups(
   left_join(bg_merge, by = c("GEOID" = "geoid2"))
 
 
+usethis::use_data(block_group, overwrite = TRUE)
+# save(block_group, file = "./regionalparks.acs/data/block_group.rda")
 
-# usethis::use_data(block_group, overwrite = TRUE)

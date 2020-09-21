@@ -33,28 +33,33 @@ mod_leaflet_server <- function(input, output, session, tract_data = tract_data) 
         provider = providers$Esri.WorldImagery,
         group = "Esri Imagery"
       ) %>%
-      addProviderTiles("CartoDB.DarkMatter",
-        group = "Carto DarkMatter"
-      ) %>%
+      # addProviderTiles("CartoDB.DarkMatter",
+      #   group = "Carto DarkMatter"
+      # ) %>%
       addProviderTiles("CartoDB.Positron",
         group = "Carto Positron"
       ) %>%
       addMapPane("parks_geo", zIndex = 420) %>%
       addPolygons(
         data = park_trail_geog$park,
-        group = "Regional Parks",
+        group = "Regional Parks - existing",
         stroke = TRUE,
-        weight = 0.5,
-        color = councilR::colors$suppWhite,
+        # weight = 0.5,
+        color = councilR::colors$playGreen,#councilR::colors$suppWhite,
         fill = TRUE,
         fillColor = councilR::colors$playGreen,
-        fillOpacity = 0.8,
+        fillOpacity = 1,#0.8,
         options = pathOptions(pane = "parks_geo"),
         highlightOptions = highlightOptions(
-          stroke = TRUE, color = "white", weight = 2,
-          bringToFront = TRUE
+          stroke = TRUE, 
+          color = "black", 
+          weight = 6,
+          bringToFront = TRUE,
+          opacity = 1
         ),
-        popup = ~ paste0(park_trail_geog$park$name, "<br>", "<em>", park_trail_geog$park$agency, "</em>"),
+        popup = ~ paste0("<b>", park_trail_geog$park$status, "</b>", "<br>", 
+                         park_trail_geog$park$name, "<br>", "<em>", 
+                         park_trail_geog$park$agency, "</em>"),
         popupOptions = popupOptions(
           closeButton = FALSE,
           style = list(
@@ -64,29 +69,126 @@ mod_leaflet_server <- function(input, output, session, tract_data = tract_data) 
         )
       ) %>%
       addPolygons(
+        data = park_trail_geog$park_planned,
+        group = "Regional Parks - planned",
+        stroke = TRUE,
+        # weight = 0.5,
+        color = councilR::colors$suppGray,
+        fill = TRUE,
+        fillColor = councilR::colors$suppGray,
+        fillOpacity = 1,#0.8,
+        options = pathOptions(pane = "parks_geo"),
+        highlightOptions = highlightOptions(
+          stroke = TRUE, 
+          color = "black", weight = 6,
+          bringToFront = TRUE,
+          opacity = 1
+        ),
+        popup = ~ paste0("<b>", park_trail_geog$park_planned$status, "</b>","<br>", 
+                         park_trail_geog$park_planned$name, "<br>",
+                         "<em>", park_trail_geog$park_planned$agency, "</em>"),
+        popupOptions = popupOptions(
+          closeButton = FALSE,
+          style = list(
+            "font-size" = "18px",
+            "font-family" = "Arial"
+          )
+        )
+      ) %>%    
+      addCircles(
+        data = park_trail_geog$park_search,
+        group = "Regional Parks - search",
+        stroke = TRUE,
+        radius = 2000,
+        # weight = 0.5,
+        color = councilR::colors$suppGray,
+        fill = TRUE,
+        fillColor = councilR::colors$suppGray,
+        fillOpacity = 1,#0.8,
+        options = pathOptions(pane = "parks_geo"),
+        highlightOptions = highlightOptions(
+          stroke = TRUE, 
+          color = "black", weight = 6,
+          bringToFront = TRUE,
+          opacity = 1
+        ),
+        popup = ~ paste0("<b>", park_trail_geog$park_search$status, "</b>","<br>", 
+                         "<em>", park_trail_geog$park_search$name, "</em>"),
+        popupOptions = popupOptions(
+          closeButton = FALSE,
+          style = list(
+            "font-size" = "18px",
+            "font-family" = "Arial"
+          )
+        )
+      ) %>%          
+      addPolygons(
         data = county_outlines,
         group = "County Outlines",
         fill = FALSE,
         stroke = TRUE,
-        weight = 0.75,
+        weight = 2,#0.75,
         color = councilR::colors$suppGray
       ) %>%
       addPolylines(
         data = park_trail_geog$trail,
-        group = "Regional Trails",
+        group = "Regional Trails - existing",
         stroke = TRUE,
-        weight = 3,
-        color = councilR::colors$suppGray,
+        weight = 3, #3,
+        color = councilR::colors$playGreen,
         smoothFactor = 0.3,
-        opacity = 0.5,
+        opacity = 1, #0.5,
         options = pathOptions(pane = "parks_geo"),
-        popup = ~ paste0(park_trail_geog$trail$name, "<br>", "<em>", park_trail_geog$trail$agency, "</em>"),
+        popup = ~ paste0("<b>", park_trail_geog$trail$status,"</b>", "<br>",
+                         park_trail_geog$trail$name, "<br>", 
+                         "<em>", park_trail_geog$trail$agency, "</em>"),
         highlightOptions = highlightOptions(
           stroke = TRUE,
-          color = councilR::colors$suppGray, weight = 6,
+          # color = councilR::colors$suppGray, 
+          color = "black", #"white",
+          weight = 6,
           bringToFront = TRUE
         )
       ) %>%
+      addPolylines(
+        data = park_trail_geog$trail_search,
+        group = "Regional Trails - search",
+        stroke = TRUE,
+        weight = 3, #3,
+        color = councilR::colors$suppGray,
+        smoothFactor = 0.3,
+        opacity = 1, #0.5,
+        options = pathOptions(pane = "parks_geo"),
+        popup = ~ paste0("<b>", park_trail_geog$trail_search$status, "</b>", "<br>",
+                         park_trail_geog$trail_search$name,"<br>"),
+        highlightOptions = highlightOptions(
+          stroke = TRUE,
+          # color = councilR::colors$suppGray, 
+          color = "black",
+          weight = 6,
+          bringToFront = TRUE
+        )
+      ) %>%
+      addPolylines(
+        data = park_trail_geog$trail_planned,
+        group = "Regional Trails - planned",
+        stroke = TRUE,
+        weight = 3, #3,
+        color = councilR::colors$suppGray,
+        smoothFactor = 0.3,
+        opacity = 1, #0.5,
+        options = pathOptions(pane = "parks_geo"),
+        popup = ~ paste0("<b>", park_trail_geog$trail_planned$status, "</b>", "<br>",
+                         park_trail_geog$trail_planned$name, "<br>",
+                         "<em>", park_trail_geog$trail_planned$agency, "</em>"),
+        highlightOptions = highlightOptions(
+          stroke = TRUE,
+          # color = councilR::colors$suppGray, 
+          color = "black",
+          weight = 6,
+          bringToFront = TRUE
+        )
+      ) %>%      
       leaflet.extras::addDrawToolbar(
         targetGroup = "Drawings",
         polygonOptions = FALSE,
@@ -110,22 +212,26 @@ mod_leaflet_server <- function(input, output, session, tract_data = tract_data) 
       addStyleEditor() %>%
       hideGroup(
         c(
-          "Regional Trails",
+          # "Regional Trails",
           "County Outlines"
         )
       ) %>%
       addLayersControl(
         position = "bottomright",
         overlayGroups = c(
-          "Regional Parks",
-          "Regional Trails",
+          "Regional Parks - existing",
+          "Regional Trails - existing",
+          "Regional Parks - planned",
+          "Regional Trails - planned",
+          "Regional Parks - search",
+          "Regional Trails - search",
           "County Outlines",
           "Census Tracts",
           "Drawings"
         ),
         baseGroups = c(
           "Carto Positron",
-          "Carto DarkMatter",
+          # "Carto DarkMatter",
           "Esri Imagery"
         ),
         options = layersControlOptions(collapsed = T)
