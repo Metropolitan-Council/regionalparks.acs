@@ -8,7 +8,11 @@ Authors@R:
       person(given = "Liz",
              family = "Roten",
              role = c("cre", "aut"),
-             email = "liz.roten@metc.state.mn.us"))
+             email = "liz.roten@metc.state.mn.us"),
+      person(given = "Ellen",
+             family = "Esch",
+             role = "aut",
+             comment = c(ORCID = "https://orcid.org/0000-0002-4253-0910")))
 Description: Visualize Regional Parks and ACS demographics.
 License: MIT + file LICENSE
 Depends: 
