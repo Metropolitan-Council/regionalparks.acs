@@ -19,6 +19,13 @@ app_ui <- function(request) {
         mod_input_demos_ui(id = "input_demos_ui_1")
       ),
 
+      ## Buffer tab -----
+      tabPanel(
+        "Agency Buffers",
+        mod_buffer_ui(id = "buffer_ui_1"),
+        mod_input_buffer_ui(id = "input_buffer_ui_1")
+      ),
+      
       ## Notes tab -----
       tabPanel(
         "Notes",
