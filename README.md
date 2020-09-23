@@ -32,6 +32,11 @@ library(remotes)
 remotes::install_github("Metropolitan-Council/regionalparks.acs")
 ```
 
+## Contributors
+
+[@ehesch](https://github.com/ehesch), and
+[@eroten](https://github.com/eroten).
+
 ## Code of Conduct
 
 Please note that the `{regionalparks.acs}` project is released with a
