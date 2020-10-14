@@ -10,6 +10,7 @@
 #' @import leaflet
 #' @import councilR
 #' @import leaflet.extras
+#' @import sf
 mod_leaflet_ui <- function(id) {
   ns <- NS(id)
   tagList(
