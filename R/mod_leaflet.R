@@ -160,7 +160,8 @@ mod_leaflet_server <- function(input, output, session, tract_data = tract_data) 
         opacity = 1, #0.5,
         options = pathOptions(pane = "parks_geo"),
         popup = ~ paste0("<b>", park_trail_geog$trail_search$status, "</b>", "<br>",
-                         park_trail_geog$trail_search$name,"<br>"),
+                         park_trail_geog$trail_search$name,"<br>",
+                         "<em>", park_trail_geog$trail_search$agency, "<em>"),
         highlightOptions = highlightOptions(
           stroke = TRUE,
           # color = councilR::colors$suppGray, 
@@ -212,7 +213,10 @@ mod_leaflet_server <- function(input, output, session, tract_data = tract_data) 
       addStyleEditor() %>%
       hideGroup(
         c(
-          # "Regional Trails",
+          "Regional Parks - planned",
+          "Regional Trails - planned",
+          "Regional Parks - search",
+          "Regional Trails - search",
           "County Outlines"
         )
       ) %>%
