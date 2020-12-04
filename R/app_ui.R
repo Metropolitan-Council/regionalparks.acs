@@ -23,6 +23,14 @@ app_ui <- function(request) {
       tabPanel(
         "Notes",
         mod_notes_ui("notes_ui_1")
+      ),
+      
+      tabPanel(
+        "Summary",
+        mod_leaflet_ui(id = "leaflet_ui_2"),
+        mod_input_demos_ui(id = "input_demos_ui_2")
+        
+        
       )
 
       # footer = tags$a(
