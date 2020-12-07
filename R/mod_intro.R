@@ -10,7 +10,10 @@
 mod_intro_ui <- function(id){
   ns <- NS(id)
   tagList(
- 
+    shiny::div(
+      id = "intro",
+      includeMarkdown(system.file("app/www/intro_doc.md", package = "regionalparks.acs"))
+    )
   )
 }
     
@@ -19,7 +22,6 @@ mod_intro_ui <- function(id){
 #' @noRd 
 mod_intro_server <- function(input, output, session){
   ns <- session$ns
- 
 }
     
 ## To be copied in the UI

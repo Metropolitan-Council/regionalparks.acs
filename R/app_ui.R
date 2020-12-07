@@ -14,10 +14,10 @@ app_ui <- function(request) {
       id = "nav",
       
       ## intro tab -----
-      tabPanel(
-        "Introduction",
-        mod_intro_ui("intro_ui_1")
-      ),
+      # tabPanel(
+      #   "Introduction",
+      #   mod_intro_ui("intro_ui_1")
+      # ),
       
       ## map tab -----
       tabPanel(
