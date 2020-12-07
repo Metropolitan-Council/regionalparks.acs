@@ -12,6 +12,13 @@ app_ui <- function(request) {
     # List the first level UI elements here
     navbarPage("Regional Parks and the American Community Survey",
       id = "nav",
+      
+      ## intro tab -----
+      tabPanel(
+        "Introduction",
+        mod_intro_ui("intro_ui_1")
+      ),
+      
       ## map tab -----
       tabPanel(
         "Map",
