@@ -61,8 +61,8 @@ type_status_legend <-
 mod_summarystats_ui <- function(id){
   ns <- NS(id)
   tagList(
-    selectInput(ns("agency"),label = "Choose some columns", choices = NULL, multiple = TRUE),
-    tableOutput(ns("table")),
+    # selectInput(ns("agency"),label = "Choose some columns", choices = NULL, multiple = TRUE),
+    # tableOutput(ns("table")),
     
     HTML('<p>This plot is indeted to provide summarized demographic values for all the regional parks and trails. Point location along the x-axis indicates the demographic value which can be compared across and within park/trail status (existing, planned, search) or agencies. Color indicates park/trail status (green = existing, yellow = planned, red = search). Shape indicates park/trail type (circle = park, square = trail). The solid black, vertical line indicates the average demographic value within agency boundaries.</p>'),
     
@@ -76,21 +76,22 @@ mod_summarystats_ui <- function(id){
 #' summarystats Server Function
 #'
 #' @noRd 
-mod_summarystats_server <- function(input, output, session, r){
+mod_summarystats_server <- function(input, output, session, filtered_df){
   ns <- session$ns
+
   
-  observe({
-    agency <- names(r$dataset)
-    updateSelectInput( session, "agency", choices = agency)
-  })
-  
-  data <- reactive({
-    req(input$agency)
-    r$dataset[, input$agency]
-  })
-  output$table <- renderTable({
-    head(data())
-  })
+  # observe({
+  #   agency <- names(r$dataset)
+  #   updateSelectInput( session, "agency", choices = agency)
+  # })
+  # 
+  # data <- reactive({
+  #   req(input$agency)
+  #   r$dataset[, input$agency]
+  # })
+  # output$table <- renderTable({
+  #   head(data())
+  # })
   
  
   
@@ -103,31 +104,31 @@ mod_summarystats_server <- function(input, output, session, r){
   
   output$weightedav <- renderPlotly({
     ggplotly(
-      long_buffer_data %>%
-        filter(
-          # distance == input$distance,
-          agency %in% input$agency#,
-          # ACS == input$ACS,
-          # status %in% input$status,
-          # type %in% input$type
-        ) %>%
-        separate(
-          name,
-          into = c("name", 'delete2'),
-          sep = c("_")
-        ) %>%
-        mutate(name = str_replace_all(
-          name,
-          c(
-            "Regional Park" = "RP",
-            "Regional Trail" = "RT",
-            "Park Reserve" = "PR"
-          )
-        )) %>%
-        mutate(
-          name = forcats::fct_reorder(name, desc(value)),
-          concat = paste(type, status, sep = "_")
-        ) %>%
+      filtered_df() %>%
+        # # filter(
+        # #   # distance == input$distance,
+        # #   agency %in% input$agency#,
+        # #   # ACS == input$ACS,
+        # #   # status %in% input$status,
+        # #   # type %in% input$type
+        # # ) %>%
+        # separate(
+        #   name,
+        #   into = c("name", 'delete2'),
+        #   sep = c("_")
+        # ) %>%
+        # mutate(name = str_replace_all(
+        #   name,
+        #   c(
+        #     "Regional Park" = "RP",
+        #     "Regional Trail" = "RT",
+        #     "Park Reserve" = "PR"
+        #   )
+        # )) %>%
+        # mutate(
+        #   name = forcats::fct_reorder(name, desc(value)),
+        #   concat = paste(type, status, sep = "_")
+        # ) %>%
         ggplot(
           aes(
             y = name,

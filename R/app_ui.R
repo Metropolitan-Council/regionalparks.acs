@@ -29,47 +29,23 @@ app_ui <- function(request) {
       ## ACS summary stats tab ----
       tabPanel(
         "ACS Summary",
-        selectInput("dataset", "Choose a dataset:",
-                    choices = c("rock", "pressure", "cars")),
-        selectInput(
-          "agency",
-          label = h4("Agenc(y/ies)"),
-          choices = c(
-            "Anoka County",
-            "Bloomington",
-            "Carver County",
-            "Dakota County",
-            "MPRB",
-            "Ramsey County",
-            "Scott County",
-            "St. Paul",
-            "Three Rivers",
-            "Washington County"
-          ),
-          selected = "Anoka County",
-          multiple = TRUE
-        ),
-        
+        mod_choice_ui("choice_ui_1"),
         mod_summarystats_ui("summarystats_ui_1")
       ),
       
       ## Pop growth tab -----
       tabPanel(
         "Population Growth",
+        mod_choice_ui("choice_ui_1"),
         mod_popgrowth_ui("popgrowth_ui_1")
       ),
       
-
       ## Notes tab -----
       tabPanel(
         "Notes",
         mod_notes_ui("notes_ui_1")
       )
 
-      # footer = tags$a(
-      #   href = "https://metrocouncil.org", target = "_blank",
-      #   img(src = "www/main-logo.png", align = "right", style = "padding: 1%")
-      # )
     )
   )
 }
