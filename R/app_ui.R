@@ -31,6 +31,25 @@ app_ui <- function(request) {
         "ACS Summary",
         selectInput("dataset", "Choose a dataset:",
                     choices = c("rock", "pressure", "cars")),
+        selectInput(
+          "agency",
+          label = h4("Agenc(y/ies)"),
+          choices = c(
+            "Anoka County",
+            "Bloomington",
+            "Carver County",
+            "Dakota County",
+            "MPRB",
+            "Ramsey County",
+            "Scott County",
+            "St. Paul",
+            "Three Rivers",
+            "Washington County"
+          ),
+          selected = "Anoka County",
+          multiple = TRUE
+        ),
+        
         mod_summarystats_ui("summarystats_ui_1")
       ),
       

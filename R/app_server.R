@@ -9,6 +9,7 @@ app_server <- function(input, output, session) {
   # List the first level callModules here
   
   r <- reactiveValues()
+  
   observe({
     r$dataset <- switch(input$dataset,
                         "rock" = rock,
