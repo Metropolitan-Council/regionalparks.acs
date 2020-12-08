@@ -29,6 +29,8 @@ app_ui <- function(request) {
       ## ACS summary stats tab ----
       tabPanel(
         "ACS Summary",
+        selectInput("dataset", "Choose a dataset:",
+                    choices = c("rock", "pressure", "cars")),
         mod_summarystats_ui("summarystats_ui_1")
       ),
       
