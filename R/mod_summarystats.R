@@ -10,7 +10,6 @@
 mod_summarystats_ui <- function(id){
   ns <- NS(id)
   tagList(
-    verbatimTextOutput(ns("print"))
     
   )
 }
@@ -18,17 +17,9 @@ mod_summarystats_ui <- function(id){
 #' summarystats Server Function
 #'
 #' @noRd 
-mod_summarystats_server <- function(id, r) {
-  moduleServer(
-    id,
-    function(input, output, session) {
-      # We evaluate the reactiveValue element modified in the 
-      # first module
-      output$print <- renderPrint({
-        r$number_from_first_mod
-      })
-    }
-  )
+mod_summarystats_server <- function(input, output, session){
+  ns <- session$ns
+  
 }
     
 ## To be copied in the UI
