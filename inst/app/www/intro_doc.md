@@ -1,11 +1,12 @@
 
 ## Introduction
 
-![people walking on a park trail](./www/Walk-on-path.png)
-<!-- img(src="www/Walk-on-path.png", align = 'center'), --> *Thrive MSP
-2040* directs the Council to collaborate with the Metropolitan Parks and
-Open Space Commission, regional park implementing agencies, and state
-partners to strengthen equitable use of regional parks and trails.
+![people walking on a park trail](www/Walk-on-path.png)
+
+*Thrive MSP 2040* directs the Council to collaborate with the
+Metropolitan Parks and Open Space Commission, regional park implementing
+agencies, and state partners to strengthen equitable use of regional
+parks and trails.
 
 Accordingly, the Council implemented an equity analysis requirement for
 all park and trail master plans. Master plans are required to identify
@@ -20,7 +21,7 @@ Toolkit</a>. Additionally, other stakeholders are invited to use this
 app in service of strengthening equitable use through understanding
 populations and their proximities to the regional park system.
 
-\#\#User Guide
+## User Guide
 
 **ACS Map** - is an interactive tool that maps key demographic variables
 alongside regional parks and trails.
@@ -54,29 +55,44 @@ tool include:
 
 **Age:** specific park/trail amenities are attractive to different age
 groups (e.g. younger populations may prefer play structures while older
-populations may prefer benches). - Under 15 - Age 15-24 - Age 25-64 -
-Over 65
+populations may prefer benches).
+
+  - Under 15
+  - Age 15-24
+  - Age 25-64
+  - Over 65
 
 **Race:** BIPOC (Black, Indigenous, and People of Color) populations are
-historically undeserved by regional parks and trails. - American Indian
-- Asian - Black - Other + Multiracial - White - consider using (100% -
-%White) to evaluate %BIPOC
+historically undeserved by regional parks and trails.
+
+  - American Indian
+  - Asian
+  - Black
+  - Other + Multiracial
+  - White - consider using (100% - %White) to evaluate %BIPOC
 
 **Ethnicity:** ethnicity is measured separately from race in the ACS,
 although race and ethnicity are often linked in practice. Hispanic
-populations are historically underserved by regional parks and trails. -
-Hispanic - Non-Hispanic
+populations are historically underserved by regional parks and trails.
+
+  - Hispanic
+  - Non-Hispanic
 
 **Income:** lower income households are historically underserved by
-regional parks/trails. - Mean household income
+regional parks/trails.
+
+  - Mean household income
 
 **Transportation:** households without vehicles may access regional
-parks/trails differently than households with vehicles. - Households
-without a vehicle
+parks/trails differently than households with vehicles.
+
+  - Households without a vehicle
 
 **Language:** language proficiency may inform written and oral
-communications by regional parks/trails - Speaking English less than
-very well - Speaking Spanish
+communications by regional parks/trails
+
+  - Speaking English less than very well
+  - Speaking Spanish
 
 **Ability:** Populations with disabilities are historically underserved
 by regional parks and trails. These data are suppressed at the

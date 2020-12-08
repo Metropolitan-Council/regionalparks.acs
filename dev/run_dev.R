@@ -28,7 +28,7 @@ rmarkdown::render("intro_doc.Rmd",
                   output_format = "github_document", # -----
                   output_file = "intro_doc.md", output_dir = "inst/app/www",
                   params = list(
-                    actor_id = "roten",
+                    actor_id = "esch",
                     data_date = Sys.Date(),
                     sha = system("git rev-parse --short HEAD",
                                  intern = TRUE

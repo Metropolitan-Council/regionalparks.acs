@@ -10,21 +10,34 @@ app_ui <- function(request) {
     golem_add_external_resources(),
 
     # List the first level UI elements here
-    navbarPage("Regional Parks and the American Community Survey",
+    navbarPage("Regional Parks and Trails Equity Tool",
       id = "nav",
       
-      ## intro tab -----
-      # tabPanel(
-      #   "Introduction",
-      #   mod_intro_ui("intro_ui_1")
-      # ),
+      # intro tab -----
+      tabPanel(
+        "Introduction",
+        mod_intro_ui("intro_ui_1")
+      ),
       
       ## map tab -----
       tabPanel(
-        "Map",
+        "ACS Map",
         mod_leaflet_ui(id = "leaflet_ui_1"),
         mod_input_demos_ui(id = "input_demos_ui_1")
       ),
+      
+      ## ACS summary stats tab ----
+      tabPanel(
+        "ACS Summary",
+        mod_summarystats_ui("summarystats_ui_1")
+      ),
+      
+      ## Pop growth tab -----
+      tabPanel(
+        "Population Growth",
+        mod_popgrowth_ui("popgrowth_ui_1")
+      ),
+      
 
       ## Notes tab -----
       tabPanel(

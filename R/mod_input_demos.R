@@ -154,8 +154,8 @@ mod_input_demos_ui <- function(id) {
 
 
 
-      # radioButtons(inputId = ns("inputCensusTracts"), label = "Census Tracts",
-      # choices = sort(table_ct$category))
+# radioButtons(inputId = ns("inputCensusTracts"), label = "Census Tracts",
+# choices = sort(table_ct$category))
     )
   )
 }
