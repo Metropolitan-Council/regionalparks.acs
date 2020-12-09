@@ -10,12 +10,16 @@ app_server <- function(input, output, session) {
   
   callModule(mod_choice_server, "choice_ui_1")
   
-  filterData <- reactiveVal(long_buffer_data)
+  filterData = reactiveVal(long_buffer_data)
   
   filtered_df <- reactive({
-    res <- filterData() %>% filter(agency %in% input$agency)
-    res <- res %>% filter(distance == input$distance)
+    res <- filterData() %>% filter(ACS == input$ACS,
+                                   agency %in% input$agency,
+                                   distance == input$distance,
+                                   type %in% input$type,
+                                   status %in% input$status)
     res
+    
   })
   
   callModule(mod_intro_server, "intro_ui_1")
