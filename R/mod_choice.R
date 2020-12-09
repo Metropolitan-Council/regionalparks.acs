@@ -18,15 +18,13 @@
 mod_choice_ui <- function(id){
   ns <- NS(id)
   tagList(
- 
-    
-    HTML('<p>Select 1 ACS variable from the drop-down menu and 1 or more Agency of interest. The buffer distances roughly map onto walking distance (0.5 mi), biking distance (1.5 mi), or some other distance (3 mi). The reactive points show the values from the American Community Survey (either weighted averages or raw data, depending on tab selection) within a given buffer zone around regional parks and trails.</p>'), hr(),
+     HTML('<p>Select 1 ACS variable from the drop-down menu and 1 or more Agency of interest. The buffer distances roughly map onto walking distance (0.5 mi), biking distance (1.5 mi), or some other distance (3 mi). The reactive points show the values from the American Community Survey (either weighted averages or raw data, depending on tab selection) within a given buffer zone around regional parks and trails.</p>'), hr(),
     fluidPage(
       fluidRow(
         column(
           width = 3,
           selectizeInput(
-            "ACS",
+            ("ACS"),
             label = h4("ACS variable"),
             choices = list(
               `Age` = list(
@@ -56,7 +54,7 @@ mod_choice_ui <- function(id){
         column(
           width = 3,
           selectInput(
-            "agency",
+            ("agency"),
             label = h4("Agenc(y/ies)"),
             choices = c(
               "Anoka County",
@@ -76,21 +74,21 @@ mod_choice_ui <- function(id){
         column(
           width = 2,
           radioButtons(
-            "distance",
+            ("distance"),
             label = h4("Buffer dist. (mi)"),
             choices = c(1.0, 1.5, 3),
             selected = c(1.0)
           )),
         column(width = 2,
                checkboxGroupInput(
-                 "type",
+                 ("type"),
                  label = h4("Type"),
                  choices = c("Park", "Trail"),
                  selected = c("Park", "Trail")
                )),
         column(width = 2,
                checkboxGroupInput(
-                 "status",
+                 ("status"),
                  label = h4("Status"),
                  choices = c("Existing", "Planned", "Search"),
                  selected = c("Existing", "Planned", "Search")
