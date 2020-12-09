@@ -17,7 +17,7 @@ mod_choice2_ui <- function(id){
         column(
           width = 3,
           selectizeInput(
-            ns("ACS"),
+            ns("ACS2"),
             label = h4("ACS variable"),
             choices = list(
               `Age` = list(
@@ -47,7 +47,7 @@ mod_choice2_ui <- function(id){
         column(
           width = 3,
           selectInput(
-            ns("agency"),
+            ns("agency2"),
             label = h4("Agenc(y/ies)"),
             choices = c(
               "Anoka County",
@@ -67,21 +67,21 @@ mod_choice2_ui <- function(id){
         column(
           width = 2,
           radioButtons(
-            ns("distance"),
+            ns("distance2"),
             label = h4("Buffer dist. (mi)"),
             choices = c(1.0, 1.5, 3),
             selected = c(1.0)
           )),
         column(width = 2,
                checkboxGroupInput(
-                 ns("type"),
+                 ns("type2"),
                  label = h4("Type"),
                  choices = c("Park", "Trail"),
                  selected = c("Park", "Trail")
                )),
         column(width = 2,
                checkboxGroupInput(
-                 ns("status"),
+                 ns("status2"),
                  label = h4("Status"),
                  choices = c("Existing", "Planned", "Search"),
                  selected = c("Existing", "Planned", "Search")
@@ -97,16 +97,16 @@ mod_choice2_ui <- function(id){
 mod_choice2_server <- function(input, output, session){
   ns <- session$ns
  
-  vals2 <- reactiveValues()
-  observeEvent(input$sum_CHOICE, {
-    vals2 <- long_buffer_data %>%
-        filter(ACS == input$ACS,
-               distance == input$distance,
-               agency %in% input$agency,
-               status %in% input$status,
-               type %in% input$type)
-    })
-    return(vals2)
+  # vals2 <- reactiveValues()
+  # observeEvent(input$sum_CHOICE, {
+  #   vals2 <- long_buffer_data %>%
+  #       filter(ACS2 == input$ACS,
+  #              distance2 == input$distance,
+  #              agency2 %in% input$agency,
+  #              status2 %in% input$status,
+  #              type2 %in% input$type)
+  #   })
+  #   return(vals2)
   }
 
 

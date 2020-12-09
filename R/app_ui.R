@@ -16,7 +16,8 @@ app_ui <- function(request) {
         ## choice2 tab -----
       tabPanel(
         "Choice2",
-        mod_choice2_ui("choice2_ui_1")
+        mod_choice2_ui("choice2_ui_1"),
+        mod_sumplot2_ui("sumplot2_ui_1")
       ),      
       # intro tab -----
       tabPanel(
