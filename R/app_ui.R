@@ -12,7 +12,12 @@ app_ui <- function(request) {
     # List the first level UI elements here
     navbarPage("Regional Parks and Trails Equity Tool",
       id = "nav",
-      
+    
+        ## choice2 tab -----
+      tabPanel(
+        "Choice2",
+        mod_choice2_ui("choice2_ui_1")
+      ),      
       # intro tab -----
       tabPanel(
         "Introduction",
@@ -22,8 +27,8 @@ app_ui <- function(request) {
       ## map tab -----
       tabPanel(
         "ACS Map",
-        mod_leaflet_ui(id = "leaflet_ui_1"),
-        mod_input_demos_ui(id = "input_demos_ui_1")
+        mod_input_demos_ui(id = "input_demos_ui_1"),
+        mod_leaflet_ui(id = "leaflet_ui_1")
       ),
       
       ## ACS summary stats tab ----
