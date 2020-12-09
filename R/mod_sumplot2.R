@@ -60,10 +60,6 @@ mod_sumplot2_server <- function(input, output, session, filtered_df2){ #vals2 = 
                           ":  ", value, "\n", name)
           )
         ) +
-        # geom_vline(aes(xintercept = value), 
-        #            data = (agency_avg %>%
-        #                      filter(agency %in% input$agency,
-        #                             ACS == input$ACS))) +
         geom_point(
           col = "black",
           size = 4,

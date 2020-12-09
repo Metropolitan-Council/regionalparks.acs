@@ -12,7 +12,12 @@ app_ui <- function(request) {
     # List the first level UI elements here
     navbarPage("Regional Parks and Trails Equity Tool",
       id = "nav",
-    
+      
+      
+      tabPanel(
+        "combo",
+        mod_combo_ui("combo_ui_1")
+      ),  
         ## choice2 tab -----
       tabPanel(
         "Choice2",
