@@ -20,6 +20,45 @@
 
 
 ## set up some legends -----
+
+renamekey <- tribble(
+  ~ goodname,
+  ~ "ACS variable",
+  "Total population",
+  "adj_poptotal",
+  "Age, % under 15" ,
+  "adj_ageunder15_per",
+  "Age, % 15-24" ,
+  "adj_age15_24_per",
+  "Age, % 25-64" ,
+  "adj_age25_64_per",
+  "Age, % 65 and up" ,
+  "adj_age65up_per",
+  "Race, % White" ,
+  "adj_whitenh_per",
+  "Race, % Black" ,
+  "adj_blacknh_per",
+  "Race, % Asian" ,
+  "adj_asiannh_per",
+  "Race, % American Indian" ,
+  "adj_amindnh_per",
+  "Race, % Other + Multiracial" ,
+  "adj_othermultinh_per",
+  "Ethnicity, % Hispanic" ,
+  "adj_hisppop_per",
+  "Ethnicity, % not-Hispanic" ,
+  "adj_nothisppop_per",
+  "Mean household income" ,
+  "adj_meanhhi",
+  "% Housholds without a vehicle",
+  "adj_novehicle_per",
+  "% speaking English less than very well",
+  "adj_lep_per",
+  "% Spanish speakers",
+  "adj_span_per"
+)
+
+
 type_status_legend <-
   get_legend(
     tibble(
@@ -67,7 +106,6 @@ mod_summarystats_ui <- function(id){
     # HTML('<p>This plot is indeted to provide summarized demographic values for all the regional parks and trails. Point location along the x-axis indicates the demographic value which can be compared across and within park/trail status (existing, planned, search) or agencies. Color indicates park/trail status (green = existing, yellow = planned, red = search). Shape indicates park/trail type (circle = park, square = trail). The solid black, vertical line indicates the average demographic value within agency boundaries.</p>'),
     
     plotOutput(ns("leg"), height = 100),
-    
     plotlyOutput(ns("weightedav"), height = 700)
     
   )
@@ -78,68 +116,39 @@ mod_summarystats_ui <- function(id){
 #' @noRd 
 mod_summarystats_server <- function(input, output, session, filtered_df){
   ns <- session$ns
-
-  
-  # observe({
-  #   agency <- names(r$dataset)
-  #   updateSelectInput( session, "agency", choices = agency)
-  # })
-  # 
-  # data <- reactive({
-  #   req(input$agency)
-  #   r$dataset[, input$agency]
-  # })
-  # output$table <- renderTable({
-  #   head(data())
-  # })
-  
- 
   
   output$leg <- renderPlot({
     plot_grid(type_status_legend)
   })
   
-  
-  
-  
   output$weightedav <- renderPlotly({
     ggplotly(
       filtered_df() %>%
-        # # filter(
-        # #   # distance == input$distance,
-        # #   agency %in% input$agency#,
-        # #   # ACS == input$ACS,
-        # #   # status %in% input$status,
-        # #   # type %in% input$type
-        # # ) %>%
-        # separate(
-        #   name,
-        #   into = c("name", 'delete2'),
-        #   sep = c("_")
-        # ) %>%
-        # mutate(name = str_replace_all(
-        #   name,
-        #   c(
-        #     "Regional Park" = "RP",
-        #     "Regional Trail" = "RT",
-        #     "Park Reserve" = "PR"
-        #   )
-        # )) %>%
-        # mutate(
-        #   name = forcats::fct_reorder(name, desc(value)),
-        #   concat = paste(type, status, sep = "_")
-        # ) %>%
+        separate(
+          name,
+          into = c("name", 'delete2'),
+          sep = c("_")
+        ) %>%
+        mutate(name = str_replace_all(
+          name,
+          c(
+            "Regional Park" = "RP",
+            "Regional Trail" = "RT",
+            "Park Reserve" = "PR"
+          )
+        )) %>%
+        mutate(
+          name = forcats::fct_reorder(name, desc(value)),
+          concat = paste(type, status, sep = "_")
+        ) %>%
         ggplot(
           aes(
             y = name,
             x = value,
             pch = type,
             fill = status,
-            # text = paste0(((
-            #   renamekey %>% filter(`ACS variable` %in% input$ACS) %>%
-            #     select(goodname)
-            # )
-            # ), ":  ", value, "\n", name)
+            text = paste0((filter(renamekey, `ACS variable` %in% filtered_df()[1,6]) %>% select(goodname)),
+                          ":  ", value, "\n", name)
           )
         ) +
         # geom_vline(aes(xintercept = value), 
@@ -163,11 +172,8 @@ mod_summarystats_server <- function(input, output, session, filtered_df){
           "Trail" = 22
         )) +
         council_theme() +
-        # labs(y = "",
-        #      x = (renamekey %>% filter(`ACS variable` == input$ACS) %>%
-        #             select(goodname))
-        # ) +
-        
+        labs(y = "", 
+             x = paste0(filter(renamekey, `ACS variable` %in% filtered_df()[1,6]) %>% select(goodname)))+
         scale_x_continuous(
           labels = function(x)
             format(x, big.mark = ",",

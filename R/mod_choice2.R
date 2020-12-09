@@ -109,7 +109,8 @@ mod_choice2_server <- function(input, output, session){
     return(vals2)
   }
 
-    
+
+
 ## To be copied in the UI
 # mod_choice2_ui("choice2_ui_1")
     
