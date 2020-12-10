@@ -1,3 +1,4 @@
+##### Make sure files to make .rda are present (i've skipped a lot here)
 #' The application User-Interface
 #'
 #' @param request Internal parameter for `{shiny}`.
@@ -26,6 +27,23 @@ app_ui <- function(request) {
         mod_leaflet_ui(id = "leaflet_ui_1")
       ),
       
+      # THIS WORKS, if want to filter by agency/buffer/type/status independently of ACS and/or population variable
+      # too complicated for right now
+      # tabPanel(
+      #   "test",
+      #   fluidRow(
+      #     column(width =3, "kladjf"),
+      #     column(width = 9, mod_gendata_ui("gendata_ui_1"))
+      # )),  
+      # 
+      
+      # tabPanel(
+      #   "test",
+      # #   mod_gendata_ui("gendata_ui_1"),
+      # #   mod_passcombo_ui("passcombo_ui_1")
+      # mod_accept_gfilter_ui("accept_gfilter_ui_1")
+      # ),
+
       tabPanel(
         "ACS Summary",
         mod_combo_ui("combo_ui_1")
@@ -36,7 +54,6 @@ app_ui <- function(request) {
       # tabPanel(
       #   "ACS Summary",
       #   mod_choice_ui("choice_ui_1"),
-      #   mod_summarystats_ui("summarystats_ui_1")
       # ),
       # 
       ## Pop growth tab -----

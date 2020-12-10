@@ -35,13 +35,15 @@ app_server <- function(input, output, session) {
   
   callModule(mod_intro_server, "intro_ui_1")
   
-  callModule(mod_summarystats_server, "summarystats_ui_1",  filtered_df = filtered_df)
-  
-  callModule(mod_sumplot2_server, "sumplot2_ui_1", filtered_df2 = filtered_df2)
-  
   callModule(mod_popgrowth_server, "popgrowth_ui_1")#, r = r)
   
+  data_test <- callModule(mod_gendata_server, "gendata_ui_1")
+  callModule(mod_passcombo_server, "passcombo_ui_1", data_test)
+  
   callModule(mod_combo_server, "combo_ui_1")
+  
+  callModule(mod_accept_gfilter_server, "accept_gfilter_ui_1", filtered_df2)
+  
   
 }
 

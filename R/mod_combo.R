@@ -15,6 +15,7 @@
 #' @import stringr
 #' @import forcats
 #' @import dplyr
+#' @import leaflet
 #' 
 
 ## set up some legends -----
@@ -56,6 +57,43 @@ renamekey <- tribble(
   "adj_span_per"
 )
 
+recodeadjtable <- tribble(
+  ~ ACS,
+  ~ nicename,
+  "adj_poptotal",
+  "Population",
+  "adj_ageunder15_per",
+  "% under age 15",
+  "adj_age15_24_per",
+  "% age 15-24",
+  "adj_age25_64_per",
+  "% age 25-64",
+  "adj_age65up_per",
+  "% age 65+",
+  "adj_whitenh_per",
+  "% White",
+  "adj_blacknh_per",
+  "% Black",
+  "adj_asiannh_per",
+  "% Asian",
+  "adj_amindnh_per",
+  "% Am. Indian",
+  "adj_othermultinh_per",
+  "% Other + Multi",
+  "adj_hisppop_per",
+  "% Hispanic",
+  "adj_nothisppop_per",
+  "% not-Hispanic",
+  "adj_meanhhi",
+  "Mean household income",
+  "adj_novehicle_per",
+  "% Housholds without a vehicle",
+  "adj_lep_per",
+  "% speaking English less than very well",
+  "adj_span_per",
+  "% Spanish speakers"
+)
+
 
 type_status_legend <-
   get_legend(
@@ -75,9 +113,9 @@ type_status_legend <-
                                     "trail" = 22)) +
       scale_fill_manual(
         values = c(
-          "Existing" = "#31a354",
-          "Planned" = "#edd066",
-          "Search" = "#de2d26"
+          "Existing" = "#2ec799",
+          "Planned" = "#f77614",
+          "Search" = "#9591c9"
         )
       ) +
       theme_cowplot() +
@@ -93,17 +131,17 @@ type_status_legend <-
       theme(legend.position = "bottom")
   )
 
-
+######### ui --------
 mod_combo_ui <- function(id){
   ns <- NS(id)
   tagList(
     # id = ns("sum_CHOICE"),
-hr(),
+    h3("Select inputs: "),
     fluidPage(
       fluidRow(
         column(
           width = 3,
-          selectizeInput(
+          selectInput(
             ns("ACS"),
             label = h4("ACS variable"),
             choices = list(
@@ -129,7 +167,7 @@ hr(),
               `Language` = list("% speaking English less than very well" = "adj_lep_per",
                                 "% Spanish speakers" = "adj_span_per")
             ),
-            selected = "adj_ageunder15_per"
+            selected = "adj_ageunder15_per", selectize = F
           )),
         column(
           width = 3,
@@ -149,7 +187,7 @@ hr(),
               "Washington County"
             ),
             selected = "Anoka County",
-            multiple = TRUE
+            multiple = TRUE, selectize = T
           )),
         column(
           width = 2,
@@ -176,6 +214,7 @@ hr(),
       )
     ),
     hr(),
+h3("View data: "),
     tabsetPanel( selected = "Weighted averages",
                  tabPanel("Weighted averages",
                           HTML('<p>This plot is indeted to provide summarized demographic values for all the regional parks and trails. Point location along the x-axis indicates the demographic value which can be compared across and within park/trail status (existing, planned, search) or agencies. Color indicates park/trail status (green = existing, yellow = planned, red = search). Shape indicates park/trail type (circle = park, square = trail). The solid black, vertical line indicates the average demographic value within agency boundaries.</p>'),
@@ -183,13 +222,20 @@ hr(),
                            plotlyOutput(ns("comboplot"), height = 700)
                            ),
                  tabPanel("Buffer map",
-                          HTML('<p>This map visualizes the geospatial location of the buffers around the user-selected parks and trails. Demographic data can also be shown here.  THIS MAP IS NOT REACTIVE AT THE MOMENT (but will be updated)')),
-                 tabPanel("Download tabular data"),
+                          HTML('<p>This map visualizes the geospatial location of the buffers around the user-selected parks and trails. Demographic data can also be shown here.  THIS MAP IS NOT REACTIVE AT THE MOMENT (but will be updated)'),
+                          # dataTableOutput(ns("testbufmap")),
+                          leafletOutput(ns("buffermap"), height = 700)),
+                 tabPanel("Download tabular data",
+                          HTML('<p>Cells show the average weighted value, with the range of all intersecting block groups in parentheses. These data are available for download.</p>'),
+                          downloadButton(ns("downloadData"), "Download tabular data"),
+                 hr(),
+                 dataTableOutput(ns("datatable"))),
                  tabPanel("Methods & raw data"))
 
   )
 }
-    
+
+###### server -----    
 #' combo Server Function
 #'
 #' @noRd 
@@ -211,6 +257,32 @@ mod_combo_server <- function(input, output, session){
     res
   })
   
+  data_noacs = reactiveVal(long_buffer_data)
+  filt_data_noacs <- reactive({
+    res <- data_noacs() %>% filter(#ACS == input$ACS,
+                                    agency %in% input$agency,
+                                    distance == input$distance,
+                                    type %in% input$type,
+                                    status %in% input$status)
+    res
+  })
+  
+  # data_parktrailgeo = reactiveVal(park_trail_geog_LONG)
+  # filt_parktrailgeo <- reactive({
+  #   res <- data_parktrailgeo() %>%
+  #     filter(agency %in% input$agency,
+  #            Type %in% input$type,
+  #            status2 %in% input$status)
+  #   res
+  # })
+  
+  selected_pt = reactive({
+    gooddata <- park_trail_geog_LONG %>%
+      filter(agency %in% input$agency,
+             Type %in% input$type,
+             status2 %in% input$status)
+    gooddata
+  })
   
   output$comboplot <- renderPlotly({
     ggplotly(
@@ -253,9 +325,9 @@ mod_combo_server <- function(input, output, session){
         ) +
         scale_fill_manual(
           values = c(
-            "Existing" = "#31a354",
-            "Planned" = "#edd066",
-            "Search" = "#de2d26"
+            "Existing" = "#2ec799",
+            "Planned" = "#f77614",
+            "Search" = "#9591c9"
           )
         ) +
         scale_shape_manual(values = c(
@@ -277,6 +349,246 @@ mod_combo_server <- function(input, output, session){
       hide_legend()
   })
   
+  output$datatable <- renderDataTable({
+    filt_data_noacs() %>%
+      left_join(recodeadjtable) %>%
+      select(-ACS) %>%
+      rename(ACS = nicename) %>%
+      filter(!is.na(ACS)) %>%
+      mutate(value = round(value, 1)) %>%
+      select(agency, name, type, status, distance, ACS, value) %>%
+      pivot_wider(names_from = ACS, values_from = value) %>%
+      separate(name,
+               into = c("name", 'delete2'),
+               sep = c("_")) %>%
+      select(-delete2) %>% #, -Population) %>%
+      mutate(name = str_replace_all(
+        name,
+        c(
+          "Regional Park" = "RP",
+          "Regional Trail" = "RT",
+          "Park Reserve" = "PR"
+        )
+      )) %>%
+      rename(
+        Agency = agency,
+        Name = name,
+        Type = type,
+        Status = status,
+        Dist. = distance
+      ) 
+  })
+  
+  output$downloadData <- downloadHandler(
+    filename = "ACS.csv",
+    content = function(file) {
+      write.csv((filt_data_noacs() %>%
+                   left_join(recodeadjtable) %>%
+                   select(-ACS) %>%
+                   rename(ACS = nicename) %>%
+                   filter(!is.na(ACS)) %>%
+                   mutate(value = round(value, 1)) %>%
+                   select(agency, name, type, status, distance, ACS, value) %>%
+                   pivot_wider(names_from = ACS, values_from = value) %>%
+                   separate(name,
+                            into = c("name", 'delete2'),
+                            sep = c("_")) %>%
+                   select(-delete2, -Population)), 
+                file, row.names = FALSE)
+    }
+  )
+  
+  output$buffermap <- renderLeaflet({
+    leaflet() %>%
+      setView(lat = 44.963,
+              lng = -93.22,
+              zoom = 9) %>%
+      addProviderTiles("CartoDB.Positron",
+                       group = "Carto Positron")  %>%
+      addPolygons(
+        data = agency_boundary,
+        group = "Agency boundaries",
+        stroke = T,
+        color = "black",
+        fill = F,
+        weight = 3
+      )  %>%
+      addLayersControl(
+        position = "bottomright",
+        baseGroups = c(
+          "Carto Positron"),
+        options = layersControlOptions(collapsed = F)
+      ) %>%
+    #   htmlwidgets::onRender(
+    #     "
+    #     function() {
+    #         $('.leaflet-control-layers-overlays').prepend('<label style=\"text-align:center\">Map layers</label>');
+    #     }
+    # "
+    #   ) %>%
+      leaflet::addScaleBar(position = c("bottomleft"))
+  })
+  
+  
+  observe({
+    if(nrow(selected_pt()) > 0)
+    {
+      leafletProxy("buffermap", data = selected_pt()) %>%
+        addTiles() %>% 
+        clearShapes() %>%
+        #---- existing
+        addPolylines(data = selected_pt() %>% filter(Type == "Trail",
+                                                  status2 == "Existing"),
+                     color = "#2ec799",
+                     weight = 3,
+                     stroke = T,
+                     opacity = 1,
+                     popup = ~paste0(
+                       "<b>", "Trail - existing", "</b>", "<br>",
+                       selected_pt() %>%
+                         filter(Type == "Trail",
+                                status2 == "Existing") %>%
+                         .$name, "<br>",
+                       "<em>",
+                       selected_pt() %>%
+                         filter(Type == "Trail",
+                                status2 == "Existing") %>%
+                         .$agency, "</em>"
+                     ),
+                     highlightOptions = highlightOptions(
+                       stroke = TRUE,
+                       color = "black",
+                       weight = 6,
+                       bringToFront = TRUE
+                     )) %>%
+        addPolygons(data = selected_pt() %>% filter(Type == "Park",
+                                                 status2 == "Existing"),
+                    color = "#2ec799",
+                    fillColor = "#2ec799",
+                    fillOpacity = 1,
+                    weight = 3,
+                    stroke = T,
+                    opacity = 1,
+                    popup = ~paste0(
+                      "<b>", "Park - existing", "</b>", "<br>",
+                      selected_pt() %>%
+                        filter(Type == "Park",
+                               status2 == "Existing") %>%
+                        .$name, "<br>",
+                      "<em>",
+                      selected_pt() %>%
+                        filter(Type == "Park",
+                               status2 == "Existing") %>%
+                        .$agency, "</em>"
+                    ),
+                    highlightOptions = highlightOptions(
+                      stroke = TRUE,
+                      color = "black",
+                      weight = 6,
+                      bringToFront = TRUE)) %>%
+        #----- planned
+        addPolylines(data = selected_pt() %>% filter(Type == "Trail",
+                                                  status2 == "Planned"),
+                     color = "#f77614",
+                     weight = 3,
+                     stroke = T,
+                     opacity = 1,
+                     popup = ~paste0(
+                       "<b>", "Trail - planned", "</b>", "<br>",
+                       selected_pt() %>%
+                         filter(Type == "Trail",
+                                status2 == "Planned") %>%
+                         .$name, "<br>",
+                       "<em>",
+                       selected_pt() %>%
+                         filter(Type == "Trail",
+                                status2 == "Planned") %>%
+                         .$agency, "</em>"
+                     ),
+                     highlightOptions = highlightOptions(
+                       stroke = TRUE,
+                       color = "black",
+                       weight = 6,
+                       bringToFront = TRUE)) %>%
+        addPolygons(data = selected_pt() %>% filter(Type == "Park",
+                                                 status2 == "Planned"),
+                    color = "#f77614",
+                    fillColor = "#f77614",
+                    fillOpacity = 1,
+                    weight = 3,
+                    stroke = T,
+                    opacity = 1,
+                    popup = ~paste0(
+                      "<b>", "Park - planned", "</b>", "<br>",
+                      selected_pt() %>%
+                        filter(Type == "Park",
+                               status2 == "Planned") %>%
+                        .$name, "<br>",
+                      "<em>",
+                      selected_pt() %>%
+                        filter(Type == "Park",
+                               status2 == "Planned") %>%
+                        .$agency, "</em>"
+                    ),
+                    highlightOptions = highlightOptions(
+                      stroke = TRUE,
+                      color = "black",
+                      weight = 6,
+                      bringToFront = TRUE)) %>%
+        
+        #----- search
+        addPolylines(data = selected_pt() %>% filter(Type == "Trail",
+                                                  status2 == "Search"),
+                     color = "#9591c9",
+                     weight = 3,
+                     stroke = T,
+                     opacity = 1,
+                     popup = ~paste0(
+                       "<b>", "Trail - search", "</b>", "<br>",
+                       selected_pt() %>%
+                         filter(Type == "Trail",
+                                status2 == "Search") %>%
+                         .$name, "<br>",
+                       "<em>",
+                       selected_pt() %>%
+                         filter(Type == "Trail",
+                                status2 == "Search") %>%
+                         .$agency, "</em>"
+                     ),
+                     highlightOptions = highlightOptions(
+                       stroke = TRUE,
+                       color = "black",
+                       weight = 6,
+                       bringToFront = TRUE)) %>%
+        addPolygons(data = selected_pt() %>% filter(Type == "Park",
+                                                 status2 == "Search"),
+                    color = "#9591c9",
+                    fillColor = "#9591c9",
+                    fillOpacity = 1,
+                    weight = 3,
+                    stroke = T,
+                    opacity = 1,
+                    popup = ~paste0(
+                      "<b>", "Park - search", "</b>", "<br>",
+                      selected_pt() %>%
+                        filter(Type == "Park",
+                               status2 == "Search") %>%
+                        .$name, "<br>",
+                      "<em>",
+                      selected_pt() %>%
+                        filter(Type == "Park",
+                               status2 == "Search") %>%
+                        .$agency, "</em>"
+                    ),
+                    highlightOptions = highlightOptions(
+                      stroke = TRUE,
+                      color = "black",
+                      weight = 6,
+                      bringToFront = TRUE)) 
+    }
+  })
+  
+
 }
     
 ## To be copied in the UI
