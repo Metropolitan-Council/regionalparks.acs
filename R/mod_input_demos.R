@@ -11,7 +11,7 @@ mod_input_demos_ui <- function(id) {
   ns <- NS(id)
   tagList(
     absolutePanel(
-      id = ns("inputCensusTracts"), #controls_ct"),
+      id = ns("inputCensusTracts"), # controls_ct"),
       class = "panel panel-default", fixed = FALSE,
       draggable = TRUE, top = 60, left = "auto", right = 20, bottom = "auto",
       width = 330, height = "auto",
@@ -154,8 +154,8 @@ mod_input_demos_ui <- function(id) {
 
 
 
-# radioButtons(inputId = ns("inputCensusTracts"), label = "Census Tracts",
-# choices = sort(table_ct$category))
+      # radioButtons(inputId = ns("inputCensusTracts"), label = "Census Tracts",
+      # choices = sort(table_ct$category))
     )
   )
 }

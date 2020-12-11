@@ -13,7 +13,7 @@ app_ui <- function(request) {
     # List the first level UI elements here
     navbarPage("Regional Parks and Trails Equity Tool",
       id = "nav",
-      
+
       tabPanel(
         "ACS Summary",
         mod_summary_selections_ui("summary_selections_ui_1"),
@@ -23,27 +23,29 @@ app_ui <- function(request) {
           #                    mod_summary_plot_ui("summary_plot_ui_1")),
           #           tabPanel("Buffer map",
           #                    mod_summary_map_ui("summary_map_ui_1")),
-                    tabPanel("Download tabular data",
-                             mod_summary_download_ui("summary_download_ui_1"),
-                             mod_summary_table_ui("summary_table_ui_1"))
+          tabPanel(
+            "Download tabular data",
+            mod_summary_download_ui("summary_download_ui_1"),
+            mod_summary_table_ui("summary_table_ui_1")
+          )
         )
         # mod_combo_ui("combo_ui_1")
       ),
-      
-      
+
+
       # intro tab -----
       tabPanel(
         "Introduction",
         mod_intro_ui("intro_ui_1")
       ),
-      
+
       ## map tab -----
       tabPanel(
         "ACS Map",
         mod_input_demos_ui(id = "input_demos_ui_1"),
         mod_leaflet_ui(id = "leaflet_ui_1")
       ),
-      
+
       # THIS WORKS, if want to filter by agency/buffer/type/status independently of ACS and/or population variable
       # too complicated for right now
       # tabPanel(
@@ -51,9 +53,9 @@ app_ui <- function(request) {
       #   fluidRow(
       #     column(width =3, "kladjf"),
       #     column(width = 9, mod_gendata_ui("gendata_ui_1"))
-      # )),  
-      # 
-      
+      # )),
+      #
+
       # tabPanel(
       #   "test",
       # #   mod_gendata_ui("gendata_ui_1"),
@@ -61,28 +63,27 @@ app_ui <- function(request) {
       # mod_accept_gfilter_ui("accept_gfilter_ui_1")
       # ),
 
-  
-      
-      
+
+
+
       # ## ACS summary stats tab ----
       # tabPanel(
       #   "ACS Summary",
       #   mod_choice_ui("choice_ui_1"),
       # ),
-      # 
+      #
       ## Pop growth tab -----
       # tabPanel(
       #   "Population Growth",
       #   mod_choice_ui("choice_ui_1"),
       #   mod_popgrowth_ui("popgrowth_ui_1")
       # ),
-      
+
       ## Notes tab -----
       tabPanel(
         "Notes",
         mod_notes_ui("notes_ui_1")
       )
-
     )
   )
 }

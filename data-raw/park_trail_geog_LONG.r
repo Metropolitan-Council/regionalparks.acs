@@ -13,47 +13,51 @@ library(tigris)
 library(janitor)
 
 ## NameCleaner-----------------------------------------------------------------------
-namecleaner <- tribble(~AGENCY, ~consistentagency,
-                       "Anoka County Parks and Recreation",  "Anoka County",
-                       "Anoka County Parks" , "Anoka County",
-                       "Anoka County" , "Anoka County",
-                       "Bloomington Parks and Recreation", "Bloomington",
-                       "Bloomington" , "Bloomington",
-                       "City of Bloomington" , "Bloomington",
-                       "Carver County Parks and Recreation","Carver County",
-                       "Carver County Parks" , "Carver County",
-                       "Carver County" , "Carver County",
-                       "Ramsey County Parks and Recreation","Ramsey County",
-                       "Ramsey County" , "Ramsey County",
-                       "Dakota County Parks","Dakota County",
-                       "Dakota County" , "Dakota County",
-                       "Minneapolis Park and Recreation Board","MPRB",
-                       "Minneapolis" , "MPRB",
-                       "Washington County Parks","Washington County",
-                       "Washington County" , "Washington County",
-                       "St. Paul Parks and Recreation","St. Paul",
-                       "St Paul Parks And Recreation" , "St. Paul",
-                       "St Paul Parks and Recreation" , "St. Paul",
-                       "St. Paul" , "St. Paul",
-                       "Scott County / Three Rivers Park District" , "Scott County", #this is the Scott County Regional Trail
-                       "Scott County/Three Rivers Park District", "Scott County",
-                       "Scott County Parks","Scott County",
-                       "Scott County" , "Scott County",
-                       "Three Rivers Park District", "Three Rivers",
-                       "Three Rivers" , "Three Rivers")
+namecleaner <- tribble(
+  ~AGENCY, ~consistentagency,
+  "Anoka County Parks and Recreation", "Anoka County",
+  "Anoka County Parks", "Anoka County",
+  "Anoka County", "Anoka County",
+  "Bloomington Parks and Recreation", "Bloomington",
+  "Bloomington", "Bloomington",
+  "City of Bloomington", "Bloomington",
+  "Carver County Parks and Recreation", "Carver County",
+  "Carver County Parks", "Carver County",
+  "Carver County", "Carver County",
+  "Ramsey County Parks and Recreation", "Ramsey County",
+  "Ramsey County", "Ramsey County",
+  "Dakota County Parks", "Dakota County",
+  "Dakota County", "Dakota County",
+  "Minneapolis Park and Recreation Board", "MPRB",
+  "Minneapolis", "MPRB",
+  "Washington County Parks", "Washington County",
+  "Washington County", "Washington County",
+  "St. Paul Parks and Recreation", "St. Paul",
+  "St Paul Parks And Recreation", "St. Paul",
+  "St Paul Parks and Recreation", "St. Paul",
+  "St. Paul", "St. Paul",
+  "Scott County / Three Rivers Park District", "Scott County", # this is the Scott County Regional Trail
+  "Scott County/Three Rivers Park District", "Scott County",
+  "Scott County Parks", "Scott County",
+  "Scott County", "Scott County",
+  "Three Rivers Park District", "Three Rivers",
+  "Three Rivers", "Three Rivers"
+)
 
 ## Parks -----------------------------------------------------------------------
 temp <- tempfile()
 download.file("ftp://ftp.gisdata.mn.gov/pub/gdrs/data/pub/us_mn_state_metc/plan_parks_regional/gpkg_plan_parks_regional.zip",
-              destfile = temp
+  destfile = temp
 )
 
 parks_temp <- sf::read_sf(unzip(temp, "plan_parks_regional.gpkg")) %>%
   # filter(STATUS == "Existing") %>%
   left_join(namecleaner) %>%
-  mutate(STATUS = recode(STATUS, "Existing" = "Park - existing",
-                         "In Master Plan" = "Park - planned",
-                         "Planned" = "Park - planned")) %>%
+  mutate(STATUS = recode(STATUS,
+    "Existing" = "Park - existing",
+    "In Master Plan" = "Park - planned",
+    "Planned" = "Park - planned"
+  )) %>%
   group_by(PARKNAME, STATUS, Label, consistentagency) %>%
   summarize(do_union = TRUE) %>%
   ungroup() %>%
@@ -63,38 +67,46 @@ parks_temp <- sf::read_sf(unzip(temp, "plan_parks_regional.gpkg")) %>%
     status = STATUS,
   ) %>%
   st_transform(4326) %>%
-  st_as_sf() 
+  st_as_sf()
 
 parks <- parks_temp %>%
   filter(status == "Park - existing") %>%
-  mutate(status2 = "Existing",
-         Type = "Park")
+  mutate(
+    status2 = "Existing",
+    Type = "Park"
+  )
 
 parks_planned <- parks_temp %>%
   filter(status == "Park - planned") %>%
-  mutate(status2 = "Planned",
-         Type = "Park")
+  mutate(
+    status2 = "Planned",
+    Type = "Park"
+  )
 
 fs::file_delete("plan_parks_regional.gpkg")
 
 ## Trails ----------------------------------------------------------------------
 temp <- tempfile()
 download.file("https://resources.gisdata.mn.gov/pub/gdrs/data/pub/us_mn_state_metc/trans_regional_trails_exst_plan/gpkg_trans_regional_trails_exst_plan.zip",
-              destfile = temp
+  destfile = temp
 )
 
 
 trails_temp <- sf::read_sf(unzip(temp, "trans_regional_trails_exst_plan.gpkg")) %>%
   # filter(STATUS == "Existing (Open to Public)") %>%
-  filter(NAME != "River Crossing",
-         Agency != "Wright County") %>% #Crow River Regional Trail doesn't seem to belong to any particular Metro Agency
-  mutate(STATUS = recode(STATUS, "Existing (Open to Public)" = "Trail - existing",
-                         "Alternate" = "Trail - planned/closed/alt.",
-                         "Existing (Not Open to Public)" = "Trail - planned/closed/alt.",
-                         "Planned" = "Trail - planned/closed/alt.")) %>%
+  filter(
+    NAME != "River Crossing",
+    Agency != "Wright County"
+  ) %>% # Crow River Regional Trail doesn't seem to belong to any particular Metro Agency
+  mutate(STATUS = recode(STATUS,
+    "Existing (Open to Public)" = "Trail - existing",
+    "Alternate" = "Trail - planned/closed/alt.",
+    "Existing (Not Open to Public)" = "Trail - planned/closed/alt.",
+    "Planned" = "Trail - planned/closed/alt."
+  )) %>%
   rename(AGENCY = Agency) %>%
   left_join(namecleaner) %>%
-  # mutate(consistentagency = ifelse(name == "Scott County Regional Trail" & is.na(consistentagency), 
+  # mutate(consistentagency = ifelse(name == "Scott County Regional Trail" & is.na(consistentagency),
   #                                  "Scott County Parks", consistentagency)) %>% #should confirm this is the right agency
   group_by(NAME, STATUS, Label, consistentagency) %>%
   summarize(do_union = TRUE) %>%
@@ -104,18 +116,23 @@ trails_temp <- sf::read_sf(unzip(temp, "trans_regional_trails_exst_plan.gpkg")) 
     agency = consistentagency,
     status = STATUS
   ) %>%
-  
   st_transform(4326) %>%
   st_as_sf() %>%
-  sf::st_make_valid() 
+  sf::st_make_valid()
 
-trails <- trails_temp %>% filter(status == "Trail - existing") %>%
-  mutate(status2 = "Existing",
-         Type = "Trail")
+trails <- trails_temp %>%
+  filter(status == "Trail - existing") %>%
+  mutate(
+    status2 = "Existing",
+    Type = "Trail"
+  )
 
-trails_planned <- trails_temp %>% filter(status == "Trail - planned/closed/alt.") %>%
-  mutate(status2 = "Planned",
-         Type = "Trail")
+trails_planned <- trails_temp %>%
+  filter(status == "Trail - planned/closed/alt.") %>%
+  mutate(
+    status2 = "Planned",
+    Type = "Trail"
+  )
 
 fs::file_delete("trans_regional_trails_exst_plan.gpkg")
 
@@ -123,7 +140,7 @@ fs::file_delete("trans_regional_trails_exst_plan.gpkg")
 ## Trail Search ----------------------------------------------------------------------
 temp <- tempfile()
 download.file("https://resources.gisdata.mn.gov/pub/gdrs/data/pub/us_mn_state_metc/trans_regional_trails_search_cor/gpkg_trans_regional_trails_search_cor.zip",
-              destfile = temp
+  destfile = temp
 )
 
 trailsearch <- sf::read_sf(unzip(temp, "trans_regional_trails_search_cor.gpkg")) %>%
@@ -138,9 +155,11 @@ trailsearch <- sf::read_sf(unzip(temp, "trans_regional_trails_search_cor.gpkg"))
   mutate(status = "Trail - search") %>%
   st_transform(4326) %>%
   st_as_sf() %>%
-  sf::st_make_valid()%>%
-  mutate(status2 = "Search",
-         Type = "Trail")
+  sf::st_make_valid() %>%
+  mutate(
+    status2 = "Search",
+    Type = "Trail"
+  )
 
 
 fs::file_delete("trans_regional_trails_search_cor.gpkg")
@@ -149,7 +168,7 @@ fs::file_delete("trans_regional_trails_search_cor.gpkg")
 ## Park Search ----------------------------------------------------------------------
 temp <- tempfile()
 download.file("https://resources.gisdata.mn.gov/pub/gdrs/data/pub/us_mn_state_metc/plan_parks_regional_search_areas/gpkg_plan_parks_regional_search_areas.zip",
-              destfile = temp
+  destfile = temp
 )
 
 parksearch <- sf::read_sf(unzip(temp, "plan_parks_regional_search_areas.gpkg")) %>%
@@ -163,15 +182,19 @@ parksearch <- sf::read_sf(unzip(temp, "plan_parks_regional_search_areas.gpkg")) 
   st_transform(4326) %>%
   st_as_sf() %>%
   sf::st_make_valid() %>%
-  mutate(status2 = "Search",
-         Type = "Park")
+  mutate(
+    status2 = "Search",
+    Type = "Park"
+  )
 
 
 fs::file_delete("plan_parks_regional_search_areas.gpkg")
 
 ## Combine ---------------------------------------------------------------------
-park_trail_geog_LONG <- bind_rows(parks, parks_planned, trails, trails_planned,
-                        trailsearch, parksearch)
+park_trail_geog_LONG <- bind_rows(
+  parks, parks_planned, trails, trails_planned,
+  trailsearch, parksearch
+)
 # names(park_trail_geog_LONG) <- c(
 #   "park",
 #   "park_planned",

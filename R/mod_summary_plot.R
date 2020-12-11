@@ -4,27 +4,23 @@
 #'
 #' @param id,input,output,session Internal parameters for {shiny}.
 #'
-#' @noRd 
+#' @noRd
 #'
-#' @importFrom shiny NS tagList 
-mod_summary_plot_ui <- function(id){
+#' @importFrom shiny NS tagList
+mod_summary_plot_ui <- function(id) {
   ns <- NS(id)
-  tagList(
- 
-  )
+  tagList()
 }
-    
+
 #' summary_plot Server Function
 #'
-#' @noRd 
-mod_summary_plot_server <- function(input, output, session){
+#' @noRd
+mod_summary_plot_server <- function(input, output, session) {
   ns <- session$ns
- 
 }
-    
+
 ## To be copied in the UI
 # mod_summary_plot_ui("summary_plot_ui_1")
-    
+
 ## To be copied in the server
 # callModule(mod_summary_plot_server, "summary_plot_ui_1")
- 

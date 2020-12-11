@@ -4,36 +4,31 @@
 #'
 #' @param id,input,output,session Internal parameters for {shiny}.
 #'
-#' @noRd 
+#' @noRd
 #'
-#' @importFrom shiny NS tagList 
-mod_summary_table_ui <- function(id){
+#' @importFrom shiny NS tagList
+mod_summary_table_ui <- function(id) {
   ns <- NS(id)
   tagList(
- 
     dataTableOutput(outputId = ns("output_datatable"))
-    
-
   )
 }
-    
+
 #' summary_table Server Function
 #'
-#' @noRd 
-mod_summary_table_server <- function(input, output, session, 
+#' @noRd
+mod_summary_table_server <- function(input, output, session,
                                      selected_vars,
-                                     summary_util){
+                                     summary_util) {
   ns <- session$ns
-  
-  # browser()
-  
-  output$output_datatable <- renderDataTable(summary_util$table_buffer_data)
 
-  }
-    
+  # browser()
+
+  output$output_datatable <- renderDataTable(summary_util$table_buffer_data)
+}
+
 ## To be copied in the UI
 # mod_summary_table_ui("summary_table_ui_1")
-    
+
 ## To be copied in the server
 # callModule(mod_summary_table_server, "summary_table_ui_1")
- 
