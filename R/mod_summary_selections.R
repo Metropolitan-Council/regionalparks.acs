@@ -18,7 +18,7 @@ mod_summary_selections_ui <- function(id){
         column(
           width = 3,
           selectInput(
-            ns("ACS"),
+            ns("input_acs"),
             label = h4("ACS variable"),
             choices = list(
               `Age` = list(
@@ -48,7 +48,7 @@ mod_summary_selections_ui <- function(id){
         column(
           width = 3,
           selectInput(
-            ns("agency"),
+            ns("input_agency"),
             label = h4("Agenc(y/ies)"),
             choices = c(
               "Anoka County",
@@ -68,21 +68,21 @@ mod_summary_selections_ui <- function(id){
         column(
           width = 2,
           radioButtons(
-            ns("distance"),
+            ns("input_distance"),
             label = h4("Buffer dist. (mi)"),
             choices = c(1.0, 1.5, 3),
             selected = c(1.0)
           )),
         column(width = 2,
                checkboxGroupInput(
-                 ns("type"),
+                 ns("input_type"),
                  label = h4("Type"),
                  choices = c("Park", "Trail"),
                  selected = c("Park", "Trail")
                )),
         column(width = 2,
                checkboxGroupInput(
-                 ns("status"),
+                 ns("input_status"),
                  label = h4("Status"),
                  choices = c("Existing", "Planned", "Search"),
                  selected = c("Existing", "Planned", "Search")
@@ -99,23 +99,31 @@ mod_summary_selections_ui <- function(id){
 mod_summary_selections_server <- function(input, output, session){
   ns <- session$ns
  
-  return(
-    list(
-      select_acs <- reactive({input$ACS}),
-      select_agency <- reactive({input$agency}),
-      select_distance <- reactive({input$distance}),
-      select_type <- reactive({input$type}),
-      select_status <- reactive({input$status})
-    )
-  )
   
-  # vals <- reactive({
-  #   vals$select_acs <- input$ACS
-  #   vals$select_agency <- input$agency
-  #   vals$select_distance <- input$distance
-  #   vals$select_type <- input$type
-  #   vals$select_status <- input$status
-  # })
+  input_values <- reactiveValues() # start with an empty reactiveValues object. 
+  
+  observeEvent(input$input_acs, { # only update when the user changes the ACS input
+    input_values$ACS <- input$input_acs # create/update the ACS input value in our reactiveValues object
+  })
+  
+  observeEvent(input$input_agency, {
+    input_values$input_agency <- input$input_agency
+  })
+  
+  observeEvent(input$input_distance, {
+    input_values$input_distance <- input$input_distance
+  })
+  observeEvent(input$input_type, {
+    input_values$input_type <- input$input_type
+  })
+  observeEvent(input$input_status, {
+    input_values$input_status <- input$input_status
+  })
+  
+  
+  
+  return(input_values)
+  
 
 }
     
