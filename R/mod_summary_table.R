@@ -21,7 +21,8 @@ mod_summary_table_ui <- function(id){
 #'
 #' @noRd 
 mod_summary_table_server <- function(input, output, session, 
-                                     selected_vars, df1, long_buffer_data){
+                                     selected_vars,
+                                     summary_util){
   ns <- session$ns
   
   browser()
