@@ -11,8 +11,7 @@ mod_summary_table_ui <- function(id){
   ns <- NS(id)
   tagList(
  
-    dataTableOutput(ns("datatable")),
-    dataTableOutput(ns("datatable2"))
+    dataTableOutput(outputId = ns("output_datatable"))
     
 
   )
