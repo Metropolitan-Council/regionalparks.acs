@@ -14,6 +14,23 @@ app_ui <- function(request) {
     navbarPage("Regional Parks and Trails Equity Tool",
       id = "nav",
       
+      tabPanel(
+        "ACS Summary",
+        mod_summary_selections_ui("summary_selections_ui_1"),
+        tabsetPanel(
+          # selected = "Weighted averages",
+          #           tabPanel("Weighted averages",
+          #                    mod_summary_plot_ui("summary_plot_ui_1")),
+          #           tabPanel("Buffer map",
+          #                    mod_summary_map_ui("summary_map_ui_1")),
+                    tabPanel("Download tabular data",
+                             mod_summary_download_ui("summary_download_ui_1"),
+                             mod_summary_table_ui("summary_table_ui_1"))
+        )
+        # mod_combo_ui("combo_ui_1")
+      ),
+      
+      
       # intro tab -----
       tabPanel(
         "Introduction",
@@ -44,10 +61,7 @@ app_ui <- function(request) {
       # mod_accept_gfilter_ui("accept_gfilter_ui_1")
       # ),
 
-      tabPanel(
-        "ACS Summary",
-        mod_combo_ui("combo_ui_1")
-      ),  
+  
       
       
       # ## ACS summary stats tab ----
@@ -57,11 +71,11 @@ app_ui <- function(request) {
       # ),
       # 
       ## Pop growth tab -----
-      tabPanel(
-        "Population Growth",
-        mod_choice_ui("choice_ui_1"),
-        mod_popgrowth_ui("popgrowth_ui_1")
-      ),
+      # tabPanel(
+      #   "Population Growth",
+      #   mod_choice_ui("choice_ui_1"),
+      #   mod_popgrowth_ui("popgrowth_ui_1")
+      # ),
       
       ## Notes tab -----
       tabPanel(

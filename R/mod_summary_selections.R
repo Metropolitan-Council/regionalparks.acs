@@ -1,4 +1,4 @@
-#' choice2 UI Function
+#' summary_selections UI Function
 #'
 #' @description A shiny Module.
 #'
@@ -7,17 +7,18 @@
 #' @noRd 
 #'
 #' @importFrom shiny NS tagList 
-mod_choice2_ui <- function(id){
+mod_summary_selections_ui <- function(id){
   ns <- NS(id)
   tagList(
-    id = ns("sum_CHOICE"),
-    HTML('<p>Select 1 ACS variable from the drop-down menu and 1 or more Agency of interest. The buffer distances roughly map onto walking distance (0.5 mi), biking distance (1.5 mi), or some other distance (3 mi). The reactive points show the values from the American Community Survey (either weighted averages or raw data, depending on tab selection) within a given buffer zone around regional parks and trails.</p>'), hr(),
-    fluidPage(
+    hr(),
+    # id = ns("sum_CHOICE"),
+    h3("Select inputs: "),
+    # fluidPage(
       fluidRow(
         column(
           width = 3,
-          selectizeInput(
-            ns("ACS2"),
+          selectInput(
+            ns("ACS"),
             label = h4("ACS variable"),
             choices = list(
               `Age` = list(
@@ -42,12 +43,12 @@ mod_choice2_ui <- function(id){
               `Language` = list("% speaking English less than very well" = "adj_lep_per",
                                 "% Spanish speakers" = "adj_span_per")
             ),
-            selected = "adj_ageunder15_per"
+            selected = "adj_ageunder15_per", selectize = F
           )),
         column(
           width = 3,
           selectInput(
-            ns("agency2"),
+            ns("agency"),
             label = h4("Agenc(y/ies)"),
             choices = c(
               "Anoka County",
@@ -62,58 +63,65 @@ mod_choice2_ui <- function(id){
               "Washington County"
             ),
             selected = "Anoka County",
-            multiple = TRUE
+            multiple = TRUE, selectize = T
           )),
         column(
           width = 2,
           radioButtons(
-            ns("distance2"),
+            ns("distance"),
             label = h4("Buffer dist. (mi)"),
             choices = c(1.0, 1.5, 3),
             selected = c(1.0)
           )),
         column(width = 2,
                checkboxGroupInput(
-                 ns("type2"),
+                 ns("type"),
                  label = h4("Type"),
                  choices = c("Park", "Trail"),
                  selected = c("Park", "Trail")
                )),
         column(width = 2,
                checkboxGroupInput(
-                 ns("status2"),
+                 ns("status"),
                  label = h4("Status"),
                  choices = c("Existing", "Planned", "Search"),
                  selected = c("Existing", "Planned", "Search")
                ))
-      )
-    )
+      ),
+    hr(),
+    h3("View data: ")
   )
 }
     
-#' choice2 Server Function
+#' summary_selections Server Function
 #'
 #' @noRd 
-mod_choice2_server <- function(input, output, session){
+mod_summary_selections_server <- function(input, output, session){
   ns <- session$ns
  
-  # vals2 <- reactiveValues()
-  # observeEvent(input$sum_CHOICE, {
-  #   vals2 <- long_buffer_data %>%
-  #       filter(ACS2 == input$ACS,
-  #              distance2 == input$distance,
-  #              agency2 %in% input$agency,
-  #              status2 %in% input$status,
-  #              type2 %in% input$type)
-  #   })
-  #   return(vals2)
-  }
+  # return(
+  #   list(
+  #     select_acs <- reactive({input$ACS}),
+  #     select_agency <- reactive({input$agency}),
+  #     select_distance <- reactive({input$distance}),
+  #     select_type <- reactive({input$type}),
+  #     select_status <- reactive({input$status})
+  #   )
+  # )
+  
+  vals <- reactive({
+    vals$select_acs <- input$ACS
+    vals$select_agency <- input$agency
+    vals$select_distance <- input$distance
+    vals$select_type <- input$type
+    vals$select_status <- input$status
+  })
 
-
-
+}
+    
 ## To be copied in the UI
-# mod_choice2_ui("choice2_ui_1")
+# mod_summary_selections_ui("summary_selections_ui_1")
     
 ## To be copied in the server
-# callModule(mod_choice2_server, "choice2_ui_1")
+# callModule(mod_summary_selections_server, "summary_selections_ui_1")
  

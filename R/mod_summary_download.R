@@ -1,4 +1,4 @@
-#' popgrowth UI Function
+#' summary_download UI Function
 #'
 #' @description A shiny Module.
 #'
@@ -7,24 +7,24 @@
 #' @noRd 
 #'
 #' @importFrom shiny NS tagList 
-mod_popgrowth_ui <- function(id){
+mod_summary_download_ui <- function(id){
   ns <- NS(id)
   tagList(
  
   )
 }
     
-#' popgrowth Server Function
+#' summary_download Server Function
 #'
 #' @noRd 
-mod_popgrowth_server <- function(input, output, session){
+mod_summary_download_server <- function(input, output, session){
   ns <- session$ns
  
 }
     
 ## To be copied in the UI
-# mod_popgrowth_ui("popgrowth_ui_1")
+# mod_summary_download_ui("summary_download_ui_1")
     
 ## To be copied in the server
-# callModule(mod_popgrowth_server, "popgrowth_ui_1")
+# callModule(mod_summary_download_server, "summary_download_ui_1")
  
