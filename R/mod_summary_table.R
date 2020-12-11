@@ -34,10 +34,6 @@ mod_summary_table_server <- function(input, output, session,
     react_df()
   })
   
-  output$datatable <- renderDataTable({
-    long_buffer_data  %>%
-      filter(type == selected_vars$select_type())
-  })
 
   }
     
