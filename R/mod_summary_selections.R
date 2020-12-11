@@ -112,7 +112,7 @@ mod_summary_selections_server <- function(input, output, session) {
   input_values <- reactiveValues() # start with an empty reactiveValues object.
 
   observeEvent(input$input_acs, { # only update when the user changes the ACS input
-    input_values$ACS <- input$input_acs # create/update the ACS input value in our reactiveValues object
+    input_values$input_acs <- input$input_acs # create/update the ACS input value in our reactiveValues object
   })
 
   observeEvent(input$input_agency, {
