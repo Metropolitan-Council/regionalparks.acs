@@ -22,11 +22,13 @@ mod_summary_utils_server <- function(input, output, session,
   make_table_buffer_data <- reactive({
     # browser()
     p <- regionalparks.acs::long_buffer_data %>%
-      dplyr::filter(agency %in% selected_vars$input_agency,
-                    type %in% selected_vars$input_type,
-                    distance == selected_vars$input_distance,
-                    status %in% selected_vars$input_status,
-                    ACS == selected_vars$input_acs)
+      dplyr::filter(
+        agency %in% selected_vars$input_agency,
+        type %in% selected_vars$input_type,
+        distance == selected_vars$input_distance,
+        status %in% selected_vars$input_status,
+        ACS == selected_vars$input_acs
+      )
     return(p)
   })
 

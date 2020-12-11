@@ -1,7 +1,7 @@
 Package: regionalparks.acs
 Title: Regional Parks and the American Community Survey
 Version: 0.1.1
-Date: 2020-09-213
+Date: 2020-09-21
 Authors@R: 
     c(person(given = "Metropolitan Council",
              role = "cph"),
