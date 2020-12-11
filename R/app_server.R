@@ -8,6 +8,7 @@
 app_server <- function(input, output, session) {
   # List the first level callModules here
 
+  # ACS Summary tab ------------------------------------------------------------
   selected_input_vars <- callModule(mod_summary_selections_server, "summary_selections_ui_1")
 
   summary_util_vars <- callModule(mod_summary_utils_server, "summary_utils_ui_1",
@@ -21,11 +22,14 @@ app_server <- function(input, output, session) {
   )
 
 
+  # ACS Map tab ----------------------------------------------------------------
   tract_data <- callModule(mod_input_demos_server, "input_demos_ui_1")
   callModule(mod_leaflet_server, "leaflet_ui_1", tract_data)
 
+  # Introduction tab -----------------------------------------------------------
   callModule(mod_intro_server, "intro_ui_1")
 
+  # Population growth tab ------------------------------------------------------
   # callModule(mod_popgrowth_server, "popgrowth_ui_1")#, r = r)
 
   # data_test <- callModule(mod_gendata_server, "gendata_ui_1")
