@@ -9,8 +9,11 @@ app_server <- function(input, output, session) {
   # List the first level callModules here
 
   # ACS Summary tab ------------------------------------------------------------
+  
+  ## get input values
   selected_input_vars <- callModule(mod_summary_selections_server, "summary_selections_ui_1")
 
+  ## run reactive calculations with input values
   summary_util_vars <- callModule(mod_summary_utils_server, "summary_utils_ui_1",
     selected_vars = selected_input_vars
   )
