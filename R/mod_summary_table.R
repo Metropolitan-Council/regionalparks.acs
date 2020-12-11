@@ -29,11 +29,6 @@ mod_summary_table_server <- function(input, output, session,
   
   test <- selected_vars
 
-  react_df <- reactive({
-    p <- long_buffer_data %>%
-      filter(agency == selected_vars$select_agency())
-    return(p)
-  })
   
   output$datatable2 <- renderDataTable({
     react_df()
