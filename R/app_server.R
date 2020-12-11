@@ -10,9 +10,12 @@ app_server <- function(input, output, session) {
   
   selected_vars <- mod_summary_selections_ui("summary_selections_ui_1")
   
-  df1 <- callModule(mod_summary_filtered_server, "summary_filtered_ui_1", selected_vars)
+  # df1 <- callModule(mod_summary_filtered_server, "summary_filtered_ui_1", selected_vars)
   
-  callModule(mod_summary_table_server, "summary_table_ui_1", selected_vars, df1, long_buffer_data)
+  callModule(mod_summary_table_server, "summary_table_ui_1", 
+             selected_vars, 
+             # df1, 
+             long_buffer_data)
   
   
   

@@ -10,9 +10,13 @@
 mod_summary_table_ui <- function(id){
   ns <- NS(id)
   tagList(
- 
-    dataTableOutput(ns("datatable")),
-    dataTableOutput(ns("datatable2"))
+
+    HTML('<p>Cells show the average weighted value for all ACS variables for each park and/or trail selected with the inputs above. These data are available for download.</p>'),
+    # downloadButton(ns("downloadData"), "Download tabular data"),
+    hr(),
+    # uiOutput(ns("test")), # if I run this, for some reason the whole ui from the mod_summary_selections downloads
+    # dataTableOutput(ns("datatable")),
+    # dataTableOutput(ns("datatable2"))
     
 
   )
@@ -22,16 +26,18 @@ mod_summary_table_ui <- function(id){
 #'
 #' @noRd 
 mod_summary_table_server <- function(input, output, session, 
-                                     selected_vars, df1, long_buffer_data){
+                                     selected_vars, 
+                                     # df1, 
+                                     long_buffer_data){
   ns <- session$ns
   
-  browser()
+  # browser()
   
-  test <- selected_vars
+  output$test <- renderUI(selected_vars)
 
   react_df <- reactive({
     p <- long_buffer_data %>%
-      filter(agency == selected_vars$select_agency())
+      filter(agency == selected_vars$agency())
     return(p)
   })
   
@@ -39,11 +45,18 @@ mod_summary_table_server <- function(input, output, session,
     react_df()
   })
   
+  # output$datatable <- renderDataTable({
+  #   long_buffer_data  %>%
+  #     filter(type == selected_vars$type())
+  # })
+
   output$datatable <- renderDataTable({
     long_buffer_data  %>%
-      filter(type == selected_vars$select_type())
+      filter(type == selected_vars$type)
   })
-
+  
+  output$downloadData <- downloadHandler()
+  
   }
     
 ## To be copied in the UI

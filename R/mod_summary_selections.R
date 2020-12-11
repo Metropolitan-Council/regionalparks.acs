@@ -99,23 +99,29 @@ mod_summary_selections_ui <- function(id){
 mod_summary_selections_server <- function(input, output, session){
   ns <- session$ns
  
-  return(
-    list(
-      select_acs <- reactive({input$ACS}),
-      select_agency <- reactive({input$agency}),
-      select_distance <- reactive({input$distance}),
-      select_type <- reactive({input$type}),
-      select_status <- reactive({input$status})
-    )
-  )
+  input_values <- reactiveValues() # start with an empty reactiveValues object. 
   
-  # vals <- reactive({
-  #   vals$select_acs <- input$ACS
-  #   vals$select_agency <- input$agency
-  #   vals$select_distance <- input$distance
-  #   vals$select_type <- input$type
-  #   vals$select_status <- input$status
-  # })
+  observeEvent(input$ACS, { # only update when the user changes the ACS input
+    input_values$ACS <- input$ACS # create/update the ACS input value in our reactiveValues object
+  })
+  
+  observeEvent(input$agency, {
+    input_values$agency <- input$agency
+  })
+  
+  observeEvent(input$distance, {
+    input_values$distance <- input$distance
+  })
+  
+  observeEvent(input$type, {
+    input_values$type <- input$type
+  })
+  
+  observeEvent(input$status, {
+    input_values$status <- input$status
+  })
+  
+  return(input_values) # return the entire reactiveValues object
 
 }
     
