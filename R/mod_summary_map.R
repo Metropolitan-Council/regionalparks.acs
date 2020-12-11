@@ -15,7 +15,8 @@ mod_summary_map_ui <- function(id) {
 #' summary_map Server Function
 #'
 #' @noRd
-mod_summary_map_server <- function(input, output, session) {
+mod_summary_map_server <- function(input, output, session,
+                                   summary_util) {
   ns <- session$ns
 }
 

@@ -15,7 +15,8 @@ mod_summary_plot_ui <- function(id) {
 #' summary_plot Server Function
 #'
 #' @noRd
-mod_summary_plot_server <- function(input, output, session) {
+mod_summary_plot_server <- function(input, output, session,
+                                    summary_util) {
   ns <- session$ns
 }
 

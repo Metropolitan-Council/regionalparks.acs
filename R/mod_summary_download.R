@@ -15,7 +15,8 @@ mod_summary_download_ui <- function(id) {
 #' summary_download Server Function
 #'
 #' @noRd
-mod_summary_download_server <- function(input, output, session) {
+mod_summary_download_server <- function(input, output, session,
+                                        summary_util) {
   ns <- session$ns
 }
 
