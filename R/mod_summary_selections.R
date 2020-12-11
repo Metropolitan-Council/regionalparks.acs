@@ -99,23 +99,23 @@ mod_summary_selections_ui <- function(id){
 mod_summary_selections_server <- function(input, output, session){
   ns <- session$ns
  
-  # return(
-  #   list(
-  #     select_acs <- reactive({input$ACS}),
-  #     select_agency <- reactive({input$agency}),
-  #     select_distance <- reactive({input$distance}),
-  #     select_type <- reactive({input$type}),
-  #     select_status <- reactive({input$status})
-  #   )
-  # )
+  return(
+    list(
+      select_acs <- reactive({input$ACS}),
+      select_agency <- reactive({input$agency}),
+      select_distance <- reactive({input$distance}),
+      select_type <- reactive({input$type}),
+      select_status <- reactive({input$status})
+    )
+  )
   
-  vals <- reactive({
-    vals$select_acs <- input$ACS
-    vals$select_agency <- input$agency
-    vals$select_distance <- input$distance
-    vals$select_type <- input$type
-    vals$select_status <- input$status
-  })
+  # vals <- reactive({
+  #   vals$select_acs <- input$ACS
+  #   vals$select_agency <- input$agency
+  #   vals$select_distance <- input$distance
+  #   vals$select_type <- input$type
+  #   vals$select_status <- input$status
+  # })
 
 }
     
