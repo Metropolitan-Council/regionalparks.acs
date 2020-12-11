@@ -30,7 +30,7 @@ mod_input_demos_ui <- function(id) {
                 </div>
  <div class='radio'>
                   <label>
-                    <input type='radio' name='input_demos_ui_1-inputCensusTracts' value='Age, 10-19' checked='checked'>
+                    <input type='radio' name='input_demos_ui_1-inputCensusTracts' value='Age, 10-19'>
                     <span>Age, 10-19</span>
                   </label>
                 </div>
