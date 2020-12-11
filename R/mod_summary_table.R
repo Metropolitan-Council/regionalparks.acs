@@ -25,15 +25,9 @@ mod_summary_table_server <- function(input, output, session,
                                      summary_util){
   ns <- session$ns
   
-  browser()
+  # browser()
   
-  test <- selected_vars
-
-  
-  output$datatable2 <- renderDataTable({
-    react_df()
-  })
-  
+  output$output_datatable <- renderDataTable(summary_util$table_buffer_data)
 
   }
     
