@@ -8,7 +8,7 @@
 app_server <- function(input, output, session) {
   # List the first level callModules here
   
-  selected_vars <- mod_summary_selections_ui("summary_selections_ui_1")
+  selected_vars <- mod_summary_selections_server("summary_selections_ui_1")
   
   df1 <- callModule(mod_summary_filtered_server, "summary_filtered_ui_1", selected_vars)
   
