@@ -24,14 +24,18 @@ app_server <- function(input, output, session) {
     summary_util = summary_util_vars
   )
 
-  # callModule(mod_summary_plot_server, "summary_plot_ui_1",
-  #            summary_util = summary_util_vars)
+  callModule(mod_summary_plot_server, "summary_plot_ui_1",
+             selected_vars = selected_input_vars,
+             summary_util = summary_util_vars)
 
-  # callModule(mod_summary_map_server, "summary_map_ui_1",
-  #            summary_util = summary_util_vars)
+  callModule(mod_summary_map_server, "summary_map_ui_1",
+             summary_util = summary_util_vars)
 
+  # ended up not using this for the time being, all iwthin the table_ui
   # callModule(mod_summary_download_server, "summary_download_ui_1",
   #            summary_util = summary_util_vars)
+  
+  callModule(mod_summary_raw_server, "summary_raw_ui_1")
 
 
   # ACS Map tab ----------------------------------------------------------------
