@@ -19,12 +19,6 @@
 #' 
 
 ## set up some legends -----
-colpal <-
-  colorQuantile(palette = "Greys",
-                domain = bg_geo$adj_ageunder15_per,
-                n = 7)
-colorData <- bg_geo$adj_ageunder15_per
-
 
 renamekey <- tribble(
   ~ goodname,
@@ -156,22 +150,22 @@ mod_combo_ui <- function(id){
                 "Age, % 15-24" = "adj_age15_24_per",
                 "Age, % 25-64" = "adj_age25_64_per",
                 "Age, % 65+" = "adj_age65up_per"
-              )#,
-              # `Race` = list(
-              #   "Race, % Am. Indian" = "adj_amindnh_per",
-              #   "Race, % Asian" = "adj_asiannh_per",
-              #   "Race, % Black" = "adj_blacknh_per",
-              #   "Race, % Other + Multi" = "adj_othermultinh_per",
-              #   "Race, % White" = "adj_whitenh_per"
-              # ),
-              # `Ethnicity` = list(
-              #   "Ethnicity, % Hispanic" = "adj_hisppop_per",
-              #   "Ethnicity, % not-Hispanic" = "adj_nothisppop_per"
-              # ),
-              # `Income` = list("Mean household income ($)" = "adj_meanhhi"),
-              # `Transportation` = list("% Housholds without a vehicle" = "adj_novehicle_per"),
-              # `Language` = list("% speaking English less than very well" = "adj_lep_per",
-                                # "% Spanish speakers" = "adj_span_per")
+              ),
+              `Race` = list(
+                "Race, % Am. Indian" = "adj_amindnh_per",
+                "Race, % Asian" = "adj_asiannh_per",
+                "Race, % Black" = "adj_blacknh_per",
+                "Race, % Other + Multi" = "adj_othermultinh_per",
+                "Race, % White" = "adj_whitenh_per"
+              ),
+              `Ethnicity` = list(
+                "Ethnicity, % Hispanic" = "adj_hisppop_per",
+                "Ethnicity, % not-Hispanic" = "adj_nothisppop_per"
+              ),
+              `Income` = list("Mean household income ($)" = "adj_meanhhi"),
+              `Transportation` = list("% Housholds without a vehicle" = "adj_novehicle_per"),
+              `Language` = list("% speaking English less than very well" = "adj_lep_per",
+                                "% Spanish speakers" = "adj_span_per")
             ),
             selected = "adj_ageunder15_per", selectize = F
           )),
@@ -287,21 +281,6 @@ mod_combo_server <- function(input, output, session){
       filter(agency %in% input$agency,
              Type %in% input$type,
              status2 %in% input$status)
-    gooddata
-  })
-  
-  selected_buff = reactive({
-    gooddata <- buffer_geo %>%
-      filter(agency %in% input$agency,
-             type %in% input$type,
-             status %in% input$status,
-             distance == input$distance)
-    gooddata
-  })
-  
-  selected_acs = reactive({
-    gooddata <- bg_geo %>%
-      select(input$ACS)
     gooddata
   })
   
@@ -452,28 +431,11 @@ mod_combo_server <- function(input, output, session){
   
   
   observe({
-    
-    pal <- colorNumeric(
-        palette = "Greys",
-        domain = (selected_acs())[[1]]
-      )
-    
-    # if(nrow(selected_pt()) > 0)
+    if(nrow(selected_pt()) > 0)
     {
       leafletProxy("buffermap", data = selected_pt()) %>%
         addTiles() %>% 
         clearShapes() %>%
-        
-        ### acs
-                addPolygons(data = selected_acs(),
-                    group = "Census block groups",
-                    stroke = T,
-                    opacity = 0.6,
-                    weight = 0.25,
-                    fillOpacity = 0.6,
-                    smoothFactor = 0.2) %>%
-        
-        
         #---- existing
         addPolylines(data = selected_pt() %>% filter(Type == "Trail",
                                                   status2 == "Existing"),
@@ -622,49 +584,7 @@ mod_combo_server <- function(input, output, session){
                       stroke = TRUE,
                       color = "black",
                       weight = 6,
-                      bringToFront = TRUE)) %>%
-        
-        ##### add buffers -------
-      addPolygons(data = selected_buff(),
-                  group = "Buffers",
-                  stroke = TRUE,
-                  weight = 1,
-                  color = "#616161",
-                  fill = T,
-                  fillColor = "transparent",
-                  opacity = .4,
-                  fillOpacity = .005,
-                  highlightOptions = highlightOptions(
-                    stroke = TRUE,
-                    color = "black",
-                    weight = 6,
-                    bringToFront = TRUE,
-                    sendToBack = TRUE,
-                    opacity = 1
-                  ),
-                  popup = ~ paste0(
-                    "<b>",
-                    "Buffer: ",
-                    selected_buff() %>% 
-                      .$status,
-                    ", ",
-                    selected_buff() %>% 
-                      .$type,
-                    "</b>",
-                    "<br>",
-                    selected_buff() %>% 
-                      .$name,
-                    "<br>",
-                    "<em>",
-                    selected_buff() %>% 
-                      .$agency,
-                    "</em>"
-                  ),
-                  popupOptions = popupOptions(
-                    closeButton = FALSE,
-                    style = list("font-size" = "18px",
-                                 "font-family" = "Arial")
-                  ))
+                      bringToFront = TRUE)) 
     }
   })
   

@@ -8,7 +8,27 @@
 app_server <- function(input, output, session) {
   # List the first level callModules here
   
-  callModule(mod_choice_server, "choice_ui_1")
+  selected_vars <- mod_summary_selections_ui("summary_selections_ui_1")
+  
+  df1 <- callModule(mod_summary_filtered_server, "summary_filtered_ui_1", selected_vars)
+  
+  callModule(mod_summary_table_server, "summary_table_ui_1", selected_vars, df1, long_buffer_data)
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  # callModule(mod_choice_server, "choice_ui_1")
   filterData = reactiveVal(long_buffer_data)
   filtered_df <- reactive({
     res <- filterData() %>% filter(ACS == input$ACS,
@@ -19,7 +39,7 @@ app_server <- function(input, output, session) {
     res
   })
   
-  callModule(mod_choice2_server, "choice2_ui_1")
+  # callModule(mod_choice2_server, "choice2_ui_1")
   filterData2 = reactiveVal(long_buffer_data)
   filtered_df2 <- reactive({
     res2 <- filterData2() %>% filter(ACS == input$ACS2,
@@ -35,14 +55,14 @@ app_server <- function(input, output, session) {
   
   callModule(mod_intro_server, "intro_ui_1")
   
-  callModule(mod_popgrowth_server, "popgrowth_ui_1")#, r = r)
+  # callModule(mod_popgrowth_server, "popgrowth_ui_1")#, r = r)
   
-  data_test <- callModule(mod_gendata_server, "gendata_ui_1")
-  callModule(mod_passcombo_server, "passcombo_ui_1", data_test)
+  # data_test <- callModule(mod_gendata_server, "gendata_ui_1")
+  # callModule(mod_passcombo_server, "passcombo_ui_1", data_test)
   
   callModule(mod_combo_server, "combo_ui_1")
   
-  callModule(mod_accept_gfilter_server, "accept_gfilter_ui_1", filtered_df2)
+  # callModule(mod_accept_gfilter_server, "accept_gfilter_ui_1", filtered_df2)
   
   
 }
