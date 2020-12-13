@@ -1,7 +1,5 @@
 ## code to prepare `buffer_distances`, `long_buffer_data`, `agency_avg` datasets goes here
 
-# pkgload::load_all()
-load("./data/agency_avg.rda")
 load("./data/block_group.rda")
 load("./data/park_trail_geog.rda")
 

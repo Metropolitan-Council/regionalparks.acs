@@ -45,34 +45,6 @@ namecleaner <- tribble(
   "Three Rivers", "Three Rivers Park District"
 )
 
-# namecleaner <- tribble(~AGENCY, ~consistentagency,
-#                        "Anoka County Parks and Recreation",  "Anoka County Parks and Recreation",
-#                        "Anoka County Parks" , "Anoka County Parks and Recreation",
-#                        "Anoka County" , "Anoka County Parks and Recreation",
-#                        "Bloomington Parks and Recreation", "Bloomington Parks and Recreation",
-#                        "Bloomington" , "Bloomington Parks and Recreation",
-#                        "City of Bloomington" , "Bloomington Parks and Recreation",
-#                        "Carver County Parks and Recreation","Carver County Parks and Recreation",
-#                        "Carver County Parks" , "Carver County Parks and Recreation",
-#                        "Carver County" , "Carver County Parks and Recreation",
-#                        "Ramsey County Parks and Recreation","Ramsey County Parks and Recreation",
-#                        "Ramsey County" , "Ramsey County Parks and Recreation",
-#                        "Dakota County Parks","Dakota County Parks",
-#                        "Dakota County" , "Dakota County Parks",
-#                        "Minneapolis Park and Recreation Board","Minneapolis Park and Recreation Board",
-#                        "Minneapolis" , "Minneapolis Park and Recreation Board",
-#                        "Washington County Parks","Washington County Parks",
-#                        "Washington County" , "Washington County Parks",
-#                        "St. Paul Parks and Recreation","St. Paul Parks and Recreation",
-#                        "St Paul Parks And Recreation" , "St. Paul Parks and Recreation",
-#                        "St Paul Parks and Recreation" , "St. Paul Parks and Recreation",
-#                        "St. Paul" , "St. Paul Parks and Recreation",
-#                        "Scott County / Three Rivers Park District" , "Scott County Parks", #this is the Scott County Regional Trail
-#                        "Scott County/Three Rivers Park District", "Scott County Parks",
-#                        "Scott County Parks","Scott County Parks",
-#                        "Scott County" , "Scott County Parks",
-#                        "Three Rivers Park District", "Three Rivers Park District",
-#                        "Three Rivers" , "Three Rivers Park District")
 
 ## Parks -----------------------------------------------------------------------
 temp <- tempfile()
@@ -122,9 +94,9 @@ trails_temp <- sf::read_sf(unzip(temp, "trans_regional_trails_exst_plan.gpkg")) 
   ) %>% # Crow River Regional Trail doesn't seem to belong to any particular Metro Agency
   mutate(STATUS = recode(STATUS,
     "Existing (Open to Public)" = "Trail - existing",
-    "Alternate" = "Trail - planned/closed/alt.",
-    "Existing (Not Open to Public)" = "Trail - planned/closed/alt.",
-    "Planned" = "Trail - planned/closed/alt."
+    "Alternate" = "Trail - planned",
+    "Existing (Not Open to Public)" = "Trail - planned",
+    "Planned" = "Trail - planned"
   )) %>%
   rename(AGENCY = Agency) %>%
   left_join(namecleaner) %>%

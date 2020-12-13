@@ -124,8 +124,8 @@ fs::file_delete("trans_anlys_zones_offical_curent.gpkg")
 #######
 # combine
 #####
-# pop_data <- bind_rows()
+# est_pop <- bind_rows()
 
-# usethis::use_data(pop_data, overwrite = TRUE)
+# usethis::use_data(est_pop, overwrite = TRUE)
 
 

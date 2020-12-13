@@ -77,21 +77,57 @@ mod_summary_utils_server <- function(input, output, session,
     return(p5)
   })
   
-  make_plot_rawbuffer_data <- reactive({
-    p7 <- regionalparks.acs::long_buffer_data_raw %>%
-      dplyr::filter(
-        agency %in% selected_vars$input_agency,
-        type %in% selected_vars$input_type,
-        distance == selected_vars$input_distance,
-        status %in% selected_vars$input_status,
-        ACS == selected_vars$input_acs
-      )
-    return(p7)
-  })
-  
-  
+  # make_plot_rawbuffer_data <- reactive({
+  #   p7 <- regionalparks.acs::long_buffer_data_raw %>%
+  #     dplyr::filter(
+  #       agency %in% selected_vars$input_agency,
+  #       type %in% selected_vars$input_type,
+  #       distance == selected_vars$input_distance,
+  #       status %in% selected_vars$input_status,
+  #       ACS == selected_vars$input_acs
+  #     )
+  #   return(p7)
+  # })
+
+
+recode_bg_names <- tribble(
+  ~block_group_name, ~acs_selection,
+  "ageunder15_percent", "adj_ageunder15_per",
+  "age15_24_percent", "adj_age15_24_per",
+  "age25_64_percent", "adj_age25_64_per",
+  "age65up_percent", "adj_age65up_per",
+  "whitenh_percent", "adj_whitenh_per",
+  "blacknh_percent", "adj_blacknh_per",
+  "asiannh_percent", "adj_asiannh_per",
+  "amindnh_percent", "adj_amindnh_per",
+  "othermutltnh_percent", "adj_othermultinh",
+  "hisppop_percent", "adj_hisppop_per",
+  "nothisppop_percent", "adj_nothisppop_per",
+  "meanhhinc", "adj_meanhhi",
+  "novehicle_percent", "adj_novehicle_per",
+  "poorenglish_percent", "adj_lep_per",
+  "spanish_percent", "adj_span_per"
+)
+
   make_map_bg_data <- reactive({
-    p6 <- regionalparks.acs::bg_geo[selected_vars$input_acs]
+    # p6 <- regionalparks.acs::bg_geo[selected_vars$input_acs]
+    p6 <- regionalparks.acs::block_group %>%
+      rename("adj_ageunder15_per" =  "ageunder15_percent",
+               "adj_age15_24_per" = "age15_24_percent", 
+               "adj_age25_64_per" = "age25_64_percent", 
+               "adj_age65up_per" = "age65up_percent", 
+               "adj_whitenh_per" = "whitenh_percent", 
+               "adj_blacknh_per" = "blacknh_percent", 
+               "adj_asiannh_per" = "asiannh_percent", 
+               "adj_amindnh_per" = "amindnh_percent", 
+               "adj_othermultinh" = "othermutltnh_percent", 
+               "adj_hisppop_per" = "hisppop_percent", 
+               "adj_nothisppop_per" = "nothisppop_percent",
+               "adj_meanhhi" = "meanhhinc", 
+               "adj_novehicle_per" = "novehicle_percent", 
+               "adj_lep_per" = "poorenglish_percent", 
+               "adj_span_per" = "spanish_percent") %>%
+      select(selected_vars$input_acs)
     return(p6)
   })
 
