@@ -1,47 +1,47 @@
-#' leaflet UI Function
+#' pop_map UI Function
 #'
 #' @description A shiny Module.
 #'
 #' @param id,input,output,session Internal parameters for {shiny}.
 #'
-#' @noRd
+#' @noRd 
 #'
-#' @importFrom shiny NS tagList
+#' @importFrom shiny NS tagList 
 #' @import leaflet
 #' @import councilR
 #' @import leaflet.extras
 #' @import sf
-mod_leaflet_ui <- function(id) {
+mod_pop_map_ui <- function(id){
   ns <- NS(id)
   tagList(
-    HTML("<p>Select 1 ACS variable. The tracts’ colors correspond to 2014-2018 (5-year) American Community Survey (ACS) demographic metric selected. Each demographic characteristic is shown as a percentage of the total population, with the exception of median household income, which is displayed in dollars. The darker the color, the higher the percentage (or income in dollars).</p>
-    </p>Statistics produced for American Community Survey and included in ACS tables are survey-based estimates and are subject to error. The errors derive from research design (including instrument bias, data frame, and sampling), the survey data collection (non-response bias and response errors), and processing by the Census Bureau (data coding, compilation processes, and case weighting), as well as statistical inference error and uncertainty (which are related to sample size and variance within the measured attributes).</p>"),
     
-    leafletOutput(ns("map"), width = "100%", height = 900)
-  )
+    HTML("</p>The Metropolitian Council publishes current population estimates and future forecasted population estimates. Current populaton estimates are calculated XXX and available for Census block groups (pub date). Future population forecasts represent shared expectations of population change between cities and the Metropolitian Council (pub date). Forecasts are based off of 2010 Census data and city comprehensive plans and available at the transportation analysis zone (TAZ, a coarser spatial resolution than Census block groups). Given the differential methods and geographies used in calcuating current and future populations, we will not perform further analyses on these data. However, the overarching spatial patterns still may be useful in anticipating areas which may have increased need for park access. See (link: https://metrocouncil.org/Data-and-Maps/Research-and-Data/Thrive-2040-Forecasts.aspx) for more detail Also note that pop forecasts are in the comunity profiles.</p>"),
+    
+    leafletOutput(ns("popmap"), width = "100%", height = 900)
+    
+      )
 }
-
-#' leaflet Server Function
+    
+#' pop_map Server Function
 #'
-#' @noRd
-#' @import leaflet
-#' @import councilR
-#' @import leaflet.extras
-mod_leaflet_server <- function(input, output, session, tract_data = tract_data) {
+#' @noRd 
+mod_pop_map_server <- function(input, output, session,
+                               pop_data = pop_data){
   ns <- session$ns
-
-  output$map <- renderLeaflet({
+  
+  
+  output$popmap <- renderLeaflet({
     leaflet() %>%
       setView(lat = 44.963, lng = -93.22, zoom = 10) %>%
+      addProviderTiles("Stamen.TonerLite",
+                       group = "Stamen Toner"
+      ) %>%      
+      addProviderTiles("CartoDB.Positron",
+                       group = "Carto Positron"
+      ) %>%      
       addProviderTiles(
         provider = providers$Esri.WorldImagery,
         group = "Esri Imagery"
-      ) %>%
-      # addProviderTiles("CartoDB.DarkMatter",
-      #   group = "Carto DarkMatter"
-      # ) %>%
-      addProviderTiles("CartoDB.Positron",
-        group = "Carto Positron"
       ) %>%
       addMapPane("parks_geo", zIndex = 420) %>%
       addPolygons(
@@ -81,7 +81,7 @@ mod_leaflet_server <- function(input, output, session, tract_data = tract_data) 
         # weight = 0.5,
         color = p_col, #councilR::colors$suppGray,
         fill = TRUE,
-        fillColor = p_col, #ouncilR::colors$suppGray,
+        fillColor = p_col, #councilR::colors$suppGray,
         fillOpacity = 1, # 0.8,
         options = pathOptions(pane = "parks_geo"),
         highlightOptions = highlightOptions(
@@ -206,26 +206,6 @@ mod_leaflet_server <- function(input, output, session, tract_data = tract_data) 
           bringToFront = TRUE
         )
       ) %>%
-      leaflet.extras::addDrawToolbar(
-        targetGroup = "Drawings",
-        polygonOptions = FALSE,
-        polylineOptions = FALSE,
-        rectangleOptions = FALSE,
-        markerOptions = FALSE,
-        circleMarkerOptions = FALSE,
-        circleOptions = drawCircleOptions(
-          showRadius = "mi",
-          feet = FALSE,
-          metric = FALSE,
-          shapeOptions = drawShapeOptions(
-            weight = 4,
-            # clickable = TRUE,
-            color = councilR::colors$suppBlack,
-            fill = FALSE
-          )
-        ),
-        editOptions = editToolbarOptions()
-      ) %>%
       addStyleEditor() %>%
       hideGroup(
         c(
@@ -245,84 +225,78 @@ mod_leaflet_server <- function(input, output, session, tract_data = tract_data) 
           "Regional Parks - search",
           "Regional Trails - search",
           "Agency boundaries",
-          "Census Tracts",
-          "Drawings"
+          "Pop. Estimates"
         ),
         baseGroups = c(
+          "Stamen Toner",
           "Carto Positron",
-          # "Carto DarkMatter",
           "Esri Imagery"
         ),
         options = layersControlOptions(collapsed = T)
       ) %>%
       leaflet::addScaleBar(position = c("bottomleft"))
   })
-
-  observeEvent(tract_data$tract_data, {
-    pal <- if (tract_data$selected_var == "Income, Median Household Income") {
+  
+  observeEvent(pop_data$pop_data, {
+    pal <- 
       colorQuantile(
-        palette = tract_data$color_pal,
-        n = 5,
+        palette = "Purples",
+        n = 7,
         # reverse = TRUE,
-        domain = tract_data$tract_data[[1]]
+        domain = pop_data$pop_data[[1]]
       )
-    } else {
-      colorNumeric(
-        palette = tract_data$color_pal,
-        domain = tract_data$tract_data[[1]]
-      )
-    }
+
     # browser()
-    leafletProxy("map") %>%
-      clearGroup("Census Tracts") %>%
+    leafletProxy("popmap") %>%
+      clearGroup("Pop. Estimates") %>%
       clearControls() %>%
       addPolygons(
-        data = tract_data$tract_data,
-        group = "Census Tracts",
+        data = pop_data$pop_data,
+        group = "Pop. Estimates",
         stroke = TRUE,
         color = councilR::colors$suppGray,
         opacity = 0.6,
         weight = 0.25,
         fillOpacity = 0.6,
         smoothFactor = 0.2,
-        fillColor = ~ pal(tract_data$tract_data[[1]]),
-
-        popup = if (tract_data$selected_var == "Income, Median Household Income") {
-          ~ paste0(tags$strong(tract_data$selected_var), " $", format(tract_data$tract_data[[1]], big.mark = ","))
-        } else {
+        fillColor = ~ colorQuantile(
+          palette = "Purples",
+          n = 7,
+          # reverse = TRUE,
+          domain = pop_data$pop_data[[1]]
+        )(pop_data$pop_data[[1]]),
+        
+        popup = 
           ~ paste0(
-            tags$strong(tract_data$selected_var),
-            " ",
-            tract_data$tract_data[[1]], "%"
-          )
-        },
-        options = list(zIndex = 0),
+            tags$strong(pop_data$selected_var),
+            ": ",
+            format(pop_data$pop_data[[1]], big.mark = ",")), 
+        # options = list(zIndex = 0),
         popupOptions = popupOptions(closeOnClick = TRUE)
       ) %>%
-      addLegend(
-        title = if (tract_data$selected_var == "Income, Median Household Income") {
-          "Income by Percentile"
-        } else {
-          "% of pop."
-        },
-        position = "bottomleft",
-        group = "Census Tracts",
-        layerId = "Census Tracts",
-        pal = pal,
-        values = tract_data$tract_data[[1]],
-        labFormat = if (tract_data$selected_var == "Income, Median Household Income") {
-          labelFormat()
-        } else {
-          labelFormat(suffix = "%")
-        }
-      )
+      
+      addLegend("topright",
+                pal = colorQuantile(
+                  n = 7,
+                  palette = "Purples",
+                  domain = pop_data$pop_data[[1]]
+                ),
+                values = (pop_data$pop_data[[1]]),
+                title = paste0((names(pop_data$pop_data)[[1]])), #(names(summary_util$map_bg_data)[[1]]),
+                opacity = 1, 
+                group = "Pop.Estimates",
+                labFormat = function(type, cuts, p) {
+                  n = length(cuts)
+                  paste0(format(round(cuts[-n], 0), big.mark = ","), " &ndash; ", format(round(cuts[-1], 0), big.mark = ","))
+                }
+                )
   })
+ 
 }
-
-
-
+    
 ## To be copied in the UI
-# mod_leaflet_ui("leaflet_ui_1")
-
+# mod_pop_map_ui("pop_map_ui_1")
+    
 ## To be copied in the server
-# callModule(mod_leaflet_server, "leaflet_ui_1")
+# callModule(mod_pop_map_server, "pop_map_ui_1")
+ 

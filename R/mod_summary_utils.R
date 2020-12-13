@@ -77,12 +77,24 @@ mod_summary_utils_server <- function(input, output, session,
     return(p5)
   })
   
-  
-  make_map_bg_data <- reactive({
-    p6 <- regionalparks.acs::bg_geo[selected_vars$input_acs] 
-    return(p6)
+  make_plot_rawbuffer_data <- reactive({
+    p7 <- regionalparks.acs::long_buffer_data_raw %>%
+      dplyr::filter(
+        agency %in% selected_vars$input_agency,
+        type %in% selected_vars$input_type,
+        distance == selected_vars$input_distance,
+        status %in% selected_vars$input_status,
+        ACS == selected_vars$input_acs
+      )
+    return(p7)
   })
   
+  
+  make_map_bg_data <- reactive({
+    p6 <- regionalparks.acs::bg_geo[selected_vars$input_acs]
+    return(p6)
+  })
+
  
   vals <- reactiveValues()
 
@@ -105,6 +117,10 @@ mod_summary_utils_server <- function(input, output, session,
   observe({
     vals$map_buffer_data <- make_map_buffer_data()
   })
+  
+  # observe({
+  #   vals$plot_rawbuffer_data <- make_plot_rawbuffer_data()
+  # })
   
   observe({
     vals$map_bg_data <- make_map_bg_data()

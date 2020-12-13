@@ -29,6 +29,7 @@ mod_summary_plot_server <- function(input, output, session,
                                     selected_vars,
                                     summary_util) {
   ns <- session$ns
+
   
   renamekey <- tribble(
     ~ goodname,
@@ -85,9 +86,9 @@ mod_summary_plot_server <- function(input, output, session,
                                       "trail" = 22)) +
         scale_fill_manual(
           values = c(
-            "Existing" = "#2ec799",
-            "Planned" = "#f77614",
-            "Search" = "#9591c9"
+            "Existing" = e_col,
+            "Planned" = p_col,
+            "Search" = s_col
           )
         ) +
         theme_cowplot() +
@@ -146,9 +147,9 @@ mod_summary_plot_server <- function(input, output, session,
                ) +
                scale_fill_manual(
                  values = c(
-                   "Existing" = "#2ec799",
-                   "Planned" = "#f77614",
-                   "Search" = "#9591c9"
+                   "Existing" = e_col,
+                   "Planned" = p_col,
+                   "Search" = s_col
                  )
                ) +
                scale_shape_manual(values = c(
@@ -190,12 +191,12 @@ mod_summary_plot_server <- function(input, output, session,
   
   # text agency avg ----
   output$avgtext <- renderText(
-    paste0("Average ", '"', summary_util$plot_buffer_data[1,6] %>%
+    (paste0("\nAverage ", '"', (summary_util$plot_buffer_data[1,6] %>%
              left_join(renamekey, by = "ACS") %>%
-             select(goodname), '" within "', 
+             select(goodname)), '" within "', 
            summary_util$agencyavg_data$agency, '":  ', 
-           summary_util$agencyavg_data$value, "       ", "\n", "<br>") #hmm, my new line isn't working
-  )
+           summary_util$agencyavg_data$value, "       ", "\n") #hmm, my new line isn't working
+  ))
   
 }
 

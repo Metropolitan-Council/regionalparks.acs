@@ -122,9 +122,11 @@ mod_summary_selections_server <- function(input, output, session) {
   observeEvent(input$input_distance, {
     input_values$input_distance <- input$input_distance
   })
+  
   observeEvent(input$input_type, {
     input_values$input_type <- input$input_type
   })
+  
   observeEvent(input$input_status, {
     input_values$input_status <- input$input_status
   })
