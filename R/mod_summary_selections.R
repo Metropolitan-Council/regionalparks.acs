@@ -92,7 +92,7 @@ mod_summary_selections_ui <- function(id) {
         checkboxGroupInput(
           ns("input_status"),
           label = h4("Status"),
-          choices = c("Existing", "Planned", "Search"),
+          choices = c("Existing", "Planned", "Search"), #HTML("<strong>Existing</strong>") #something like this doesn't exist, but if these text colors could match point colors that would be great!
           selected = c("Existing", "Planned", "Search")
         )
       )
@@ -107,30 +107,32 @@ mod_summary_selections_ui <- function(id) {
 #' @noRd
 mod_summary_selections_server <- function(input, output, session) {
   ns <- session$ns
-
-
+  
+  
   input_values <- reactiveValues() # start with an empty reactiveValues object.
-
+  
   observeEvent(input$input_acs, { # only update when the user changes the ACS input
     input_values$input_acs <- input$input_acs # create/update the ACS input value in our reactiveValues object
   })
-
+  
   observeEvent(input$input_agency, {
     input_values$input_agency <- input$input_agency
   })
-
+  
   observeEvent(input$input_distance, {
     input_values$input_distance <- input$input_distance
   })
+  
   observeEvent(input$input_type, {
     input_values$input_type <- input$input_type
   })
+  
   observeEvent(input$input_status, {
     input_values$input_status <- input$input_status
   })
-
-
-
+  
+  
+  
   return(input_values)
 }
 
