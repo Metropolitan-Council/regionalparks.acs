@@ -92,7 +92,7 @@ mod_summary_selections_ui <- function(id) {
         checkboxGroupInput(
           ns("input_status"),
           label = h4("Status"),
-          choices = c("Existing", "Planned", "Search"), #HTML("<strong>Existing</strong>") #something like this doesn't exist, but if these text colors could match point colors that would be great!
+          choices = c("Existing", "Planned", "Search"),
           selected = c("Existing", "Planned", "Search")
         )
       )
