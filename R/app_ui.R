@@ -18,23 +18,20 @@ app_ui <- function(request) {
         "ACS Summary",
         mod_summary_selections_ui("summary_selections_ui_1"),
         tabsetPanel(
-          selected = "Buffer map",
-          tabPanel(
-            "Weighted averages",
-            mod_summary_plot_ui("summary_plot_ui_1")
-          ),
-          tabPanel("Buffer map",
-                   mod_summary_map_ui("summary_map_ui_1")),
+          # selected = "Weighted averages",
+          #           tabPanel("Weighted averages",
+          #                    mod_summary_plot_ui("summary_plot_ui_1")),
+          #           tabPanel("Buffer map",
+          #                    mod_summary_map_ui("summary_map_ui_1")),
           tabPanel(
             "Download tabular data",
             mod_summary_download_ui("summary_download_ui_1"),
             mod_summary_table_ui("summary_table_ui_1")
-          ),
-          tabPanel("Methods and raw data",
-                   mod_summary_raw_ui("summary_raw_ui_1"))
+          )
         )
+        # mod_combo_ui("combo_ui_1")
       ),
-      
+
 
       # intro tab -----
       tabPanel(

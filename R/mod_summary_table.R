@@ -28,7 +28,7 @@ mod_summary_table_server <- function(input, output, session,
                                      selected_vars,
                                      summary_util) {
   ns <- session$ns
-
+  
   # browser()
   
   ## recode tibble (consider placing in a utils script)  ----
@@ -71,7 +71,7 @@ mod_summary_table_server <- function(input, output, session,
   
   #
   #ee comment - would love to put all the aesthetic improvements into it's own df, and then pass to the render*(), but apparently this needs to be inside a reactive expression? Doens't seem to work to pass thru a reactiveValues() command (at least as I've attempted it)
-
+  
   output$output_datatable <- renderDataTable(
     summary_util$table_buffer_data %>%
       left_join(recodeadjtable) %>%
@@ -84,7 +84,7 @@ mod_summary_table_server <- function(input, output, session,
       separate(name,
                into = c("name", 'delete2'),
                sep = c("_")) %>%
-      select(-delete2, -Population) %>%
+      select(-delete2) %>% #, -Population) %>%
       mutate(name = str_replace_all(
         name,
         c(
@@ -100,8 +100,8 @@ mod_summary_table_server <- function(input, output, session,
         Status = status,
         `Buffer Dist.` = distance
       )) 
-    
-    
+  
+  
   output$downloadData <- downloadHandler(
     filename = paste0("ParksACS_", Sys.Date(), ".csv"),
     content = function(file) {
@@ -116,7 +116,7 @@ mod_summary_table_server <- function(input, output, session,
                   separate(name,
                            into = c("name", 'delete2'),
                            sep = c("_")) %>%
-                  select(-delete2, -Population) %>%
+                  select(-delete2) %>% #, -Population) %>%
                   mutate(name = str_replace_all(
                     name,
                     c(
