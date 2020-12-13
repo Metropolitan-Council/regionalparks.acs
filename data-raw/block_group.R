@@ -134,7 +134,8 @@ WIblock_group <- tigris::block_groups(
 
 
 block_group <- bind_rows(MNblock_group, WIblock_group) %>%
-  left_join(bg_merge, by = c("GEOID" = "geoid2"))
+  left_join(bg_merge, by = c("GEOID" = "geoid2")) %>%
+  st_transform(4326) #for leaflet
 
 
 usethis::use_data(block_group, overwrite = TRUE)
