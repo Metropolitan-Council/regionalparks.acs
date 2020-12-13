@@ -26,7 +26,8 @@ Imports:
     leaflet.extras (>= 1.0.0),
     magrittr (>= 1.5),
     sf (>= 0.9.3),
-    shiny (>= 1.4.0.2)
+    shiny (>= 1.4.0.2),
+    htmltools
 Suggests: 
     data.table (>= 1.12.8),
     fs (>= 1.4.1),

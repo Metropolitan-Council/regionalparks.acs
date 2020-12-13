@@ -1,7 +1,7 @@
 ## code to prepare `census_tract` dataset goes here
 
 date <- format(Sys.time(), "%Y%m%d")
-pkgload::load_all()
+# pkgload::load_all()
 
 requireNamespace("readxl", quietly = TRUE)
 requireNamespace("fs", quietly = TRUE)
