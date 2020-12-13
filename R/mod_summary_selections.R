@@ -107,18 +107,18 @@ mod_summary_selections_ui <- function(id) {
 #' @noRd
 mod_summary_selections_server <- function(input, output, session) {
   ns <- session$ns
-  
-  
+
+
   input_values <- reactiveValues() # start with an empty reactiveValues object.
-  
+
   observeEvent(input$input_acs, { # only update when the user changes the ACS input
     input_values$input_acs <- input$input_acs # create/update the ACS input value in our reactiveValues object
   })
-  
+
   observeEvent(input$input_agency, {
     input_values$input_agency <- input$input_agency
   })
-  
+
   observeEvent(input$input_distance, {
     input_values$input_distance <- input$input_distance
   })
@@ -130,9 +130,9 @@ mod_summary_selections_server <- function(input, output, session) {
   observeEvent(input$input_status, {
     input_values$input_status <- input$input_status
   })
-  
-  
-  
+
+
+
   return(input_values)
 }
 
