@@ -70,7 +70,7 @@ mod_summary_map_server <- function(input, output, session,
         lng = -93.22,
         zoom = 9
       ) %>%
-      addProviderTiles("Stamen.TonerLite") %>%
+      addProviderTiles(providers$CartoDB.Positron) %>%
       # addPolygons(
       #   data = agency_boundary,
       #   group = "Agency boundaries",
@@ -121,8 +121,6 @@ mod_summary_map_server <- function(input, output, session,
     addTiles() %>%
     clearShapes() %>%
         clearControls() %>%
-        addProviderTiles("Stamen.TonerLite") %>%
-        
         addPolygons(
           group = "Demographic data",
           data = summary_util$map_bg_data,
