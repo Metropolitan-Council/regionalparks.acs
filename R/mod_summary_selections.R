@@ -76,8 +76,33 @@ mod_summary_selections_ui <- function(id) {
           label = h4("Buffer dist. (mi)"),
           choices = c(1.0, 1.5, 3),
           selected = c(1.0)
-        )
-      ),
+        )),
+#       HTML("<div id='summary_selections_ui_1-sum_CHOICE' class='form-group shiny-input-radiogroup shiny-input-container shiny-bound-input'>
+#               <label class='control-label' for='summary_selections_ui_1-sum_CHOICE'><div></div></label>
+#               <div class='shiny-options-group'>
+#                    <div>
+# <h5>Population</h5>
+# </div>
+# <div class='radio'>
+#                   <label>
+#                     <input type='radio' name='summary_selections_ui_1-sum_CHOICE' value='1' checked='checked'>
+#                     <span>1 mile</span>
+#                   </label>
+#                 </div>
+#  <div class='radio'>
+#                   <label>
+#                     <input type='radio' name='summary_selections_ui_1-sum_CHOICE' value='1.5'>
+#                     <span>1.5 mile</span>
+#                   </label>
+#                 </div>
+#                 <div class='radio'>
+#                   <label>
+#                     <input type='radio' name='summary_selections_ui_1-sum_CHOICE' value='3'>
+#                     <span>3</span>
+#                   </label>
+#                 </div>
+#            </div>
+#            </div>"),
       column(
         width = 2,
         checkboxGroupInput(
@@ -120,7 +145,7 @@ mod_summary_selections_server <- function(input, output, session) {
   })
 
   observeEvent(input$input_distance, {
-    input_values$input_distance <- input$input_distance
+    input_values$input_distance <- input$input_distance #sum_CHOICE
   })
   
   observeEvent(input$input_type, {

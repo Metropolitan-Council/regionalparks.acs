@@ -1,7 +1,11 @@
 
 ## Introduction
 
+<center>
+
 ![people walking on a park trail](www/Walk-on-path.png)
+
+</center>
 
 *Thrive MSP 2040* directs the Council to collaborate with the
 Metropolitan Parks and Open Space Commission, regional park implementing
