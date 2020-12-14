@@ -224,27 +224,6 @@ mod_leaflet_server <- function(input, output, session, tract_data = tract_data) 
         color = councilR::colors$transitRed,
         fillColor = councilR::colors$transitRed
       ) %>%
-      leaflet.extras::addDrawToolbar(
-        targetGroup = "Drawings",
-        polygonOptions = FALSE,
-        polylineOptions = FALSE,
-        rectangleOptions = FALSE,
-        markerOptions = FALSE,
-        circleMarkerOptions = FALSE,
-        circleOptions = drawCircleOptions(
-          showRadius = "mi",
-          feet = FALSE,
-          metric = FALSE,
-          shapeOptions = drawShapeOptions(
-            weight = 4,
-            # clickable = TRUE,
-            color = councilR::colors$suppBlack,
-            fill = FALSE
-          )
-        ),
-        editOptions = editToolbarOptions()
-      ) %>%
-      addStyleEditor() %>%
       hideGroup(
         c(
           "Regional Parks - planned",
@@ -265,8 +244,7 @@ mod_leaflet_server <- function(input, output, session, tract_data = tract_data) 
           "Regional Trails - search",
           "Agency boundaries",
           "Census Tracts",
-          "Transit",
-          "Drawings"
+          "Transit"
         ),
         baseGroups = c(
           "Carto Positron",
