@@ -27,14 +27,14 @@ populations and their proximities to the regional park system.
 
 ## User Guide
 
-**ACS Map** - is an interactive tool that maps key demographic variables
+**Map** - is an interactive tool that maps key demographic variables
 alongside regional parks and trails.
 
-**ACS Summary** - is a data visualization that produces discrete
-demographic characteristics for user-defined inputs across the regional
-park and trail system. The tool incorporates existing, planned, and
-search areas for parks and trails. Within this tab, there are **weighted
-averages** which will be suitable for most users, a **buffer map** which
+**Summary** - is a data visualization that produces discrete demographic
+characteristics for user-defined inputs across the regional park and
+trail system. The tool incorporates existing, planned, and search areas
+for parks and trails. Within this tab, there are **weighted averages**
+which will be suitable for most users, a **buffer map** which
 illustrates the buffer zones geospatially, and the option for users to
 **download tabular data**
 
@@ -52,6 +52,15 @@ tools](https://www.h-gac.com/interactive-web-applications/default.aspx).
 tool.**
 
 ## ACS Variable Dictionary
+
+Statistics produced for American Community Survey and included in ACS
+tables are survey-based estimates and are subject to error. The errors
+derive from research design (including instrument bias, data frame, and
+sampling), the survey data collection (non-response bias and response
+errors), and processing by the Census Bureau (data coding, compilation
+processes, and case weighting), as well as statistical inference error
+and uncertainty (which are related to sample size and variance within
+the measured attributes).
 
 The American Community Survey (ACS, 2014-2018) is the primary data
 source for this tool. Specific variables which can be evaluated in this
