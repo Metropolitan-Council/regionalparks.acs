@@ -43,6 +43,28 @@ mod_summary_utils_server <- function(input, output, session,
       )
     return(p2)
   })
+  
+  
+  make_plotly_buffer_data <- reactive({
+    make_plot_buffer_data() %>% 
+      separate(
+        name,
+        into = c("name", "delete2"),
+        sep = c("_")
+      ) %>%
+      mutate(name = str_replace_all(
+        name,
+        c(
+          "Regional Park" = "RP",
+          "Regional Trail" = "RT",
+          "Park Reserve" = "PR"
+        )
+      )) %>%
+      mutate(
+        name = forcats::fct_reorder(name, desc(value)),
+        concat = paste(type, status, sep = "_"))
+  })
+  
 
 
   make_agencyavg_data <- reactive({
@@ -155,6 +177,11 @@ mod_summary_utils_server <- function(input, output, session,
   observe({
     vals$map_buffer_data <- make_map_buffer_data()
   })
+  
+  observe({
+    vals$plotly_buffer_data <- make_plotly_buffer_data()
+  })
+  
 
   # observe({
   #   vals$plot_rawbuffer_data <- make_plot_rawbuffer_data()

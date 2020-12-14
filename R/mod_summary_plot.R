@@ -106,26 +106,11 @@ mod_summary_plot_server <- function(input, output, session,
         theme(legend.position = "bottom")
     )
 
+  
+  
   ## main plotly ----
   output$output_plot <- renderPlotly(
-    ggplotly(summary_util$plot_buffer_data %>%
-      separate(
-        name,
-        into = c("name", "delete2"),
-        sep = c("_")
-      ) %>%
-      mutate(name = str_replace_all(
-        name,
-        c(
-          "Regional Park" = "RP",
-          "Regional Trail" = "RT",
-          "Park Reserve" = "PR"
-        )
-      )) %>%
-      mutate(
-        name = forcats::fct_reorder(name, desc(value)),
-        concat = paste(type, status, sep = "_")
-      ) %>%
+    ggplotly(summary_util$plotly_buffer_data %>% 
       ggplot(
         aes(
           y = name,
