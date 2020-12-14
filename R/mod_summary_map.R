@@ -10,11 +10,9 @@
 mod_summary_map_ui <- function(id) {
   ns <- NS(id)
   tagList(
-    
-    HTML('<p>This map visualizes the geospatial location of the buffers around the user-selected parks and trails along with the selected demographic data. For the demographic data, darker colors mean higher values and lighter colors mean lower values. Demographic data can be turned off using the layer controls found at the bottom right of the map.'),
-    
+    HTML("<p>This map visualizes the geospatial location of the buffers around the user-selected parks and trails along with the selected demographic data. For the demographic data, darker colors mean higher values and lighter colors mean lower values. Demographic data can be turned off using the layer controls found at the bottom right of the map."),
+
     leafletOutput(ns("buffermap"), height = 700)
-    
   )
 }
 
@@ -25,35 +23,35 @@ mod_summary_map_server <- function(input, output, session,
                                    summary_util,
                                    selected_vars) {
   ns <- session$ns
-  
+
   renamekey <- tribble(
-    ~ goodname,
-    ~ "ACS",
+    ~goodname,
+    ~"ACS",
     "Total population",
     "adj_poptotal",
-    "Age, % under 15" ,
+    "Age, % under 15",
     "adj_ageunder15_per",
-    "Age, % 15-24" ,
+    "Age, % 15-24",
     "adj_age15_24_per",
-    "Age, % 25-64" ,
+    "Age, % 25-64",
     "adj_age25_64_per",
-    "Age, % 65 and up" ,
+    "Age, % 65 and up",
     "adj_age65up_per",
-    "Race, % White" ,
+    "Race, % White",
     "adj_whitenh_per",
-    "Race, % Black" ,
+    "Race, % Black",
     "adj_blacknh_per",
-    "Race, % Asian" ,
+    "Race, % Asian",
     "adj_asiannh_per",
-    "Race, % American Indian" ,
+    "Race, % American Indian",
     "adj_amindnh_per",
-    "Race, % Other + Multiracial" ,
+    "Race, % Other + Multiracial",
     "adj_othermultinh_per",
-    "Ethnicity, % Hispanic" ,
+    "Ethnicity, % Hispanic",
     "adj_hisppop_per",
-    "Ethnicity, % not-Hispanic" ,
+    "Ethnicity, % not-Hispanic",
     "adj_nothisppop_per",
-    "Mean household income" ,
+    "Mean household income",
     "adj_meanhhi",
     "% Housholds without a vehicle",
     "adj_novehicle_per",
@@ -62,7 +60,7 @@ mod_summary_map_server <- function(input, output, session,
     "% Spanish speakers",
     "adj_span_per"
   )
-  
+
   output$buffermap <- renderLeaflet({
     leaflet() %>%
       setView(
@@ -94,7 +92,7 @@ mod_summary_map_server <- function(input, output, session,
       #   ) %>%
       leaflet::addScaleBar(position = c("bottomleft"))
   })
-  
+
 
   # observeEvent(summary_util$map_bg_data, {
   #   # pal <- if (names(summary_util$map_bg_data["adj_meanhhi"])[[1]] == "adj_meanhhi") { #names(bg_geo["adj_meanhhi"])[[1]]
@@ -114,12 +112,12 @@ mod_summary_map_server <- function(input, output, session,
   # )
   # palette_OkabeIto <- c("#E69F00", "#56B4E9", "#009E73", "#F0E442", "#0072B2", "#D55E00", "#CC79A7", "#999999")
   # palette_OkabeIto_black <- c("#E69F00", "#56B4E9", "#009E73", "#F0E442", "#0072B2", "#D55E00", "#CC79A7", "#000000")
-  
+
   observe({
     if (nrow(summary_util$map_parktrail_data) > 0) {
       leafletProxy("buffermap") %>%
-    addTiles() %>%
-    clearShapes() %>%
+        addTiles() %>%
+        clearShapes() %>%
         clearControls() %>%
         addPolygons(
           group = "Demographic data",
@@ -134,21 +132,23 @@ mod_summary_map_server <- function(input, output, session,
             n = 7,
             palette = "Blues",
             domain = summary_util$map_bg_data[[1]]
-          )(summary_util$map_bg_data[[1]])) %>%
-      addLegend("topright",
-                pal = colorQuantile(
-                  n = 7,
-                  palette = "Blues",
-                  domain = summary_util$map_bg_data[[1]]
-                ),
-                values = (summary_util$map_bg_data[[1]]),
-                title = paste0(filter(renamekey, ACS == (names(summary_util$map_bg_data)[[1]])) %>% select(goodname)), #(names(summary_util$map_bg_data)[[1]]),
-                opacity = 1, 
-                group = "Demographic data") %>%
-          # popup = paste0(summary_util$map_bg_data, #how can we get it to show just the value for the blockgroup that is clicked?
-          #   " ",
-          #   summary_util$map_bg_data[[1]], "%"
-          # )) %>%
+          )(summary_util$map_bg_data[[1]])
+        ) %>%
+        addLegend("topright",
+          pal = colorQuantile(
+            n = 7,
+            palette = "Blues",
+            domain = summary_util$map_bg_data[[1]]
+          ),
+          values = (summary_util$map_bg_data[[1]]),
+          title = paste0(filter(renamekey, ACS == (names(summary_util$map_bg_data)[[1]])) %>% select(goodname)), # (names(summary_util$map_bg_data)[[1]]),
+          opacity = 1,
+          group = "Demographic data"
+        ) %>%
+        # popup = paste0(summary_util$map_bg_data, #how can we get it to show just the value for the blockgroup that is clicked?
+        #   " ",
+        #   summary_util$map_bg_data[[1]], "%"
+        # )) %>%
         addPolygons(
           data = agency_boundary,
           group = "Agency boundaries",
@@ -156,36 +156,42 @@ mod_summary_map_server <- function(input, output, session,
           color = "black",
           fill = F,
           weight = 2
-        )  %>%
+        ) %>%
         addPolylines(
-      data = summary_util$map_parktrail_data %>% filter(Type == "Trail"),
-      color = case_when(summary_util$map_parktrail_data$status2[summary_util$map_parktrail_data$Type == "Trail"] == "Existing" ~ e_col, 
-                        summary_util$map_parktrail_data$status2[summary_util$map_parktrail_data$Type == "Trail"] == "Planned" ~ p_col,
-                        summary_util$map_parktrail_data$status2[summary_util$map_parktrail_data$Type == "Trail"] == "Search" ~ s_col),
-      weight = 3,
-      stroke = T,
-      opacity = 1,
-      popup = ~ paste0(
-        "<b>", summary_util$map_parktrail_data$status[summary_util$map_parktrail_data$Type == "Trail"], "</b>", "<br>",
-        summary_util$map_parktrail_data$name[summary_util$map_parktrail_data$Type == "Trail"], "<br>",
-        "<em>",
-        summary_util$map_parktrail_data$agency[summary_util$map_parktrail_data$Type == "Trail"], "</em>"
-      ),
-      highlightOptions = highlightOptions(
-        stroke = TRUE,
-        color = "black",
-        weight = 6,
-        bringToFront = TRUE
-      )
-    ) %>%
+          data = summary_util$map_parktrail_data %>% filter(Type == "Trail"),
+          color = case_when(
+            summary_util$map_parktrail_data$status2[summary_util$map_parktrail_data$Type == "Trail"] == "Existing" ~ e_col,
+            summary_util$map_parktrail_data$status2[summary_util$map_parktrail_data$Type == "Trail"] == "Planned" ~ p_col,
+            summary_util$map_parktrail_data$status2[summary_util$map_parktrail_data$Type == "Trail"] == "Search" ~ s_col
+          ),
+          weight = 3,
+          stroke = T,
+          opacity = 1,
+          popup = ~ paste0(
+            "<b>", summary_util$map_parktrail_data$status[summary_util$map_parktrail_data$Type == "Trail"], "</b>", "<br>",
+            summary_util$map_parktrail_data$name[summary_util$map_parktrail_data$Type == "Trail"], "<br>",
+            "<em>",
+            summary_util$map_parktrail_data$agency[summary_util$map_parktrail_data$Type == "Trail"], "</em>"
+          ),
+          highlightOptions = highlightOptions(
+            stroke = TRUE,
+            color = "black",
+            weight = 6,
+            bringToFront = TRUE
+          )
+        ) %>%
         addPolygons(
           data = summary_util$map_parktrail_data %>% filter(Type == "Park"),
-          color = case_when(summary_util$map_parktrail_data$status2[summary_util$map_parktrail_data$Type == "Park"] == "Existing" ~ e_col, 
-                            summary_util$map_parktrail_data$status2[summary_util$map_parktrail_data$Type == "Park"] == "Planned" ~ p_col,
-                            summary_util$map_parktrail_data$status2[summary_util$map_parktrail_data$Type == "Park"] == "Search" ~ s_col),
-          fillColor = case_when(summary_util$map_parktrail_data$status2[summary_util$map_parktrail_data$Type == "Park"] == "Existing" ~ e_col, 
-                            summary_util$map_parktrail_data$status2[summary_util$map_parktrail_data$Type == "Park"] == "Planned" ~ p_col,
-                            summary_util$map_parktrail_data$status2[summary_util$map_parktrail_data$Type == "Park"] == "Search" ~ s_col),
+          color = case_when(
+            summary_util$map_parktrail_data$status2[summary_util$map_parktrail_data$Type == "Park"] == "Existing" ~ e_col,
+            summary_util$map_parktrail_data$status2[summary_util$map_parktrail_data$Type == "Park"] == "Planned" ~ p_col,
+            summary_util$map_parktrail_data$status2[summary_util$map_parktrail_data$Type == "Park"] == "Search" ~ s_col
+          ),
+          fillColor = case_when(
+            summary_util$map_parktrail_data$status2[summary_util$map_parktrail_data$Type == "Park"] == "Existing" ~ e_col,
+            summary_util$map_parktrail_data$status2[summary_util$map_parktrail_data$Type == "Park"] == "Planned" ~ p_col,
+            summary_util$map_parktrail_data$status2[summary_util$map_parktrail_data$Type == "Park"] == "Search" ~ s_col
+          ),
           fillOpacity = 1,
           weight = 3,
           stroke = T,
@@ -193,7 +199,8 @@ mod_summary_map_server <- function(input, output, session,
           popup = ~ paste0(
             "<b>", summary_util$map_parktrail_data$status[summary_util$map_parktrail_data$Type == "Park"], "</b>", "<br>",
             summary_util$map_parktrail_data$name[summary_util$map_parktrail_data$Type == "Park"], "<br>",
-            "<em>", summary_util$map_parktrail_data$agency[summary_util$map_parktrail_data$Type == "Park"], "</em>"),
+            "<em>", summary_util$map_parktrail_data$agency[summary_util$map_parktrail_data$Type == "Park"], "</em>"
+          ),
           highlightOptions = highlightOptions(
             stroke = TRUE,
             color = "black",
@@ -235,8 +242,10 @@ mod_summary_map_server <- function(input, output, session,
           ),
           popupOptions = popupOptions(
             closeButton = FALSE,
-            style = list("font-size" = "18px",
-                         "font-family" = "Arial")
+            style = list(
+              "font-size" = "18px",
+              "font-family" = "Arial"
+            )
           )
         ) %>%
         addLayersControl(
@@ -251,13 +260,9 @@ mod_summary_map_server <- function(input, output, session,
           #   "Esri Imagery"
           # ),
           options = layersControlOptions(collapsed = F)
-        ) 
+        )
     }
-  }
-  )
-      
-  
-  
+  })
 }
 
 ## To be copied in the UI

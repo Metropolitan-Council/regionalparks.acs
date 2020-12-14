@@ -4,13 +4,12 @@
 #'
 #' @param id,input,output,session Internal parameters for {shiny}.
 #'
-#' @noRd 
+#' @noRd
 #'
-#' @importFrom shiny NS tagList 
-mod_pop_selections_ui <- function(id){
+#' @importFrom shiny NS tagList
+mod_pop_selections_ui <- function(id) {
   ns <- NS(id)
   tagList(
- 
     absolutePanel(
       id = ns("inputPop"),
       class = "panel panel-default", fixed = FALSE,
@@ -49,7 +48,7 @@ mod_pop_selections_ui <- function(id){
                 </div>
            </div>
            </div>"),
-      
+
       # tags$div(
       #   tags$a(
       #     href = "https://metrocouncil.org", target = "_blank",
@@ -65,28 +64,26 @@ mod_pop_selections_ui <- function(id){
     )
   )
 }
-    
+
 #' pop_selections Server Function
 #'
-#' @noRd 
-mod_pop_selections_server <- function(input, output, session){
+#' @noRd
+mod_pop_selections_server <- function(input, output, session) {
   ns <- session$ns
-  
+
 
   vals <- reactiveValues()
-  
+
   observeEvent(input$inputPop, {
     vals$selected_var <- input$inputPop
     vals$pop_data <- est_pop[input$inputPop]
   })
-  
+
   return(vals)
-  
 }
-    
+
 ## To be copied in the UI
 # mod_pop_selections_ui("pop_selections_ui_1")
-    
+
 ## To be copied in the server
 # callModule(mod_pop_selections_server, "pop_selections_ui_1")
- 

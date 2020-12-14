@@ -328,7 +328,7 @@ usethis::use_data(long_buffer_data, overwrite = TRUE)
 
 
 ## Combine RAW long buffer data ---------------------------------------------------------------------
-# #having a change of heart in showing these data. The data that should be shown include: acs demographic percents, buffer overlap, AND 2019 population estimates. Relatively easy to show the acs demo % and the buffer overlap. But will be much harder to show the population estimates. So I am no longer in favor of showing a raw data tab. Happy to continue discussion here. 
+# #having a change of heart in showing these data. The data that should be shown include: acs demographic percents, buffer overlap, AND 2019 population estimates. Relatively easy to show the acs demo % and the buffer overlap. But will be much harder to show the population estimates. So I am no longer in favor of showing a raw data tab. Happy to continue discussion here.
 
 # long_buffer_data_raw <- bind_rows(
 #   buffer_block_group_1.0mi_raw,
@@ -366,7 +366,7 @@ usethis::use_data(long_buffer_data, overwrite = TRUE)
 #     "poorenglish_percent" = "adj_lep_per",
 #     "spanish_percent" = "adj_span_per"
 #   ))
-# 
+#
 # usethis::use_data(long_buffer_data_raw, overwrite = TRUE)
 
 

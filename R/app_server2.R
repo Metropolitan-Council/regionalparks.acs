@@ -7,10 +7,10 @@
 #' @noRd
 app_server <- function(input, output, session) {
   # List the first level callModules here
-  
-  #note: color assignment for parks/trails by status (existing, search, planned) is within golem_utils_server.R file
-  
-  
+
+  # note: color assignment for parks/trails by status (existing, search, planned) is within golem_utils_server.R file
+
+
   # # Introduction tab -----------------------------------------------------------
   callModule(mod_intro_server, "intro_ui_1")
 
@@ -36,12 +36,14 @@ app_server <- function(input, output, session) {
   )
 
   callModule(mod_summary_plot_server, "summary_plot_ui_1",
-             selected_vars = selected_input_vars,
-             summary_util = summary_util_vars)
+    selected_vars = selected_input_vars,
+    summary_util = summary_util_vars
+  )
 
   callModule(mod_summary_map_server, "summary_map_ui_1",
-             selected_vars = selected_input_vars,
-             summary_util = summary_util_vars)
+    selected_vars = selected_input_vars,
+    summary_util = summary_util_vars
+  )
 
   # ended up not using this for the time being, all within the table_ui
   # callModule(mod_summary_download_server, "summary_download_ui_1",
@@ -52,11 +54,10 @@ app_server <- function(input, output, session) {
   #            summary_util = summary_util_vars)
 
   # Population growth tab ------------------------------------------------------
-  
+
   # get input values
   pop_data <- callModule(mod_pop_selections_server, "pop_selections_ui_1")
   callModule(mod_pop_map_server, "pop_map_ui_1", pop_data)
 
   callModule(mod_pop_demoshifts_server, "pop_demoshifts_ui_1")
-  
 }
