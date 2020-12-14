@@ -27,10 +27,10 @@ app_ui <- function(request) {
                  shiny::wellPanel(
                    HTML("<p>Select 1 ACS variable. The tracts’ colors correspond to 2014-2018 (5-year) American Community Survey (ACS) demographic metric selected. Each demographic characteristic is shown as a percentage of the total population, with the exception of median household income, which is displayed in dollars. The darker the color, the higher the percentage (or income in dollars).</p>")),
                  
-                 # sidebarPanel(
+                 sidebarPanel(
                  mod_input_demos_ui(id = "input_demos_ui_1"),
                  
-                 # ),
+                 ),
                  mainPanel(
                    mod_leaflet_ui(id = "leaflet_ui_1")) 
                  
