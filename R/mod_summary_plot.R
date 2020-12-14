@@ -106,65 +106,73 @@ mod_summary_plot_server <- function(input, output, session,
         theme(legend.position = "bottom")
     )
 
+  font_family_list <- "Roman, Helvetica, Tahoma, Geneva, Arial, sans-serif"
   
   
   ## main plotly ----
-  output$output_plot <- renderPlotly(
-    ggplotly(summary_util$plotly_buffer_data %>% 
-      ggplot(
-        aes(
-          y = name,
-          x = value,
-          pch = type,
-          fill = status,
-          text = paste0(
-            summary_util$plot_buffer_data[1, 6] %>%
-              left_join(renamekey, by = "ACS") %>%
-              select(goodname),
-            ":  ", value, "\n", name
-          )
+  output$output_plot <- renderPlotly({
+    plot_ly() %>% 
+      plotly::add_markers(data = summary_util$plotly_buffer_data,
+                          x = ~value,
+                          y = ~name,
+                          symbol = ~type,
+                          color = ~status,
+                          symbols = c('circle', 'square'),
+                          colors = c(e_col, p_col, s_col),
+                          hoverinfo = "text",
+                          text = ~hover_text,
+                          marker = list(
+                            size = 10
+                          )) %>% 
+      layout(
+        margin = list(l = 10, r = 45, b = 10, t = 10), # l = left; r = right; t = top; b = bottom
+        hovermode = "closest",
+        hoverdistance = "10",
+        hoverlabel = list(
+          font = list(
+            size = 20,
+            family = font_family_list,
+            color = "black"
+          ),
+          bgcolor = "white",
+          stroke = list("white", "white", "white", "white")
+        ),
+        
+        xaxis = list(
+          title = unique(summary_util$plotly_buffer_data$goodname),
+          titlefont = list(
+            size = 14,
+            family = font_family_list,
+            color = "black"
+          ),
+          
+          tickfont = list(
+            size = 12,
+            family = font_family_list,
+            color = "black"
+          ),
+          zeroline = FALSE,
+          showline = FALSE,
+          showgrid = TRUE,
+          ticksuffix = "%"
+          
+          # range = c("2010-01-01", "2022-01-01")
+        ),
+        yaxis = list(
+          title = "",
+          tickfont = list(
+            size = 12,
+            family = font_family_list,
+            color = "black"
+          ),
+          zeroline = FALSE,
+          showline = FALSE,
+          showgrid = TRUE
+          # range = c("2010-01-01", "2022-01-01")
         )
-      ) +
-      geom_vline(aes(xintercept = value),
-        data = (summary_util$agencyavg_data)
-      ) +
-      geom_point(
-        col = "black",
-        size = 4,
-        position = position_dodge(width = 0)
-      ) +
-      scale_fill_manual(
-        values = c(
-          "Existing" = e_col,
-          "Planned" = p_col,
-          "Search" = s_col
-        )
-      ) +
-      scale_shape_manual(values = c(
-        "Park" = 21,
-        "Trail" = 22
-      )) +
-      council_theme() +
-      labs(
-        y = "",
-        x = paste0(summary_util$plot_buffer_data[1, 6] %>%
-          left_join(renamekey, by = "ACS") %>%
-          select(goodname))
-      ) +
-      scale_x_continuous(
-        labels = function(x) {
-          format(x,
-            big.mark = ",",
-            scientific = FALSE
-          )
-        }
-      ) +
-      guides(shape = F, fill = F) +
-      theme(axis.text.y = element_text(size = 9)),
-    tooltip = c("text")
-    ) %>%
-      hide_legend()
-  )
+        
+      )
+  })
 
   ## legend -----
   output$leg <- renderPlot({
