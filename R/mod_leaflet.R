@@ -14,10 +14,6 @@
 mod_leaflet_ui <- function(id) {
   ns <- NS(id)
   tagList(
-    HTML("<p>Select 1 ACS variable. The tracts’ colors correspond to 2014-2018 (5-year) American Community Survey (ACS) demographic metric selected. Each demographic characteristic is shown as a percentage of the total population, with the exception of median household income, which is displayed in dollars. The darker the color, the higher the percentage (or income in dollars).</p>
-    </p>Statistics produced for American Community Survey and included in ACS tables are survey-based estimates and are subject to error. The errors derive from research design (including instrument bias, data frame, and sampling), the survey data collection (non-response bias and response errors), and processing by the Census Bureau (data coding, compilation processes, and case weighting), as well as statistical inference error and uncertainty (which are related to sample size and variance within the measured attributes).</p>
-         <p> EE comment: add transit stops. planned transit stops also possible, but metadata reveals how flexible these planned stops are (ie blue line light rail) (https://resources.gisdata.mn.gov/pub/gdrs/data/pub/us_mn_state_metc/trans_pland_transitway_station/metadata/metadata.html)"),
-
     leafletOutput(ns("map"), width = "100%", height = 700)
   )
 }
@@ -33,7 +29,6 @@ mod_leaflet_server <- function(input, output, session, tract_data = tract_data) 
 
   output$map <- renderLeaflet({
     leaflet() %>%
-      setView(lat = 44.963, lng = -93.22, zoom = 10) %>%
       addProviderTiles(
         provider = providers$Esri.WorldImagery,
         group = "Esri Imagery"

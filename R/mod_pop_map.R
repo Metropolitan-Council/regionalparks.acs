@@ -30,7 +30,6 @@ mod_pop_map_server <- function(input, output, session,
 
   output$popmap <- renderLeaflet({
     leaflet() %>%
-      setView(lat = 44.963, lng = -93.22, zoom = 10) %>%
       addProviderTiles("Stamen.TonerLite",
         group = "Stamen Toner"
       ) %>%
@@ -204,7 +203,6 @@ mod_pop_map_server <- function(input, output, session,
           bringToFront = TRUE
         )
       ) %>%
-      addStyleEditor() %>%
       hideGroup(
         c(
           "Regional Parks - planned",
