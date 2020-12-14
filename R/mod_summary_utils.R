@@ -62,7 +62,16 @@ mod_summary_utils_server <- function(input, output, session,
       )) %>%
       mutate(
         name = forcats::fct_reorder(name, desc(value)),
-        concat = paste(type, status, sep = "_"))
+        concat = paste(type, status, sep = "_")) %>% 
+      left_join(renamekey, by = c("ACS" = "ACS variable")) %>% 
+      mutate(acs_short = stringr::str_remove(goodname, "% " )) %>% 
+      mutate(hover_text = stringr::str_wrap(paste0("Approximatley ",
+                                                   "<b>", value, "%", "</b>", " of the population within ", 
+                                                   "<b>", distance, " mile", "</b>",
+                                                   " falls into the ",
+                                                   "<b>", acs_short, "</b>",
+                                                   " category"), 55
+      ))
   })
   
 
