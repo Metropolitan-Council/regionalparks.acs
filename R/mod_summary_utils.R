@@ -112,7 +112,7 @@ mod_summary_utils_server <- function(input, output, session,
   # })
 
 
-  recode_bg_names <- tribble(
+  recode_bg_names <- tribble( # recode bg names ----
     ~block_group_name, ~acs_selection,
     "ageunder15_percent", "adj_ageunder15_per",
     "age15_24_percent", "adj_age15_24_per",

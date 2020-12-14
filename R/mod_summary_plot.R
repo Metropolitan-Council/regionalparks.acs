@@ -29,7 +29,7 @@ mod_summary_plot_server <- function(input, output, session,
   ns <- session$ns
 
 
-  renamekey <- tribble(
+  renamekey <- tribble( # rename key ----
     ~goodname,
     ~"ACS",
     "Total population",
@@ -66,7 +66,7 @@ mod_summary_plot_server <- function(input, output, session,
     "adj_span_per"
   )
 
-  type_status_legend <-
+  type_status_legend <- # status legend -------
     get_legend(
       tibble(
         status = rep(c("Existing", "Planned", "Search"), 2),
