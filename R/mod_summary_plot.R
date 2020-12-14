@@ -107,23 +107,25 @@ mod_summary_plot_server <- function(input, output, session,
     )
 
   font_family_list <- "Roman, Helvetica, Tahoma, Geneva, Arial, sans-serif"
-  
-  
+
+
   ## main plotly ----
   output$output_plot <- renderPlotly({
-    plot_ly() %>% 
-      plotly::add_markers(data = summary_util$plotly_buffer_data,
-                          x = ~value,
-                          y = ~name,
-                          symbol = ~type,
-                          color = ~status,
-                          symbols = c('circle', 'square'),
-                          colors = c(e_col, p_col, s_col),
-                          hoverinfo = "text",
-                          text = ~hover_text,
-                          marker = list(
-                            size = 10
-                          )) %>% 
+    plot_ly() %>%
+      plotly::add_markers(
+        data = summary_util$plotly_buffer_data,
+        x = ~value,
+        y = ~name,
+        symbol = ~type,
+        color = ~status,
+        symbols = c("circle", "square"),
+        colors = c(e_col, p_col, s_col),
+        hoverinfo = "text",
+        text = ~hover_text,
+        marker = list(
+          size = 10
+        )
+      ) %>%
       layout(
         margin = list(l = 10, r = 45, b = 10, t = 10), # l = left; r = right; t = top; b = bottom
         hovermode = "closest",
@@ -137,7 +139,7 @@ mod_summary_plot_server <- function(input, output, session,
           bgcolor = "white",
           stroke = list("white", "white", "white", "white")
         ),
-        
+
         xaxis = list(
           title = unique(summary_util$plotly_buffer_data$goodname),
           titlefont = list(
@@ -145,7 +147,7 @@ mod_summary_plot_server <- function(input, output, session,
             family = font_family_list,
             color = "black"
           ),
-          
+
           tickfont = list(
             size = 12,
             family = font_family_list,
@@ -155,7 +157,7 @@ mod_summary_plot_server <- function(input, output, session,
           showline = FALSE,
           showgrid = TRUE,
           ticksuffix = "%"
-          
+
           # range = c("2010-01-01", "2022-01-01")
         ),
         yaxis = list(
@@ -170,7 +172,6 @@ mod_summary_plot_server <- function(input, output, session,
           showgrid = TRUE
           # range = c("2010-01-01", "2022-01-01")
         )
-        
       )
   })
 
