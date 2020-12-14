@@ -228,8 +228,8 @@ mod_pop_map_server <- function(input, output, session,
           "Pop. Estimates"
         ),
         baseGroups = c(
-          "Stamen Toner",
           "Carto Positron",
+          "Stamen Toner",
           "Esri Imagery"
         ),
         options = layersControlOptions(collapsed = T)
