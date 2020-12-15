@@ -31,7 +31,7 @@ mod_summary_table_server <- function(input, output, session,
   # browser()
 
   ## recode tibble (consider placing in a utils script)  ----
-  recodeadjtable <- tribble(
+  recodeadjtable <- tibble::tribble(
     ~ACS,
     ~nicename,
     "adj_poptotal",

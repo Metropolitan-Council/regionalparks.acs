@@ -24,7 +24,7 @@ mod_summary_map_server <- function(input, output, session,
                                    selected_vars) {
   ns <- session$ns
 
-  renamekey <- tribble(
+  renamekey <- tibble::tribble(
     ~goodname,
     ~"ACS",
     "Total population",

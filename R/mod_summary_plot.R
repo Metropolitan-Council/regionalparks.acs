@@ -64,7 +64,7 @@ mod_summary_plot_server <- function(input, output, session,
     color = "black"
   )
 
-  renamekey <- tribble( # rename key ----
+  renamekey <- tibble::tribble( # rename key ----
     ~goodname,
     ~"ACS",
     "Total population",
@@ -102,7 +102,7 @@ mod_summary_plot_server <- function(input, output, session,
   )
 
   type_status_legend <- # status legend -------
-    get_legend(
+  cowplot::get_legend(
       tibble(
         status = rep(c("Existing", "Planned", "Search"), 2),
         type = rep(c("park", "trail"), each = 3),
@@ -126,7 +126,7 @@ mod_summary_plot_server <- function(input, output, session,
             "Search" = s_col
           )
         ) +
-        theme_cowplot() +
+        cowplot::theme_cowplot() +
         guides(
           fill = guide_legend(
             override.aes = list(pch = 23, size = 8),

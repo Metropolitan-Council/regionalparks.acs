@@ -14,7 +14,7 @@ library(janitor)
 
 ## NameCleaner-----------------------------------------------------------------------
 # update from Darcie conversation 16 oct 2020
-namecleaner <- tribble(
+namecleaner <- tibble::tribble(
   ~AGENCY, ~consistentagency,
   "Anoka County Parks and Recreation", "Anoka County",
   "Anoka County Parks", "Anoka County",

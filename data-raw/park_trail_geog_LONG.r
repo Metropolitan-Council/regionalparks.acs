@@ -13,7 +13,7 @@ library(tigris)
 library(janitor)
 
 ## NameCleaner-----------------------------------------------------------------------
-namecleaner <- tribble(
+namecleaner <- tibble::tribble(
   ~AGENCY, ~consistentagency,
   "Anoka County Parks and Recreation", "Anoka County",
   "Anoka County Parks", "Anoka County",

@@ -20,7 +20,7 @@
 
 ## set up some legends -----
 
-renamekey <- tribble(
+renamekey <- tibble::tribble(
   ~goodname,
   ~"ACS variable",
   "Total population",
@@ -57,7 +57,7 @@ renamekey <- tribble(
   "adj_span_per"
 )
 
-recodeadjtable <- tribble(
+recodeadjtable <- tibble::tribble(
   ~ACS,
   ~nicename,
   "adj_poptotal",
@@ -96,7 +96,7 @@ recodeadjtable <- tribble(
 
 
 type_status_legend <-
-  get_legend(
+  cowplot::get_legend(
     tibble(
       status = rep(c("Existing", "Planned", "Search"), 2),
       type = rep(c("park", "trail"), each = 3),
@@ -120,7 +120,7 @@ type_status_legend <-
           "Search" = "#9591c9"
         )
       ) +
-      theme_cowplot() +
+      cowplot::theme_cowplot() +
       guides(
         fill = guide_legend(
           override.aes = list(pch = 23, size = 8),
