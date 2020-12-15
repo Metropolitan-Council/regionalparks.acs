@@ -28,7 +28,39 @@ mod_summary_plot_server <- function(input, output, session,
                                     summary_util) {
   ns <- session$ns
 
+# Plotly styling -------------------------------
 
+  font_family_list <- "Roman, Helvetica, Tahoma, Geneva, Arial, sans-serif"
+  
+  x_axis_font_list <- list(
+    size = 14,
+    family = font_family_list,
+    color = "black"
+  ) 
+  
+  y_axis_font_list <- list(
+    size = 14,
+    family = font_family_list,
+    color = "black"
+  ) 
+  
+  
+  hoverlabel_list <- list(
+    font = list(
+      size = 18,
+      family = font_family_list,
+      color = "black"
+    ),
+    bgcolor = "white",
+    brodercolor = list(rep("#FFFFFF", 4))
+  )
+  
+  tickfont_list <- list(
+    size = 12,
+    family = font_family_list,
+    color = "black"
+  )
+  
   renamekey <- tribble( # rename key ----
     ~goodname,
     ~"ACS",
@@ -106,7 +138,6 @@ mod_summary_plot_server <- function(input, output, session,
         theme(legend.position = "bottom")
     )
 
-  font_family_list <- "Roman, Helvetica, Tahoma, Geneva, Arial, sans-serif"
 
 
   ## main plotly ----
@@ -123,36 +154,21 @@ mod_summary_plot_server <- function(input, output, session,
         hoverinfo = "text",
         text = ~hover_text,
         marker = list(
-          size = 10
+          size = 14,
+          opacity = 0.8
         )
       ) %>%
       layout(
+        showlegend = FALSE,
         margin = list(l = 10, r = 45, b = 10, t = 10), # l = left; r = right; t = top; b = bottom
         hovermode = "closest",
         hoverdistance = "10",
-        hoverlabel = list(
-          font = list(
-            size = 20,
-            family = font_family_list,
-            color = "black"
-          ),
-          bgcolor = "white",
-          stroke = list("white", "white", "white", "white")
-        ),
-
+        hoverlabel = hoverlabel_list,
         xaxis = list(
           title = unique(summary_util$plotly_buffer_data$goodname),
-          titlefont = list(
-            size = 14,
-            family = font_family_list,
-            color = "black"
-          ),
+          font = x_axis_font_list,
 
-          tickfont = list(
-            size = 12,
-            family = font_family_list,
-            color = "black"
-          ),
+          tickfont = tickfont_list,
           zeroline = FALSE,
           showline = FALSE,
           showgrid = TRUE,
@@ -162,10 +178,15 @@ mod_summary_plot_server <- function(input, output, session,
         ),
         yaxis = list(
           title = "",
-          tickfont = list(
-            size = 12,
-            family = font_family_list,
-            color = "black"
+          tickfont = tickfont_list,
+          zeroline = FALSE,
+          showline = FALSE,
+          showgrid = TRUE,
+          autorange = "reversed"
+          # range = c("2010-01-01", "2022-01-01")
+        )
+      )
+  })
           ),
           zeroline = FALSE,
           showline = FALSE,
