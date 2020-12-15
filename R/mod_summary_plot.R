@@ -16,11 +16,10 @@ mod_summary_plot_ui <- function(id) {
     textOutput(ns("avgtext")),
 
     plotlyOutput(outputId = ns("output_plot"), height = 600), # height = as.numeric(unlist(textOutput(ns("TEST"))[[1]]))*25) #this doesn't work, but I'd love to do something like this
-    
+
     plotlyOutput(outputId = ns("agency_plot"), height = 300),
-    
+
     plotOutput(ns("leg"), height = 100)
-    
   )
 }
 
@@ -32,23 +31,23 @@ mod_summary_plot_server <- function(input, output, session,
                                     summary_util) {
   ns <- session$ns
 
-# Plotly styling -------------------------------
+  # Plotly styling -------------------------------
 
   font_family_list <- "Roman, Helvetica, Tahoma, Geneva, Arial, sans-serif"
-  
+
   x_axis_font_list <- list(
     size = 14,
     family = font_family_list,
     color = "black"
-  ) 
-  
+  )
+
   y_axis_font_list <- list(
     size = 14,
     family = font_family_list,
     color = "black"
-  ) 
-  
-  
+  )
+
+
   hoverlabel_list <- list(
     font = list(
       size = 18,
@@ -58,13 +57,13 @@ mod_summary_plot_server <- function(input, output, session,
     bgcolor = "white",
     brodercolor = list(rep("#FFFFFF", 4))
   )
-  
+
   tickfont_list <- list(
     size = 12,
     family = font_family_list,
     color = "black"
   )
-  
+
   renamekey <- tribble( # rename key ----
     ~goodname,
     ~"ACS",
@@ -192,7 +191,7 @@ mod_summary_plot_server <- function(input, output, session,
       )
   })
 
-  
+
   output$agency_plot <- renderPlotly({
     plot_ly() %>%
       plotly::add_markers(
@@ -220,7 +219,6 @@ mod_summary_plot_server <- function(input, output, session,
           showline = FALSE,
           showgrid = TRUE,
           ticksuffix = "%"
-          
         ),
         yaxis = list(
           title = "",
@@ -233,8 +231,8 @@ mod_summary_plot_server <- function(input, output, session,
         )
       )
   })
-  
-  
+
+
   ## legend -----
   output$leg <- renderPlot({
     plot_grid(type_status_legend)

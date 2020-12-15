@@ -142,7 +142,7 @@ mod_summary_map_server <- function(input, output, session,
           ),
           values = (summary_util$map_bg_data[[1]]),
           title = paste0(filter(renamekey, ACS == (names(summary_util$map_bg_data)[[1]])) %>%
-                           select(goodname)), # (names(summary_util$map_bg_data)[[1]]),
+            select(goodname)), # (names(summary_util$map_bg_data)[[1]]),
           opacity = 1,
           group = "Demographic data"
         ) %>%

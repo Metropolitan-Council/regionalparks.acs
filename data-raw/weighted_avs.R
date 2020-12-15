@@ -328,11 +328,11 @@ usethis::use_data(long_buffer_data, overwrite = TRUE)
 
 
 # agency-level averages for each variable including existing and planned units
-agency_planned_existing_avgs <- long_buffer_data %>% 
-  filter(status != "Search") %>% 
-  group_by(agency, distance, ACS) %>% 
-  summarize(avg = round(mean(value), 1)) %>% 
-  filter(stringr::str_detect(ACS, "per")) 
+agency_planned_existing_avgs <- long_buffer_data %>%
+  filter(status != "Search") %>%
+  group_by(agency, distance, ACS) %>%
+  summarize(avg = round(mean(value), 1)) %>%
+  filter(stringr::str_detect(ACS, "per"))
 
 usethis::use_data(agency_planned_existing_avgs, overwrite = TRUE)
 
