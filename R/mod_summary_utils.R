@@ -76,6 +76,29 @@ mod_summary_utils_server <- function(input, output, session,
       ), 55))
   })
 
+  make_plotly_agency_data <- reactive({
+    agency_planned_existing_avgs %>% 
+      filter(
+        # agency %in% selected_vars$input_agency,
+        # type %in% selected_vars$input_type,
+        distance == selected_vars$input_distance,
+        # status %in% selected_vars$input_status,
+        ACS == selected_vars$input_acs
+      ) %>% 
+      left_join(renamekey, by = c("ACS" = "ACS variable")) %>%
+      mutate(acs_short = stringr::str_remove(goodname, "% ")) %>%
+      mutate(hover_text = stringr::str_wrap(paste0(
+        "The average ", 
+        "<b>", acs_short, "</b>",
+        " within ", 
+        "<b>", distance, " mile ", "</b>",
+        "of all existing and planned units in ",
+        "<b>",  agency, " </b>",
+        " is ", 
+        "<b>", avg, "%", "</b>",
+        "."
+      ), 50))
+  })
 
 
   make_agencyavg_data <- reactive({
@@ -193,6 +216,9 @@ mod_summary_utils_server <- function(input, output, session,
     vals$plotly_buffer_data <- make_plotly_buffer_data()
   })
 
+  observe({
+    vals$plotly_agency_data <- make_plotly_agency_data()
+  })
 
   # observe({
   #   vals$plot_rawbuffer_data <- make_plot_rawbuffer_data()

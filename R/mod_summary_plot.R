@@ -191,15 +191,50 @@ mod_summary_plot_server <- function(input, output, session,
         )
       )
   })
-          ),
+
+  
+  output$agency_plot <- renderPlotly({
+    plot_ly() %>%
+      plotly::add_markers(
+        data = summary_util$plotly_agency_data,
+        x = ~avg,
+        y = ~agency,
+        hoverinfo = "text",
+        text = ~hover_text,
+        marker = list(
+          size = 14,
+          opacity = 0.8
+        )
+      ) %>%
+      layout(
+        showlegend = FALSE,
+        margin = list(l = 10, r = 45, b = 10, t = 10), # l = left; r = right; t = top; b = bottom
+        hovermode = "closest",
+        hoverdistance = "10",
+        hoverlabel = hoverlabel_list,
+        xaxis = list(
+          title = unique(summary_util$plotly_buffer_data$goodname),
+          font = x_axis_font_list,
+          tickfont = tickfont_list,
           zeroline = FALSE,
           showline = FALSE,
-          showgrid = TRUE
-          # range = c("2010-01-01", "2022-01-01")
+          showgrid = TRUE,
+          ticksuffix = "%"
+          
+        ),
+        yaxis = list(
+          title = "",
+          font = y_axis_font_list,
+          tickfont = tickfont_list,
+          zeroline = FALSE,
+          showline = FALSE,
+          showgrid = TRUE,
+          autorange = "reversed"
         )
       )
   })
-
+  
+  
   ## legend -----
   output$leg <- renderPlot({
     plot_grid(type_status_legend)
