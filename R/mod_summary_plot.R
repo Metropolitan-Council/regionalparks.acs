@@ -12,11 +12,15 @@ mod_summary_plot_ui <- function(id) {
   tagList(
     HTML("<p>This plot provides summarized demographic values for all the regional parks and trails. Point location along the x-axis indicates the demographic value which can be compared across and within park/trail status (existing, planned, search) or agencies. Color indicates park/trail status (green = existing, orange = planned, purple = search). Shape indicates park/trail type (circle = park, square = trail). The solid black, vertical line indicates the average demographic value within agency boundaries.</p>"),
 
-    plotOutput(ns("leg"), height = 100),
 
     textOutput(ns("avgtext")),
 
-    plotlyOutput(outputId = ns("output_plot"), height = 600) # height = as.numeric(unlist(textOutput(ns("TEST"))[[1]]))*25) #this doesn't work, but I'd love to do something like this
+    plotlyOutput(outputId = ns("output_plot"), height = 600), # height = as.numeric(unlist(textOutput(ns("TEST"))[[1]]))*25) #this doesn't work, but I'd love to do something like this
+    
+    plotlyOutput(outputId = ns("agency_plot"), height = 300),
+    
+    plotOutput(ns("leg"), height = 100)
+    
   )
 }
 
