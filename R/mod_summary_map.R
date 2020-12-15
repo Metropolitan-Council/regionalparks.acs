@@ -116,7 +116,7 @@ mod_summary_map_server <- function(input, output, session,
   observe({
     if (nrow(summary_util$map_parktrail_data) > 0) {
       leafletProxy("buffermap") %>%
-        addTiles() %>%
+        # addTiles() %>%
         clearShapes() %>%
         clearControls() %>%
         addPolygons(
@@ -141,11 +141,12 @@ mod_summary_map_server <- function(input, output, session,
             domain = summary_util$map_bg_data[[1]]
           ),
           values = (summary_util$map_bg_data[[1]]),
-          title = paste0(filter(renamekey, ACS == (names(summary_util$map_bg_data)[[1]])) %>% select(goodname)), # (names(summary_util$map_bg_data)[[1]]),
+          title = paste0(filter(renamekey, ACS == (names(summary_util$map_bg_data)[[1]])) %>%
+                           select(goodname)), # (names(summary_util$map_bg_data)[[1]]),
           opacity = 1,
           group = "Demographic data"
         ) %>%
-        # popup = paste0(summary_util$map_bg_data, #how can we get it to show just the value for the blockgroup that is clicked?
+        # popup = paste0(summary_util$map_bg_data, # how can we get it to show just the value for the blockgroup that is clicked?
         #   " ",
         #   summary_util$map_bg_data[[1]], "%"
         # )) %>%
