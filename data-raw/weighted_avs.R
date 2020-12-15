@@ -327,6 +327,15 @@ long_buffer_data <- bind_rows(
 usethis::use_data(long_buffer_data, overwrite = TRUE)
 
 
+# agency-level averages for each variable including existing and planned units
+agency_planned_existing_avgs <- long_buffer_data %>% 
+  filter(status != "Search") %>% 
+  group_by(agency, distance, ACS) %>% 
+  summarize(avg = round(mean(value), 1)) %>% 
+  filter(stringr::str_detect(ACS, "per")) 
+
+usethis::use_data(agency_planned_existing_avgs, overwrite = TRUE)
+
 ## Combine RAW long buffer data ---------------------------------------------------------------------
 # #having a change of heart in showing these data. The data that should be shown include: acs demographic percents, buffer overlap, AND 2019 population estimates. Relatively easy to show the acs demo % and the buffer overlap. But will be much harder to show the population estimates. So I am no longer in favor of showing a raw data tab. Happy to continue discussion here.
 
