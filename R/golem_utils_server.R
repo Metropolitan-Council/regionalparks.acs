@@ -66,3 +66,42 @@ rvtl <- shiny::reactiveValuesToList
 e_col <- "#009e61"
 p_col <- "#E69F00"
 s_col <- "#FDE725FF"
+
+
+
+renamekey <- tibble::tribble(
+  ~goodname,
+  ~"ACS",
+  "Total population",
+  "adj_poptotal",
+  "Age, % under 15",
+  "adj_ageunder15_per",
+  "Age, % 15-24",
+  "adj_age15_24_per",
+  "Age, % 25-64",
+  "adj_age25_64_per",
+  "Age, % 65 and up",
+  "adj_age65up_per",
+  "Race, % White",
+  "adj_whitenh_per",
+  "Race, % Black",
+  "adj_blacknh_per",
+  "Race, % Asian",
+  "adj_asiannh_per",
+  "Race, % American Indian",
+  "adj_amindnh_per",
+  "Race, % Other + Multiracial",
+  "adj_othermultinh_per",
+  "Ethnicity, % Hispanic",
+  "adj_hisppop_per",
+  "Ethnicity, % not-Hispanic",
+  "adj_nothisppop_per",
+  "Mean household income",
+  "adj_meanhhi",
+  "% Housholds without a vehicle",
+  "adj_novehicle_per",
+  "% speaking English less than very well",
+  "adj_lep_per",
+  "% Spanish speakers",
+  "adj_span_per"
+)

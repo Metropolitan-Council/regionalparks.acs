@@ -29,6 +29,7 @@ mod_pop_demoshifts_ui <- function(id) {
 #' pop_demoshifts Server Function
 #'
 #' @noRd
+#' @importFrom ggplot2 ggplot aes
 mod_pop_demoshifts_server <- function(input, output, session) {
   ns <- session$ns
 

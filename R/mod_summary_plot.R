@@ -10,16 +10,19 @@
 mod_summary_plot_ui <- function(id) {
   ns <- NS(id)
   tagList(
-    HTML("<p>This plot provides summarized demographic values for all the regional parks and trails. Point location along the x-axis indicates the demographic value which can be compared across and within park/trail status (existing, planned, search) or agencies. Color indicates park/trail status (green = existing, orange = planned, purple = search). Shape indicates park/trail type (circle = park, square = trail). The solid black, vertical line indicates the average demographic value within agency boundaries.</p>"),
+    HTML("<p>This plot provides summarized demographic values for all the regional parks and trails. Point location along the x-axis indicates the demographic value which can be compared across and within park/trail status (existing, planned, search) or agencies. Color indicates park/trail status (green = existing, orange = planned, yellow = search). Shape indicates park/trail type (circle = park, square = trail). The solid black, vertical line indicates the average demographic value within agency boundaries.</p>"),
 
 
-    textOutput(ns("avgtext")),
+    # textOutput(ns("avgtext")),
 
-    plotlyOutput(outputId = ns("output_plot"), height = 600), # height = as.numeric(unlist(textOutput(ns("TEST"))[[1]]))*25) #this doesn't work, but I'd love to do something like this
+    plotOutput(ns("leg"), height = 100),
+    
+    hr(),
+    # plotlyOutput(outputId = ns("output_plot"), height = 600), # height = as.numeric(unlist(textOutput(ns("TEST"))[[1]]))*25) #this doesn't work, but I'd love to do something like this
 
-    plotlyOutput(outputId = ns("agency_plot"), height = 300),
+    # plotlyOutput(outputId = ns("agency_plot"), height = 300)
 
-    plotOutput(ns("leg"), height = 100)
+    plotlyOutput(outputId = ns("testplotly"), height = 900)
   )
 }
 
@@ -176,8 +179,6 @@ mod_summary_plot_server <- function(input, output, session,
           showline = FALSE,
           showgrid = TRUE,
           ticksuffix = "%"
-
-          # range = c("2010-01-01", "2022-01-01")
         ),
         yaxis = list(
           title = "",
@@ -186,8 +187,7 @@ mod_summary_plot_server <- function(input, output, session,
           showline = FALSE,
           showgrid = TRUE,
           autorange = "reversed"
-          # range = c("2010-01-01", "2022-01-01")
-        )
+          )
       )
   })
 
@@ -231,6 +231,97 @@ mod_summary_plot_server <- function(input, output, session,
         )
       )
   })
+  
+
+  output$testplotly <- renderPlotly({
+    subplot(
+      plot_ly() %>%
+        plotly::add_markers(
+          data = summary_util$plotly_agency_data,
+          x = ~avg,
+          y = ~agency,
+          hoverinfo = "text",
+          text = ~hover_text,
+          marker = list(
+            size = 14,
+            opacity = 0.8
+          )
+        ) %>%
+        layout(
+          showlegend = FALSE,
+          margin = list(l = 10, r = 45, b = 10, t = 10), # l = left; r = right; t = top; b = bottom
+          hovermode = "closest",
+          hoverdistance = "10",
+          hoverlabel = hoverlabel_list,
+          xaxis = list(
+            title = paste0(unique(summary_util$plotly_buffer_data$goodname)),
+            font = x_axis_font_list,
+            tickfont = tickfont_list,
+            zeroline = FALSE,
+            showline = FALSE,
+            showgrid = TRUE,
+            ticksuffix = "%",
+            range = c(min(summary_util$plotly_buffer_data %>%.$value)-1, max(summary_util$plotly_buffer_data %>% .$value)+1)
+          ),
+          yaxis = list(
+            title = "",
+            font = y_axis_font_list,
+            tickfont = tickfont_list,
+            zeroline = FALSE,
+            showline = FALSE,
+            showgrid = TRUE,
+            autorange = "reversed"
+          )
+        ),
+      
+      plot_ly() %>%
+        plotly::add_markers(
+          data = summary_util$plotly_buffer_data,
+          x = ~value,
+          y = ~name,
+          symbol = ~type,
+          color = ~status,
+          symbols = c("circle", "square"),
+          colors = c(e_col, p_col, s_col),
+          hoverinfo = "text",
+          text = ~hover_text,
+          marker = list(
+            size = 14,
+            opacity = 0.8
+          )
+        ) %>%
+        layout(
+          showlegend = FALSE,
+          margin = list(l = 10, r = 45, b = 10, t = 10), # l = left; r = right; t = top; b = bottom
+          hovermode = "closest",
+          hoverdistance = "10",
+          hoverlabel = hoverlabel_list,
+          xaxis = list(
+            title = unique(summary_util$plotly_buffer_data$goodname),
+            font = x_axis_font_list,
+            
+            tickfont = tickfont_list,
+            zeroline = FALSE,
+            showline = FALSE,
+            showgrid = TRUE,
+            ticksuffix = "%",
+            range = c(min(summary_util$plotly_buffer_data %>%.$value)-1, max(summary_util$plotly_buffer_data %>% .$value)+1)
+          ),
+          yaxis = list(
+            title = "",
+            tickfont = tickfont_list,
+            zeroline = FALSE,
+            showline = FALSE,
+            showgrid = TRUE,
+            autorange = "reversed"
+            # range = c("2010-01-01", "2022-01-01")
+          )
+        ),
+      
+      nrows = 2,
+      
+      heights=c(0.1, 0.9))
+  })
 
 
   ## legend -----
@@ -251,7 +342,7 @@ mod_summary_plot_server <- function(input, output, session,
         left_join(renamekey, by = "ACS") %>%
         select(goodname)), '" within "',
       summary_util$agencyavg_data$agency, '":  ',
-      summary_util$agencyavg_data$value, "       ", "\n"
+      summary_util$agencyavg_data$value, "       ", "\n", "dafasf"
     ) # hmm, my new line isn't working
     )
   )

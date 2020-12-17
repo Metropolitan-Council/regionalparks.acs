@@ -19,8 +19,8 @@ download.file("https://resources.gisdata.mn.gov/pub/gdrs/data/pub/us_mn_state_me
 )
 
 bg <- readxl::read_xlsx(unzip(temp, "CensusACSBlockGroup.xlsx")) %>%
-  janitor::clean_names() %>%
-  filter(state == 27)
+  janitor::clean_names() #%>%
+  # filter(state == 27)
 
 fs::file_delete("CensusACSBlockGroup.xlsx")
 

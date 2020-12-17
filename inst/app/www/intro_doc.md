@@ -48,67 +48,54 @@ Guide](https://datalab.h-gac.com/equity/Regional_Equity_Tool_Userguide.pdf)
 or an annotated video tutorial? For ideas, H-GAC has some [great
 tools](https://www.h-gac.com/interactive-web-applications/default.aspx).
 
-**Please click on the individual tabs on the top to start using this
-tool.**
+### **Please click on the individual tabs on the top to start using this tool.**
 
-## ACS Variable Dictionary
+<!-- ## ACS Variable Dictionary  -->
 
-Statistics produced for American Community Survey and included in ACS
-tables are survey-based estimates and are subject to error. The errors
-derive from research design (including instrument bias, data frame, and
-sampling), the survey data collection (non-response bias and response
-errors), and processing by the Census Bureau (data coding, compilation
-processes, and case weighting), as well as statistical inference error
-and uncertainty (which are related to sample size and variance within
-the measured attributes).
+<!-- Statistics produced for American Community Survey and included in ACS tables are survey-based estimates and are subject to error. The errors derive from research design (including instrument bias, data frame, and sampling), the survey data collection (non-response bias and response errors), and processing by the Census Bureau (data coding, compilation processes, and case weighting), as well as statistical inference error and uncertainty (which are related to sample size and variance within the measured attributes).   -->
 
-The American Community Survey (ACS, 2014-2018) is the primary data
-source for this tool. Specific variables which can be evaluated in this
-tool include:
+<!-- The American Community Survey (ACS, 2014-2018) is the primary data source for this tool. Specific variables which can be evaluated in this tool include: -->
 
-**Age:** specific park/trail amenities are attractive to different age
-groups (e.g. younger populations may prefer play structures while older
-populations may prefer benches).
+<!-- **Age:** specific park/trail amenities are attractive to different age groups (e.g. younger populations may prefer play structures while older populations may prefer benches). -->
 
-  - Under 15
-  - Age 15-24
-  - Age 25-64
-  - Over 65
+<!-- - Under 15 -->
 
-**Race:** BIPOC (Black, Indigenous, and People of Color) populations are
-historically undeserved by regional parks and trails.
+<!-- - Age 15-24 -->
 
-  - American Indian
-  - Asian
-  - Black
-  - Other + Multiracial
-  - White - consider using (100% - %White) to evaluate %BIPOC
+<!-- - Age 25-64 -->
 
-**Ethnicity:** ethnicity is measured separately from race in the ACS,
-although race and ethnicity are often linked in practice. Hispanic
-populations are historically underserved by regional parks and trails.
+<!-- - Over 65 -->
 
-  - Hispanic
-  - Non-Hispanic
+<!-- **Race:** BIPOC (Black, Indigenous, and People of Color) populations are historically undeserved by regional parks and trails.  -->
 
-**Income:** lower income households are historically underserved by
-regional parks/trails.
+<!-- - American Indian  -->
 
-  - Mean household income
+<!-- - Asian  -->
 
-**Transportation:** households without vehicles may access regional
-parks/trails differently than households with vehicles.
+<!-- - Black  -->
 
-  - Households without a vehicle
+<!-- - Other + Multiracial  -->
 
-**Language:** language proficiency may inform written and oral
-communications by regional parks/trails
+<!-- - White - consider using (100% - %White) to evaluate %BIPOC -->
 
-  - Speaking English less than very well
-  - Speaking Spanish
+<!-- **Ethnicity:** ethnicity is measured separately from race in the ACS, although race and ethnicity are often linked in practice. Hispanic populations are historically underserved by regional parks and trails. -->
 
-**Ability:** Populations with disabilities are historically underserved
-by regional parks and trails. These data are suppressed at the
-block-group level, so cannot be evaluated here although we do note the
-importance of considering ability to strengthen equitable use of
-regional parks and trails.")
+<!-- - Hispanic  -->
+
+<!-- - Non-Hispanic -->
+
+<!-- **Income:** lower income households are historically underserved by regional parks/trails. -->
+
+<!-- - Mean household income -->
+
+<!-- **Transportation:** households without vehicles may access regional parks/trails differently than households with vehicles. -->
+
+<!-- - Households without a vehicle -->
+
+<!-- **Language:** language proficiency may inform written and oral communications by regional parks/trails -->
+
+<!-- - Speaking English less than very well  -->
+
+<!-- - Speaking Spanish -->
+
+<!-- **Ability:** Populations with disabilities are historically underserved by regional parks and trails. These data are suppressed at the block-group level, so cannot be evaluated here although we do note the importance of considering ability to strengthen equitable use of regional parks and trails.") -->

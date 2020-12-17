@@ -19,6 +19,9 @@ The "Map" tab displays census tracts in the Twin Cities metropolitan area. The t
 
 Statistics produced for American Community Survey and included in ACS tables are survey-based estimates and are subject to error. The errors derive from research design (including instrument bias, data frame, and sampling), the survey data collection (non-response bias and response errors), and processing by the Census Bureau (data coding, compilation processes, and case weighting), as well as statistical inference error and uncertainty (which are related to sample size and variance within the measured attributes). US Census Bureau's report on "Accuracy of the Data" can be found [here](https://www2.census.gov/programs-surveys/acs/tech_docs/accuracy/MultiyearACSAccuracyofData2017.pdf?#).  
 
+### Variable dictionary
+some text about the variables included/not included here.
+
 ### Contributors  
 
 - Liz Roten, Associate Data Scientist [liz.roten@metc.state.mn.us](mailto:liz.roten@metc.state.mn.us)  

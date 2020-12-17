@@ -70,6 +70,7 @@ mod_summary_utils_server <- function(input, output, session,
         "Approximatley ",
         "<b>", value, "%", "</b>", " of the population within ",
         "<b>", distance, " mile", "</b>",
+        " of ", name,
         " falls into the ",
         "<b>", acs_short, "</b>",
         " category"
@@ -79,7 +80,7 @@ mod_summary_utils_server <- function(input, output, session,
   make_plotly_agency_data <- reactive({
     agency_planned_existing_avgs %>%
       filter(
-        # agency %in% selected_vars$input_agency,
+        agency %in% selected_vars$input_agency,
         # type %in% selected_vars$input_type,
         distance == selected_vars$input_distance,
         # status %in% selected_vars$input_status,
