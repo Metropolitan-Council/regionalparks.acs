@@ -14,9 +14,9 @@
 mod_pop_map_ui <- function(id) {
   ns <- NS(id)
   tagList(
-    HTML("</p>The Metropolitian Council publishes current population estimates and future forecasted population estimates. Current populaton estimates are calculated XXX and available for Census block groups (pub date). Future population forecasts represent shared expectations of population change between cities and the Metropolitian Council (pub date). Forecasts are based off of 2010 Census data and city comprehensive plans and available at the transportation analysis zone (TAZ, a coarser spatial resolution than Census block groups). Given the differential methods and geographies used in calcuating current and future populations, we will not perform further analyses on these data. However, the overarching spatial patterns still may be useful in anticipating areas which may have increased need for park access. See (link: https://metrocouncil.org/Data-and-Maps/Research-and-Data/Thrive-2040-Forecasts.aspx) for more detail Also note that pop forecasts are in the comunity profiles.</p>"),
+    HTML("</p>The Metropolitian Council publishes current population estimates and future forecasted population estimates. Current populaton estimates are available for Census block groups. Future forecasts are based on 2010 Census data and city comprehensive plans and available at the transportation analysis zone (a coarser spatial resolution). Given the differential methods and geographies used in calcuating current and future populations, we will not perform further analyses on these data. However, the overarching patterns still may be useful in parks planning. See (link: https://metrocouncil.org/Data-and-Maps/Research-and-Data/Thrive-2040-Forecasts.aspx) for more detail Also note that pop forecasts are in the comunity profiles.</p>"),
 
-    leafletOutput(ns("popmap"), width = "100%", height = 900)
+    leafletOutput(ns("popmap"), width = "100%", height = 700)
   )
 }
 
