@@ -34,7 +34,8 @@ Imports:
     forcats,
     stringr,
     plotly,
-    tidyr
+    tidyr,
+    DT
 Suggests: 
     data.table (>= 1.12.8),
     fs (>= 1.4.1),
