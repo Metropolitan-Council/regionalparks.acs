@@ -80,7 +80,8 @@ mod_pop_demoshifts_server <- function(input, output, session) {
       ) +
       scale_fill_brewer(palette = "Blues") +
       geom_text(aes(label = round(Percent, 1)),
-        position = position_stack(vjust = 0.5)
+        position = position_stack(vjust = 0.5),
+        size = 8
       )
   })
   #
@@ -127,7 +128,8 @@ mod_pop_demoshifts_server <- function(input, output, session) {
       ) +
       scale_fill_brewer(palette = "Greens") +
       geom_text(aes(label = round(Percent, 1)),
-        position = position_stack(vjust = 0.5)
+        position = position_stack(vjust = 0.5),
+        size = 8
       )
   })
 }

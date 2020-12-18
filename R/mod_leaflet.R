@@ -48,7 +48,7 @@ mod_leaflet_server <- function(input, output, session, tract_data = tract_data) 
         color = e_col, # councilR::colors$playGreen, # councilR::colors$suppWhite,
         fill = TRUE,
         fillColor = e_col, # councilR::colors$playGreen,
-        fillOpacity = 1, # 0.8,
+        fillOpacity =  0.8,
         options = pathOptions(pane = "parks_geo"),
         highlightOptions = highlightOptions(
           stroke = TRUE,
@@ -78,7 +78,7 @@ mod_leaflet_server <- function(input, output, session, tract_data = tract_data) 
         color = p_col, # councilR::colors$suppGray,
         fill = TRUE,
         fillColor = p_col, # ouncilR::colors$suppGray,
-        fillOpacity = 1, # 0.8,
+        fillOpacity = 0.8,
         options = pathOptions(pane = "parks_geo"),
         highlightOptions = highlightOptions(
           stroke = TRUE,
@@ -108,7 +108,7 @@ mod_leaflet_server <- function(input, output, session, tract_data = tract_data) 
         color = s_col, # councilR::colors$suppGray,
         fill = TRUE,
         fillColor = s_col, # councilR::colors$suppGray,
-        fillOpacity = 1, # 0.8,
+        fillOpacity =  0.8,
         options = pathOptions(pane = "parks_geo"),
         highlightOptions = highlightOptions(
           stroke = TRUE,
@@ -143,7 +143,7 @@ mod_leaflet_server <- function(input, output, session, tract_data = tract_data) 
         weight = 3, # 3,
         color = e_col, # councilR::colors$playGreen,
         smoothFactor = 0.3,
-        opacity = 1, # 0.5,
+        opacity = .8, # 0.5,
         options = pathOptions(pane = "parks_geo"),
         popup = ~ paste0(
           "<b>", park_trail_geog$trail$status, "</b>", "<br>",
@@ -165,7 +165,7 @@ mod_leaflet_server <- function(input, output, session, tract_data = tract_data) 
         weight = 3, # 3,
         color = s_col, # councilR::colors$suppGray,
         smoothFactor = 0.3,
-        opacity = 1, # 0.5,
+        opacity = .8, # 0.5,
         options = pathOptions(pane = "parks_geo"),
         popup = ~ paste0(
           "<b>", park_trail_geog$trail_search$status, "</b>", "<br>",
@@ -187,7 +187,7 @@ mod_leaflet_server <- function(input, output, session, tract_data = tract_data) 
         weight = 3, # 3,
         color = p_col, # councilR::colors$suppGray,
         smoothFactor = 0.3,
-        opacity = 1, # 0.5,
+        opacity = .8, # 0.5,
         options = pathOptions(pane = "parks_geo"),
         popup = ~ paste0(
           "<b>", park_trail_geog$trail_planned$status, "</b>", "<br>",
@@ -268,7 +268,7 @@ mod_leaflet_server <- function(input, output, session, tract_data = tract_data) 
     # browser()
     leafletProxy("map") %>%
       clearGroup("Census Tracts") %>%
-      clearControls() %>%
+      # clearControls() %>%
       addPolygons(
         data = tract_data$tract_data,
         group = "Census Tracts",

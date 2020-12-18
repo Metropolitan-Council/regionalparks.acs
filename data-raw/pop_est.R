@@ -93,43 +93,43 @@ bg_pop2019 <- bg_area %>%
 # not currently online, so waiting on this....
 #############
 
-temp <- tempfile()
-download.file("https://resources.gisdata.mn.gov/pub/gdrs/data/pub/us_mn_state_metc/trans_anlys_zones_offical_curent/gpkg_trans_anlys_zones_offical_curent.zip",
-  destfile = temp
-)
-
-
-taz_growth <- sf::read_sf(unzip(temp, "trans_anlys_zones_offical_curent.gpkg")) %>%
-  filter(TCFLAG == 1) %>%
-  select(
-    TAZ,
-    POP2020, POP2030, POP2040
-  ) %>%
-  st_transform(4326) %>%
-  st_as_sf() %>%
-  mutate(
-    growth_abs_20_40 = POP2040 - POP2020,
-    growth_rel_20_40 = POP2040 / POP2020
-  ) %>%
-  mutate(growth_abs_cat = case_when(
-    growth_abs_20_40 < 100 ~ "<100",
-    growth_abs_20_40 < 500 ~ "100-500",
-    growth_abs_20_40 < 1000 ~ "500-1000",
-    growth_abs_20_40 >= 1000 ~ "1000+"
-  )) # ,
-# taz_area = st_area(.),
-# density2040 = POP2040 / taz_area)
-
-taz_growth %>%
-  as_tibble() %>%
-  summarise(db = quantile(growth_abs_20_40, probs = c(.25, .5, .75, 1)))
-
-fs::file_delete("trans_anlys_zones_offical_curent.gpkg")
+# temp <- tempfile()
+# download.file("https://resources.gisdata.mn.gov/pub/gdrs/data/pub/us_mn_state_metc/trans_anlys_zones_offical_curent/gpkg_trans_anlys_zones_offical_curent.zip",
+#   destfile = temp
+# )
+# 
+# 
+# taz_growth <- sf::read_sf(unzip(temp, "trans_anlys_zones_offical_curent.gpkg")) %>%
+#   filter(TCFLAG == 1) %>%
+#   select(
+#     TAZ,
+#     POP2020, POP2030, POP2040
+#   ) %>%
+#   st_transform(4326) %>%
+#   st_as_sf() %>%
+#   mutate(
+#     growth_abs_20_40 = POP2040 - POP2020,
+#     growth_rel_20_40 = POP2040 / POP2020
+#   ) %>%
+#   mutate(growth_abs_cat = case_when(
+#     growth_abs_20_40 < 100 ~ "<100",
+#     growth_abs_20_40 < 500 ~ "100-500",
+#     growth_abs_20_40 < 1000 ~ "500-1000",
+#     growth_abs_20_40 >= 1000 ~ "1000+"
+#   )) # ,
+# # taz_area = st_area(.),
+# # density2040 = POP2040 / taz_area)
+# 
+# taz_growth %>%
+#   as_tibble() %>%
+#   summarise(db = quantile(growth_abs_20_40, probs = c(.25, .5, .75, 1)))
+# 
+# fs::file_delete("trans_anlys_zones_offical_curent.gpkg")
 
 
 #######
 # combine
 #####
-# est_pop <- bind_rows()
+est_pop <- bg_pop2019#bind_rows()
 
-# usethis::use_data(est_pop, overwrite = TRUE)
+usethis::use_data(est_pop, overwrite = TRUE)

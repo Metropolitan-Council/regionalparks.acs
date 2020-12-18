@@ -70,8 +70,10 @@ app_ui <- function(request) {
           selected = "Population map",
           tabPanel(
             "Population map",
-            mod_pop_selections_ui("pop_selections_ui_1"),
-            mod_pop_map_ui("pop_map_ui_1")
+            sidebarPanel(mod_pop_selections_ui("pop_selections_ui_1")),
+            mainPanel(
+            # mod_pop_selections_ui("pop_selections_ui_1"),
+            mod_pop_map_ui("pop_map_ui_1"))
           ),
           tabPanel(
             "Demographic shifts",

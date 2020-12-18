@@ -24,14 +24,14 @@ mod_pop_selections_ui <- function(id) {
 </div>
 <div class='radio'>
                   <label>
-                    <input type='radio' name='pop_selections_ui_1-inputPop' value='pop_est' checked='checked'>
+                    <input type='radio' name='pop_selections_ui_1-inputPop' value='PopEst_2019' checked='checked'>
                     <span>2019 pop. estimate</span>
                   </label>
                 </div>
  <div class='radio'>
                   <label>
-                    <input type='radio' name='pop_selections_ui_1-inputPop' value='hh_est'>
-                    <span>2010-2040 absolute growth</span>
+                    <input type='radio' name='pop_selections_ui_1-inputPop' value='PopDens_2019'>
+                    <span>dens2010-2040 absolute growth</span>
                   </label>
                 </div>
                 <div class='radio'>

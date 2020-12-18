@@ -10,7 +10,7 @@
 mod_summary_plot_ui <- function(id) {
   ns <- NS(id)
   tagList(
-    HTML("<p>This plot provides summarized demographic values for all the regional parks and trails. Point location along the x-axis indicates the demographic value which can be compared across and within units or agencies. Color indicates unit status (green = existing, orange = planned, yellow = search). Shape indicates unit type (circle = park, square = trail). The solid black, vertical line indicates the average demographic value within agency boundaries.</p>"),
+    HTML("<p>This plot provides summarized demographic values for all the regional parks and trails. Point location along the x-axis indicates the demographic value which can be compared across and within units or agencies. Color indicates unit status (green = existing, orange = planned, yellow = search). Shape indicates unit type (circle = park, square = trail). The subplot with the blue point indicates the average demographic value within agency boundaries.</p>"),
 
 
     # textOutput(ns("avgtext")),
@@ -22,7 +22,9 @@ mod_summary_plot_ui <- function(id) {
 
     # plotlyOutput(outputId = ns("agency_plot"), height = 300)
 
-    plotlyOutput(outputId = ns("subplotlys"), height = 900)
+    # uiOutput(ns("height")),
+    
+    plotlyOutput(outputId = ns("subplotlys"))#, height = uiOutput(ns("height")))#900)
   )
 }
 
@@ -103,7 +105,7 @@ mod_summary_plot_server <- function(input, output, session,
     "% Spanish speakers",
     "adj_span_per"
   )
-
+  
   type_status_legend <- # status legend -------
   cowplot::get_legend(
       tibble(
@@ -146,8 +148,8 @@ mod_summary_plot_server <- function(input, output, session,
 
 
 
-  # ## main plotly ----
-  # output$output_plot <- renderPlotly({
+
+  # output$output_plot <- renderPlotly({ # main plotly ----
   #   plot_ly() %>%
   #     plotly::add_markers(
   #       data = summary_util$plotly_buffer_data,
@@ -191,8 +193,8 @@ mod_summary_plot_server <- function(input, output, session,
   #     )
   # })
   # 
-  # 
-  # output$agency_plot <- renderPlotly({
+
+  # output$agency_plot <- renderPlotly({ # agency plotly -----
   #   plot_ly() %>%
   #     plotly::add_markers(
   #       data = summary_util$plotly_agency_data,
@@ -233,17 +235,18 @@ mod_summary_plot_server <- function(input, output, session,
   # })
   # 
 
-  output$subplotlys <- renderPlotly({
+  
+  output$subplotlys <- renderPlotly({ # plotlys using subplots ----
     subplot(
-      plot_ly() %>%
+      plot_ly(height = nrow(summary_util$plotly_agency_data)*25) %>%
         plotly::add_markers(
           data = summary_util$plotly_agency_data,
-          x = ~avg,
+          x = ~value, #avg,
           y = ~agency,
           hoverinfo = "text",
           text = ~hover_text,
           marker = list(
-            size = 14,
+            size = 10,
             opacity = 0.8
           )
         ) %>%
@@ -254,7 +257,7 @@ mod_summary_plot_server <- function(input, output, session,
           hoverdistance = "10",
           hoverlabel = hoverlabel_list,
           xaxis = list(
-            # title = paste0(unique(summary_util$plotly_buffer_data$goodname)),
+            # title = "some title", #paste0(summary_util$plotly_agency_data$goodname, ""),#(unique(summary_util$plotly_buffer_data$goodname)),
             font = x_axis_font_list,
             tickfont = tickfont_list,
             zeroline = FALSE,
@@ -274,7 +277,7 @@ mod_summary_plot_server <- function(input, output, session,
           )
         ),
       
-      plot_ly() %>%
+      plot_ly(height = nrow(summary_util$plotly_buffer_data)*25) %>%
         plotly::add_markers(
           data = summary_util$plotly_buffer_data,
           x = ~value,
@@ -286,7 +289,7 @@ mod_summary_plot_server <- function(input, output, session,
           hoverinfo = "text",
           text = ~hover_text,
           marker = list(
-            size = 14,
+            size = 10,
             opacity = 0.8
           )
         ) %>%
@@ -320,7 +323,9 @@ mod_summary_plot_server <- function(input, output, session,
       
       nrows = 2,
       
-      heights=c(0.1, 0.9))
+      heights=c(0.07, 0.93),
+      shareX = F)#,
+      # height = nrow(summary_util$plotly_height))
   })
 
 
@@ -334,7 +339,11 @@ mod_summary_plot_server <- function(input, output, session,
   output$TEST <- renderText(
     nrow(summary_util$plot_buffer_data)
   )
-
+  
+  output$height <- renderText(
+    summary_util$plotly_height[[1]]
+  )
+  
   # text agency avg ----
   output$avgtext <- renderText(
     (paste0(

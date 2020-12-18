@@ -57,7 +57,8 @@ mod_summary_utils_server <- function(input, output, session,
         c(
           "Regional Park" = "RP",
           "Regional Trail" = "RT",
-          "Park Reserve" = "PR"
+          "Park Reserve" = "PR",
+          "Special Recreation Feature" = "SRF"
         )
       )) %>% 
       mutate(
@@ -69,20 +70,39 @@ mod_summary_utils_server <- function(input, output, session,
       mutate(hover_text = stringr::str_wrap(paste0(
         "Approx. ",
         "<b>", value, "%", "</b>", " of the pop. within ",
-        "<b>", distance, " mile of ", "</b>",
-        "<b>", name, " (", status, ")", "</b>", "falls into the ",
+         distance, " mile of ",
+        name, " (", status, ")", " falls into the ",
         "<b>", acs_short, "</b>",
         " category"
       ), 55))
   })
 
+  # make_plotly_agency_data <- reactive({
+  #   agency_planned_existing_avgs %>%
+  #     filter(
+  #       agency %in% selected_vars$input_agency,
+  #       # type %in% selected_vars$input_type,
+  #       distance == selected_vars$input_distance,
+  #       # status %in% selected_vars$input_status,
+  #       ACS == selected_vars$input_acs
+  #     ) %>%
+  #     left_join(renamekey, by = c("ACS" = "ACS variable")) %>%
+  #     mutate(acs_short = stringr::str_remove(goodname, "% ")) %>%
+  #     mutate(hover_text = stringr::str_wrap(paste0(
+  #       "The average ",
+  #       "<b>", acs_short, "</b>",
+  #       " within ",
+  #       "<b>", agency, "</b>",
+  #       "'s jurisdiction is ",
+  #       "<b>", avg, "%", "</b>",
+  #       "."
+  #     ), 50))
+  # })
+  
   make_plotly_agency_data <- reactive({
-    agency_planned_existing_avgs %>%
+    agency_avg %>%
       filter(
         agency %in% selected_vars$input_agency,
-        # type %in% selected_vars$input_type,
-        distance == selected_vars$input_distance,
-        # status %in% selected_vars$input_status,
         ACS == selected_vars$input_acs
       ) %>%
       left_join(renamekey, by = c("ACS" = "ACS variable")) %>%
@@ -91,9 +111,9 @@ mod_summary_utils_server <- function(input, output, session,
         "The average ",
         "<b>", acs_short, "</b>",
         " within ",
-        "<b>", agency, " </b>",
+        "<b>", agency, "</b>",
         "'s jurisdiction is ",
-        "<b>", avg, "%", "</b>",
+        "<b>", value, "%", "</b>",
         "."
       ), 50))
   })
@@ -227,6 +247,10 @@ mod_summary_utils_server <- function(input, output, session,
 
   observe({
     vals$plotly_buffer_data <- make_plotly_buffer_data()
+  })
+  
+  observe({
+    vals$plotly_height <- nrow(make_plotly_buffer_data())
   })
 
   observe({
