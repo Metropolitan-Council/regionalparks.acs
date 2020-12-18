@@ -59,7 +59,7 @@ mod_summary_utils_server <- function(input, output, session,
           "Regional Trail" = "RT",
           "Park Reserve" = "PR"
         )
-      )) %>%
+      )) %>% 
       mutate(
         name = forcats::fct_reorder(name, desc(value)),
         concat = paste(type, status, sep = "_")
@@ -67,11 +67,10 @@ mod_summary_utils_server <- function(input, output, session,
       left_join(renamekey, by = c("ACS" = "ACS variable")) %>%
       mutate(acs_short = stringr::str_remove(goodname, "% ")) %>%
       mutate(hover_text = stringr::str_wrap(paste0(
-        "Approximatley ",
-        "<b>", value, "%", "</b>", " of the population within ",
-        "<b>", distance, " mile", "</b>",
-        " of ", name,
-        " falls into the ",
+        "Approx. ",
+        "<b>", value, "%", "</b>", " of the pop. within ",
+        "<b>", distance, " mile of ", "</b>",
+        "<b>", name, " (", status, ")", "</b>", "falls into the ",
         "<b>", acs_short, "</b>",
         " category"
       ), 55))
@@ -92,10 +91,8 @@ mod_summary_utils_server <- function(input, output, session,
         "The average ",
         "<b>", acs_short, "</b>",
         " within ",
-        "<b>", distance, " mile ", "</b>",
-        "of all existing and planned units in ",
         "<b>", agency, " </b>",
-        " is ",
+        "'s jurisdiction is ",
         "<b>", avg, "%", "</b>",
         "."
       ), 50))
@@ -147,28 +144,43 @@ mod_summary_utils_server <- function(input, output, session,
   # })
 
 
-  recode_bg_names <- tibble::tribble( # recode bg names ----
-    ~block_group_name, ~acs_selection,
-    "ageunder15_percent", "adj_ageunder15_per",
-    "age15_24_percent", "adj_age15_24_per",
-    "age25_64_percent", "adj_age25_64_per",
-    "age65up_percent", "adj_age65up_per",
-    "whitenh_percent", "adj_whitenh_per",
-    "blacknh_percent", "adj_blacknh_per",
-    "asiannh_percent", "adj_asiannh_per",
-    "amindnh_percent", "adj_amindnh_per",
-    "othermutltnh_percent", "adj_othermultinh",
-    "hisppop_percent", "adj_hisppop_per",
-    "nothisppop_percent", "adj_nothisppop_per",
-    "meanhhinc", "adj_meanhhi",
-    "novehicle_percent", "adj_novehicle_per",
-    "poorenglish_percent", "adj_lep_per",
-    "spanish_percent", "adj_span_per"
-  )
+  # recode_bg_names <- tibble::tribble( # recode bg names ----
+  #   ~block_group_name, ~acs_selection,
+  #   "ageunder15_percent", "adj_ageunder15_per",
+  #   "age15_24_percent", "adj_age15_24_per",
+  #   "age25_64_percent", "adj_age25_64_per",
+  #   "age65up_percent", "adj_age65up_per",
+  #   "whitenh_percent", "adj_whitenh_per",
+  #   "blacknh_percent", "adj_blacknh_per",
+  #   "asiannh_percent", "adj_asiannh_per",
+  #   "amindnh_percent", "adj_amindnh_per",
+  #   "othermutltnh_percent", "adj_othermultinh",
+  #   "hisppop_percent", "adj_hisppop_per",
+  #   "nothisppop_percent", "adj_nothisppop_per",
+  #   "meanhhinc", "adj_meanhhi",
+  #   "novehicle_percent", "adj_novehicle_per",
+  #   "poorenglish_percent", "adj_lep_per",
+  #   "spanish_percent", "adj_span_per"
+  # )
+
 
   make_map_bg_data <- reactive({
     # p6 <- regionalparks.acs::bg_geo[selected_vars$input_acs]
     p6 <- regionalparks.acs::block_group %>%
+      mutate(ageunder15_percent = ageunder15_percent*100,
+             age15_24_percent = age15_24_percent * 100,
+             age25_64_percent = age25_64_percent * 100,
+             age65up_percent = age65up_percent * 100,
+             whitenh_percent = whitenh_percent * 100,
+             blacknh_percent = blacknh_percent * 100,
+             asiannh_percent = asiannh_percent*100,
+             amindnh_percent = amindnh_percent * 100,
+             othermutltnh_percent = othermutltnh_percent *100,
+             hisppop_percent = hisppop_percent * 100,
+             nothisppop_percent = nothisppop_percent * 100,
+             novehicle_percent = novehicle_percent * 100,
+             poorenglish_percent = poorenglish_percent * 100,
+             spanish_percent = spanish_percent * 100) %>%
       rename(
         "adj_ageunder15_per" = "ageunder15_percent",
         "adj_age15_24_per" = "age15_24_percent",
@@ -178,15 +190,15 @@ mod_summary_utils_server <- function(input, output, session,
         "adj_blacknh_per" = "blacknh_percent",
         "adj_asiannh_per" = "asiannh_percent",
         "adj_amindnh_per" = "amindnh_percent",
-        "adj_othermultinh" = "othermutltnh_percent",
+        "adj_othermultinh_per" = "othermutltnh_percent",
         "adj_hisppop_per" = "hisppop_percent",
         "adj_nothisppop_per" = "nothisppop_percent",
         "adj_meanhhi" = "meanhhinc",
         "adj_novehicle_per" = "novehicle_percent",
         "adj_lep_per" = "poorenglish_percent",
         "adj_span_per" = "spanish_percent"
-      ) %>%
-      select(selected_vars$input_acs)
+      ) %>% 
+      select(selected_vars$input_acs) 
     return(p6)
   })
 

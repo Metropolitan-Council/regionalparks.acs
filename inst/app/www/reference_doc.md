@@ -30,6 +30,10 @@ the measured attributes). US Census Bureau’s report on “Accuracy of the
 Data” can be found
 [here](https://www2.census.gov/programs-surveys/acs/tech_docs/accuracy/MultiyearACSAccuracyofData2017.pdf?#).
 
+### Variable dictionary
+
+some text about the variables included/not included here.
+
 ### Contributors
 
   - Liz Roten, Associate Data Scientist <liz.roten@metc.state.mn.us>  
@@ -320,6 +324,6 @@ Simulate Package Installation and Attach</em>.
 </div>
 
 <right style="font-size: 1rem; text-align: right; display: block;">
-*Last updated 2020-12-17*  
-Build ID: 2020-12-17.roten.9aee279  
+*Last updated 2020-12-18*  
+Build ID: 2020-12-18.roten.0f168d7  
 </right>

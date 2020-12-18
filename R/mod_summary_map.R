@@ -128,15 +128,15 @@ mod_summary_map_server <- function(input, output, session,
           weight = 0.25,
           fillOpacity = 0.6,
           smoothFactor = 0.2,
-          fillColor = ~ colorQuantile(
-            n = 7,
+          fillColor = ~ colorNumeric(
+            # n = 7,
             palette = "Blues",
             domain = summary_util$map_bg_data[[1]]
           )(summary_util$map_bg_data[[1]])
         ) %>%
         addLegend("topright",
-          pal = colorQuantile(
-            n = 7,
+          pal = colorNumeric(
+            # n = 7,
             palette = "Blues",
             domain = summary_util$map_bg_data[[1]]
           ),

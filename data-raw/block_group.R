@@ -84,7 +84,7 @@ bg_hisp <- bg %>%
 bg_transportation <- bg %>%
   transmute(
     geoid2 = geoid2,
-    novehicle_percent = round(hh_noveh / hhtotal, digits = 2) * 100
+    novehicle_percent = round(hh_noveh / hhtotal, digits = 2)
   )
 
 
@@ -100,8 +100,8 @@ bg_transportation <- bg %>%
 bg_lang <- bg %>%
   transmute(
     geoid2 = geoid2,
-    poorenglish_percent = round(lep / poptotal, digits = 2) * 100,
-    spanish_percent = round(lep_span / poptotal, digits = 2) * 100
+    poorenglish_percent = round(lep / poptotal, digits = 2),
+    spanish_percent = round(lep_span / poptotal, digits = 2)
   )
 
 

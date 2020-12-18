@@ -10,7 +10,7 @@
 mod_summary_plot_ui <- function(id) {
   ns <- NS(id)
   tagList(
-    HTML("<p>This plot provides summarized demographic values for all the regional parks and trails. Point location along the x-axis indicates the demographic value which can be compared across and within park/trail status (existing, planned, search) or agencies. Color indicates park/trail status (green = existing, orange = planned, yellow = search). Shape indicates park/trail type (circle = park, square = trail). The solid black, vertical line indicates the average demographic value within agency boundaries.</p>"),
+    HTML("<p>This plot provides summarized demographic values for all the regional parks and trails. Point location along the x-axis indicates the demographic value which can be compared across and within units or agencies. Color indicates unit status (green = existing, orange = planned, yellow = search). Shape indicates unit type (circle = park, square = trail). The solid black, vertical line indicates the average demographic value within agency boundaries.</p>"),
 
 
     # textOutput(ns("avgtext")),
@@ -22,7 +22,7 @@ mod_summary_plot_ui <- function(id) {
 
     # plotlyOutput(outputId = ns("agency_plot"), height = 300)
 
-    plotlyOutput(outputId = ns("testplotly"), height = 900)
+    plotlyOutput(outputId = ns("subplotlys"), height = 900)
   )
 }
 
@@ -88,7 +88,7 @@ mod_summary_plot_server <- function(input, output, session,
     "adj_asiannh_per",
     "Race, % American Indian",
     "adj_amindnh_per",
-    "Race, % Other + Multiracial",
+    "Race, % Other + Multi", #racial",
     "adj_othermultinh_per",
     "Ethnicity, % Hispanic",
     "adj_hisppop_per",
@@ -146,94 +146,94 @@ mod_summary_plot_server <- function(input, output, session,
 
 
 
-  ## main plotly ----
-  output$output_plot <- renderPlotly({
-    plot_ly() %>%
-      plotly::add_markers(
-        data = summary_util$plotly_buffer_data,
-        x = ~value,
-        y = ~name,
-        symbol = ~type,
-        color = ~status,
-        symbols = c("circle", "square"),
-        colors = c(e_col, p_col, s_col),
-        hoverinfo = "text",
-        text = ~hover_text,
-        marker = list(
-          size = 14,
-          opacity = 0.8
-        )
-      ) %>%
-      layout(
-        showlegend = FALSE,
-        margin = list(l = 10, r = 45, b = 10, t = 10), # l = left; r = right; t = top; b = bottom
-        hovermode = "closest",
-        hoverdistance = "10",
-        hoverlabel = hoverlabel_list,
-        xaxis = list(
-          title = unique(summary_util$plotly_buffer_data$goodname),
-          font = x_axis_font_list,
+  # ## main plotly ----
+  # output$output_plot <- renderPlotly({
+  #   plot_ly() %>%
+  #     plotly::add_markers(
+  #       data = summary_util$plotly_buffer_data,
+  #       x = ~value,
+  #       y = ~name,
+  #       symbol = ~type,
+  #       color = ~status,
+  #       symbols = c("circle", "square"),
+  #       colors = c(e_col, p_col, s_col),
+  #       hoverinfo = "text",
+  #       text = ~hover_text,
+  #       marker = list(
+  #         size = 14,
+  #         opacity = 0.8
+  #       )
+  #     ) %>%
+  #     layout(
+  #       showlegend = FALSE,
+  #       margin = list(l = 10, r = 45, b = 10, t = 10), # l = left; r = right; t = top; b = bottom
+  #       hovermode = "closest",
+  #       hoverdistance = "10",
+  #       hoverlabel = hoverlabel_list,
+  #       xaxis = list(
+  #         title = unique(summary_util$plotly_buffer_data$goodname),
+  #         font = x_axis_font_list,
+  # 
+  #         tickfont = tickfont_list,
+  #         zeroline = FALSE,
+  #         showline = FALSE,
+  #         showgrid = TRUE,
+  #         ticksuffix = "%"
+  #       ),
+  #       yaxis = list(
+  #         title = "",
+  #         tickfont = tickfont_list,
+  #         zeroline = FALSE,
+  #         showline = FALSE,
+  #         showgrid = TRUE,
+  #         autorange = "reversed"
+  #         )
+  #     )
+  # })
+  # 
+  # 
+  # output$agency_plot <- renderPlotly({
+  #   plot_ly() %>%
+  #     plotly::add_markers(
+  #       data = summary_util$plotly_agency_data,
+  #       x = ~avg,
+  #       y = ~agency,
+  #       hoverinfo = "text",
+  #       text = ~hover_text,
+  #       marker = list(
+  #         size = 14,
+  #         opacity = 0.8
+  #       )
+  #     ) %>%
+  #     layout(
+  #       showlegend = FALSE,
+  #       margin = list(l = 10, r = 45, b = 10, t = 10), # l = left; r = right; t = top; b = bottom
+  #       hovermode = "closest",
+  #       hoverdistance = "10",
+  #       hoverlabel = hoverlabel_list,
+  #       xaxis = list(
+  #         title = unique(summary_util$plotly_buffer_data$goodname),
+  #         font = x_axis_font_list,
+  #         tickfont = tickfont_list,
+  #         zeroline = FALSE,
+  #         showline = FALSE,
+  #         showgrid = TRUE,
+  #         ticksuffix = "%"
+  #       ),
+  #       yaxis = list(
+  #         title = "",
+  #         font = y_axis_font_list,
+  #         tickfont = tickfont_list,
+  #         zeroline = FALSE,
+  #         showline = FALSE,
+  #         showgrid = TRUE,
+  #         autorange = "reversed"
+  #       )
+  #     )
+  # })
+  # 
 
-          tickfont = tickfont_list,
-          zeroline = FALSE,
-          showline = FALSE,
-          showgrid = TRUE,
-          ticksuffix = "%"
-        ),
-        yaxis = list(
-          title = "",
-          tickfont = tickfont_list,
-          zeroline = FALSE,
-          showline = FALSE,
-          showgrid = TRUE,
-          autorange = "reversed"
-          )
-      )
-  })
-
-
-  output$agency_plot <- renderPlotly({
-    plot_ly() %>%
-      plotly::add_markers(
-        data = summary_util$plotly_agency_data,
-        x = ~avg,
-        y = ~agency,
-        hoverinfo = "text",
-        text = ~hover_text,
-        marker = list(
-          size = 14,
-          opacity = 0.8
-        )
-      ) %>%
-      layout(
-        showlegend = FALSE,
-        margin = list(l = 10, r = 45, b = 10, t = 10), # l = left; r = right; t = top; b = bottom
-        hovermode = "closest",
-        hoverdistance = "10",
-        hoverlabel = hoverlabel_list,
-        xaxis = list(
-          title = unique(summary_util$plotly_buffer_data$goodname),
-          font = x_axis_font_list,
-          tickfont = tickfont_list,
-          zeroline = FALSE,
-          showline = FALSE,
-          showgrid = TRUE,
-          ticksuffix = "%"
-        ),
-        yaxis = list(
-          title = "",
-          font = y_axis_font_list,
-          tickfont = tickfont_list,
-          zeroline = FALSE,
-          showline = FALSE,
-          showgrid = TRUE,
-          autorange = "reversed"
-        )
-      )
-  })
-  
-
-  output$testplotly <- renderPlotly({
+  output$subplotlys <- renderPlotly({
     subplot(
       plot_ly() %>%
         plotly::add_markers(
@@ -254,7 +254,7 @@ mod_summary_plot_server <- function(input, output, session,
           hoverdistance = "10",
           hoverlabel = hoverlabel_list,
           xaxis = list(
-            title = paste0(unique(summary_util$plotly_buffer_data$goodname)),
+            # title = paste0(unique(summary_util$plotly_buffer_data$goodname)),
             font = x_axis_font_list,
             tickfont = tickfont_list,
             zeroline = FALSE,
@@ -297,7 +297,7 @@ mod_summary_plot_server <- function(input, output, session,
           hoverdistance = "10",
           hoverlabel = hoverlabel_list,
           xaxis = list(
-            title = unique(summary_util$plotly_buffer_data$goodname),
+            # title = unique(summary_util$plotly_buffer_data$goodname),
             font = x_axis_font_list,
             
             tickfont = tickfont_list,

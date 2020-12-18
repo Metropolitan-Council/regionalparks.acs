@@ -1,11 +1,11 @@
 
-## Introduction
-
 <center>
 
 ![people walking on a park trail](www/Walk-on-path.png)
 
 </center>
+
+## Introduction
 
 *Thrive MSP 2040* directs the Council to collaborate with the
 Metropolitan Parks and Open Space Commission, regional park implementing
@@ -17,7 +17,7 @@ all park and trail master plans. Master plans are required to identify
 the demographics of areas served by the proposed park or trail with a
 focus on underserved populations on the basis of age, race, ethnicity,
 income, ability, national origin, and other pertinent characteristics
-(see “User Guide” for more).
+(see the “Variable Dictionary” within the “Notes” tab for more).
 
 This app is intended to assist planning staff complete of the equity
 analysis requirement in conjunction with the <a>Regional Parks Equity
@@ -48,7 +48,7 @@ Guide](https://datalab.h-gac.com/equity/Regional_Equity_Tool_Userguide.pdf)
 or an annotated video tutorial? For ideas, H-GAC has some [great
 tools](https://www.h-gac.com/interactive-web-applications/default.aspx).
 
-### **Please click on the individual tabs on the top to start using this tool.**
+#### **Please click on the individual tabs on the top to start using this tool.**
 
 <!-- ## ACS Variable Dictionary  -->
 

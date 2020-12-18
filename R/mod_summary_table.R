@@ -10,14 +10,16 @@
 mod_summary_table_ui <- function(id) {
   ns <- NS(id)
   tagList(
-    HTML("<p>Cells show the average weighted value of all ACS variables for the park and/or trail units chosen with the above selections. These data are available for download (but please understand that these data are subject to periodic refinements with model updates and new data releases).</p>"),
+    fluidRow(
+      column(
+    HTML("<p>Cells show the average weighted value of all ACS variables for the park and/or trail units chosen with the above selections. These data are available for download (but please understand that these data are subject to periodic refinements with model updates and new data releases).</p>"), width = 12),
 
-    downloadButton(outputID = ns("downloadData"), "Download tabular data"),
+    column(downloadButton(outputID = ns("downloadData"), "Download tabular data"),width = 6),
 
     hr(),
 
-    dataTableOutput(outputId = ns("output_datatable"))
-  )
+    column(DT::dataTableOutput(outputId = ns("output_datatable")), width = 12)
+  ))
 }
 
 #' summary_table Server Function
@@ -71,8 +73,9 @@ mod_summary_table_server <- function(input, output, session,
   #
   # ee comment - would love to put all the aesthetic improvements into it's own df, and then pass to the render*(), but apparently this needs to be inside a reactive expression? Doens't seem to work to pass thru a reactiveValues() command (at least as I've attempted it)
 
-  output$output_datatable <- renderDataTable(
-    summary_util$table_buffer_data %>%
+  output$output_datatable <- DT::renderDataTable(
+    DT::datatable(
+      data = (summary_util$table_buffer_data %>%
       left_join(recodeadjtable) %>%
       select(-ACS) %>%
       rename(ACS = nicename) %>%
@@ -100,6 +103,8 @@ mod_summary_table_server <- function(input, output, session,
         Status = status,
         `Buffer Dist.` = distance
       )
+  ),
+  options = list(scrollX = 500))
   )
 
 

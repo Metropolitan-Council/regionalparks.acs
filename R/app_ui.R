@@ -41,7 +41,7 @@ app_ui <- function(request) {
         "Summary",
         sidebarPanel(mod_summary_selections_ui("summary_selections_ui_1")),
         mainPanel(
-          HTML("<p>Find data summarized in several ways in the tabs below. The <em>Weighted averages</em> tab distills complex spatial demographic patterns into a single summary statistic, and will be appropriate for most uses. The <em>Buffer map</em> tab shows the spatial patterns of population demographics with the buffer analysis zones overlayed. The <em>Download tabular data</em> tab displays the weighted average summary statistics for all ACS variables in tabular form.</p>"), # The <em>Methods and raw data</em> tab is intended for advanced users and illustrates the steps taken to aggregate demographic data into weighted averages
+          HTML("<p>Data are summarized in several ways. The <em>Weighted averages</em> tab distills complex spatial demographic patterns into a single summary statistic, and will be appropriate for most uses. The <em>Buffer map</em> tab shows the spatial demographic patterns with the buffer analysis zones overlayed. The <em>Download tabular data</em> tab displays summary statistics for all ACS variables in tabular form.</p>"), # The <em>Methods and raw data</em> tab is intended for advanced users and illustrates the steps taken to aggregate demographic data into weighted averages
           tabsetPanel(
             selected = "Weighted averages",
             tabPanel(

@@ -280,11 +280,11 @@ mod_pop_map_server <- function(input, output, session,
         values = (pop_data$pop_data[[1]]),
         title = paste0((names(pop_data$pop_data)[[1]])), # (names(summary_util$map_bg_data)[[1]]),
         opacity = 1,
-        group = "Pop.Estimates",
-        labFormat = function(type, cuts, p) {
-          n <- length(cuts)
-          paste0(format(round(cuts[-n], 0), big.mark = ","), " &ndash; ", format(round(cuts[-1], 0), big.mark = ","))
-        }
+        group = "Pop.Estimates"#,
+        # labFormat = function(type, cuts, p) {
+        #   n <- length(cuts)
+        #   paste0(format(round(cuts[-n], 0), big.mark = ","), " &ndash; ", format(round(cuts[-1], 0), big.mark = ","))
+        # }
       )
   })
 }
