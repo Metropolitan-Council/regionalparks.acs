@@ -10,7 +10,7 @@
 mod_pop_demoshifts_ui <- function(id) {
   ns <- NS(id)
   tagList(
-    HTML('<p>Regional demographic characteristics are expected to shift. These estimates are based on the 2010 Census and forecast to 2040. No information is available on the spatial characteristics of forecasted demographic shifts. More information and raw data can be found on the <a href = "https://metrocouncil.org/Data-and-Maps/Research-and-Data/Thrive-2040-Forecasts.aspx">Metropolitian Council website</a>.</p>'),
+    HTML('<p>Regional demographic characteristics are expected to shift. These estimates are based on the 2010 Census and forecast to 2040. No information is available on the spatial characteristics of forecasted demographic shifts.</p>'),
     fluidPage(
       fluidRow(
         column(

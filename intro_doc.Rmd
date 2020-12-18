@@ -31,7 +31,7 @@ This app is intended to assist planning staff complete of the equity analysis re
 
 **Population Growth** - is an interactive map which allows users to view estimated population growth through 2040 alongside regional parks and trails.
 
-**Notes** - provides more information about the background of this tool. Future ideas here include an annotated [User Guide](https://datalab.h-gac.com/equity/Regional_Equity_Tool_Userguide.pdf) or an annotated video tutorial? For ideas, H-GAC has some [great tools](https://www.h-gac.com/interactive-web-applications/default.aspx).
+**Notes** - provides more information about the background of this tool.
 
 #### **Please click on the individual tabs on the top to start using this tool.**
 

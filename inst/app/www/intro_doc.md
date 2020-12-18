@@ -43,10 +43,6 @@ estimated population growth through 2040 alongside regional parks and
 trails.
 
 **Notes** - provides more information about the background of this tool.
-Future ideas here include an annotated [User
-Guide](https://datalab.h-gac.com/equity/Regional_Equity_Tool_Userguide.pdf)
-or an annotated video tutorial? For ideas, H-GAC has some [great
-tools](https://www.h-gac.com/interactive-web-applications/default.aspx).
 
 #### **Please click on the individual tabs on the top to start using this tool.**
 
