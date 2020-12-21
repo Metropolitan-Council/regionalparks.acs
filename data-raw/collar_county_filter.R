@@ -79,7 +79,7 @@ tract_buffer_acs_fxn <- function(df) { # intersect the buffer of x distance with
 
 ## collar county filter -------------------------
 # create filter for collar county block groups/tracts which have > 0 coverage of the largest buffer distance
-collar_co <- tibble(co = c(025, 049, 059, 079, 085, 131, 141, 143, 171, 109, 095, 093))
+collar_co <- tibble(co = c("025", "049", "059", "079", "085", "131", "141", "143", "171", "109", "095", "093"))
 # "Chisago", 025
 # "Goodhue", 049
 # "Isanti", 059
