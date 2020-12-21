@@ -332,8 +332,6 @@ long_buffer_data <- bind_rows(
 
 usethis::use_data(long_buffer_data, overwrite = TRUE)
 
-filter(long_buffer_data, agency == "Scott County") %>% view() #this isn't working rn
-
 
 # agency-level averages for each variable including existing and planned units
 agency_planned_existing_avgs <- long_buffer_data %>%
@@ -401,6 +399,16 @@ usethis::use_git_ignore(".DS_Store")
 
 
 # filter(buffer_geo, agency == "Scott County") %>% view()
+
+
+
+# create a block_group filter. Run this on all block_group data. Could consider making this it's own script, as it's a bit circular right now. 
+buffer_block_group_3mi_raw %>% 
+  mutate(state = substr(GEOID, start = 1, stop = 2)) %>% 
+  filter(state == 55) %>%
+  select(state, GEOID) %>%
+  mutate(wi_bg = 1) %>% 
+  write_csv("./data-raw/wi_bg.csv")
 
 # ###############
 # # GEE files

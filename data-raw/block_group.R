@@ -130,16 +130,19 @@ MNblock_group <- tigris::block_groups(
 ) %>%
   select(GEOID)
 
+wifilter <- read_csv("./data-raw/wi_bg.csv")
+
 WIblock_group <- tigris::block_groups(
   state = "WI",
   county = c("St. Croix", "Polk", "Pierce"),
   class = "sf"
 ) %>%
-  select(GEOID)
+  select(GEOID) %>% 
+  filter(GEOID %in% wifilter$GEOID) #104 w/o filter, 19 w/ filter
 
 
 block_group <- bind_rows(MNblock_group, WIblock_group) %>%
-  left_join(bg_merge, by = c("GEOID" = "geoid2")) %>%
+  left_join(bg_merge, by = c("GEOID" = "geoid2")) %>% #left join, so takes out bg in WI that are not within the 3mi buffer zone
   st_transform(4326) # for leaflet
 
 
