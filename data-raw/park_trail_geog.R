@@ -188,9 +188,9 @@ names(park_trail_geog) <- c(
 usethis::use_data(park_trail_geog, overwrite = TRUE)
 
 usethis::use_git_ignore(".DS_Store")
-
-levels(as.factor(park_trail_geog$park_planned$name))
-filter(park_trail_geog$park, name == "Cleary Lake Regional Park")
-filter(park_trail_geog$park_planned, name == "Cleary Lake Regional Park")
-filter(park_trail_geog$park, name == "Murphy-Hanrehan Park Reserve")
+# 
+# levels(as.factor(park_trail_geog$park_planned$name))
+# filter(park_trail_geog$park, name == "Cleary Lake Regional Park")
+# filter(park_trail_geog$park_planned, name == "Cleary Lake Regional Park")
+# filter(park_trail_geog$park, name == "Murphy-Hanrehan Park Reserve")
 

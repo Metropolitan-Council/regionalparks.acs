@@ -20,8 +20,8 @@ download.file("https://resources.gisdata.mn.gov/pub/gdrs/data/pub/us_mn_state_me
 )
 
 ct <- readxl::read_xlsx(unzip(temp, "CensusACSTract.xlsx")) %>%
-  janitor::clean_names() %>%
-  filter(tcflag == 1)
+  janitor::clean_names() #%>%
+  # filter(tcflag == 1)
 
 fs::file_delete("CensusACSTract.xlsx")
 
@@ -92,16 +92,37 @@ ct_merge <- right_join(ct_foreign, ct_disability) %>%
 
 
 ## ----------------------------------------------------------------------------------------------------------------------------------------------------
-
-census_tract_spatial <- tigris::tracts(
+MNtract <- tigris::tracts(
   state = "MN",
+  county = c(
+    "Anoka", "Carver", "Dakota", "Hennepin", "Ramsey", "Scott", "Washington",
+    "Sherburne", "Isanti", "Chisago", "Goodhue", "Rice", "Le Sueur", "Sibley", "McLeod", "Wright"
+  ),
   class = "sf"
 ) %>%
-  st_transform(4326) %>%
-  select(GEOID) %>%
-  right_join(ct_merge, by = c("GEOID" = "geoid2"))
+  select(GEOID)
 
-census_tract <- census_tract_spatial %>%
+WItract <- tigris::tracts(
+  state = "WI",
+  county = c("St. Croix", "Polk", "Pierce"),
+  class = "sf"
+) %>%
+  select(GEOID) 
+
+census_tract_spatial <- bind_rows(MNtract, WItract) %>%
+  left_join(ct_merge, by = c("GEOID" = "geoid2")) %>% 
+  st_transform(4326) # for leaflet
+
+# 
+# census_tract_spatial <- tigris::tracts(
+#   state = "MN",
+#   class = "sf"
+# ) %>%
+#   st_transform(4326) %>%
+#   select(GEOID) %>%
+#   right_join(ct_merge, by = c("GEOID" = "geoid2"))
+
+census_tract_raw <- census_tract_spatial %>%
   select(
     GEOID,
     "usborncit_percent",
@@ -125,7 +146,7 @@ census_tract <- census_tract_spatial %>%
     geometry
   )
 
-names(census_tract) <- c(
+names(census_tract_raw) <- c(
   "GEOID",
   "Origin, US-born",
   "Origin, foreign-born",
@@ -171,4 +192,4 @@ county_outlines <- tigris::counties(
 usethis::use_data(county_outlines, overwrite = TRUE)
 
 
-usethis::use_data(census_tract, overwrite = TRUE)
+usethis::use_data(census_tract_raw, overwrite = TRUE)

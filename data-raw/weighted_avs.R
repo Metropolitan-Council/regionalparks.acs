@@ -1,7 +1,8 @@
 ## code to prepare `buffer_distances`, `long_buffer_data`, `agency_avg` datasets goes here
 
-load("./data/block_group.rda")
+load("./data/block_group_raw.rda")
 load("./data/park_trail_geog.rda")
+load("./data/collar_filter.rda")
 
 
 requireNamespace("readxl", quietly = TRUE)
@@ -71,7 +72,7 @@ park_trail_geog_temp <- bind_rows(park_trail_geog, .id = "status") %>%
 
 # park_trail_geog_temp %>% filter(agency == "Scott County") %>% view()
 
-acs_temp <- block_group %>%
+acs_temp <- block_group_raw %>%
   mutate(county = substr(GEOID, start = 3, stop = 5)) %>%
   st_transform(3857) %>% # https://epsg.io/3857\
   mutate(bg_area = st_area(.))
@@ -387,7 +388,6 @@ usethis::use_data(agency_planned_existing_avgs, overwrite = TRUE)
 
 
 ## Combine buffer geometries ---------------------------------------------------------------------
-
 buffer_geo <- (buff_1.0mi %>% mutate(distance = 1.0)) %>%
   bind_rows(buff_1.5mi %>% mutate(distance = 1.5)) %>%
   bind_rows(buff_3mi %>% mutate(distance = 3)) %>%
@@ -400,15 +400,6 @@ usethis::use_git_ignore(".DS_Store")
 
 # filter(buffer_geo, agency == "Scott County") %>% view()
 
-
-
-# create a block_group filter. Run this on all block_group data. Could consider making this it's own script, as it's a bit circular right now. 
-buffer_block_group_3mi_raw %>% 
-  mutate(state = substr(GEOID, start = 1, stop = 2)) %>% 
-  filter(state == 55) %>%
-  select(state, GEOID) %>%
-  mutate(wi_bg = 1) %>% 
-  write_csv("./data-raw/wi_bg.csv")
 
 # ###############
 # # GEE files

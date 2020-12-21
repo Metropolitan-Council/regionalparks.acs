@@ -1,5 +1,5 @@
 
-load("./data/census_tract.rda")
+load("./data/census_tract_raw.rda")
 load("./data/park_trail_geog.rda")
 
 
@@ -69,7 +69,7 @@ park_trail_geog_temp <- bind_rows(park_trail_geog, .id = "status") %>%
   st_transform(3857) # https://epsg.io/3857\
 
 
-acs_temp <- census_tract %>%
+acs_temp <- census_tract_raw %>%
   mutate("usborncit_percent" = `Origin, US-born`,
          "forborn_percent" = `Origin, foreign-born`,
          "anydis_percent" = `Disability, any disability`) %>%

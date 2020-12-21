@@ -1,4 +1,6 @@
-## code to prepare `block_group` dataset goes here
+## code to prepare `block_group_raw` dataset goes here
+# these data are "raw" because it contains all block groups in the 7 county core area plus all collar counties. 
+# we only want to map the geometries which are the in the 7 county core OR have an overlap with a park/trail buffer geometry if within a collar county. 
 
 # pkgload::load_all()
 
@@ -130,21 +132,21 @@ MNblock_group <- tigris::block_groups(
 ) %>%
   select(GEOID)
 
-wifilter <- read_csv("./data-raw/wi_bg.csv")
+# wifilter <- read_csv("./data-raw/wi_bg.csv")
 
 WIblock_group <- tigris::block_groups(
   state = "WI",
   county = c("St. Croix", "Polk", "Pierce"),
   class = "sf"
 ) %>%
-  select(GEOID) %>% 
-  filter(GEOID %in% wifilter$GEOID) #104 w/o filter, 19 w/ filter
+  select(GEOID) #%>% 
+  # filter(GEOID %in% wifilter$GEOID) #104 w/o filter, 19 w/ filter
 
 
-block_group <- bind_rows(MNblock_group, WIblock_group) %>%
+block_group_raw <- bind_rows(MNblock_group, WIblock_group) %>%
   left_join(bg_merge, by = c("GEOID" = "geoid2")) %>% #left join, so takes out bg in WI that are not within the 3mi buffer zone
   st_transform(4326) # for leaflet
 
 
-usethis::use_data(block_group, overwrite = TRUE)
+usethis::use_data(block_group_raw, overwrite = TRUE)
 # save(block_group, file = "./regionalparks.acs/data/block_group.rda")
