@@ -60,8 +60,9 @@ parks_temp <- sf::read_sf(unzip(temp, "plan_parks_regional.gpkg")) %>%
   ))   %>%
   mutate(consistentagency = if_else((PARKNAME == "Cleary Lake" |
                                             PARKNAME == "Murphy-Hanrehan" |
-                                            PARKNAME == "Spring Lake" |
-                                            PARKNAME == "Cedar Lake Farm"), "Scott County", consistentagency)) %>%
+                                            # PARKNAME == "Spring Lake" |
+                                            PARKNAME == "Cedar Lake Farm"), "Scott County", consistentagency),
+         consistentagency = if_else(Label == "Spring Lake Regional Park", "Scott County", consistentagency)) %>% #becuase Spr.Lake Park Reserve == Dakota, but S.L. Reg. Park = Scott
   group_by(PARKNAME, STATUS, Label, consistentagency) %>%
   summarize(do_union = TRUE) %>%
   ungroup() %>%
