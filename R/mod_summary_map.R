@@ -68,21 +68,42 @@ mod_summary_map_server <- function(input, output, session,
         lng = -93.22,
         zoom = 9
       ) %>%
-      addProviderTiles(providers$CartoDB.Positron) %>%
-      # addPolygons(
-      #   data = agency_boundary,
-      #   group = "Agency boundaries",
-      #   stroke = T,
-      #   color = "black",
-      #   fill = F,
-      #   weight = 3
-      # ) %>%
-      # addLayersControl(
-      #   position = "bottomright",
-      #   baseGroups = c(
-      #   ),
-      #   options = layersControlOptions(collapsed = F)
-      # ) %>%
+      addProviderTiles("Stamen.TonerLite",
+                       group = "Stamen Toner"
+      ) %>%
+      addProviderTiles("CartoDB.Positron",
+                       group = "Carto Positron"
+      ) %>%
+      addProviderTiles(
+        provider = providers$Esri.WorldImagery,
+        group = "Esri Imagery"
+      ) %>%
+      addMapPane("Agency boundaries", zIndex = 650) %>%
+      addPolygons(
+        data = agency_boundary,
+        group = "Agency boundaries",
+        stroke = T,
+        color = "black",
+        fill = F,
+        weight = 2,
+        options = pathOptions(pane = "Agency boundaries")
+      ) %>%
+      addLayersControl(
+        position = "bottomright",
+        overlayGroups = c(
+          "Parks and Trails",
+          "Buffers",
+          "Demographic data",
+          "Agency boundaries"
+        ),
+        baseGroups = c(
+          "Carto Positron",
+          "Stamen Toner",
+          "Esri Imagery"
+        ),
+        options = layersControlOptions(collapsed = F)
+      ) %>%
+      
       #   htmlwidgets::onRender(
       #     "
       #     function() {
@@ -93,23 +114,6 @@ mod_summary_map_server <- function(input, output, session,
       leaflet::addScaleBar(position = c("bottomleft"))
   })
 
-
-  # observeEvent(summary_util$map_bg_data, {
-  #   # pal <- if (names(summary_util$map_bg_data["adj_meanhhi"])[[1]] == "adj_meanhhi") { #names(bg_geo["adj_meanhhi"])[[1]]
-  #   #   colorQuantile(
-  #   #     palette = "viridis",
-  #   #     n = 5,
-  #   #     # reverse = TRUE,
-  #   #     domain = summary_util$map_bg_data[[1]]
-  #   #   )
-  #   # } else {
-  #     pal <- colorNumeric(
-  #       palette = "viridis",
-  #       domain = summary_util$map_bg_data[[1]]
-  #     )
-  #   # }
-  # }
-  # )
   # palette_OkabeIto <- c("#E69F00", "#56B4E9", "#009E73", "#F0E442", "#0072B2", "#D55E00", "#CC79A7", "#999999")
   # palette_OkabeIto_black <- c("#E69F00", "#56B4E9", "#009E73", "#F0E442", "#0072B2", "#D55E00", "#CC79A7", "#000000")
 
@@ -117,8 +121,11 @@ mod_summary_map_server <- function(input, output, session,
     if (nrow(summary_util$map_parktrail_data) > 0) {
       leafletProxy("buffermap") %>%
         # addTiles() %>%
-        clearShapes() %>%
+        # clearShapes() %>%
         clearControls() %>%
+        clearGroup("Demographic data") %>%
+        clearGroup("Parks and Trails") %>%
+        clearGroup("Buffers") %>%
         addPolygons(
           group = "Demographic data",
           data = summary_util$map_bg_data,
@@ -150,15 +157,9 @@ mod_summary_map_server <- function(input, output, session,
         #   " ",
         #   summary_util$map_bg_data[[1]], "%"
         # )) %>%
-        addPolygons(
-          data = agency_boundary,
-          group = "Agency boundaries",
-          stroke = T,
-          color = "black",
-          fill = F,
-          weight = 2
-        ) %>%
+        
         addPolylines(
+          group = "Parks and Trails",
           data = summary_util$map_parktrail_data %>% filter(Type == "Trail"),
           color = case_when(
             summary_util$map_parktrail_data$status2[summary_util$map_parktrail_data$Type == "Trail"] == "Existing" ~ e_col,
@@ -182,6 +183,7 @@ mod_summary_map_server <- function(input, output, session,
           )
         ) %>%
         addPolygons(
+          group = "Parks and Trails",
           data = summary_util$map_parktrail_data %>% filter(Type == "Park"),
           color = case_when(
             summary_util$map_parktrail_data$status2[summary_util$map_parktrail_data$Type == "Park"] == "Existing" ~ e_col,
@@ -247,21 +249,9 @@ mod_summary_map_server <- function(input, output, session,
               "font-size" = "18px",
               "font-family" = "Arial"
             )
-          )
-        ) %>%
-        addLayersControl(
-          position = "bottomright",
-          overlayGroups = c(
-            "Demographic data",
-            "Agency boundaries"
           ),
-          # baseGroups = c(
-          #   "Carto Positron",
-          #   # "Carto DarkMatter",
-          #   "Esri Imagery"
-          # ),
-          options = layersControlOptions(collapsed = F)
-        )
+          options = (zIndex = 0),
+        ) 
     }
   })
 }

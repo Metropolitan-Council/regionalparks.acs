@@ -79,9 +79,9 @@ mod_pop_demoshifts_server <- function(input, output, session) {
         title = "Race & Ethnicity forecasts"
       ) +
       scale_fill_brewer(palette = "Blues") +
-      geom_text(aes(label = round(Percent, 1)),
-        position = position_stack(vjust = 0.5),
-        size = 8
+      geom_textl(aes(label = paste0(round(Percent, 1), "%")),
+                 position = position_stack(vjust = 0.5),
+                 size = 6
       )
   })
   #
@@ -127,9 +127,9 @@ mod_pop_demoshifts_server <- function(input, output, session) {
         title = "Age forecasts"
       ) +
       scale_fill_brewer(palette = "Greens") +
-      geom_text(aes(label = round(Percent, 1)),
+      geom_text(aes(label = paste0(round(Percent, 1), "%")),
         position = position_stack(vjust = 0.5),
-        size = 8
+        size = 6
       )
   })
 }

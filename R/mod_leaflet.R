@@ -29,13 +29,14 @@ mod_leaflet_server <- function(input, output, session, tract_data = tract_data) 
 
   output$map <- renderLeaflet({
     leaflet() %>%
+      setView(
+        lat = 44.963,
+        lng = -93.22,
+        zoom = 10) %>%
       addProviderTiles(
         provider = providers$Esri.WorldImagery,
         group = "Esri Imagery"
       ) %>%
-      # addProviderTiles("CartoDB.DarkMatter",
-      #   group = "Carto DarkMatter"
-      # ) %>%
       addProviderTiles("CartoDB.Positron",
         group = "Carto Positron"
       ) %>%
@@ -45,9 +46,9 @@ mod_leaflet_server <- function(input, output, session, tract_data = tract_data) 
         group = "Regional Parks - existing",
         stroke = TRUE,
         # weight = 0.5,
-        color = e_col, # councilR::colors$playGreen, # councilR::colors$suppWhite,
+        color = e_col,
         fill = TRUE,
-        fillColor = e_col, # councilR::colors$playGreen,
+        fillColor = e_col, 
         fillOpacity =  0.8,
         options = pathOptions(pane = "parks_geo"),
         highlightOptions = highlightOptions(
@@ -75,7 +76,7 @@ mod_leaflet_server <- function(input, output, session, tract_data = tract_data) 
         group = "Regional Parks - planned",
         stroke = TRUE,
         # weight = 0.5,
-        color = p_col, # councilR::colors$suppGray,
+        color = p_col, 
         fill = TRUE,
         fillColor = p_col, # ouncilR::colors$suppGray,
         fillOpacity = 0.8,
@@ -105,9 +106,9 @@ mod_leaflet_server <- function(input, output, session, tract_data = tract_data) 
         stroke = TRUE,
         radius = 2000,
         # weight = 0.5,
-        color = s_col, # councilR::colors$suppGray,
+        color = s_col, 
         fill = TRUE,
-        fillColor = s_col, # councilR::colors$suppGray,
+        fillColor = s_col, 
         fillOpacity =  0.8,
         options = pathOptions(pane = "parks_geo"),
         highlightOptions = highlightOptions(
@@ -141,7 +142,7 @@ mod_leaflet_server <- function(input, output, session, tract_data = tract_data) 
         group = "Regional Trails - existing",
         stroke = TRUE,
         weight = 3, # 3,
-        color = e_col, # councilR::colors$playGreen,
+        color = e_col, 
         smoothFactor = 0.3,
         opacity = .8, # 0.5,
         options = pathOptions(pane = "parks_geo"),
@@ -152,7 +153,7 @@ mod_leaflet_server <- function(input, output, session, tract_data = tract_data) 
         ),
         highlightOptions = highlightOptions(
           stroke = TRUE,
-          # color = councilR::colors$suppGray,
+          
           color = "black", # "white",
           weight = 6,
           bringToFront = TRUE
@@ -163,7 +164,7 @@ mod_leaflet_server <- function(input, output, session, tract_data = tract_data) 
         group = "Regional Trails - search",
         stroke = TRUE,
         weight = 3, # 3,
-        color = s_col, # councilR::colors$suppGray,
+        color = s_col, 
         smoothFactor = 0.3,
         opacity = .8, # 0.5,
         options = pathOptions(pane = "parks_geo"),
@@ -174,7 +175,7 @@ mod_leaflet_server <- function(input, output, session, tract_data = tract_data) 
         ),
         highlightOptions = highlightOptions(
           stroke = TRUE,
-          # color = councilR::colors$suppGray,
+          
           color = "black",
           weight = 6,
           bringToFront = TRUE
@@ -185,7 +186,7 @@ mod_leaflet_server <- function(input, output, session, tract_data = tract_data) 
         group = "Regional Trails - planned",
         stroke = TRUE,
         weight = 3, # 3,
-        color = p_col, # councilR::colors$suppGray,
+        color = p_col, 
         smoothFactor = 0.3,
         opacity = .8, # 0.5,
         options = pathOptions(pane = "parks_geo"),
@@ -196,7 +197,7 @@ mod_leaflet_server <- function(input, output, session, tract_data = tract_data) 
         ),
         highlightOptions = highlightOptions(
           stroke = TRUE,
-          # color = councilR::colors$suppGray,
+          
           color = "black",
           weight = 6,
           bringToFront = TRUE
@@ -265,8 +266,8 @@ mod_leaflet_server <- function(input, output, session, tract_data = tract_data) 
         domain = tract_data$tract_data[[1]]
       )
     }
-    # browser()
-    leafletProxy("map") %>%
+
+        leafletProxy("map") %>%
       clearGroup("Census Tracts") %>%
       # clearControls() %>%
       addPolygons(
@@ -314,6 +315,7 @@ mod_leaflet_server <- function(input, output, session, tract_data = tract_data) 
 
 
 
+#   
 ## To be copied in the UI
 # mod_leaflet_ui("leaflet_ui_1")
 

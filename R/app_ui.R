@@ -39,10 +39,10 @@ app_ui <- function(request) {
       # acs summary tab -----
       tabPanel(
         "Summary",
-        sidebarPanel(mod_summary_selections_ui("summary_selections_ui_1")),
-        mainPanel(
+        # mainPanel(
           HTML("<p>Data are summarized in several ways. The <em>Weighted averages</em> tab distills complex spatial demographic patterns into a single summary statistic, and will be appropriate for most uses. The <em>Buffer map</em> tab shows the spatial demographic patterns with the buffer analysis zones overlayed. The <em>Download tabular data</em> tab displays summary statistics for all ACS variables in tabular form.</p>"), # The <em>Methods and raw data</em> tab is intended for advanced users and illustrates the steps taken to aggregate demographic data into weighted averages
-          tabsetPanel(
+        (mod_summary_selections_ui("summary_selections_ui_1")),
+        tabsetPanel(
             selected = "Weighted averages",
             tabPanel(
               "Weighted averages",
@@ -60,17 +60,17 @@ app_ui <- function(request) {
             # tabPanel("Methods and raw data",
             #          mod_summary_raw_ui("summary_raw_ui_1"))
           )
-        )
+        # )
       ),
 
       # Pop growth tab -----
       tabPanel(
         "Population Growth",
+        HTML('</p>The Metropolitian Council publishes current population estimates and future forecasted population estimates. Current populaton estimates are available for Census block groups. Future forecasts are based on 2010 Census data and city comprehensive plans and available at the transportation analysis zone (a coarser spatial resolution than Census block groups). Forecasts of shifting population demographics (race/ethnicity and age) are only available at the regional level. Given the differential methods and geographies used in calcuating current and future populations, we will not perform further analyses on these data. However, the overarching patterns still may be useful in parks planning. More information and raw data can be found on the <a href = "https://metrocouncil.org/Data-and-Maps/Research-and-Data/Thrive-2040-Forecasts.aspx">Metropolitian Council website</a>.</p>'),
         tabsetPanel(
           selected = "Population map",
           tabPanel(
             "Population map",
-            HTML('</p>The Metropolitian Council publishes current population estimates and future forecasted population estimates. Current populaton estimates are available for Census block groups. Future forecasts are based on 2010 Census data and city comprehensive plans and available at the transportation analysis zone (a coarser spatial resolution). Given the differential methods and geographies used in calcuating current and future populations, we will not perform further analyses on these data. However, the overarching patterns still may be useful in parks planning. More information and raw data can be found on the <a href = "https://metrocouncil.org/Data-and-Maps/Research-and-Data/Thrive-2040-Forecasts.aspx">Metropolitian Council website</a>.</p>'),
             #sidebarPanel(
             mod_pop_selections_ui("pop_selections_ui_1"),
            # mainPanel(

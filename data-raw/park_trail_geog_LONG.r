@@ -57,7 +57,11 @@ parks_temp <- sf::read_sf(unzip(temp, "plan_parks_regional.gpkg")) %>%
     "Existing" = "Park - existing",
     "In Master Plan" = "Park - planned",
     "Planned" = "Park - planned"
-  )) %>%
+  ))   %>%
+  mutate(consistentagency = if_else((PARKNAME == "Cleary Lake" |
+                                            PARKNAME == "Murphy-Hanrehan" |
+                                            PARKNAME == "Spring Lake" |
+                                            PARKNAME == "Cedar Lake Farm"), "Scott County", consistentagency)) %>%
   group_by(PARKNAME, STATUS, Label, consistentagency) %>%
   summarize(do_union = TRUE) %>%
   ungroup() %>%
@@ -207,3 +211,8 @@ park_trail_geog_LONG <- bind_rows(
 usethis::use_data(park_trail_geog_LONG, overwrite = TRUE)
 
 usethis::use_git_ignore(".DS_Store")
+
+
+filter(park_trail_geog_LONG, name == "Cleary Lake Regional Park")
+filter(park_trail_geog_LONG, name == "Cleary Lake Regional Park")
+filter(park_trail_geog_LONG, name == "Murphy-Hanrehan Park Reserve")

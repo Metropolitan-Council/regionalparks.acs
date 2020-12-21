@@ -69,6 +69,7 @@ park_trail_geog_temp <- bind_rows(park_trail_geog, .id = "status") %>%
   ) %>%
   st_transform(3857) # https://epsg.io/3857\
 
+# park_trail_geog_temp %>% filter(agency == "Scott County") %>% view()
 
 acs_temp <- block_group %>%
   mutate(county = substr(GEOID, start = 3, stop = 5)) %>%
@@ -271,6 +272,7 @@ buffer_block_group_1.0mi <- buffer_block_group_1.0mi_raw %>%
   pmap_df(return_weighted_demo_percents) %>%
   mutate(distance = 1)
 
+# buffer_block_group_1.0mi %>% filter(agency == "Scott County") %>% view()
 
 ## 1.5 mile buffer ----------------------------------------------------------------------
 
@@ -290,6 +292,8 @@ buffer_block_group_1.5mi <- buffer_block_group_1.5mi_raw %>%
   summarise(across(adj_2019pop:adj_span, sum, na.rm = T)) %>% # need to sum for each park/agency parcel
   pmap_df(return_weighted_demo_percents) %>%
   mutate(distance = 1.5)
+
+# buffer_block_group_1.5mi %>% filter(agency == "Scott County") %>% view()
 
 
 ## 3 mile buffer ----------------------------------------------------------------------
@@ -311,6 +315,8 @@ buffer_block_group_3mi <- buffer_block_group_3mi_raw %>%
   pmap_df(return_weighted_demo_percents) %>%
   mutate(distance = 3)
 
+# buffer_block_group_3mi %>% filter(agency == "Scott County") %>% view()
+
 ## Combine long buffer data ---------------------------------------------------------------------
 long_buffer_data <- bind_rows(
   buffer_block_group_1.0mi,
@@ -318,13 +324,15 @@ long_buffer_data <- bind_rows(
   buffer_block_group_3mi
 ) %>%
   as_tibble() %>%
-  select(-geometry) %>%
+  # select(-geometry) %>%
   gather(
     key = "ACS", value = "value",
     -agency, -name, -type, -status, -distance
   )
 
 usethis::use_data(long_buffer_data, overwrite = TRUE)
+
+filter(long_buffer_data, agency == "Scott County") %>% view() #this isn't working rn
 
 
 # agency-level averages for each variable including existing and planned units
@@ -390,6 +398,9 @@ buffer_geo <- (buff_1.0mi %>% mutate(distance = 1.0)) %>%
 usethis::use_data(buffer_geo, overwrite = TRUE)
 
 usethis::use_git_ignore(".DS_Store")
+
+
+# filter(buffer_geo, agency == "Scott County") %>% view()
 
 # ###############
 # # GEE files

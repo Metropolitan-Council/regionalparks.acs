@@ -251,13 +251,14 @@ mod_summary_plot_server <- function(input, output, session,
           )
         ) %>%
         layout(
+          # title = "Agency average",
           showlegend = FALSE,
           margin = list(l = 10, r = 45, b = 10, t = 10), # l = left; r = right; t = top; b = bottom
           hovermode = "closest",
           hoverdistance = "10",
           hoverlabel = hoverlabel_list,
           xaxis = list(
-            # title = "some title", #paste0(summary_util$plotly_agency_data$goodname, ""),#(unique(summary_util$plotly_buffer_data$goodname)),
+            title = paste0(summary_util$plotly_agency_data$goodname),#(unique(summary_util$plotly_buffer_data$goodname)),
             font = x_axis_font_list,
             tickfont = tickfont_list,
             zeroline = FALSE,
@@ -290,7 +291,8 @@ mod_summary_plot_server <- function(input, output, session,
           text = ~hover_text,
           marker = list(
             size = 10,
-            opacity = 0.8
+            opacity = 0.8,
+            line = list(color = "black", width = 1)
           )
         ) %>%
         layout(
@@ -300,7 +302,7 @@ mod_summary_plot_server <- function(input, output, session,
           hoverdistance = "10",
           hoverlabel = hoverlabel_list,
           xaxis = list(
-            # title = unique(summary_util$plotly_buffer_data$goodname),
+            title = unique(summary_util$plotly_buffer_data$goodname),
             font = x_axis_font_list,
             
             tickfont = tickfont_list,
@@ -324,7 +326,10 @@ mod_summary_plot_server <- function(input, output, session,
       nrows = 2,
       
       heights=c(0.07, 0.93),
-      shareX = F)#,
+      shareX = F,
+      shareY = F, 
+      titleX = T, 
+      titleY = T)#, ,shareX=F,shareY=F,titleX=T,titleY=T
       # height = nrow(summary_util$plotly_height))
   })
 

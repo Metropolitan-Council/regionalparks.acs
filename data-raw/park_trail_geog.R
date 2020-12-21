@@ -29,8 +29,8 @@ namecleaner <- tibble::tribble(
   "Ramsey County", "Ramsey County",
   "Dakota County Parks", "Dakota County",
   "Dakota County", "Dakota County",
-  "Minneapolis Park and Recreation Board", "Minneapolis Park and Recreation Board",
-  "Minneapolis", "Minneapolis Park and Recreation Board",
+  "Minneapolis Park and Recreation Board", "MPRB",
+  "Minneapolis", "MPRB",
   "Washington County Parks", "Washington County",
   "Washington County", "Washington County",
   "St. Paul Parks and Recreation", "St. Paul",
@@ -41,8 +41,8 @@ namecleaner <- tibble::tribble(
   "Scott County/Three Rivers Park District", "Scott County",
   "Scott County Parks", "Scott County",
   "Scott County", "Scott County",
-  "Three Rivers Park District", "Three Rivers Park District",
-  "Three Rivers", "Three Rivers Park District"
+  "Three Rivers Park District", "Three Rivers",
+  "Three Rivers", "Three Rivers"
 )
 
 
@@ -60,6 +60,10 @@ parks_temp <- sf::read_sf(unzip(temp, "plan_parks_regional.gpkg")) %>%
     "In Master Plan" = "Park - planned",
     "Planned" = "Park - planned"
   )) %>%
+  mutate(consistentagency = if_else((PARKNAME == "Cleary Lake" |
+                            PARKNAME == "Murphy-Hanrehan" |
+                            PARKNAME == "Spring Lake" |
+                            PARKNAME == "Cedar Lake Farm"), "Scott County", consistentagency)) %>%
   group_by(PARKNAME, STATUS, Label, consistentagency) %>%
   summarize(do_union = TRUE) %>%
   ungroup() %>%
@@ -183,3 +187,9 @@ names(park_trail_geog) <- c(
 usethis::use_data(park_trail_geog, overwrite = TRUE)
 
 usethis::use_git_ignore(".DS_Store")
+
+levels(as.factor(park_trail_geog$park_planned$name))
+filter(park_trail_geog$park, name == "Cleary Lake Regional Park")
+filter(park_trail_geog$park_planned, name == "Cleary Lake Regional Park")
+filter(park_trail_geog$park, name == "Murphy-Hanrehan Park Reserve")
+
