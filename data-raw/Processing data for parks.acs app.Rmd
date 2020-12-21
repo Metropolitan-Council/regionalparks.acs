@@ -1,0 +1,52 @@
+---
+title: "Processing data for parks.acs app"
+author: "Ellen"
+date: "`r format(Sys.time(), '%d %B %Y')`"
+# output:
+#   pdf_document: default
+#   word_document: default
+#   html_document: default
+output: 
+  github_document:
+    toc: true
+always_allow_html: true
+urlcolor: blue
+---
+
+```{r include=F, warning=F, message=F}
+library(tidyverse)
+library(sf)
+library(tigris)
+```
+
+# Overview
+
+This markdown file walks through the creation of all the data files necessary to run the parks.acs app. 
+
+## Park and trail geography
+
+The geographies of the regional parks and trail units need to be bound
+```{r unitgeo, include=FALSE}
+source("park_trail_geog.R")
+source("park_trail_geog.R")
+```
+
+## R Markdown
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+```{r cars}
+summary(cars)
+```
+
+## Including Plots
+
+You can also embed plots, for example:
+
+```{r pressure, echo=FALSE}
+plot(pressure)
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.

@@ -42,7 +42,7 @@ mod_leaflet_server <- function(input, output, session, tract_data = tract_data) 
       ) %>%
       addMapPane("parks_geo", zIndex = 420) %>%
       addPolygons(
-        data = park_trail_geog$park,
+        data = park_trail_geog_LONG[park_trail_geog_LONG$status == "Park - existing", ], #https://cran.r-project.org/web/packages/sf/vignettes/sf4.html
         group = "Regional Parks - existing",
         stroke = TRUE,
         # weight = 0.5,
@@ -59,9 +59,9 @@ mod_leaflet_server <- function(input, output, session, tract_data = tract_data) 
           opacity = 1
         ),
         popup = ~ paste0(
-          "<b>", park_trail_geog$park$status, "</b>", "<br>",
-          park_trail_geog$park$name, "<br>", "<em>",
-          park_trail_geog$park$agency, "</em>"
+          "<b>", park_trail_geog_LONG[park_trail_geog_LONG$status == "Park - existing", ]$status, "</b>", "<br>",
+          park_trail_geog_LONG[park_trail_geog_LONG$status == "Park - existing", ]$name, "<br>", "<em>",
+          park_trail_geog_LONG[park_trail_geog_LONG$status == "Park - existing", ]$agency, "</em>"
         ),
         popupOptions = popupOptions(
           closeButton = FALSE,
@@ -72,7 +72,7 @@ mod_leaflet_server <- function(input, output, session, tract_data = tract_data) 
         )
       ) %>%
       addPolygons(
-        data = park_trail_geog$park_planned,
+        data = park_trail_geog_LONG[park_trail_geog_LONG$status == "Park - planned", ],
         group = "Regional Parks - planned",
         stroke = TRUE,
         # weight = 0.5,
@@ -88,9 +88,9 @@ mod_leaflet_server <- function(input, output, session, tract_data = tract_data) 
           opacity = 1
         ),
         popup = ~ paste0(
-          "<b>", park_trail_geog$park_planned$status, "</b>", "<br>",
-          park_trail_geog$park_planned$name, "<br>",
-          "<em>", park_trail_geog$park_planned$agency, "</em>"
+          "<b>", park_trail_geog_LONG[park_trail_geog_LONG$status == "Park - planned", ]$status, "</b>", "<br>",
+          park_trail_geog_LONG[park_trail_geog_LONG$status == "Park - planned", ]$name, "<br>",
+          "<em>", park_trail_geog_LONG[park_trail_geog_LONG$status == "Park - planned", ]$agency, "</em>"
         ),
         popupOptions = popupOptions(
           closeButton = FALSE,
@@ -101,7 +101,7 @@ mod_leaflet_server <- function(input, output, session, tract_data = tract_data) 
         )
       ) %>%
       addCircles(
-        data = park_trail_geog$park_search,
+        data = park_trail_geog_LONG[park_trail_geog_LONG$status == "Park - search", ],
         group = "Regional Parks - search",
         stroke = TRUE,
         radius = 2000,
@@ -118,8 +118,8 @@ mod_leaflet_server <- function(input, output, session, tract_data = tract_data) 
           opacity = 1
         ),
         popup = ~ paste0(
-          "<b>", park_trail_geog$park_search$status, "</b>", "<br>",
-          "<em>", park_trail_geog$park_search$name, "</em>"
+          "<b>", park_trail_geog_LONG[park_trail_geog_LONG$status == "Park - search", ]$status, "</b>", "<br>",
+          "<em>", park_trail_geog_LONG[park_trail_geog_LONG$status == "Park - search", ]$name, "</em>"
         ),
         popupOptions = popupOptions(
           closeButton = FALSE,
@@ -138,7 +138,7 @@ mod_leaflet_server <- function(input, output, session, tract_data = tract_data) 
         color = councilR::colors$suppGray
       ) %>%
       addPolylines(
-        data = park_trail_geog$trail,
+        data = park_trail_geog_LONG[park_trail_geog_LONG$status == "Trail - existing", ],
         group = "Regional Trails - existing",
         stroke = TRUE,
         weight = 3, # 3,
@@ -147,9 +147,9 @@ mod_leaflet_server <- function(input, output, session, tract_data = tract_data) 
         opacity = .8, # 0.5,
         options = pathOptions(pane = "parks_geo"),
         popup = ~ paste0(
-          "<b>", park_trail_geog$trail$status, "</b>", "<br>",
-          park_trail_geog$trail$name, "<br>",
-          "<em>", park_trail_geog$trail$agency, "</em>"
+          "<b>", park_trail_geog_LONG[park_trail_geog_LONG$status == "Trail - existing", ]$status, "</b>", "<br>",
+          park_trail_geog_LONG[park_trail_geog_LONG$status == "Trail - existing", ]$name, "<br>",
+          "<em>", park_trail_geog_LONG[park_trail_geog_LONG$status == "Trail - existing", ]$agency, "</em>"
         ),
         highlightOptions = highlightOptions(
           stroke = TRUE,
@@ -160,7 +160,7 @@ mod_leaflet_server <- function(input, output, session, tract_data = tract_data) 
         )
       ) %>%
       addPolylines(
-        data = park_trail_geog$trail_search,
+        data = park_trail_geog_LONG[park_trail_geog_LONG$status == "Trail - search", ],
         group = "Regional Trails - search",
         stroke = TRUE,
         weight = 3, # 3,
@@ -169,9 +169,9 @@ mod_leaflet_server <- function(input, output, session, tract_data = tract_data) 
         opacity = .8, # 0.5,
         options = pathOptions(pane = "parks_geo"),
         popup = ~ paste0(
-          "<b>", park_trail_geog$trail_search$status, "</b>", "<br>",
-          park_trail_geog$trail_search$name, "<br>",
-          "<em>", park_trail_geog$trail_search$agency, "<em>"
+          "<b>", park_trail_geog_LONG[park_trail_geog_LONG$status == "Trail - search", ]$status, "</b>", "<br>",
+          park_trail_geog_LONG[park_trail_geog_LONG$status == "Trail - search", ]$name, "<br>",
+          "<em>", park_trail_geog_LONG[park_trail_geog_LONG$status == "Trail - search", ]$agency, "<em>"
         ),
         highlightOptions = highlightOptions(
           stroke = TRUE,
@@ -182,7 +182,7 @@ mod_leaflet_server <- function(input, output, session, tract_data = tract_data) 
         )
       ) %>%
       addPolylines(
-        data = park_trail_geog$trail_planned,
+        data = park_trail_geog_LONG[park_trail_geog_LONG$status == "Trail - planned", ],
         group = "Regional Trails - planned",
         stroke = TRUE,
         weight = 3, # 3,
@@ -191,9 +191,9 @@ mod_leaflet_server <- function(input, output, session, tract_data = tract_data) 
         opacity = .8, # 0.5,
         options = pathOptions(pane = "parks_geo"),
         popup = ~ paste0(
-          "<b>", park_trail_geog$trail_planned$status, "</b>", "<br>",
-          park_trail_geog$trail_planned$name, "<br>",
-          "<em>", park_trail_geog$trail_planned$agency, "</em>"
+          "<b>", park_trail_geog_LONG[park_trail_geog_LONG$status == "Trail - planned", ]$status, "</b>", "<br>",
+          park_trail_geog_LONG[park_trail_geog_LONG$status == "Trail - planned", ]$name, "<br>",
+          "<em>", park_trail_geog_LONG[park_trail_geog_LONG$status == "Trail - planned", ]$agency, "</em>"
         ),
         highlightOptions = highlightOptions(
           stroke = TRUE,

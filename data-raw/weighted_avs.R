@@ -1,7 +1,7 @@
 ## code to prepare `buffer_distances`, `long_buffer_data`, `agency_avg` datasets goes here
 
 load("./data/block_group_raw.rda")
-load("./data/park_trail_geog.rda")
+load("./data/park_trail_geog_LONG.rda")
 load("./data/collar_filter.rda")
 
 
@@ -55,7 +55,7 @@ agency_filter <- tibble(
   num = c(1:10)
 )
 
-park_trail_geog_temp <- bind_rows(park_trail_geog, .id = "status") %>%
+park_trail_geog_temp <- bind_rows(park_trail_geog_LONG, .id = "status") %>%
   full_join(agency_filter) %>%
   mutate(
     name = paste(name, num, sep = "_"),

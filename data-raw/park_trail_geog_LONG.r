@@ -105,9 +105,9 @@ trails_temp <- sf::read_sf(unzip(temp, "trans_regional_trails_exst_plan.gpkg")) 
   ) %>% # Crow River Regional Trail doesn't seem to belong to any particular Metro Agency
   mutate(STATUS = recode(STATUS,
     "Existing (Open to Public)" = "Trail - existing",
-    "Alternate" = "Trail",
-    "Existing (Not Open to Public)" = "Trail",
-    "Planned" = "Trail"
+    "Alternate" = "Trail - planned",
+    "Existing (Not Open to Public)" = "Trail - planned",
+    "Planned" = "Trail - planned"
   )) %>%
   rename(AGENCY = Agency) %>%
   left_join(namecleaner) %>%
@@ -200,14 +200,6 @@ park_trail_geog_LONG <- bind_rows(
   parks, parks_planned, trails, trails_planned,
   trailsearch, parksearch
 )
-# names(park_trail_geog_LONG) <- c(
-#   "park",
-#   "park_planned",
-#   "trail",
-#   "trail_planned",
-#   "trail_search",
-#   "park_search"
-# )
 
 usethis::use_data(park_trail_geog_LONG, overwrite = TRUE)
 

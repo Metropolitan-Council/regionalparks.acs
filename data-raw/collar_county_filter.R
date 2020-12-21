@@ -3,7 +3,7 @@
 
 load("./data/block_group_raw.rda")
 load("./data/census_tract.rda")
-load("./data/park_trail_geog.rda")
+load("./data/park_trail_geog_LONG.rda")
 
 library(tidyverse)
 library(sf)
@@ -11,7 +11,7 @@ library(sf)
 
 
 # read in data -------------------------
-park_trail_geog_temp <-  bind_rows(park_trail_geog, .id = "status") %>%
+park_trail_geog_temp <-  park_trail_geog_LONG %>% #bind_rows(park_trail_geog, .id = "status") %>%
   mutate(
     # name = paste(name, num, sep = "_"),
     type = if_else(status == "park" |

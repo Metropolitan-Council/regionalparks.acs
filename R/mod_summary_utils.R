@@ -32,8 +32,22 @@ mod_summary_utils_server <- function(input, output, session,
   })
 
   # ee note, when trying to pass make_table_buffer_data to a "make_plot_buffer_data" value, error = no applicable method for 'filter_' applied to an object of class "c('reactiveExpr', 'reactive', 'function'). Which makes sense, so is there a way to pass a reactive df thru a secondary filter?
-  make_plot_buffer_data <- reactive({
-    p2 <- regionalparks.acs::long_buffer_data %>%
+  
+tractinputs <- tibble(acs = c("Origin, US-born", "Origin, foreign-born", "Disability, any disability"))  
+  
+make_plot_buffer_data <- reactive({
+  p2 <- 
+    # if (input$acs %in% tractinputs$acs) {
+    # regionalparks.acs::long_buffer_data %>%
+    #   dplyr::filter(
+    #     agency %in% selected_vars$input_agency,
+    #     type %in% selected_vars$input_type,
+    #     distance == selected_vars$input_distance,
+    #     status %in% selected_vars$input_status,
+    #     ACS == selected_vars$input_acs
+    #   )
+  # } else {
+    regionalparks.acs::long_buffer_data %>%
       dplyr::filter(
         agency %in% selected_vars$input_agency,
         type %in% selected_vars$input_type,
@@ -41,8 +55,9 @@ mod_summary_utils_server <- function(input, output, session,
         status %in% selected_vars$input_status,
         ACS == selected_vars$input_acs
       )
-    return(p2)
-  })
+  # }
+  return(p2)
+})
 
 
   make_plotly_buffer_data <- reactive({
