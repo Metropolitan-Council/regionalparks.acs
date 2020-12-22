@@ -241,8 +241,8 @@ mod_summary_plot_server <- function(input, output, session,
             tickfont = tickfont_list,
             zeroline = FALSE,
             showline = FALSE,
-            showgrid = TRUE,
-            autorange = "reversed"
+            showgrid = TRUE#,
+            # autorange = "reversed"
           )
         ),
       
@@ -286,8 +286,8 @@ mod_summary_plot_server <- function(input, output, session,
             tickfont = tickfont_list,
             zeroline = FALSE,
             showline = FALSE,
-            showgrid = TRUE,
-            autorange = "reversed"
+            showgrid = TRUE#,
+            # autorange = "reversed"
           )
         ),
       

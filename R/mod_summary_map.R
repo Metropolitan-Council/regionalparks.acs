@@ -27,11 +27,7 @@ mod_summary_map_server <- function(input, output, session,
                                    selected_vars) {
   ns <- session$ns
   
-  observeEvent(input$bmap, {
-    print(paste("You clicked tab:", input$bmap))
-  })
-  
-  observeEvent( input$buffermap , {
+  observeEvent(input$buffermap , {
     print("does this work")
   })
   

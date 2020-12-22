@@ -63,7 +63,6 @@ mod_summary_utils_server <- function(input, output, session,
   )
   
   make_table_buffer_data <- reactive({
-    # browser()
     p <- regionalparks.acs::long_buffer_data %>%
       dplyr::filter(
         agency %in% selected_vars$input_agency,
@@ -104,32 +103,9 @@ mod_summary_utils_server <- function(input, output, session,
         )
       )) %>% 
       mutate(
-        name = forcats::fct_reorder(name, desc(value))
+        name = forcats::fct_reorder(name, (value))
       )
   })
-
-
-  # make_plotly_agency_data <- reactive({
-  #   agency_planned_existing_avgs %>%
-  #     filter(
-  #       agency %in% selected_vars$input_agency,
-  #       # type %in% selected_vars$input_type,
-  #       distance == selected_vars$input_distance,
-  #       # status %in% selected_vars$input_status,
-  #       ACS == selected_vars$input_acs
-  #     ) %>%
-  #     left_join(renamekey, by = c("ACS" = "ACS variable")) %>%
-  #     mutate(acs_short = stringr::str_remove(goodname, "% ")) %>%
-  #     mutate(hover_text = stringr::str_wrap(paste0(
-  #       "The average ",
-  #       "<b>", acs_short, "</b>",
-  #       " within ",
-  #       "<b>", agency, "</b>",
-  #       "'s jurisdiction is ",
-  #       "<b>", avg, "%", "</b>",
-  #       "."
-  #     ), 50))
-  # })
   
   make_plotly_agency_data <- reactive({
     regionalparks.acs::agency_avg %>%
@@ -138,7 +114,7 @@ mod_summary_utils_server <- function(input, output, session,
         ACS ==  selected_vars$input_acs
       ) %>%
       mutate(
-        agency = forcats::fct_reorder(agency, desc(value))
+        agency = forcats::fct_reorder(agency, (value))
       ) %>%
       left_join(renamekey, by = c("ACS" = "ACS")) %>%
       mutate(acs_short = stringr::str_remove(goodname, "% ")) %>%
@@ -164,6 +140,19 @@ mod_summary_utils_server <- function(input, output, session,
   })
 
 
+  make_facet_data = reactive({
+    make_plotly_agency_data() %>% 
+             mutate(level = 'Agency avg.',
+                    type = "avg") %>%
+             rename(name = agency) %>%
+             bind_rows(make_plot_buffer_data() %>% 
+                         mutate(level = "Unit values")) %>%
+             pivot_wider(names_from = ACS, values_from = value) %>%
+             rename(value = starts_with("adj")) %>%
+      mutate(hovtext = paste0("Approx. ", .$value, "% of pple within", .$distance, " mi are"))
+    })
+
+  
   make_map_parktrail_data <- reactive({
     p4 <- regionalparks.acs::park_trail_geog_LONG %>%
       dplyr::filter(
@@ -312,6 +301,10 @@ tractdata <- tibble(ACS = c("adj_anydis_per", "adj_forborn_per", "adj_usborn_per
 
   observe({
     vals$map_bg_data <- make_map_bg_data()
+  })
+  
+  observe({
+    vals$facet_data <- make_facet_data()
   })
 
   return(vals)
