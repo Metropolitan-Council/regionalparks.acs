@@ -53,21 +53,15 @@ agency_filter <- tibble(
   num = c(1:10)
 )
 
-park_trail_geog_temp <- bind_rows(park_trail_geog, .id = "status") %>%
+
+park_trail_geog_temp <- park_trail_geog_LONG %>% #bind_rows(park_trail_geog, .id = "status") %>%
   full_join(agency_filter) %>%
   mutate(
     name = paste(name, num, sep = "_"),
-    type = if_else(status == "park" |
-      status == "park_planned" |
-      status == "park_search", "Park", "Trail"),
-    status = case_when(
-      status == "park" | status == "trail" ~ "Existing",
-      status == "park_planned" | status == "trail_planned" ~ "Planned",
-      status == "park_search" | status == "trail_search" ~ "Search"
-    )
+    type = Type,
+    status = status2
   ) %>%
-  st_transform(3857) # https://epsg.io/3857\
-
+  st_transform(3857)
 
 acs_temp <- census_tract_raw %>%
   mutate("usborncit_percent" = `Origin, US-born`,

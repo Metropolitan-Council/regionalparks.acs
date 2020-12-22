@@ -63,7 +63,7 @@ bg_race <- bg %>%
     othernh_percent = round(othernh / poptotal, digits = 2),
     multracenh_percent = round(multracenh / poptotal, digits = 2),
     poc_percent = 1 - whitenh_percent,
-    othermutltnh_percent = round((pacificnh + othernh + multracenh) / poptotal, digits = 2),
+    othermultinh_percent = round((pacificnh + othernh + multracenh) / poptotal, digits = 2),
   )
 
 

@@ -23,30 +23,100 @@ library(tigris)
 
 This markdown file walks through the creation of all the data files necessary to run the parks.acs app. 
 
+
 ## Park and trail geography
 
-The geographies of the regional parks and trail units need to be bound
-```{r unitgeo, include=FALSE}
-source("park_trail_geog.R")
-source("park_trail_geog.R")
+First a single file containing the geographies of the regional parks and trail units needs to be created from files which are published to the MN geospatial commons. *Note:* this is a single, long sf file because the buffer map parses all combinations of agencies * status * type. All code has been updated so that the leaflet map works with the long data as well. 
+
+Running this script produces:
+- `park_trail_geog_LONG.rda`. 
+
+As an aside, if any parks/trails need to be reassigned to different agencies and/or statuses, this is the place to do that. 
+
+
+```{r unitgeo, message=FALSE, warning = F, echo = F}
+source("park_trail_geog_LONG.R")
 ```
 
-## R Markdown
 
-This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+## ACS data
 
-When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+ACS data at both the tract and block group levels needs to be processed for the 7 county core, as well as collar counties. We want to include the collar counties within this processing step because the buffer area for some parks and trails extends into areas beyond the 7 county core region. 
 
-```{r cars}
-summary(cars)
+Running `census_tract_raw.R` produces:
+- `county_outlines.rda` (leveraging the fact that we have to load the tigris package anyways)
+- `census_tract_raw.rda`
+
+Running `block_group_raw.R` produces:
+- `block_group_raw.rda`
+
+If acs variables need to be added, this is one place where that should be done.
+
+```{r unitgeo, message=FALSE, warning = F, echo = F}
+source("census_tract_raw.R")
+source("block_group_raw.R")
 ```
 
-## Including Plots
 
-You can also embed plots, for example:
+## Create the tabular weighted average ACS values 
 
-```{r pressure, echo=FALSE}
-plot(pressure)
+And this is also done at the block group and tract levels. In some cases demographic variables are suppressed at the block group. We must process those variables at the tract level. 
+
+Running `weighted_avs_bg.R` produces:
+- `agency_avg_bg.rda` (the average acs values within an implementing agency's jurisdiction)
+- `long_buffer_data_bg.rda` (acs values for each park/trail unit at each buffer distance for the variables which exist at the block group level)
+- `agency_planned_existing_avgs` (agency-level averages for each variable including existing and planned units)
+- `buffer_geo.rda` (the buffer geometries at 1, 1.5 and 3 mi radii. these will be plotted)
+
+Running `weighted_avs_tracts.R` produces:
+- `long_buffer_data_tract.rda` ()
+- `agency_planned_existing_avgs_tract.rda` ()
+- `agency_avg_tract` ()
+
+and then we will join the 2 geographies together to create one cohesive weighted average dataset. 
+
+*this is kind of ridiculous, speed up somehow? Or monitor progress?
+```{r unitgeo, message=FALSE, warning = F, echo = F}
+source("weighted_avs_bg.R")
+source("weighted_avs_tracts.R")
+
+long_buffer_data <- long_buffer_data_bg %>% 
+  mutate(geo = "blockgroup") %>%
+  bind_rows(long_buffer_data_tract %>%
+              mutate(geo = "tract"))
+
+usethis::use_data(long_buffer_data, overwrite = TRUE)
+
+agency_avg <- agency_avg_bg %>%
+  mutate(geo = "blockgroup") %>%
+  bind_rows(agency_avg_tract %>%
+              mutate(geo = "tract"))
+
+usethis::use_data(agency_avg, overwrite = TRUE)
 ```
 
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+## Create the spatial ACS data
+
+We only want to plot the block groups/tracts within the 7 county core region or within the collar counties if the bg/tract intersects with a buffer
+
+Running this produces: 
+- `collar_filter.rda`
+- `block_group.rda`
+- `census_tract.rda`
+
+```{r spatialacs, message=FALSE, warning = F, echo = F}
+source("collar_county_filter.R")
+source("acs_geo.R")
+
+block_group
+load()
+```
+
+## Create population estimates
+
+## Create transit layer
+
+```{r transit, message=FALSE, warning = F, echo = F}
+```
+
+

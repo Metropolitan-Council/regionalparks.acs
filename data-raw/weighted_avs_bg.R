@@ -1,9 +1,7 @@
-## code to prepare `buffer_distances`, `long_buffer_data`, `agency_avg` datasets goes here
+## code to prepare `buffer_distances`, `long_buffer_data_bg`, `agency_avg` datasets goes here
 
 load("./data/block_group_raw.rda")
 load("./data/park_trail_geog_LONG.rda")
-load("./data/collar_filter.rda")
-
 
 requireNamespace("readxl", quietly = TRUE)
 requireNamespace("fs", quietly = TRUE)
@@ -55,18 +53,12 @@ agency_filter <- tibble(
   num = c(1:10)
 )
 
-park_trail_geog_temp <- bind_rows(park_trail_geog_LONG, .id = "status") %>%
+park_trail_geog_temp <- park_trail_geog_LONG %>% #bind_rows(park_trail_geog, .id = "status") %>%
   full_join(agency_filter) %>%
   mutate(
     name = paste(name, num, sep = "_"),
-    type = if_else(status == "park" |
-      status == "park_planned" |
-      status == "park_search", "Park", "Trail"),
-    status = case_when(
-      status == "park" | status == "trail" ~ "Existing",
-      status == "park_planned" | status == "trail_planned" ~ "Planned",
-      status == "park_search" | status == "trail_search" ~ "Search"
-    )
+    type = Type,
+    status = status2
   ) %>%
   st_transform(3857) # https://epsg.io/3857\
 
@@ -117,7 +109,7 @@ return_weighted_demo_persons <- (function(...) {
       adj_blacknh = adj_2019pop * blacknh_percent,
       adj_asiannh = adj_2019pop * asiannh_percent,
       adj_amindnh = adj_2019pop * amindnh_percent,
-      adj_othermultinh = adj_2019pop,
+      adj_othermultinh = adj_2019pop * othermultinh_percent,
       adj_hisppop = adj_2019pop * hisppop_percent,
       adj_nothisppop = adj_2019pop * nothisppop_percent,
       adj_totalhhi = adj_2019hh * meanhhinc,
@@ -144,7 +136,7 @@ return_weighted_demo_persons_AVG <- (function(...) {
       adj_blacknh = adj_2019pop * blacknh_percent,
       adj_asiannh = adj_2019pop * asiannh_percent,
       adj_amindnh = adj_2019pop * amindnh_percent,
-      adj_othermultinh = adj_2019pop,
+      adj_othermultinh = adj_2019pop * othermultinh_percent,
       adj_hisppop = adj_2019pop * hisppop_percent,
       adj_nothisppop = adj_2019pop * nothisppop_percent,
       adj_totalhhi = adj_2019hh * meanhhinc,
@@ -168,7 +160,7 @@ return_weighted_demo_percents <- (function(...) {
       adj_blacknh_per = round(adj_blacknh / adj_2019pop * 100, 1),
       adj_asiannh_per = round(adj_asiannh / adj_2019pop * 100, 1),
       adj_amindnh_per = round(adj_amindnh / adj_2019pop * 100, 1),
-      adj_othermultinh_per = round(adj_othermultinh / adj_2019pop * 100, 1),
+      adj_othermultinh_per = round(adj_othermultinh / adj_2019pop * 100, 1), 
       adj_hisppop_per = round(adj_hisppop / adj_2019pop * 100, 1),
       adj_nothisppop_per = round(adj_nothisppop / adj_2019pop * 100, 1),
       adj_meanhhi = round(adj_totalhhi / adj_2019hh, 1),
@@ -205,7 +197,7 @@ buffer_acs_fxn <- function(df) { # intersect the buffer of x distance with the a
 ## agency average ------------------
 ## use acs%, 2019 pop est, and bg overlap to get adjusted demographics(adj_*)
 
-agency_avg <- (coverage_agency) %>%
+agency_avg_bg <- (coverage_agency) %>%
   left_join(acs_temp, by = c("GEOID")) %>%
   left_join(bg_pop_2019, by = c("GEOID")) %>%
   select(-geometry) %>%
@@ -221,7 +213,7 @@ agency_avg <- (coverage_agency) %>%
   ) %>%
   mutate(value = round(value, 3))
 
-usethis::use_data(agency_avg, overwrite = TRUE)
+usethis::use_data(agency_avg_bg, overwrite = TRUE)
 
 
 ## 1.0 mile buffer ----------------------------------------------------------------------
@@ -273,8 +265,6 @@ buffer_block_group_1.0mi <- buffer_block_group_1.0mi_raw %>%
   pmap_df(return_weighted_demo_percents) %>%
   mutate(distance = 1)
 
-# buffer_block_group_1.0mi %>% filter(agency == "Scott County") %>% view()
-
 ## 1.5 mile buffer ----------------------------------------------------------------------
 
 buff_1.5mi <- buffer_dist_fxn(1.5)
@@ -319,7 +309,8 @@ buffer_block_group_3mi <- buffer_block_group_3mi_raw %>%
 # buffer_block_group_3mi %>% filter(agency == "Scott County") %>% view()
 
 ## Combine long buffer data ---------------------------------------------------------------------
-long_buffer_data <- bind_rows(
+
+long_buffer_data_bg <- bind_rows(
   buffer_block_group_1.0mi,
   buffer_block_group_1.5mi,
   buffer_block_group_3mi
@@ -331,11 +322,11 @@ long_buffer_data <- bind_rows(
     -agency, -name, -type, -status, -distance
   )
 
-usethis::use_data(long_buffer_data, overwrite = TRUE)
+usethis::use_data(long_buffer_data_bg, overwrite = TRUE)
 
 
 # agency-level averages for each variable including existing and planned units
-agency_planned_existing_avgs <- long_buffer_data %>%
+agency_planned_existing_avgs <- long_buffer_data_bg %>%
   filter(status != "Search") %>%
   group_by(agency, distance, ACS) %>%
   summarize(avg = round(mean(value), 1)) %>%
@@ -346,7 +337,7 @@ usethis::use_data(agency_planned_existing_avgs, overwrite = TRUE)
 ## Combine RAW long buffer data ---------------------------------------------------------------------
 # #having a change of heart in showing these data. The data that should be shown include: acs demographic percents, buffer overlap, AND 2019 population estimates. Relatively easy to show the acs demo % and the buffer overlap. But will be much harder to show the population estimates. So I am no longer in favor of showing a raw data tab. Happy to continue discussion here.
 
-# long_buffer_data_raw <- bind_rows(
+# long_buffer_data_bg_raw <- bind_rows(
 #   buffer_block_group_1.0mi_raw,
 #   buffer_block_group_1.5mi_raw,
 #   buffer_block_group_3mi_raw
@@ -383,7 +374,7 @@ usethis::use_data(agency_planned_existing_avgs, overwrite = TRUE)
 #     "spanish_percent" = "adj_span_per"
 #   ))
 #
-# usethis::use_data(long_buffer_data_raw, overwrite = TRUE)
+# usethis::use_data(long_buffer_data_bg_raw, overwrite = TRUE)
 
 
 

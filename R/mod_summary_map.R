@@ -28,7 +28,7 @@ mod_summary_map_server <- function(input, output, session,
     ~goodname,
     ~"ACS",
     "Total population",
-    "adj_poptotal",
+    "adj_2019pop",
     "Age, % under 15",
     "adj_ageunder15_per",
     "Age, % 15-24",
@@ -58,9 +58,15 @@ mod_summary_map_server <- function(input, output, session,
     "% speaking English less than very well",
     "adj_lep_per",
     "% Spanish speakers",
-    "adj_span_per"
+    "adj_span_per",
+    "Ability, % any disability",
+    "adj_anydis_per",
+    "Origin, % US-born",
+    "adj_usborn_per",
+    "Origin, % foreign-born",
+    "adj_forborn_per"
   )
-
+  
   output$buffermap <- renderLeaflet({
     leaflet() %>%
       setView(

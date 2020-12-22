@@ -67,15 +67,15 @@ ct_hisp <- ct %>%
 ct_foreign <- ct %>%
   select(geoid, geoid2, poptotal, usborncit, forborncit, forbornnot) %>%
   mutate(
-    usborncit_percent = round(usborncit / poptotal, digits = 2) * 100,
-    forborn_percent = round((forborncit + forbornnot) / poptotal, digits = 2) * 100
+    usborncit_percent = round(usborncit / poptotal, digits = 2), # * 100,
+    forborn_percent = round((forborncit + forbornnot) / poptotal, digits = 2))# * 100
   )
 
 
 ## -----------------------------------------------------------------------------------------------------------------------------------------------------
 ct_disability <- ct %>%
   select(geoid, geoid2, poptotal, anydis, cdenom) %>%
-  mutate(anydis_percent = round(anydis / cdenom, digits = 2) * 100)
+  mutate(anydis_percent = round(anydis / cdenom, digits = 2)) # * 100)
 
 
 ## ------------------------------------------------------------------------------------------------------------------------------------------------------

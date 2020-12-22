@@ -113,6 +113,13 @@ mod_summary_selections_ui <- function(id) {
           "Ethnicity, % Hispanic" = "adj_hisppop_per",
           "Ethnicity, % not-Hispanic" = "adj_nothisppop_per"
         ),
+        `National origin` = list(
+          "Origin, % foreign-born" = "adj_forborn_per",
+          "Origin, % US-born" = "adj_usborn_per"
+        ),
+        `Ability` = list(
+          "Ability, % any disability" = "adj_anydis_per"
+        ),
         `Income` = list("Mean household income ($)" = "adj_meanhhi"),
         `Transportation` = list("% Housholds without a vehicle" = "adj_novehicle_per"),
         `Language` = list(

@@ -1,9 +1,9 @@
 # we want to include demographic info on tracts + block groups which are in WI but overlap with the largest buffer zones. 
 
 
-load("./data/block_group_raw.rda")
-load("./data/census_tract.rda")
-load("./data/park_trail_geog_LONG.rda")
+# load("./data/block_group_raw.rda")
+# load("./data/census_tract_raw.rda")
+# load("./data/park_trail_geog_LONG.rda")
 
 library(tidyverse)
 library(sf)
@@ -30,7 +30,7 @@ acs_temp_bg <- block_group_raw %>%
   st_transform(3857) %>% # https://epsg.io/3857\
   mutate(bg_area = st_area(.))
 
-acs_temp_tract <- census_tract %>%
+acs_temp_tract <- census_tract_raw %>%
   mutate(county = substr(GEOID, start = 3, stop = 5)) %>%
   st_transform(3857) %>% # https://epsg.io/3857\
   mutate(tract_area = st_area(.))

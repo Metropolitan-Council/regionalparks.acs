@@ -19,6 +19,51 @@ mod_summary_utils_server <- function(input, output, session,
                                      selected_vars) {
   ns <- session$ns
 
+  
+  renamekey <- tibble::tribble(
+    ~goodname,
+    ~"ACS",
+    "Total population",
+    "adj_2019pop",
+    "Age, % under 15",
+    "adj_ageunder15_per",
+    "Age, % 15-24",
+    "adj_age15_24_per",
+    "Age, % 25-64",
+    "adj_age25_64_per",
+    "Age, % 65 and up",
+    "adj_age65up_per",
+    "Race, % White",
+    "adj_whitenh_per",
+    "Race, % Black",
+    "adj_blacknh_per",
+    "Race, % Asian",
+    "adj_asiannh_per",
+    "Race, % American Indian",
+    "adj_amindnh_per",
+    "Race, % Other + Multiracial",
+    "adj_othermultinh_per",
+    "Ethnicity, % Hispanic",
+    "adj_hisppop_per",
+    "Ethnicity, % not-Hispanic",
+    "adj_nothisppop_per",
+    "Mean household income",
+    "adj_meanhhi",
+    "% Housholds without a vehicle",
+    "adj_novehicle_per",
+    "% speaking English less than very well",
+    "adj_lep_per",
+    "% Spanish speakers",
+    "adj_span_per",
+    "Ability, % any disability",
+    "adj_anydis_per",
+    "Origin, % US-born",
+    "adj_usborn_per",
+    "Origin, % foreign-born",
+    "adj_forborn_per"
+  )
+  
+  
   make_table_buffer_data <- reactive({
     # browser()
     p <- regionalparks.acs::long_buffer_data %>%
@@ -33,7 +78,7 @@ mod_summary_utils_server <- function(input, output, session,
 
   # ee note, when trying to pass make_table_buffer_data to a "make_plot_buffer_data" value, error = no applicable method for 'filter_' applied to an object of class "c('reactiveExpr', 'reactive', 'function'). Which makes sense, so is there a way to pass a reactive df thru a secondary filter?
   
-tractinputs <- tibble(acs = c("Origin, US-born", "Origin, foreign-born", "Disability, any disability"))  
+# tractinputs <- tibble(acs = c("Origin, US-born", "Origin, foreign-born", "Disability, any disability"))  
   
 make_plot_buffer_data <- reactive({
   p2 <- 
@@ -80,7 +125,7 @@ make_plot_buffer_data <- reactive({
         name = forcats::fct_reorder(name, desc(value)),
         concat = paste(type, status, sep = "_")
       ) %>%
-      left_join(renamekey, by = c("ACS" = "ACS variable")) %>%
+      left_join(renamekey, by = c("ACS" = "ACS")) %>%
       mutate(acs_short = stringr::str_remove(goodname, "% ")) %>%
       mutate(hover_text = stringr::str_wrap(paste0(
         "Approx. ",
@@ -115,12 +160,12 @@ make_plot_buffer_data <- reactive({
   # })
   
   make_plotly_agency_data <- reactive({
-    agency_avg %>%
+    regionalparks.acs::agency_avg %>%
       filter(
         agency %in% selected_vars$input_agency,
-        ACS == selected_vars$input_acs
+        ACS ==  selected_vars$input_acs
       ) %>%
-      left_join(renamekey, by = c("ACS" = "ACS variable")) %>%
+      left_join(renamekey, by = c("ACS" = "ACS")) %>%
       mutate(acs_short = stringr::str_remove(goodname, "% ")) %>%
       mutate(hover_text = stringr::str_wrap(paste0(
         "The average ",
@@ -198,10 +243,24 @@ make_plot_buffer_data <- reactive({
   #   "spanish_percent", "adj_span_per"
   # )
 
-
+tractdata <- tibble(ACS = c("adj_anydis_per", "adj_forborn_per", "adj_usborn_per"))
+  
   make_map_bg_data <- reactive({
     # p6 <- regionalparks.acs::bg_geo[selected_vars$input_acs]
-    p6 <- regionalparks.acs::block_group %>%
+    p6 <- if (selected_vars$input_acs %in% tractdata$ACS) {
+      regionalparks.acs::census_tract %>%
+        mutate(disab_percent = `Disability, any disability`*100,
+               usborn_percent = `Origin, US-born` * 100,
+               forborn_percent = `Origin, foreign-born` * 100) %>%
+        rename(
+          "adj_anydis_per" = "disab_percent",
+          "adj_usborn_per" = "usborn_percent",
+          "adj_forborn_per" = "forborn_percent"
+        )%>% 
+        select(selected_vars$input_acs)
+    }
+      
+      else {regionalparks.acs::block_group %>%
       mutate(ageunder15_percent = ageunder15_percent*100,
              age15_24_percent = age15_24_percent * 100,
              age25_64_percent = age25_64_percent * 100,
@@ -210,7 +269,7 @@ make_plot_buffer_data <- reactive({
              blacknh_percent = blacknh_percent * 100,
              asiannh_percent = asiannh_percent*100,
              amindnh_percent = amindnh_percent * 100,
-             othermutltnh_percent = othermutltnh_percent *100,
+             othermultinh_percent = othermultinh_percent *100, 
              hisppop_percent = hisppop_percent * 100,
              nothisppop_percent = nothisppop_percent * 100,
              novehicle_percent = novehicle_percent * 100,
@@ -225,7 +284,7 @@ make_plot_buffer_data <- reactive({
         "adj_blacknh_per" = "blacknh_percent",
         "adj_asiannh_per" = "asiannh_percent",
         "adj_amindnh_per" = "amindnh_percent",
-        "adj_othermultinh_per" = "othermutltnh_percent",
+        "adj_othermultinh_per" = "othermultinh_percent",
         "adj_hisppop_per" = "hisppop_percent",
         "adj_nothisppop_per" = "nothisppop_percent",
         "adj_meanhhi" = "meanhhinc",
@@ -233,7 +292,7 @@ make_plot_buffer_data <- reactive({
         "adj_lep_per" = "poorenglish_percent",
         "adj_span_per" = "spanish_percent"
       ) %>% 
-      select(selected_vars$input_acs) 
+      select(selected_vars$input_acs)} 
     return(p6)
   })
 

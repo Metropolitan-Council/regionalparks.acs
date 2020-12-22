@@ -54,7 +54,13 @@ renamekey <- tibble::tribble(
   "% speaking English less than very well",
   "adj_lep_per",
   "% Spanish speakers",
-  "adj_span_per"
+  "adj_span_per",
+  "Ability, % any disability",
+  "adj_anydis_per",
+  "Origin, % US-born",
+  "adj_usborn_per",
+  "Origin, % foreign-born",
+  "adj_forborn_per"
 )
 
 recodeadjtable <- tibble::tribble(
@@ -91,7 +97,13 @@ recodeadjtable <- tibble::tribble(
   "adj_lep_per",
   "% speaking English less than very well",
   "adj_span_per",
-  "% Spanish speakers"
+  "% Spanish speakers",
+  "adj_anydis_per",
+  "Ability, % any disability",
+  "adj_usborn_per",
+  "Origin, % US-born",
+  "adj_forborn_per",
+  "Origin, % foreign-born"
 )
 
 
@@ -165,6 +177,13 @@ mod_combo_ui <- function(id) {
               `Ethnicity` = list(
                 "Ethnicity, % Hispanic" = "adj_hisppop_per",
                 "Ethnicity, % not-Hispanic" = "adj_nothisppop_per"
+              ),
+              `National origin` = list(
+                "Origin, % foreign-born" = "adj_forborn_per",
+                "Origin, % US-born" = "adj_usborn_per"
+              ),
+              `Ability` = list(
+                "Ability, % any disability" = "adj_anydis_per"
               ),
               `Income` = list("Mean household income ($)" = "adj_meanhhi"),
               `Transportation` = list("% Housholds without a vehicle" = "adj_novehicle_per"),
