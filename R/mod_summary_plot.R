@@ -37,48 +37,7 @@ mod_summary_plot_server <- function(input, output, session,
   ns <- session$ns
 
   
-  renamekey <- tibble::tribble(
-    ~goodname,
-    ~"ACS",
-    "Total population",
-    "adj_2019pop",
-    "Age, % under 15",
-    "adj_ageunder15_per",
-    "Age, % 15-24",
-    "adj_age15_24_per",
-    "Age, % 25-64",
-    "adj_age25_64_per",
-    "Age, % 65 and up",
-    "adj_age65up_per",
-    "Race, % White",
-    "adj_whitenh_per",
-    "Race, % Black",
-    "adj_blacknh_per",
-    "Race, % Asian",
-    "adj_asiannh_per",
-    "Race, % American Indian",
-    "adj_amindnh_per",
-    "Race, % Other + Multiracial",
-    "adj_othermultinh_per",
-    "Ethnicity, % Hispanic",
-    "adj_hisppop_per",
-    "Ethnicity, % not-Hispanic",
-    "adj_nothisppop_per",
-    "Mean household income",
-    "adj_meanhhi",
-    "% Housholds without a vehicle",
-    "adj_novehicle_per",
-    "% speaking English less than very well",
-    "adj_lep_per",
-    "% Spanish speakers",
-    "adj_span_per",
-    "Ability, % any disability",
-    "adj_anydis_per",
-    "Origin, % US-born",
-    "adj_usborn_per",
-    "Origin, % foreign-born",
-    "adj_forborn_per"
-  )
+
   
   # Plotly styling -------------------------------
 
@@ -160,7 +119,7 @@ mod_summary_plot_server <- function(input, output, session,
   # output$output_plot <- renderPlotly({ # main plotly ----
   #   plot_ly() %>%
   #     plotly::add_markers(
-  #       data = summary_util$plotly_buffer_data,
+  #       data = summary_util$plot_buffer_data,
   #       x = ~value,
   #       y = ~name,
   #       symbol = ~type,
@@ -181,7 +140,7 @@ mod_summary_plot_server <- function(input, output, session,
   #       hoverdistance = "10",
   #       hoverlabel = hoverlabel_list,
   #       xaxis = list(
-  #         title = unique(summary_util$plotly_buffer_data$goodname),
+  #         title = unique(summary_util$plot_buffer_data$goodname),
   #         font = x_axis_font_list,
   # 
   #         tickfont = tickfont_list,
@@ -222,7 +181,7 @@ mod_summary_plot_server <- function(input, output, session,
   #       hoverdistance = "10",
   #       hoverlabel = hoverlabel_list,
   #       xaxis = list(
-  #         title = unique(summary_util$plotly_buffer_data$goodname),
+  #         title = unique(summary_util$plot_buffer_data$goodname),
   #         font = x_axis_font_list,
   #         tickfont = tickfont_list,
   #         zeroline = FALSE,
@@ -266,15 +225,15 @@ mod_summary_plot_server <- function(input, output, session,
           hoverdistance = "10",
           hoverlabel = hoverlabel_list,
           xaxis = list(
-            title = paste0(summary_util$plotly_agency_data$goodname),#(unique(summary_util$plotly_buffer_data$goodname)),
+            title = paste0(summary_util$plotly_agency_data$goodname),#(unique(summary_util$plot_buffer_data$goodname)),
             font = x_axis_font_list,
             tickfont = tickfont_list,
             zeroline = FALSE,
             showline = FALSE,
             showgrid = TRUE,
             ticksuffix = if (selected_vars$input_acs != "adj_meanhhi") {"%"} else{"$"},
-            range = if(selected_vars$input_acs != "adj_meanhhi") {c(min(summary_util$plotly_buffer_data %>%.$value)-1, max(summary_util$plotly_buffer_data %>% .$value)+1)}
-            else {c(min(summary_util$plotly_buffer_data %>%.$value)-1000, max(summary_util$plotly_buffer_data %>% .$value)+1000)}
+            range = if(selected_vars$input_acs != "adj_meanhhi") {c(min(summary_util$plot_buffer_data %>%.$value)-1, max(summary_util$plot_buffer_data %>% .$value)+1)}
+            else {c(min(summary_util$plot_buffer_data %>%.$value)-1000, max(summary_util$plot_buffer_data %>% .$value)+1000)}
           ),
           yaxis = list(
             title = "",
@@ -287,9 +246,9 @@ mod_summary_plot_server <- function(input, output, session,
           )
         ),
       
-      plot_ly(height = nrow(summary_util$plotly_buffer_data)*25) %>%
+      plot_ly(height = nrow(summary_util$plot_buffer_data)*25) %>%
         plotly::add_markers(
-          data = summary_util$plotly_buffer_data,
+          data = summary_util$plot_buffer_data,
           x = ~value,
           y = ~name,
           symbol = ~type,
@@ -311,7 +270,7 @@ mod_summary_plot_server <- function(input, output, session,
           hoverdistance = "10",
           hoverlabel = hoverlabel_list,
           xaxis = list(
-            title = unique(summary_util$plotly_buffer_data$goodname),
+            title = unique(summary_util$plot_buffer_data$goodname),
             font = x_axis_font_list,
             
             tickfont = tickfont_list,
@@ -319,8 +278,8 @@ mod_summary_plot_server <- function(input, output, session,
             showline = FALSE,
             showgrid = TRUE,
             ticksuffix = if (selected_vars$input_acs != "adj_meanhhi") {"%"} else{"$"},
-            range  = if(selected_vars$input_acs != "adj_meanhhi") {c(min(summary_util$plotly_buffer_data %>%.$value)-1, max(summary_util$plotly_buffer_data %>% .$value)+1)}
-            else {c(min(summary_util$plotly_buffer_data %>%.$value)-1000, max(summary_util$plotly_buffer_data %>% .$value)+1000)}
+            range  = if(selected_vars$input_acs != "adj_meanhhi") {c(min(summary_util$plot_buffer_data %>%.$value)-1, max(summary_util$plot_buffer_data %>% .$value)+1)}
+            else {c(min(summary_util$plot_buffer_data %>%.$value)-1000, max(summary_util$plot_buffer_data %>% .$value)+1000)}
           ),
           yaxis = list(
             title = "",

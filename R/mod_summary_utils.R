@@ -18,7 +18,6 @@ mod_summary_utils_ui <- function(id) {
 mod_summary_utils_server <- function(input, output, session,
                                      selected_vars) {
   ns <- session$ns
-
   
   renamekey <- tibble::tribble(
     ~goodname,
@@ -63,7 +62,6 @@ mod_summary_utils_server <- function(input, output, session,
     "adj_forborn_per"
   )
   
-  
   make_table_buffer_data <- reactive({
     # browser()
     p <- regionalparks.acs::long_buffer_data %>%
@@ -72,45 +70,29 @@ mod_summary_utils_server <- function(input, output, session,
         type %in% selected_vars$input_type,
         distance == selected_vars$input_distance,
         status %in% selected_vars$input_status
-      )
-    return(p)
-  })
-
-  # ee note, when trying to pass make_table_buffer_data to a "make_plot_buffer_data" value, error = no applicable method for 'filter_' applied to an object of class "c('reactiveExpr', 'reactive', 'function'). Which makes sense, so is there a way to pass a reactive df thru a secondary filter?
-  
-# tractinputs <- tibble(acs = c("Origin, US-born", "Origin, foreign-born", "Disability, any disability"))  
-  
-make_plot_buffer_data <- reactive({
-  p2 <- 
-    # if (input$acs %in% tractinputs$acs) {
-    # regionalparks.acs::long_buffer_data %>%
-    #   dplyr::filter(
-    #     agency %in% selected_vars$input_agency,
-    #     type %in% selected_vars$input_type,
-    #     distance == selected_vars$input_distance,
-    #     status %in% selected_vars$input_status,
-    #     ACS == selected_vars$input_acs
-    #   )
-  # } else {
-    regionalparks.acs::long_buffer_data %>%
-      dplyr::filter(
-        agency %in% selected_vars$input_agency,
-        type %in% selected_vars$input_type,
-        distance == selected_vars$input_distance,
-        status %in% selected_vars$input_status,
-        ACS == selected_vars$input_acs
-      )
-  # }
-  return(p2)
-})
-
-
-  make_plotly_buffer_data <- reactive({
-    make_plot_buffer_data() %>%
+      ) %>%
       separate(
         name,
         into = c("name", "delete2"),
         sep = c("_")
+      )  %>%
+      left_join(renamekey, by = c("ACS" = "ACS")) %>%
+      mutate(acs_short = stringr::str_remove(goodname, "% ")) %>%
+      mutate(hover_text = stringr::str_wrap(paste0(
+        "Approx. ",
+        "<b>", value, "%", "</b>", " of the pop. within ",
+        distance, " mile of ",
+        name, " (", status, ")", " falls into the ",
+        "<b>", acs_short, "</b>",
+        " category"
+      ), 55))
+    return(p)
+  })
+
+  make_plot_buffer_data <- reactive({
+    make_table_buffer_data() %>%
+      dplyr::filter(
+        ACS == selected_vars$input_acs
       ) %>%
       mutate(name = str_replace_all(
         name,
@@ -124,18 +106,9 @@ make_plot_buffer_data <- reactive({
       mutate(
         name = forcats::fct_reorder(name, desc(value)),
         concat = paste(type, status, sep = "_")
-      ) %>%
-      left_join(renamekey, by = c("ACS" = "ACS")) %>%
-      mutate(acs_short = stringr::str_remove(goodname, "% ")) %>%
-      mutate(hover_text = stringr::str_wrap(paste0(
-        "Approx. ",
-        "<b>", value, "%", "</b>", " of the pop. within ",
-         distance, " mile of ",
-        name, " (", status, ")", " falls into the ",
-        "<b>", acs_short, "</b>",
-        " category"
-      ), 55))
+      )
   })
+
 
   # make_plotly_agency_data <- reactive({
   #   agency_planned_existing_avgs %>%
@@ -164,6 +137,9 @@ make_plot_buffer_data <- reactive({
       filter(
         agency %in% selected_vars$input_agency,
         ACS ==  selected_vars$input_acs
+      ) %>%
+      mutate(
+        agency = forcats::fct_reorder(agency, desc(value))
       ) %>%
       left_join(renamekey, by = c("ACS" = "ACS")) %>%
       mutate(acs_short = stringr::str_remove(goodname, "% ")) %>%
@@ -319,12 +295,12 @@ tractdata <- tibble(ACS = c("adj_anydis_per", "adj_forborn_per", "adj_usborn_per
     vals$map_buffer_data <- make_map_buffer_data()
   })
 
-  observe({
-    vals$plotly_buffer_data <- make_plotly_buffer_data()
-  })
+  # observe({
+  #   vals$plotly_buffer_data <- make_plotly_buffer_data()
+  # })
   
   observe({
-    vals$plotly_height <- nrow(make_plotly_buffer_data())
+    vals$plotly_height <- nrow(make_plot_buffer_data())
   })
 
   observe({
