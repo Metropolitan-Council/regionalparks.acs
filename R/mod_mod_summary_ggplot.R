@@ -17,7 +17,7 @@ mod_mod_summary_ggplot_ui <- function(id){
     
     hr(),
 
-    plotlyOutput(outputId = ns("ggplots"))
+    plotOutput(outputId = ns("ggplots"), height = 700)
     
   )
 }
@@ -70,105 +70,6 @@ mod_mod_summary_ggplot_server <- function(input, output, session,
       labs(fill = "        Status:", shape = "Type:") +
       theme(legend.position = "bottom")
   )
-  
-  
-  output$subplotlys <- renderPlotly({ # plotlys using subplots ----
-    subplot(
-      plot_ly(height = nrow(summary_util$plotly_agency_data)*25) %>%
-        plotly::add_markers(
-          data = summary_util$plotly_agency_data,
-          x = ~value, #avg,
-          y = ~agency,
-          hoverinfo = "text",
-          text = ~hover_text,
-          marker = list(
-            size = 10,
-            opacity = 0.8
-          )
-        ) %>%
-        layout(
-          # title = "Agency average",
-          showlegend = FALSE,
-          margin = list(l = 10, r = 45, b = 10, t = 10), # l = left; r = right; t = top; b = bottom
-          hovermode = "closest",
-          hoverdistance = "10",
-          hoverlabel = hoverlabel_list,
-          xaxis = list(
-            title = paste0(summary_util$plotly_agency_data$goodname),#(unique(summary_util$plotly_buffer_data$goodname)),
-            font = x_axis_font_list,
-            tickfont = tickfont_list,
-            zeroline = FALSE,
-            showline = FALSE,
-            showgrid = TRUE,
-            ticksuffix = if (selected_vars$input_acs != "adj_meanhhi") {"%"} else{"$"},
-            range = if(selected_vars$input_acs != "adj_meanhhi") {c(min(summary_util$plotly_buffer_data %>%.$value)-1, max(summary_util$plotly_buffer_data %>% .$value)+1)}
-            else {c(min(summary_util$plotly_buffer_data %>%.$value)-1000, max(summary_util$plotly_buffer_data %>% .$value)+1000)}
-          ),
-          yaxis = list(
-            title = "",
-            font = y_axis_font_list,
-            tickfont = tickfont_list,
-            zeroline = FALSE,
-            showline = FALSE,
-            showgrid = TRUE,
-            autorange = "reversed"
-          )
-        ),
-      
-      plot_ly(height = nrow(summary_util$plotly_buffer_data)*25) %>%
-        plotly::add_markers(
-          data = summary_util$plotly_buffer_data,
-          x = ~value,
-          y = ~name,
-          symbol = ~type,
-          color = ~status,
-          symbols = c("circle", "square"),
-          colors = c(e_col, p_col, s_col),
-          hoverinfo = "text",
-          text = ~hover_text,
-          marker = list(
-            size = 10,
-            opacity = 0.8,
-            line = list(color = "black", width = 1)
-          )
-        ) %>%
-        layout(
-          showlegend = FALSE,
-          margin = list(l = 10, r = 45, b = 10, t = 10), # l = left; r = right; t = top; b = bottom
-          hovermode = "closest",
-          hoverdistance = "10",
-          hoverlabel = hoverlabel_list,
-          xaxis = list(
-            title = unique(summary_util$plotly_buffer_data$goodname),
-            font = x_axis_font_list,
-            
-            tickfont = tickfont_list,
-            zeroline = FALSE,
-            showline = FALSE,
-            showgrid = TRUE,
-            ticksuffix = if (selected_vars$input_acs != "adj_meanhhi") {"%"} else{"$"},
-            range  = if(selected_vars$input_acs != "adj_meanhhi") {c(min(summary_util$plotly_buffer_data %>%.$value)-1, max(summary_util$plotly_buffer_data %>% .$value)+1)}
-            else {c(min(summary_util$plotly_buffer_data %>%.$value)-1000, max(summary_util$plotly_buffer_data %>% .$value)+1000)}
-          ),
-          yaxis = list(
-            title = "",
-            tickfont = tickfont_list,
-            zeroline = FALSE,
-            showline = FALSE,
-            showgrid = TRUE,
-            autorange = "reversed"
-          )
-        ),
-      
-      nrows = 2,
-      
-      heights=c(0.07, 0.93),
-      shareX = F,
-      shareY = F, 
-      titleX = T, 
-      titleY = T)#, ,shareX=F,shareY=F,titleX=T,titleY=T
-    # height = nrow(summary_util$plotly_height))
-  })
   
   
   ## legend -----
@@ -229,49 +130,60 @@ mod_mod_summary_ggplot_server <- function(input, output, session,
     "adj_forborn_per"
   )
   
-  output$ggplots <- renderPlotly({ # ggplots ----
+  PlotHeight = reactive(
+    return(if ((nrow(summary_util$plot_buffer_data[!duplicated(summary_util$plot_buffer_data[, c('name')]), ])*30) > 200) {
+      (nrow(summary_util$plot_buffer_data[!duplicated(summary_util$plot_buffer_data[, c('name')]), ])*30)
+    } else {200}
+  )
+  )
+  
+  
+  output$ggplots <- renderPlot(height = function() PlotHeight(), { # ggplots ----
     
-    ggplotly(summary_util$plot_buffer_data %>%
-   # long_buffer_data %>% filter(agency == "Anoka County", distance == 1, ACS == "adj_anydis_per")%>%
-   #    separate(
-   #      name,
-   #      into = c("name", "delete2"),
-   #      sep = c("_")
-   #    )  %>%
-   #    left_join(renamekey, by = c("ACS" = "ACS")) %>%
-   #    mutate(acs_short = stringr::str_remove(goodname, "% ")) %>%
-   #    mutate(hover_text = stringr::str_wrap(paste0(
-   #      "Approx. ",
-   #      "<b>", value, "%", "</b>", " of the pop. within ",
-   #      distance, " mile of ",
-   #      name, " (", status, ")", " falls into the ",
-   #      "<b>", acs_short, "</b>",
-   #      " category"
-   #    ), 55)) %>%
-   #    mutate(name = str_replace_all(
-   #      name,
-   #      c(
-   #        "Regional Park" = "RP",
-   #        "Regional Trail" = "RT",
-   #        "Park Reserve" = "PR",
-   #        "Special Recreation Feature" = "SRF"
-   #      )
-   #    )) %>% 
-   #    mutate(
-   #      name = forcats::fct_reorder(name, desc(value))
-   #    ) %>%
+    summary_util$plotly_agency_data %>% 
+      mutate(level = 'Agency\naverage',
+             type = "avg") %>%
+      rename(name = agency) %>%
+      bind_rows(summary_util$plot_buffer_data %>% 
+                  mutate(level = "Unit values")) %>%
+      pivot_wider(names_from = ACS, values_from = value) %>%
+      rename(value = starts_with("adj")) %>% 
       
-      
-      ggplot(aes(x = value, y = name, fill = status, shape = type)) + 
+      ggplot(aes(y = name, 
+                 x = value, #.[, 8], 
+                 shape = type, 
+                 fill = status)) +
+      facet_grid(level ~., scales = "free_y", space = "free") + 
+      # ggforce::facet_col(~ level, scales = "free_y", space = "free") + 
       geom_point(size = 4) +
-      scale_fill_manual(values = c("Existing" = e_col, "Planned" = p_col, "Search" = s_col)) +
-      scale_shape_manual(values = c("Park" = 21, "Trail" = 22)) +
-      labs(y = "")+#, x = selected_vars$input_acs) +
-      guides(fill = F, shape = F) +
-      council_theme())
+      scale_shape_manual(values = c("avg" = 8, "Park" = 21, "Trail" = 22))+
+      scale_fill_manual(values = c("Existing" = e_col, "Planned" = p_col, "Search" = s_col))+
+      council_theme() +
+      labs(y = "",
+           x = filter(renamekey, ACS == selected_vars$input_acs) %>% select(goodname),
+           title = paste0((filter(renamekey, ACS == selected_vars$input_acs) %>% select(goodname)), " - ", selected_vars$input_distance, " mi buffer")) +
+      theme(legend.text = element_text(size = 12),
+            axis.text = element_text(size = 12),
+            axis.title = element_text(size = 12),
+            strip.text = element_text(size = 12),
+            strip.text.y = element_text(angle = 0),
+            strip.background = element_rect(fill = "grey"),
+            strip.placement = "outside",
+            axis.line.x.bottom = element_line(color = "black"),
+            panel.grid.minor.x = element_blank()) +
+      annotate("segment", x=-Inf, xend=Inf, y=-Inf, yend=-Inf) +
+      annotate("segment", x=-Inf, xend=-Inf, y=-Inf, yend=Inf) +
+      guides(shape = FALSE, fill = FALSE) +
+      scale_x_continuous(labels = scales::comma)
+      # scale_x_continuous(labels = function(x) if(selected_vars$input_acs == "adj_meanhhi") {
+      #   paste0("$", x)} else {paste0(x, "%")})
     
   })
 }
+
+mtcars %>% ggplot(aes(x = mpg, y = qsec)) +
+  facet_wrap(~cyl, nrow = 3) + geom_point() +
+  theme_bw()
 
     
 ## To be copied in the UI

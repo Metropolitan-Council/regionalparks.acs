@@ -39,11 +39,11 @@ app_server <- function(input, output, session) {
     selected_vars = selected_input_vars,
     summary_util = summary_util_vars
   )
-  
-  # callModule(mod_mod_summary_ggplot_server, "mod_summary_ggplot_ui_1",
-  #            selected_vars = selected_input_vars,
-  #            summary_util = summary_util_vars
-  # )
+
+  callModule(mod_mod_summary_ggplot_server, "mod_summary_ggplot_ui_1",
+             selected_vars = selected_input_vars,
+             summary_util = summary_util_vars
+  )
   
 
   callModule(mod_summary_map_server, "summary_map_ui_1",
@@ -66,4 +66,5 @@ app_server <- function(input, output, session) {
   callModule(mod_pop_map_server, "pop_map_ui_1", pop_data)
 
   callModule(mod_pop_demoshifts_server, "pop_demoshifts_ui_1")
+
 }

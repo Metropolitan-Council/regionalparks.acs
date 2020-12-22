@@ -205,7 +205,7 @@ mod_summary_plot_server <- function(input, output, session,
   
   output$subplotlys <- renderPlotly({ # plotlys using subplots ----
     subplot(
-      plot_ly(height = nrow(summary_util$plotly_agency_data)*25) %>%
+      plot_ly(height = nrow(summary_util$plotly_agency_data)*30) %>%
         plotly::add_markers(
           data = summary_util$plotly_agency_data,
           x = ~value, #avg,
@@ -220,7 +220,7 @@ mod_summary_plot_server <- function(input, output, session,
         layout(
           # title = "Agency average",
           showlegend = FALSE,
-          margin = list(l = 10, r = 45, b = 10, t = 10), # l = left; r = right; t = top; b = bottom
+          margin = list(l = 10, r = 45, b = 0, t = 0, pad = 0), # l = left; r = right; t = top; b = bottom
           hovermode = "closest",
           hoverdistance = "10",
           hoverlabel = hoverlabel_list,
@@ -246,7 +246,7 @@ mod_summary_plot_server <- function(input, output, session,
           )
         ),
       
-      plot_ly(height = nrow(summary_util$plot_buffer_data)*25) %>%
+      plot_ly(height = nrow(summary_util$plot_buffer_data[!duplicated(summary_util$plot_buffer_data[, c('name')]), ])*30) %>%
         plotly::add_markers(
           data = summary_util$plot_buffer_data,
           x = ~value,
@@ -265,7 +265,7 @@ mod_summary_plot_server <- function(input, output, session,
         ) %>%
         layout(
           showlegend = FALSE,
-          margin = list(l = 10, r = 45, b = 10, t = 10), # l = left; r = right; t = top; b = bottom
+          margin = list(l = 10, r = 45, b = 0, t = 0, pad = 0, autoexpand = T), # l = left; r = right; t = top; b = bottom
           hovermode = "closest",
           hoverdistance = "10",
           hoverlabel = hoverlabel_list,
@@ -292,8 +292,19 @@ mod_summary_plot_server <- function(input, output, session,
         ),
       
       nrows = 2,
-      
+      margin =0, #.04, 
       heights=c(0.07, 0.93),
+        # # (nrow(summary_util$plotly_agency_data))/(nrow(summary_util$plot_buffer_data)),
+        # # (1 - (nrow(summary_util$plotly_agency_data))/(nrow(summary_util$plot_buffer_data)))),
+        # 
+        # (nrow(summary_util$plotly_agency_data) / ((nrow(summary_util$plot_buffer_data[!duplicated(summary_util$plot_buffer_data[, c('name')]), ])) + nrow(summary_util$plotly_agency_data))),
+        # (1 - (nrow(summary_util$plotly_agency_data) / ((nrow(summary_util$plot_buffer_data[!duplicated(summary_util$plot_buffer_data[, c('name')]), ])) + nrow(summary_util$plotly_agency_data))))
+        #   ),
+        
+      # horizontal_spacing = 0.05,
+      # margin = .1,
+      # margin = list(l = 10, r = 45, b = 10, t = 10, pad = 2), # l = left; r = right; t = top; b = bottom
+      
       shareX = F,
       shareY = F, 
       titleX = T, 
@@ -307,29 +318,7 @@ mod_summary_plot_server <- function(input, output, session,
     plot_grid(type_status_legend)
   })
 
-
-  # dynamic height----
-  output$TEST <- renderText(
-    nrow(summary_util$plot_buffer_data)
-  )
-  
-  output$height <- renderText(
-    summary_util$plotly_height[[1]]
-  )
-  
-  # text agency avg ----
-  output$avgtext <- renderText(
-    (paste0(
-      "\nAverage ", '"', (summary_util$plot_buffer_data[1, 6] %>%
-        left_join(renamekey, by = "ACS") %>%
-        select(goodname)), '" within "',
-      summary_util$agencyavg_data$agency, '":  ',
-      summary_util$agencyavg_data$value, "       ", "\n", "dafasf"
-    ) # hmm, my new line isn't working
-    )
-  )
 }
-
 ## To be copied in the UI
 # mod_summary_plot_ui("summary_plot_ui_1")
 
