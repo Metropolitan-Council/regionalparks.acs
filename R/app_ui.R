@@ -48,6 +48,10 @@ app_ui <- function(request) {
               "Weighted averages",
               mod_summary_plot_ui("summary_plot_ui_1")
             ),
+            # tabPanel(
+            #   "ggplots",
+            #   mod_mod_summary_ggplot_ui("mod_summary_ggplot_ui_1")
+            # ),
             tabPanel(
               "Buffer map",
               mod_summary_map_ui("summary_map_ui_1")

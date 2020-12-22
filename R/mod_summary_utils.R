@@ -104,8 +104,7 @@ mod_summary_utils_server <- function(input, output, session,
         )
       )) %>% 
       mutate(
-        name = forcats::fct_reorder(name, desc(value)),
-        concat = paste(type, status, sep = "_")
+        name = forcats::fct_reorder(name, desc(value))
       )
   })
 

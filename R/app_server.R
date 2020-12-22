@@ -39,6 +39,12 @@ app_server <- function(input, output, session) {
     selected_vars = selected_input_vars,
     summary_util = summary_util_vars
   )
+  
+  # callModule(mod_mod_summary_ggplot_server, "mod_summary_ggplot_ui_1",
+  #            selected_vars = selected_input_vars,
+  #            summary_util = summary_util_vars
+  # )
+  
 
   callModule(mod_summary_map_server, "summary_map_ui_1",
     selected_vars = selected_input_vars,
