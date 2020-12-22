@@ -272,8 +272,9 @@ mod_summary_plot_server <- function(input, output, session,
             zeroline = FALSE,
             showline = FALSE,
             showgrid = TRUE,
-            ticksuffix = "%",
-            range = c(min(summary_util$plotly_buffer_data %>%.$value)-1, max(summary_util$plotly_buffer_data %>% .$value)+1)
+            ticksuffix = if (selected_vars$input_acs != "adj_meanhhi") {"%"} else{"$"},
+            range = if(selected_vars$input_acs != "adj_meanhhi") {c(min(summary_util$plotly_buffer_data %>%.$value)-1, max(summary_util$plotly_buffer_data %>% .$value)+1)}
+            else {c(min(summary_util$plotly_buffer_data %>%.$value)-1000, max(summary_util$plotly_buffer_data %>% .$value)+1000)}
           ),
           yaxis = list(
             title = "",
@@ -317,8 +318,9 @@ mod_summary_plot_server <- function(input, output, session,
             zeroline = FALSE,
             showline = FALSE,
             showgrid = TRUE,
-            ticksuffix = "%",
-            range = c(min(summary_util$plotly_buffer_data %>%.$value)-1, max(summary_util$plotly_buffer_data %>% .$value)+1)
+            ticksuffix = if (selected_vars$input_acs != "adj_meanhhi") {"%"} else{"$"},
+            range  = if(selected_vars$input_acs != "adj_meanhhi") {c(min(summary_util$plotly_buffer_data %>%.$value)-1, max(summary_util$plotly_buffer_data %>% .$value)+1)}
+            else {c(min(summary_util$plotly_buffer_data %>%.$value)-1000, max(summary_util$plotly_buffer_data %>% .$value)+1000)}
           ),
           yaxis = list(
             title = "",
@@ -327,7 +329,6 @@ mod_summary_plot_server <- function(input, output, session,
             showline = FALSE,
             showgrid = TRUE,
             autorange = "reversed"
-            # range = c("2010-01-01", "2022-01-01")
           )
         ),
       

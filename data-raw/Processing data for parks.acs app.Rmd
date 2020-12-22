@@ -108,8 +108,6 @@ Running this produces:
 source("collar_county_filter.R")
 source("acs_geo.R")
 
-block_group
-load()
 ```
 
 ## Create population estimates
