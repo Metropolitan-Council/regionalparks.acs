@@ -171,7 +171,8 @@ mod_summary_utils_server <- function(input, output, session,
         type %in% selected_vars$input_type,
         status %in% selected_vars$input_status,
         distance == selected_vars$input_distance
-      )
+      ) %>% 
+      separate(name, into = c("name", "delete"), sep= "_")
     return(p5)
   })
 

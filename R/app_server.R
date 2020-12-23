@@ -42,7 +42,6 @@ app_server <- function(input, output, session) {
     selected_vars = selected_input_vars
   )
 
-
   callModule(mod_summary_table_server, "summary_table_ui_1",
     selected_vars = selected_input_vars,
     summary_util = summary_util_vars
@@ -68,10 +67,10 @@ app_server <- function(input, output, session) {
     selected_vars = selected_input_vars,
     summary_util = summary_util_vars
   )
-
-  callModule(mod_summary_map2_server, "summary_map2_ui_1",
-             selected_vars = selected_input_vars,
-             summary_util = summary_util_vars)
+# 
+#   callModule(mod_summary_map2_server, "summary_map2_ui_1",
+#              selected_vars = selected_input_vars,
+#              summary_util = summary_util_vars)
   
   # ended up not using this for the time being, all within the table_ui
   # callModule(mod_summary_download_server, "summary_download_ui_1",
@@ -84,8 +83,17 @@ app_server <- function(input, output, session) {
   # Population growth tab ------------------------------------------------------
 
   # get input values
-  pop_data <- callModule(mod_pop_selections_server, "pop_selections_ui_1")
-  callModule(mod_pop_map_server, "pop_map_ui_1", pop_data)
+  selected_input_popvars <- callModule(mod_pop_selections_server, "pop_selections_ui_1")
+
+  ## run reactive calculations with input values
+  summary_util_popvars <- callModule(mod_pop_utils_server, "pop_utils_ui_1",
+                                  selected_popvars = selected_input_popvars
+  )
+
+  callModule(mod_pop_map_server, "pop_map_ui_1",
+             selected_popvars = selected_input_popvars,
+             summary_poputil = summary_util_popvars)
+
 
   callModule(mod_pop_demoshifts_server, "pop_demoshifts_ui_1")
 

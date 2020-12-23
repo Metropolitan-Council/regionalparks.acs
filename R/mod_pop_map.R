@@ -24,263 +24,220 @@ mod_pop_map_ui <- function(id) {
 #'
 #' @noRd
 mod_pop_map_server <- function(input, output, session,
-                               pop_data = pop_data) {
+                               summary_poputil,
+                               selected_popvars) {
   ns <- session$ns
 
-
-  output$popmap <- renderLeaflet({
-    leaflet() %>%
-      addProviderTiles("Stamen.TonerLite",
-        group = "Stamen Toner"
-      ) %>%
-      addProviderTiles("CartoDB.Positron",
-        group = "Carto Positron"
-      ) %>%
-      addProviderTiles(
-        provider = providers$Esri.WorldImagery,
-        group = "Esri Imagery"
-      ) %>%
-      addMapPane("parks_geo", zIndex = 420) %>%
-      addPolygons(
-        data = park_trail_geog_LONG[park_trail_geog_LONG$status == "Park - existing", ],
-        group = "Regional Parks - existing",
-        stroke = TRUE,
-        color = e_col, 
-        fill = TRUE,
-        fillColor = e_col, 
-        fillOpacity = 0.8,
-        options = pathOptions(pane = "parks_geo"),
-        highlightOptions = highlightOptions(
-          stroke = TRUE,
+popkey <- tibble::tribble( #------
+                           ~goodname,
+                           ~"popvar",
+                           "2019 pop.",
+                           "PopEst_2019",
+                           "2019 pop. density",
+                           "PopDens_2019",
+                           "2040 pop.",
+                           "POP2040",
+                           "2040 pop. density",
+                           "popdens_2040_mi",
+                           "Growth, relative",
+                           "growth_rel_10_40",
+                           "Growth, absolute",
+                           "growth_abs_10_40")
+  
+  output$popmap <- renderLeaflet({ #pop map --------
+      leaflet() %>%
+        setView(
+          lat = 44.963,
+          lng = -93.22,
+          zoom = 9
+        ) %>%
+        addProviderTiles("Stamen.TonerLite",
+                         group = "Stamen Toner"
+        ) %>%
+        addProviderTiles("CartoDB.Positron",
+                         group = "Carto Positron"
+        ) %>%
+        addProviderTiles(
+          provider = providers$Esri.WorldImagery,
+          group = "Esri Imagery"
+        ) %>%
+        
+        addMapPane("Agency boundaries", zIndex = 650) %>%
+        addMapPane("Buffers", zIndex = 750) %>%
+        
+        addPolygons(
+          data = agency_boundary,
+          group = "Agency boundaries",
+          stroke = T,
           color = "black",
-          weight = 6,
-          bringToFront = TRUE,
-          opacity = 1
-        ),
-        popup = ~ paste0(
-          "<b>", park_trail_geog_LONG[park_trail_geog_LONG$status == "Park - existing", ]$status, "</b>", "<br>",
-          park_trail_geog_LONG[park_trail_geog_LONG$status == "Park - existing", ]$name, "<br>", "<em>",
-          park_trail_geog_LONG[park_trail_geog_LONG$status == "Park - existing", ]$agency, "</em>"
-        ),
-        popupOptions = popupOptions(
-          closeButton = FALSE,
-          style = list(
-            "font-size" = "18px",
-            "font-family" = "Arial"
-          )
-        )
-      ) %>%
-      addPolygons(
-        data = park_trail_geog_LONG[park_trail_geog_LONG$status == "Park - planned", ],
-        group = "Regional Parks - planned",
-        stroke = TRUE,
-        color = p_col, 
-        fill = TRUE,
-        fillColor = p_col, 
-        fillOpacity = 0.8,
-        options = pathOptions(pane = "parks_geo"),
-        highlightOptions = highlightOptions(
-          stroke = TRUE,
-          color = "black", weight = 6,
-          bringToFront = TRUE,
-          opacity = 1
-        ),
-        popup = ~ paste0(
-          "<b>", park_trail_geog_LONG[park_trail_geog_LONG$status == "Park - planned", ]$status, "</b>", "<br>",
-          park_trail_geog_LONG[park_trail_geog_LONG$status == "Park - planned", ]$name, "<br>",
-          "<em>", park_trail_geog_LONG[park_trail_geog_LONG$status == "Park - planned", ]$agency, "</em>"
-        ),
-        popupOptions = popupOptions(
-          closeButton = FALSE,
-          style = list(
-            "font-size" = "18px",
-            "font-family" = "Arial"
-          )
-        )
-      ) %>%
-      addCircles(
-        data = park_trail_geog_LONG[park_trail_geog_LONG$status == "Park - search", ],
-        group = "Regional Parks - search",
-        stroke = TRUE,
-        radius = 2000,
-        color = s_col, 
-        fill = TRUE,
-        fillColor = s_col, 
-        fillOpacity = 0.8, 
-        options = pathOptions(pane = "parks_geo"),
-        highlightOptions = highlightOptions(
-          stroke = TRUE,
-          color = "black", weight = 6,
-          bringToFront = TRUE,
-          opacity = 1
-        ),
-        popup = ~ paste0(
-          "<b>", park_trail_geog_LONG[park_trail_geog_LONG$status == "Park - search", ]$status, "</b>", "<br>",
-          "<em>", park_trail_geog_LONG[park_trail_geog_LONG$status == "Park - search", ]$name, "</em>"
-        ),
-        popupOptions = popupOptions(
-          closeButton = FALSE,
-          style = list(
-            "font-size" = "18px",
-            "font-family" = "Arial"
-          )
-        )
-      ) %>%
-      addPolygons(
-        data = agency_boundary,
-        group = "Agency boundaries",
-        fill = FALSE,
-        stroke = TRUE,
-        weight = 2, 
-        color = councilR::colors$suppGray
-      ) %>%
-      addPolylines(
-        data = park_trail_geog_LONG[park_trail_geog_LONG$status == "Trail - existing", ],
-        group = "Regional Trails - existing",
-        stroke = TRUE,
-        weight = 3, # 3,
-        color = e_col, 
-        smoothFactor = 0.3,
-        opacity = 1, # 0.5,
-        options = pathOptions(pane = "parks_geo"),
-        popup = ~ paste0(
-          "<b>", park_trail_geog_LONG[park_trail_geog_LONG$status == "Trail - existing", ]$status, "</b>", "<br>",
-          park_trail_geog_LONG[park_trail_geog_LONG$status == "Trail - existing", ]$name, "<br>",
-          "<em>", park_trail_geog_LONG[park_trail_geog_LONG$status == "Trail - existing", ]$agency, "</em>"
-        ),
-        highlightOptions = highlightOptions(
-          stroke = TRUE,
-          color = "black", # "white",
-          weight = 6,
-          bringToFront = TRUE
-        )
-      ) %>%
-      addPolylines(
-        data = park_trail_geog_LONG[park_trail_geog_LONG$status == "Trail - search", ],
-        group = "Regional Trails - search",
-        stroke = TRUE,
-        weight = 3, # 3,
-        color = s_col, 
-        smoothFactor = 0.3,
-        opacity = 1, # 0.5,
-        options = pathOptions(pane = "parks_geo"),
-        popup = ~ paste0(
-          "<b>", park_trail_geog_LONG[park_trail_geog_LONG$status == "Trail - search", ]$status, "</b>", "<br>",
-          park_trail_geog_LONG[park_trail_geog_LONG$status == "Trail - search", ]$name, "<br>",
-          "<em>", park_trail_geog_LONG[park_trail_geog_LONG$status == "Trail - search", ]$agency, "<em>"
-        ),
-        highlightOptions = highlightOptions(
-          stroke = TRUE,
-          color = "black",
-          weight = 6,
-          bringToFront = TRUE
-        )
-      ) %>%
-      addPolylines(
-        data = park_trail_geog_LONG[park_trail_geog_LONG$status == "Trail - planned", ],
-        group = "Regional Trails - planned",
-        stroke = TRUE,
-        weight = 3, 
-        color = p_col, 
-        smoothFactor = 0.3,
-        opacity = 1, 
-        options = pathOptions(pane = "parks_geo"),
-        popup = ~ paste0(
-          "<b>", park_trail_geog_LONG[park_trail_geog_LONG$status == "Trail - planned", ]$status, "</b>", "<br>",
-          park_trail_geog_LONG[park_trail_geog_LONG$status == "Trail - planned", ]$name, "<br>",
-          "<em>", park_trail_geog_LONG[park_trail_geog_LONG$status == "Trail - planned", ]$agency, "</em>"
-        ),
-        highlightOptions = highlightOptions(
-          stroke = TRUE,
-          color = "black",
-          weight = 6,
-          bringToFront = TRUE
-        )
-      ) %>%
-      hideGroup(
-        c(
-          "Regional Parks - planned",
-          "Regional Trails - planned",
-          "Regional Parks - search",
-          "Regional Trails - search"
-        )
-      ) %>%
-      addLayersControl(
-        position = "bottomright",
-        overlayGroups = c(
-          "Regional Parks - existing",
-          "Regional Trails - existing",
-          "Regional Parks - planned",
-          "Regional Trails - planned",
-          "Regional Parks - search",
-          "Regional Trails - search",
-          "Agency boundaries",
-          "Pop. Estimates"
-        ),
-        baseGroups = c(
-          "Carto Positron",
-          "Stamen Toner",
-          "Esri Imagery"
-        ),
-        options = layersControlOptions(collapsed = T)
-      ) %>%
-      leaflet::addScaleBar(position = c("bottomleft"))
-  })
+          fill = F,
+          weight = 2,
+          options = pathOptions(pane = "Agency boundaries")
+        )  %>% 
+        
+        addLayersControl(
+          position = "bottomright",
+          overlayGroups = c(
+            "Parks and trails",
+            "Buffers",
+            "Population data",
+            "Agency boundaries"
+          ),
+          baseGroups = c(
+            "Carto Positron",
+            "Stamen Toner",
+            "Esri Imagery"
+          ),
+          options = layersControlOptions(collapsed = F)
+        ) %>%
+        leaflet::addScaleBar(position = c("bottomleft"))
+    }) #----
 
-  observeEvent(pop_data$pop_data, {
-    pal <-
-      colorQuantile(
-        palette = "Purples",
-        n = 7,
-        domain = pop_data$pop_data[[1]]
-      )
-
-    # browser()
+  observeEvent( c(selected_popvars$input_pop), {
     leafletProxy("popmap") %>%
-      clearGroup("Pop. Estimates") %>%
-      clearControls() %>%
+      clearGroup("Population data") %>%
+      addMapPane("Population data", zIndex = 0) %>%
+      # clearControls()
       addPolygons(
-        data = pop_data$pop_data,
-        group = "Pop. Estimates",
+        group = "Population data",
+        data = summary_poputil$pop_data,
         stroke = TRUE,
         color = councilR::colors$suppGray,
         opacity = 0.6,
         weight = 0.25,
         fillOpacity = 0.6,
         smoothFactor = 0.2,
-        fillColor = ~ colorQuantile(
-          palette = "Purples",
-          n = 7,
-          # reverse = TRUE,
-          domain = pop_data$pop_data[[1]]
-        )(pop_data$pop_data[[1]]),
-
-        popup =
-          ~ paste0(
-            tags$strong(pop_data$selected_var),
-            ": ",
-            format(pop_data$pop_data[[1]], big.mark = ",")
-          ),
-        # options = list(zIndex = 0),
-        popupOptions = popupOptions(closeOnClick = TRUE)
-      ) %>%
-      addLegend("topright",
-        pal = colorQuantile(
-          n = 7,
-          palette = "Purples",
-          domain = pop_data$pop_data[[1]]
-        ),
-        values = (pop_data$pop_data[[1]]),
-        title = paste0((names(pop_data$pop_data)[[1]])), # (names(summary_util$map_bg_data)[[1]]),
-        opacity = 1,
-        group = "Pop.Estimates"#,
-        # labFormat = function(type, cuts, p) {
-        #   n <- length(cuts)
-        #   paste0(format(round(cuts[-n], 0), big.mark = ","), " &ndash; ", format(round(cuts[-1], 0), big.mark = ","))
-        # }
+        fillColor = ~ colorNumeric(
+          # n = 7,
+          palette = "Blues",
+          domain = summary_poputil$pop_data[[1]]
+        )(summary_poputil$pop_data[[1]]),
+        popup = case_when(selected_popvars$input_pop == "growth_rel_10_40" ~
+                            paste0(tags$strong(filter(popkey, popvar == selected_popvars$input_pop) %>% select(goodname)), ": ", round(summary_poputil$pop_data[[1]], 2), " x"),
+                          (selected_popvars$input_pop == "popdens_2040_mi" | selected_popvars$input_pop == "PopDens_2019") ~
+                            paste0(tags$strong(filter(popkey, popvar == selected_popvars$input_pop) %>% select(goodname)), ": ", format(round(summary_poputil$pop_data[[1]],1), big.mark = ","), " persons/mile"),
+                          TRUE ~ paste0(tags$strong(filter(popkey, popvar == selected_popvars$input_pop) %>% select(goodname)), ": ", format(summary_poputil$pop_data[[1]], big.mark = ","), " persons")),
+        options = list(zIndex = 0)
       )
   })
+
+  observeEvent(
+               c(selected_popvars$input_agency,
+                 selected_popvars$input_type,
+                 selected_popvars$input_status),
+               {
+                 leafletProxy("popmap") %>%
+                   clearGroup("Parks and trails") %>%
+                   addMapPane("Parks and trails", zIndex = 700) %>%
+                   addPolylines(
+                     group = "Parks and trails",
+                     data = summary_poputil$pop_parktrail_data,
+                     color = case_when(
+                       summary_poputil$pop_parktrail_data$status2[summary_poputil$pop_parktrail_data$Type == "Trail"] == "Existing" ~ e_col,
+                       summary_poputil$pop_parktrail_data$status2[summary_poputil$pop_parktrail_data$Type == "Trail"] == "Planned" ~ p_col,
+                       summary_poputil$pop_parktrail_data$status2[summary_poputil$pop_parktrail_data$Type == "Trail"] == "Search" ~ s_col
+                     ),
+                     weight = 3,
+                     stroke = T,
+                     opacity = 1,
+                     popup = ~ paste0(
+                       "<b>", summary_poputil$pop_parktrail_data$status[summary_poputil$pop_parktrail_data$Type == "Trail"], "</b>", "<br>",
+                       summary_poputil$pop_parktrail_data$name[summary_poputil$pop_parktrail_data$Type == "Trail"], "<br>",
+                       "<em>",
+                       summary_poputil$pop_parktrail_data$agency[summary_poputil$pop_parktrail_data$Type == "Trail"], "</em>"
+                     ),
+                     highlightOptions = highlightOptions(
+                       stroke = TRUE,
+                       color = "black",
+                       weight = 6,
+                       bringToFront = TRUE
+                     ),
+                     options = list(zIndex = 700)
+                   ) %>%
+                   addPolygons(
+                     group = "Parks and trails",
+                     data = summary_poputil$pop_parktrail_data %>% filter(agency %in% selected_popvars$input_agency, Type == "Park"),
+                     color = case_when(
+                       summary_poputil$pop_parktrail_data$status2[summary_poputil$pop_parktrail_data$Type == "Park"] == "Existing" ~ e_col,
+                       summary_poputil$pop_parktrail_data$status2[summary_poputil$pop_parktrail_data$Type == "Park"] == "Planned" ~ p_col,
+                       summary_poputil$pop_parktrail_data$status2[summary_poputil$pop_parktrail_data$Type == "Park"] == "Search" ~ s_col
+                     ),
+                     fillColor = case_when(
+                       summary_poputil$pop_parktrail_data$status2[summary_poputil$pop_parktrail_data$Type == "Park"] == "Existing" ~ e_col,
+                       summary_poputil$pop_parktrail_data$status2[summary_poputil$pop_parktrail_data$Type == "Park"] == "Planned" ~ p_col,
+                       summary_poputil$pop_parktrail_data$status2[summary_poputil$pop_parktrail_data$Type == "Park"] == "Search" ~ s_col
+                     ),
+                     fillOpacity = 1,
+                     weight = 3,
+                     stroke = T,
+                     opacity = 1,
+                     popup = ~ paste0(
+                       "<b>", summary_poputil$pop_parktrail_data$status[summary_poputil$pop_parktrail_data$Type == "Park"], "</b>", "<br>",
+                       summary_poputil$pop_parktrail_data$name[summary_poputil$pop_parktrail_data$Type == "Park"], "<br>",
+                       "<em>", summary_poputil$pop_parktrail_data$agency[summary_poputil$pop_parktrail_data$Type == "Park"], "</em>"
+                     ),
+                     highlightOptions = highlightOptions(
+                       stroke = TRUE,
+                       color = "black",
+                       weight = 6,
+                       bringToFront = TRUE
+                     ),
+                     options = list(zIndex = 710)
+                   )
+               })
+
+
+  observeEvent( #add buffers -------
+                c(selected_popvars$input_distance, selected_popvars$input_agency, selected_popvars$input_type, selected_popvars$input_status), {
+                  leafletProxy("popmap") %>%
+                    clearGroup("Buffers") %>%
+                    # clearControls()
+                    addPolygons(
+                      data = summary_poputil$pop_buffer_data,
+                      group = "Buffers",
+                      stroke = TRUE,
+                      weight = 2,
+                      color = "#616161",
+                      fill = T,
+                      fillColor = "transparent",
+                      opacity = .4,
+                      fillOpacity = .005,
+                      highlightOptions = highlightOptions(
+                        stroke = TRUE,
+                        color = "black",
+                        weight = 6,
+                        bringToFront = TRUE,
+                        sendToBack = TRUE,
+                        opacity = 1
+                      ),
+                      popup = ~ paste0(
+                        "<b>",
+                        "Buffer: ",
+                        summary_poputil$pop_buffer_data$status,
+                        ", ",
+                        summary_poputil$pop_buffer_data$type,
+                        "</b>",
+                        "<br>",
+                        summary_poputil$pop_buffer_data$name,
+                        "<br>",
+                        "<em>",
+                        summary_poputil$pop_buffer_data$agency,
+                        "</em>"
+                      ),
+                      popupOptions = popupOptions(
+                        closeButton = FALSE,
+                        style = list(
+                          "font-size" = "18px",
+                          "font-family" = "Arial"
+                        )
+                      ),
+                      options = list(zIndex = 750),
+                    )
+                })
+  
 }
+    
+    
 
 ## To be copied in the UI
 # mod_pop_map_ui("pop_map_ui_1")

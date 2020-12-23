@@ -76,10 +76,10 @@ mod_pop_demoshifts_server <- function(input, output, session) {
         x = "Forecast year",
         y = "Forecasted % of total population",
         fill = "Race & Ethnicity",
-        title = "Race & Ethnicity forecasts"
+        title = "Race & Ethnicity forecasts (7-county MetCouncil area)"
       ) +
       scale_fill_brewer(palette = "Blues") +
-      geom_textl(aes(label = paste0(round(Percent, 1), "%")),
+      geom_text(aes(label = paste0(round(Percent, 1), "%")),
                  position = position_stack(vjust = 0.5),
                  size = 6
       )
@@ -124,7 +124,7 @@ mod_pop_demoshifts_server <- function(input, output, session) {
         x = "Forecast year",
         y = "Forecasted % of total population",
         fill = "Ages",
-        title = "Age forecasts"
+        title = "Age forecasts (7-county MetCouncil area)"
       ) +
       scale_fill_brewer(palette = "Greens") +
       geom_text(aes(label = paste0(round(Percent, 1), "%")),

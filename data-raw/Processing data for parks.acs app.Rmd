@@ -112,6 +112,16 @@ source("acs_geo.R")
 
 ## Create population estimates
 
+This script doesn't depend on inputs from any other script.
+
+Running this produces:
+- `est_pop.rda`
+
+```{r popest, message=FALSE, warning = F, echo = F}
+source("pop_est.R")
+
+```
+
 ## Create transit layer
 
 ```{r transit, message=FALSE, warning = F, echo = F}
