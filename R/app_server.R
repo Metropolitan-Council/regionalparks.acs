@@ -10,7 +10,20 @@ app_server <- function(input, output, session) {
 
   # note: color assignment for parks/trails by status (existing, search, planned) is within golem_utils_server.R file
 
+  observe({
+    print(input$nav)
+  })
 
+
+  
+  # observe({
+  #   if(input$nav == "Summary") {print("yes")} else {print("no")}
+  # })
+  # 
+  # observe({
+  #   if(input$nav == "Summary" & input$summarytabs == "lflt") {print("yeslflt")} else {print("nolflt")}
+  # })
+  # 
   # # Introduction tab -----------------------------------------------------------
   callModule(mod_intro_server, "intro_ui_1")
 
@@ -56,6 +69,10 @@ app_server <- function(input, output, session) {
     summary_util = summary_util_vars
   )
 
+  callModule(mod_summary_map2_server, "summary_map2_ui_1",
+             selected_vars = selected_input_vars,
+             summary_util = summary_util_vars)
+  
   # ended up not using this for the time being, all within the table_ui
   # callModule(mod_summary_download_server, "summary_download_ui_1",
   #            summary_util = summary_util_vars)

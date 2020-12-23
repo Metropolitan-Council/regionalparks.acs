@@ -27,10 +27,15 @@ mod_summary_map_server <- function(input, output, session,
                                    selected_vars) {
   ns <- session$ns
   
-  observeEvent(input$buffermap , {
-    print("does this work")
-  })
+  # observeEvent(input$buffermap , {
+  #   print("does this work", "input_demos_ui_1-inputCensusTracts")
+  #   print(id())
+  # })
   
+  # observeEvent(input$id , {
+  #   print("does this work", "input_demos_ui_1-inputCensusTracts")
+  # })
+  # 
   renamekey <- tibble::tribble( #------
     ~goodname,
     ~"ACS",
@@ -74,7 +79,7 @@ mod_summary_map_server <- function(input, output, session,
     "adj_forborn_per"
   )
   
-  output$buffermap <- renderLeaflet({
+  output$buffermap <- renderLeaflet({ #buf map --------
     leaflet() %>%
       setView(
         lat = 44.963,
@@ -101,6 +106,66 @@ mod_summary_map_server <- function(input, output, session,
         weight = 2,
         options = pathOptions(pane = "Agency boundaries")
       ) %>%
+      addPolylines(
+        group = "Parks and Trails",
+        data = summary_util$map_parktrail_data,
+        color = case_when(
+          summary_util$map_parktrail_data$status2[summary_util$map_parktrail_data$Type == "Trail"] == "Existing" ~ e_col,
+          summary_util$map_parktrail_data$status2[summary_util$map_parktrail_data$Type == "Trail"] == "Planned" ~ p_col,
+          summary_util$map_parktrail_data$status2[summary_util$map_parktrail_data$Type == "Trail"] == "Search" ~ s_col
+        ),
+        weight = 3,
+        stroke = T,
+        opacity = 1,
+        popup = ~ paste0(
+          "<b>", summary_util$map_parktrail_data$status[summary_util$map_parktrail_data$Type == "Trail"], "</b>", "<br>",
+          summary_util$map_parktrail_data$name[summary_util$map_parktrail_data$Type == "Trail"], "<br>",
+          "<em>",
+          summary_util$map_parktrail_data$agency[summary_util$map_parktrail_data$Type == "Trail"], "</em>"
+        ),
+        highlightOptions = highlightOptions(
+          stroke = TRUE,
+          color = "black",
+          weight = 6,
+          bringToFront = TRUE
+        )
+      ) %>%
+      
+      addPolygons(
+        group = "Demographic data",
+        data = summary_util$map_bg_data,
+        stroke = TRUE,
+        color = councilR::colors$suppGray,
+        opacity = 0.6,
+        weight = 0.25,
+        fillOpacity = 0.6,
+        smoothFactor = 0.2,
+        fillColor = ~ colorNumeric(
+          # n = 7,
+          palette = "Blues",
+          domain = summary_util$map_bg_data[[1]]
+        )(summary_util$map_bg_data[[1]])
+      ) %>%
+      
+      addPolygons(
+        data = summary_util$map_buffer_data,
+        group = "Buffers",
+        stroke = TRUE,
+        weight = 2,
+        color = "#616161",
+        fill = T,
+        fillColor = "transparent",
+        opacity = .4,
+        fillOpacity = .005,
+        highlightOptions = highlightOptions(
+          stroke = TRUE,
+          color = "black",
+          weight = 6,
+          bringToFront = TRUE,
+          sendToBack = TRUE,
+          opacity = 1
+        )) %>% 
+      
       addLayersControl(
         position = "bottomright",
         overlayGroups = c(
@@ -253,13 +318,15 @@ mod_summary_map_server <- function(input, output, session,
   # })
   
 
-  observeEvent(#req(input$summary_map_ui_1 == "Buffer map"), #-----
-    c(
-      selected_vars$input_agency, 
-      selected_vars$input_type, 
+  observeEvent(#req(input$nav == "Summary"), #-----
+  # observe({
+  #   req(input$nav == "Summary")
+    c(#input$nav == "Summary",
+      selected_vars$input_agency,
+      selected_vars$input_type,
       selected_vars$input_status),
-               # ignoreInit = T, ignoreNULL = T,
-    # if(input$nav == "Summary")
+    #            # ignoreInit = T, ignoreNULL = T,
+    # # if(input$nav == "Summary")
     {
     leafletProxy("buffermap") %>%
       clearGroup("Parks and Trails") %>%
@@ -319,7 +386,7 @@ mod_summary_map_server <- function(input, output, session,
           )
   })
   
-  observeEvent( c(selected_vars$input_acs), ignoreInit = TRUE, once = TRUE, {
+  observeEvent( c(selected_vars$input_acs), {
     leafletProxy("buffermap") %>%
       clearGroup("Demographic data") %>%
       # clearControls() 

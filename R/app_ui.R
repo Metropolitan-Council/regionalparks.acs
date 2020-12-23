@@ -38,7 +38,7 @@ app_ui <- function(request) {
 
       # acs summary tab -----
       tabPanel(title = "Summary",
-        inputId = "summarytab", 
+               id="sumtabs",
         # mainPanel(
           HTML("<p>Data are summarized in several ways. The <em>Weighted averages</em> tab distills complex spatial demographic patterns into a single summary statistic, and will be appropriate for most uses. The <em>Buffer map</em> tab shows the spatial demographic patterns with the buffer analysis zones overlayed. The <em>Download tabular data</em> tab displays summary statistics for all ACS variables in tabular form.</p>"), # The <em>Methods and raw data</em> tab is intended for advanced users and illustrates the steps taken to aggregate demographic data into weighted averages
         (mod_summary_selections_ui("summary_selections_ui_1")),
@@ -57,7 +57,13 @@ app_ui <- function(request) {
             #   "ggplotlys",
             #   mod_summary_ggplotly_ui("summary_ggplotly_ui_1")
             # ),
-            tabPanel( id = "tab_being_displayed",
+            
+            tabPanel(id="mytabsetpanel",
+                     "lflt", 
+                     mod_summary_map2_ui("summary_map2_ui_1")
+            ),
+            
+            tabPanel( id = "buffermap",
               "Buffer map",
               mod_summary_map_ui("summary_map_ui_1")
             ),

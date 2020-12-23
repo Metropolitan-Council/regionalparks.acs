@@ -202,26 +202,29 @@ mod_mod_summary_ggplot_server <- function(input, output, session,
   #   })
   #   
     
-    
+  color_code = data.frame(catg=c("Existing","Planned","Search"),color=c("#66C5A0", p_col, s_col))
+  
+  
     output$text_info <- renderUI({
       click <- input$plot_click
       point <- nearPoints(summary_util$facet_data, click, threshold = 10)#, maxpoints = 1, addDist = TRUE)
       if (nrow(point) == 0) return(NULL)
+      background_color = color_code %>% filter(catg == point$status) %>% .[, 2]
       
-      HTML(if(selected_vars$input_acs != "adj_meanhhi") {
-        (paste0("Approx. ", "<b>", point$value, "%", "</b>", 
+      HTML(if(selected_vars$input_acs != "adj_meanhhi") (
+        (paste0("<div style='background-color:",background_color,"'>", "Approx. ", "<b>", point$value, "%", "</b>", 
                   " of people within ", "<b>", 
-                  (if (point$type == "avg") {"</b>"} else {paste0(point$distance, " mi</b> of ")}),
+                  (if (point$type == "avg") ("</b>") else (paste0(point$distance, " mi</b> of "))),
                   "<b>", point$name, 
-                  (if (point$type == "avg") {"</b>"} else{paste0(" (", point$type, " - ", point$status, ") </b>")}),
-                  " fall into the ", "<b>",  (filter(renamekey, ACS == selected_vars$input_acs) %>% select(goodname)), "</b> category.", "</br>"))
-        } else {
-                    (paste0("$", prettyNum(point$value, big.mark = ","), " is the approx. mean household income within ", 
-                            (if (point$type == "avg") {""} else {paste0(point$distance, " mi of ")}), 
+                  (if (point$type == "avg") ("</b>") else(paste0(" (", point$type, " - ", point$status, ") </b>"))),
+                  " fall into the ", "<b>",  (filter(renamekey, ACS == selected_vars$input_acs) %>% select(goodname)), "</b> category.", "</br> </div>"))
+        ) else (
+                    (paste0("<div style='background-color:",background_color,"'>", "$", prettyNum(point$value, big.mark = ","), " is the approx. mean household income within ", 
+                            (if (point$type == "avg") ("") else (paste0(point$distance, " mi of "))), 
                             point$name, 
-                            (if (point$type == "avg") {"</b>"} else{paste0(" (", point$type, " - ", point$status, ") </b>")}),
+                            (if (point$type == "avg") ("</b>") else(paste0(" (", point$type, " - ", point$status, ") </b> </div>"))),
                             "."))
-                  })
+                  ))
     })
   
 }
