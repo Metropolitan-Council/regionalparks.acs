@@ -97,7 +97,7 @@ popkey <- tibble::tribble( #------
     leafletProxy("popmap") %>%
       clearGroup("Population data") %>%
       addMapPane("Population data", zIndex = 0) %>%
-      # clearControls()
+      clearControls() %>%
       addPolygons(
         group = "Population data",
         data = summary_poputil$pop_data,
@@ -108,7 +108,6 @@ popkey <- tibble::tribble( #------
         fillOpacity = 0.6,
         smoothFactor = 0.2,
         fillColor = ~ colorNumeric(
-          # n = 7,
           palette = "Blues",
           domain = summary_poputil$pop_data[[1]]
         )(summary_poputil$pop_data[[1]]),

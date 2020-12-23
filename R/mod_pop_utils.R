@@ -28,10 +28,16 @@ mod_pop_utils_server <- function(input, output, session,
         filter(!is.na(selected_popvars$input_pop))
     return(p6)
   })
+
+    # regionalparks.acs::est_pop %>%
+    #   select(PopEst_2019) %>%# selected_popvars$input_pop) %>%
+    #   filter(!is.na(PopEst_2019))%>%
+    #   ggplot()+ geom_sf(aes(fill = PopEst_2019))
     # 
     # regionalparks.acs::est_pop %>%
     #   select(POP2040) %>%# selected_popvars$input_pop) %>%
-    #   filter(!is.na(POP2040)) #selected_popvars$input_pop))
+    #   filter(!is.na(POP2040)) %>% 
+    #   ggplot()+ geom_sf(aes(fill = POP2040))
 
   
   make_pop_parktrail_data <- reactive({
