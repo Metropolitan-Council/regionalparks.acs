@@ -41,6 +41,11 @@ app_ui <- function(request) {
                id="sumtabs",
         # mainPanel(
           HTML("<p>Data are summarized in several ways. The <em>Weighted averages</em> tab distills complex spatial demographic patterns into a single summary statistic, and will be appropriate for most uses. The <em>Buffer map</em> tab shows the spatial demographic patterns with the buffer analysis zones overlayed. The <em>Download tabular data</em> tab displays summary statistics for all ACS variables in tabular form.</p>"),
+        # fluidRow(h3("Select inputs: ")),
+        # fluidRow(
+        #   column(width = 3, mod_selections_population_ui("selections_population_ui_1")),
+        #   column(width = 9, mod_selections_acs_ui("selections_acs_ui_1"))),
+        
         (mod_summary_selections_ui("summary_selections_ui_1")),
         tabsetPanel(
             selected = "Weighted averages",
@@ -82,7 +87,6 @@ app_ui <- function(request) {
               column(width = 3, mod_selections_population_ui("selections_population_ui_1")),
             column(width = 9, mod_selections_parktrailunits_ui("selections_parktrailunits_ui_1"))),
             
-            # mod_pop_selections_ui("pop_selections_ui_1"),
               mod_pop_map_ui("pop_map_ui_1")
           ),
           tabPanel(

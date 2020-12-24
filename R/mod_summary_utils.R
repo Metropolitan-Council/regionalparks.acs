@@ -176,19 +176,6 @@ mod_summary_utils_server <- function(input, output, session,
     return(p5)
   })
 
-  # make_plot_rawbuffer_data <- reactive({
-  #   p7 <- regionalparks.acs::long_buffer_data_raw %>%
-  #     dplyr::filter(
-  #       agency %in% selected_vars$input_agency,
-  #       type %in% selected_vars$input_type,
-  #       distance == selected_vars$input_distance,
-  #       status %in% selected_vars$input_status,
-  #       ACS == selected_vars$input_acs
-  #     )
-  #   return(p7)
-  # })
-
-
   # recode_bg_names <- tibble::tribble( # recode bg names ----
   #   ~block_group_name, ~acs_selection,
   #   "ageunder15_percent", "adj_ageunder15_per",

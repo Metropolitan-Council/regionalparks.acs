@@ -21,6 +21,14 @@ app_server <- function(input, output, session) {
 
   global_util_parktrail <- callModule(mod_parktrail_utils_server, "parktrail_utils_ui_1",
                                       selected_parktrail = selected_parktrail_vars)
+
+  
+  # selected_acs_vars <- callModule(mod_selections_acs_server, "selections_acs_ui_1")
+  
+  # global_util_acs <- callModule(mod_acs_utils_server, "acs_utils_ui_1", 
+  #                               selected_acs = selected_acs_vars,
+  #                               selected_parktrail = selected_parktrail_vars)
+  # 
   
 
   # ACS Map tab ----------------------------------------------------------------
@@ -76,9 +84,6 @@ app_server <- function(input, output, session) {
              parktrail_util = global_util_parktrail,
              summary_poputil = summary_util_popvars)
 
-  # observe({
-  #   print(selected_parktrail_vars$input_agency)
-  # })
   callModule(mod_pop_demoshifts_server, "pop_demoshifts_ui_1")
 
 }
