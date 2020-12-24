@@ -25,7 +25,9 @@ mod_pop_map_ui <- function(id) {
 #' @noRd
 mod_pop_map_server <- function(input, output, session,
                                summary_poputil,
-                               selected_popvars) {
+                               selected_popvars,
+                               parktrail_util,
+                               selected_parktrail) {
   ns <- session$ns
 
 popkey <- tibble::tribble( #------
@@ -63,7 +65,7 @@ popkey <- tibble::tribble( #------
         ) %>%
         
         addMapPane("Agency boundaries", zIndex = 650) %>%
-        addMapPane("Buffers", zIndex = 750) %>%
+        # addMapPane("Buffers", zIndex = 750) %>%
         
         addPolygons(
           data = agency_boundary,
@@ -73,8 +75,8 @@ popkey <- tibble::tribble( #------
           fill = F,
           weight = 2,
           options = pathOptions(pane = "Agency boundaries")
-        )  %>% 
-        
+        )  %>%
+      
         addLayersControl(
           position = "bottomright",
           overlayGroups = c(
@@ -119,31 +121,36 @@ popkey <- tibble::tribble( #------
         options = list(zIndex = 0)
       )
   })
-
+  
   observeEvent(
-               c(selected_popvars$input_agency,
-                 selected_popvars$input_type,
-                 selected_popvars$input_status),
+               c(selected_parktrail$input_agency,
+                 selected_parktrail$input_type,
+                 selected_parktrail$input_status),
                {
                  leafletProxy("popmap") %>%
                    clearGroup("Parks and trails") %>%
                    addMapPane("Parks and trails", zIndex = 700) %>%
                    addPolylines(
                      group = "Parks and trails",
-                     data = summary_poputil$pop_parktrail_data,
+                     data = parktrail_util$parktrail_data %>% filter(Type == "Trail"),
                      color = case_when(
-                       summary_poputil$pop_parktrail_data$status2[summary_poputil$pop_parktrail_data$Type == "Trail"] == "Existing" ~ e_col,
-                       summary_poputil$pop_parktrail_data$status2[summary_poputil$pop_parktrail_data$Type == "Trail"] == "Planned" ~ p_col,
-                       summary_poputil$pop_parktrail_data$status2[summary_poputil$pop_parktrail_data$Type == "Trail"] == "Search" ~ s_col
+                       parktrail_util$parktrail_data$status2[parktrail_util$parktrail_data$Type == "Trail"] == "Existing" ~ e_col,
+                       parktrail_util$parktrail_data$status2[parktrail_util$parktrail_data$Type == "Trail"] == "Planned" ~ p_col,
+                       parktrail_util$parktrail_data$status2[parktrail_util$parktrail_data$Type == "Trail"] == "Search" ~ s_col
                      ),
                      weight = 3,
                      stroke = T,
                      opacity = 1,
                      popup = ~ paste0(
-                       "<b>", summary_poputil$pop_parktrail_data$status[summary_poputil$pop_parktrail_data$Type == "Trail"], "</b>", "<br>",
-                       summary_poputil$pop_parktrail_data$name[summary_poputil$pop_parktrail_data$Type == "Trail"], "<br>",
+                       "<b>",
+                       parktrail_util$parktrail_data$status[parktrail_util$parktrail_data$Type == "Trail"],
+                       "</b>",
+                       "<br>",
+                       parktrail_util$parktrail_data$name[parktrail_util$parktrail_data$Type == "Trail"],
+                       "<br>",
                        "<em>",
-                       summary_poputil$pop_parktrail_data$agency[summary_poputil$pop_parktrail_data$Type == "Trail"], "</em>"
+                       parktrail_util$parktrail_data$agency[parktrail_util$parktrail_data$Type == "Trail"],
+                       "</em>"
                      ),
                      highlightOptions = highlightOptions(
                        stroke = TRUE,
@@ -153,86 +160,93 @@ popkey <- tibble::tribble( #------
                      ),
                      options = list(zIndex = 700)
                    ) %>%
+                   
                    addPolygons(
                      group = "Parks and trails",
-                     data = summary_poputil$pop_parktrail_data %>% filter(agency %in% selected_popvars$input_agency, Type == "Park"),
+                     data = parktrail_util$parktrail_data %>% filter(Type == "Park"),
                      color = case_when(
-                       summary_poputil$pop_parktrail_data$status2[summary_poputil$pop_parktrail_data$Type == "Park"] == "Existing" ~ e_col,
-                       summary_poputil$pop_parktrail_data$status2[summary_poputil$pop_parktrail_data$Type == "Park"] == "Planned" ~ p_col,
-                       summary_poputil$pop_parktrail_data$status2[summary_poputil$pop_parktrail_data$Type == "Park"] == "Search" ~ s_col
+                       parktrail_util$parktrail_data$status2[parktrail_util$parktrail_data$Type == "Park"] == "Existing" ~ e_col,
+                       parktrail_util$parktrail_data$status2[parktrail_util$parktrail_data$Type == "Park"] == "Planned" ~ p_col,
+                       parktrail_util$parktrail_data$status2[parktrail_util$parktrail_data$Type == "Park"] == "Search" ~ s_col
                      ),
                      fillColor = case_when(
-                       summary_poputil$pop_parktrail_data$status2[summary_poputil$pop_parktrail_data$Type == "Park"] == "Existing" ~ e_col,
-                       summary_poputil$pop_parktrail_data$status2[summary_poputil$pop_parktrail_data$Type == "Park"] == "Planned" ~ p_col,
-                       summary_poputil$pop_parktrail_data$status2[summary_poputil$pop_parktrail_data$Type == "Park"] == "Search" ~ s_col
+                       parktrail_util$parktrail_data$status2[parktrail_util$parktrail_data$Type == "Park"] == "Existing" ~ e_col,
+                       parktrail_util$parktrail_data$status2[parktrail_util$parktrail_data$Type == "Park"] == "Planned" ~ p_col,
+                       parktrail_util$parktrail_data$status2[parktrail_util$parktrail_data$Type == "Park"] == "Search" ~ s_col
                      ),
                      fillOpacity = 1,
                      weight = 3,
                      stroke = T,
                      opacity = 1,
                      popup = ~ paste0(
-                       "<b>", summary_poputil$pop_parktrail_data$status[summary_poputil$pop_parktrail_data$Type == "Park"], "</b>", "<br>",
-                       summary_poputil$pop_parktrail_data$name[summary_poputil$pop_parktrail_data$Type == "Park"], "<br>",
-                       "<em>", summary_poputil$pop_parktrail_data$agency[summary_poputil$pop_parktrail_data$Type == "Park"], "</em>"
+                       "<b>",
+                       parktrail_util$parktrail_data$status[parktrail_util$parktrail_data$Type == "Park"],
+                       "</b>",
+                       "<br>",
+                       parktrail_util$parktrail_data$name[parktrail_util$parktrail_data$Type == "Park"],
+                       "<br>",
+                       "<em>",
+                       parktrail_util$parktrail_data$agency[parktrail_util$parktrail_data$Type == "Park"],
+                       "</em>"
                      ),
                      highlightOptions = highlightOptions(
                        stroke = TRUE,
                        color = "black",
                        weight = 6,
                        bringToFront = TRUE
-                     ),
-                     options = list(zIndex = 710)
-                   )
+      )#,
+      # options = list(zIndex = 710)
+    ) 
                })
 
-
-  observeEvent( #add buffers -------
-                c(selected_popvars$input_distance, selected_popvars$input_agency, selected_popvars$input_type, selected_popvars$input_status), {
-                  leafletProxy("popmap") %>%
-                    clearGroup("Buffers") %>%
-                    # clearControls()
-                    addPolygons(
-                      data = summary_poputil$pop_buffer_data,
-                      group = "Buffers",
-                      stroke = TRUE,
-                      weight = 2,
-                      color = "#616161",
-                      fill = T,
-                      fillColor = "transparent",
-                      opacity = .4,
-                      fillOpacity = .005,
-                      highlightOptions = highlightOptions(
-                        stroke = TRUE,
-                        color = "black",
-                        weight = 6,
-                        bringToFront = TRUE,
-                        sendToBack = TRUE,
-                        opacity = 1
-                      ),
-                      popup = ~ paste0(
-                        "<b>",
-                        "Buffer: ",
-                        summary_poputil$pop_buffer_data$status,
-                        ", ",
-                        summary_poputil$pop_buffer_data$type,
-                        "</b>",
-                        "<br>",
-                        summary_poputil$pop_buffer_data$name,
-                        "<br>",
-                        "<em>",
-                        summary_poputil$pop_buffer_data$agency,
-                        "</em>"
-                      ),
-                      popupOptions = popupOptions(
-                        closeButton = FALSE,
-                        style = list(
-                          "font-size" = "18px",
-                          "font-family" = "Arial"
-                        )
-                      ),
-                      options = list(zIndex = 750),
-                    )
-                })
+# 
+#   observeEvent( #add buffers -------
+#                 c(selected_popvars$input_distance, selected_popvars$input_agency, selected_popvars$input_type, selected_popvars$input_status), {
+#                   leafletProxy("popmap") %>%
+#                     clearGroup("Buffers") %>%
+#                     # clearControls()
+#                     addPolygons(
+#                       data = parktrail_util$buffer_data,
+#                       group = "Buffers",
+#                       stroke = TRUE,
+#                       weight = 2,
+#                       color = "#616161",
+#                       fill = T,
+#                       fillColor = "transparent",
+#                       opacity = .4,
+#                       fillOpacity = .005,
+#                       highlightOptions = highlightOptions(
+#                         stroke = TRUE,
+#                         color = "black",
+#                         weight = 6,
+#                         bringToFront = TRUE,
+#                         sendToBack = TRUE,
+#                         opacity = 1
+#                       ),
+#                       popup = ~ paste0(
+#                         "<b>",
+#                         "Buffer: ",
+#                         parktrail_util$buffer_data$status,
+#                         ", ",
+#                         parktrail_util$buffer_data$type,
+#                         "</b>",
+#                         "<br>",
+#                         parktrail_util$buffer_data$name,
+#                         "<br>",
+#                         "<em>",
+#                         parktrail_util$buffer_data$agency,
+#                         "</em>"
+#                       ),
+#                       popupOptions = popupOptions(
+#                         closeButton = FALSE,
+#                         style = list(
+#                           "font-size" = "18px",
+#                           "font-family" = "Arial"
+#                         )
+#                       ),
+#                       options = list(zIndex = 750),
+#                     )
+#                 })
   
 }
     

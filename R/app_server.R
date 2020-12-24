@@ -7,38 +7,27 @@
 #' @noRd
 app_server <- function(input, output, session) {
   # List the first level callModules here
-
   # note: color assignment for parks/trails by status (existing, search, planned) is within golem_utils_server.R file
-
   observe({
     print(input$nav)
   })
 
-
-  
-  # observe({
-  #   if(input$nav == "Summary") {print("yes")} else {print("no")}
-  # })
-  # 
-  # observe({
-  #   if(input$nav == "Summary" & input$summarytabs == "lflt") {print("yeslflt")} else {print("nolflt")}
-  # })
-  # 
   # # Introduction tab -----------------------------------------------------------
   callModule(mod_intro_server, "intro_ui_1")
+  
+  
+  # global inputs & utils --------------
+  selected_parktrail_vars <- callModule(mod_selections_parktrailunits_server, "selections_parktrailunits_ui_1")
+
+  global_util_parktrail <- callModule(mod_parktrail_utils_server, "parktrail_utils_ui_1",
+                                      selected_parktrail = selected_parktrail_vars)
+  
 
   # ACS Map tab ----------------------------------------------------------------
   tract_data <- callModule(mod_input_demos_server, "input_demos_ui_1")
   callModule(mod_leaflet_server, "leaflet_ui_1", tract_data)
 
-  
-  # callModule(mod_leaflet2_server, "leaflet2_ui_1", 
-  #            selected_popvars = selected_input_popvars,
-  #            summary_poputil = summary_util_popvars)
-  
-
   # ACS Summary tab ------------------------------------------------------------
-
   ## get input values
   selected_input_vars <- callModule(mod_summary_selections_server, "summary_selections_ui_1")
 
@@ -72,34 +61,24 @@ app_server <- function(input, output, session) {
     selected_vars = selected_input_vars,
     summary_util = summary_util_vars
   )
-# 
-#   callModule(mod_summary_map2_server, "summary_map2_ui_1",
-#              selected_vars = selected_input_vars,
-#              summary_util = summary_util_vars)
-  
-  # ended up not using this for the time being, all within the table_ui
-  # callModule(mod_summary_download_server, "summary_download_ui_1",
-  #            summary_util = summary_util_vars)
-
-  # callModule(mod_summary_raw_server, "summary_raw_ui_1",
-  #            # selected_vars = selected_input_vars,
-  #            summary_util = summary_util_vars)
 
   # Population growth tab ------------------------------------------------------
 
   # get input values
-  selected_input_popvars <- callModule(mod_pop_selections_server, "pop_selections_ui_1")
+  selected_population_vars <- callModule(mod_selections_population_server, "selections_population_ui_1")
 
-  ## run reactive calculations with input values
   summary_util_popvars <- callModule(mod_pop_utils_server, "pop_utils_ui_1",
-                                  selected_popvars = selected_input_popvars
-  )
+                                     selected_population = selected_population_vars)
 
   callModule(mod_pop_map_server, "pop_map_ui_1",
-             selected_popvars = selected_input_popvars,
+             selected_popvars = selected_population_vars,
+             selected_parktrail = selected_parktrail_vars,
+             parktrail_util = global_util_parktrail,
              summary_poputil = summary_util_popvars)
 
-
+  # observe({
+  #   print(selected_parktrail_vars$input_agency)
+  # })
   callModule(mod_pop_demoshifts_server, "pop_demoshifts_ui_1")
 
 }

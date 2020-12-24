@@ -16,7 +16,8 @@ mod_pop_utils_ui <- function(id) {
 #'
 #' @noRd
 mod_pop_utils_server <- function(input, output, session,
-                                 selected_popvars) {
+                                 # selected_popvars,
+                                 selected_population) {
   ns <- session$ns
   
   
@@ -24,43 +25,43 @@ mod_pop_utils_server <- function(input, output, session,
   make_pop_data <- reactive({
     p6 <- 
       regionalparks.acs::est_pop %>%
-           select(selected_popvars$input_pop) %>%
-        filter(!is.na(selected_popvars$input_pop))
+           select(selected_population$input_pop) %>%
+        filter(!is.na(selected_population$input_pop))
     return(p6)
   })
 
     # regionalparks.acs::est_pop %>%
-    #   select(PopEst_2019) %>%# selected_popvars$input_pop) %>%
+    #   select(PopEst_2019) %>%# 
     #   filter(!is.na(PopEst_2019))%>%
     #   ggplot()+ geom_sf(aes(fill = PopEst_2019))
     # 
     # regionalparks.acs::est_pop %>%
-    #   select(POP2040) %>%# selected_popvars$input_pop) %>%
+    #   select(POP2040) %>%
     #   filter(!is.na(POP2040)) %>% 
     #   ggplot()+ geom_sf(aes(fill = POP2040))
 
   
-  make_pop_parktrail_data <- reactive({
-    p4 <- regionalparks.acs::park_trail_geog_LONG %>%
-      dplyr::filter(
-        agency %in% selected_popvars$input_agency,
-        Type %in% selected_popvars$input_type,
-        status2 %in% selected_popvars$input_status
-      )
-    return(p4)
-  })
-  
-  make_pop_buffer_data <- reactive({
-    p5 <- regionalparks.acs::buffer_geo %>%
-      dplyr::filter(
-        agency %in% selected_popvars$input_agency,
-        type %in% selected_popvars$input_type,
-        status %in% selected_popvars$input_status,
-        distance == selected_popvars$input_distance
-      ) %>% 
-      separate(name, into = c("name", "delete"), sep= "_")
-    return(p5)
-  })
+  # make_pop_parktrail_data <- reactive({
+  #   p4 <- regionalparks.acs::park_trail_geog_LONG %>%
+  #     dplyr::filter(
+  #       agency %in% selected_parktrail$input_agency,
+  #       Type %in% selected_parktrail$input_type,
+  #       status2 %in% selected_parktrail$input_status
+  #     )
+  #   return(p4)
+  # })
+  # 
+  # make_pop_buffer_data <- reactive({
+  #   p5 <- regionalparks.acs::buffer_geo %>%
+  #     dplyr::filter(
+  #       agency %in% selected_parktrail$input_agency,
+  #       type %in% selected_parktrail$input_type,
+  #       status %in% selected_parktrail$input_status,
+  #       distance == selected_parktrail$input_distance
+  #     ) %>% 
+  #     separate(name, into = c("name", "delete"), sep= "_")
+  #   return(p5)
+  # })
 
   vals <- reactiveValues()
   
@@ -68,14 +69,14 @@ mod_pop_utils_server <- function(input, output, session,
     vals$pop_data <- make_pop_data()
   })
 
-  observe({
-    vals$pop_parktrail_data <- make_pop_parktrail_data()
-  })
-  
-  observe({
-    vals$pop_buffer_data <- make_pop_buffer_data()
-  })
-  
+  # observe({
+  #   vals$pop_parktrail_data <- make_pop_parktrail_data()
+  # })
+  # 
+  # observe({
+  #   vals$pop_buffer_data <- make_pop_buffer_data()
+  # })
+  # 
   return(vals)
 
   }
