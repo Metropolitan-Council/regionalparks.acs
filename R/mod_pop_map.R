@@ -200,53 +200,56 @@ popkey <- tibble::tribble( #------
                })
 
 # 
-#   observeEvent( #add buffers -------
-#                 c(selected_popvars$input_distance, selected_popvars$input_agency, selected_popvars$input_type, selected_popvars$input_status), {
-#                   leafletProxy("popmap") %>%
-#                     clearGroup("Buffers") %>%
-#                     # clearControls()
-#                     addPolygons(
-#                       data = parktrail_util$buffer_data,
-#                       group = "Buffers",
-#                       stroke = TRUE,
-#                       weight = 2,
-#                       color = "#616161",
-#                       fill = T,
-#                       fillColor = "transparent",
-#                       opacity = .4,
-#                       fillOpacity = .005,
-#                       highlightOptions = highlightOptions(
-#                         stroke = TRUE,
-#                         color = "black",
-#                         weight = 6,
-#                         bringToFront = TRUE,
-#                         sendToBack = TRUE,
-#                         opacity = 1
-#                       ),
-#                       popup = ~ paste0(
-#                         "<b>",
-#                         "Buffer: ",
-#                         parktrail_util$buffer_data$status,
-#                         ", ",
-#                         parktrail_util$buffer_data$type,
-#                         "</b>",
-#                         "<br>",
-#                         parktrail_util$buffer_data$name,
-#                         "<br>",
-#                         "<em>",
-#                         parktrail_util$buffer_data$agency,
-#                         "</em>"
-#                       ),
-#                       popupOptions = popupOptions(
-#                         closeButton = FALSE,
-#                         style = list(
-#                           "font-size" = "18px",
-#                           "font-family" = "Arial"
-#                         )
-#                       ),
-#                       options = list(zIndex = 750),
-#                     )
-#                 })
+  observeEvent( #add buffers -------
+                c(selected_parktrail$input_agency,
+                  selected_parktrail$input_type,
+                  selected_parktrail$input_status,
+                  selected_parktrail$input_distance), {
+                  leafletProxy("popmap") %>%
+                    clearGroup("Buffers") %>%
+                    # clearControls()
+                    addPolygons(
+                      data = parktrail_util$buffer_data,
+                      group = "Buffers",
+                      stroke = TRUE,
+                      weight = 2,
+                      color = "#616161",
+                      fill = T,
+                      fillColor = "transparent",
+                      opacity = .4,
+                      fillOpacity = .005,
+                      highlightOptions = highlightOptions(
+                        stroke = TRUE,
+                        color = "black",
+                        weight = 6,
+                        bringToFront = TRUE,
+                        sendToBack = TRUE,
+                        opacity = 1
+                      ),
+                      popup = ~ paste0(
+                        "<b>",
+                        "Buffer: ",
+                        parktrail_util$buffer_data$status,
+                        ", ",
+                        parktrail_util$buffer_data$type,
+                        "</b>",
+                        "<br>",
+                        parktrail_util$buffer_data$name,
+                        "<br>",
+                        "<em>",
+                        parktrail_util$buffer_data$agency,
+                        "</em>"
+                      ),
+                      popupOptions = popupOptions(
+                        closeButton = FALSE,
+                        style = list(
+                          "font-size" = "18px",
+                          "font-family" = "Arial"
+                        )
+                      ),
+                      options = list(zIndex = 750),
+                    )
+                })
   
 }
     
