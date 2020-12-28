@@ -63,7 +63,7 @@ rv <- shiny::reactiveValues
 rvtl <- shiny::reactiveValuesToList
 
 
-e_col <- "#009e61"
+e_col <- "#78A22F"
 p_col <- "#E69F00"
 s_col <- "#FDE725FF"
 
