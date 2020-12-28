@@ -56,7 +56,7 @@ app_ui <- function(request) {
           # ),
           tabPanel(
             "Weighted averages",
-            mod_mod_summary_ggplot_ui("mod_summary_ggplot_ui_1")
+            mod_summary_ggplot_ui("mod_summary_ggplot_ui_1")
           ),
           # tabPanel(id="mytabsetpanel",
           #          "lflt",

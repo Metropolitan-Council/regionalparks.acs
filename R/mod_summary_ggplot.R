@@ -7,7 +7,7 @@
 #' @noRd
 #'
 #' @importFrom shiny NS tagList
-mod_mod_summary_ggplot_ui <- function(id) {
+mod_summary_ggplot_ui <- function(id) {
   ns <- NS(id)
   tagList(
     shiny::p("This plot provides summarized demographic values for all the regional parks and trails. Point location along the x-axis indicates the demographic value which can be compared across and within units or agencies. Color indicates unit status (green = existing, orange = planned, yellow = search). Shape indicates unit type (circle = park, square = trail). Subplots indicate either average values within agency boundaries or unit-level values. (Right-click on image to copy or download. Click on any point to create a text-based interpretation.)"),
@@ -32,7 +32,7 @@ mod_mod_summary_ggplot_ui <- function(id) {
 #' mod_summary_ggplot Server Function
 #'
 #' @noRd
-mod_mod_summary_ggplot_server <- function(input, output, session,
+mod_summary_ggplot_server <- function(input, output, session,
                                           selected_vars,
                                           summary_util) {
   ns <- session$ns
@@ -211,7 +211,7 @@ mod_mod_summary_ggplot_server <- function(input, output, session,
   #   })
   #
 
-  color_code <- data.frame(catg = c("Existing", "Planned", "Search"), color = c("#66C5A0", p_col, s_col))
+  color_code <- data.frame(catg = c("Existing", "Planned", "Search"), color = c(e_col, p_col, s_col))
 
 
   output$text_info <- renderUI({
@@ -252,7 +252,7 @@ mod_mod_summary_ggplot_server <- function(input, output, session,
 
 
 ## To be copied in the UI
-# mod_mod_summary_ggplot_ui("mod_summary_ggplot_ui_1")
+# mod_summary_ggplot_ui("mod_summary_ggplot_ui_1")
 
 ## To be copied in the server
-# callModule(mod_mod_summary_ggplot_server, "mod_summary_ggplot_ui_1")
+# callModule(mod_summary_ggplot_server, "mod_summary_ggplot_ui_1")
