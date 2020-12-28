@@ -218,7 +218,7 @@ mod_summary_ggplot_server <- function(input, output, session,
     click <- input$plot_click
     point <- nearPoints(summary_util$facet_data, click, threshold = 10) # , maxpoints = 1, addDist = TRUE)
     if (nrow(point) == 0) {
-      return(NULL)
+      return(HTML(paste0("<div style='font-size:1.8rem;padding:1%;background-color:#FFFFFF'>", "Click an icon ")))
     }
     background_color <- color_code %>%
       filter(catg == point$status) %>%
