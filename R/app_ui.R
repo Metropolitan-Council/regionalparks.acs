@@ -37,41 +37,43 @@ app_ui <- function(request) {
       ),
 
       # acs summary tab -----
-      tabPanel(title = "Summary",
-               id="sumtabs",
+      tabPanel(
+        title = "Summary",
+        id = "sumtabs",
         # mainPanel(
-          HTML("<p>Data are summarized in several ways. The <em>Weighted averages</em> tab distills complex spatial demographic patterns into a single summary statistic, and will be appropriate for most uses. The <em>Buffer map</em> tab shows the spatial demographic patterns with the buffer analysis zones overlayed. The <em>Download tabular data</em> tab displays summary statistics for all ACS variables in tabular form.</p>"),
+        HTML("<p>Data are summarized in several ways. The <em>Weighted averages</em> tab distills complex spatial demographic patterns into a single summary statistic, and will be appropriate for most uses. The <em>Buffer map</em> tab shows the spatial demographic patterns with the buffer analysis zones overlayed. The <em>Download tabular data</em> tab displays summary statistics for all ACS variables in tabular form.</p>"),
         # fluidRow(h3("Select inputs: ")),
         # fluidRow(
         #   column(width = 3, mod_selections_population_ui("selections_population_ui_1")),
         #   column(width = 9, mod_selections_acs_ui("selections_acs_ui_1"))),
-        
+
         (mod_summary_selections_ui("summary_selections_ui_1")),
         tabsetPanel(
-            selected = "Weighted averages",
-            # tabPanel(
-            #   "Weighted averages",
-            #   mod_summary_plot_ui("summary_plot_ui_1")
-            # ),
-            tabPanel(
-              "Weighted averages",
-              mod_mod_summary_ggplot_ui("mod_summary_ggplot_ui_1")
-            ),
-            # tabPanel(id="mytabsetpanel",
-            #          "lflt", 
-            #          mod_summary_map2_ui("summary_map2_ui_1")
-            # ),
-            # 
-            tabPanel( id = "buffermap",
-              "Buffer map",
-              mod_summary_map_ui("summary_map_ui_1")
-            ),
-            tabPanel(
-              "Download tabular data",
-              mod_summary_download_ui("summary_download_ui_1"),
-              mod_summary_table_ui("summary_table_ui_1")
-            ) 
+          selected = "Weighted averages",
+          # tabPanel(
+          #   "Weighted averages",
+          #   mod_summary_plot_ui("summary_plot_ui_1")
+          # ),
+          tabPanel(
+            "Weighted averages",
+            mod_mod_summary_ggplot_ui("mod_summary_ggplot_ui_1")
+          ),
+          # tabPanel(id="mytabsetpanel",
+          #          "lflt",
+          #          mod_summary_map2_ui("summary_map2_ui_1")
+          # ),
+          #
+          tabPanel(
+            id = "buffermap",
+            "Buffer map",
+            mod_summary_map_ui("summary_map_ui_1")
+          ),
+          tabPanel(
+            "Download tabular data",
+            mod_summary_download_ui("summary_download_ui_1"),
+            mod_summary_table_ui("summary_table_ui_1")
           )
+        )
       ),
 
       # Pop growth tab -----
@@ -85,9 +87,10 @@ app_ui <- function(request) {
             fluidRow(h3("Select inputs: ")),
             fluidRow(
               column(width = 3, mod_selections_population_ui("selections_population_ui_1")),
-            column(width = 9, mod_selections_parktrailunits_ui("selections_parktrailunits_ui_1"))),
-            
-              mod_pop_map_ui("pop_map_ui_1")
+              column(width = 9, mod_selections_parktrailunits_ui("selections_parktrailunits_ui_1"))
+            ),
+
+            mod_pop_map_ui("pop_map_ui_1")
           ),
           tabPanel(
             "Demographic shifts",

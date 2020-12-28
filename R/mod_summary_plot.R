@@ -15,15 +15,15 @@ mod_summary_plot_ui <- function(id) {
     # textOutput(ns("avgtext")),
 
     plotOutput(ns("leg"), height = 100),
-    
+
     hr(),
     # plotlyOutput(outputId = ns("output_plot"), height = 600), # height = as.numeric(unlist(textOutput(ns("TEST"))[[1]]))*25) #this doesn't work, but I'd love to do something like this
 
     # plotlyOutput(outputId = ns("agency_plot"), height = 300)
 
     # uiOutput(ns("height")),
-    
-    plotlyOutput(outputId = ns("subplotlys"))#, height = uiOutput(ns("height")))#900)
+
+    plotlyOutput(outputId = ns("subplotlys")) # , height = uiOutput(ns("height")))#900)
   )
 }
 
@@ -35,9 +35,9 @@ mod_summary_plot_server <- function(input, output, session,
                                     summary_util) {
   ns <- session$ns
 
-  
 
-  
+
+
   # Plotly styling -------------------------------
 
   font_family_list <- "Roman, Helvetica, Tahoma, Geneva, Arial, sans-serif"
@@ -71,9 +71,9 @@ mod_summary_plot_server <- function(input, output, session,
     color = "black"
   )
 
-  
+
   type_status_legend <- # status legend -------
-  cowplot::get_legend(
+    cowplot::get_legend(
       tibble(
         status = rep(c("Existing", "Planned", "Search"), 2),
         type = rep(c("park", "trail"), each = 3),
@@ -141,7 +141,7 @@ mod_summary_plot_server <- function(input, output, session,
   #       xaxis = list(
   #         title = unique(summary_util$plot_buffer_data$goodname),
   #         font = x_axis_font_list,
-  # 
+  #
   #         tickfont = tickfont_list,
   #         zeroline = FALSE,
   #         showline = FALSE,
@@ -158,7 +158,7 @@ mod_summary_plot_server <- function(input, output, session,
   #         )
   #     )
   # })
-  # 
+  #
 
   # output$agency_plot <- renderPlotly({ # agency plotly -----
   #   plot_ly() %>%
@@ -199,20 +199,20 @@ mod_summary_plot_server <- function(input, output, session,
   #       )
   #     )
   # })
-  # 
+  #
 
-  
+
   output$subplotlys <- renderPlotly({ # plotlys using subplots ----
     subplot(
-      plot_ly(height = nrow(summary_util$plotly_agency_data)*30) %>%
+      plot_ly(height = nrow(summary_util$plotly_agency_data) * 30) %>%
         plotly::add_markers(
           data = summary_util$plotly_agency_data,
-          x = ~value, #avg,
+          x = ~value, # avg,
           y = ~agency,
           hoverinfo = "text",
           text = ~hover_text,
           marker = list(
-            size = 10,
+            size = 12,
             opacity = 0.8
           )
         ) %>%
@@ -224,15 +224,23 @@ mod_summary_plot_server <- function(input, output, session,
           hoverdistance = "10",
           hoverlabel = hoverlabel_list,
           xaxis = list(
-            title = paste0(summary_util$plotly_agency_data$goodname),#(unique(summary_util$plot_buffer_data$goodname)),
+            title = paste0(summary_util$plotly_agency_data$goodname), # (unique(summary_util$plot_buffer_data$goodname)),
             font = x_axis_font_list,
             tickfont = tickfont_list,
             zeroline = FALSE,
             showline = FALSE,
             showgrid = TRUE,
-            ticksuffix = if (selected_vars$input_acs != "adj_meanhhi") {"%"} else{"$"},
-            range = if(selected_vars$input_acs != "adj_meanhhi") {c(min(summary_util$plot_buffer_data %>%.$value)-1, max(summary_util$plot_buffer_data %>% .$value)+1)}
-            else {c(min(summary_util$plot_buffer_data %>%.$value)-1000, max(summary_util$plot_buffer_data %>% .$value)+1000)}
+            ticksuffix = if (selected_vars$input_acs != "adj_meanhhi") {
+              "%"
+            } else {
+              "$"
+            },
+            range = if (selected_vars$input_acs != "adj_meanhhi") {
+              c(min(summary_util$plot_buffer_data %>% .$value) - 1, max(summary_util$plot_buffer_data %>% .$value) + 1)
+            }
+            else {
+              c(min(summary_util$plot_buffer_data %>% .$value) - 1000, max(summary_util$plot_buffer_data %>% .$value) + 1000)
+            }
           ),
           yaxis = list(
             title = "",
@@ -240,12 +248,12 @@ mod_summary_plot_server <- function(input, output, session,
             tickfont = tickfont_list,
             zeroline = FALSE,
             showline = FALSE,
-            showgrid = TRUE#,
+            showgrid = TRUE # ,
             # autorange = "reversed"
           )
         ),
-      
-      plot_ly(height = nrow(summary_util$plot_buffer_data[!duplicated(summary_util$plot_buffer_data[, c('name')]), ])*30) %>%
+
+      plot_ly(height = nrow(summary_util$plot_buffer_data[!duplicated(summary_util$plot_buffer_data[, c("name")]), ]) * 30) %>%
         plotly::add_markers(
           data = summary_util$plot_buffer_data,
           x = ~value,
@@ -271,44 +279,52 @@ mod_summary_plot_server <- function(input, output, session,
           xaxis = list(
             title = unique(summary_util$plot_buffer_data$goodname),
             font = x_axis_font_list,
-            
+
             tickfont = tickfont_list,
             zeroline = FALSE,
             showline = FALSE,
             showgrid = TRUE,
-            ticksuffix = if (selected_vars$input_acs != "adj_meanhhi") {"%"} else{"$"},
-            range  = if(selected_vars$input_acs != "adj_meanhhi") {c(min(summary_util$plot_buffer_data %>%.$value)-1, max(summary_util$plot_buffer_data %>% .$value)+1)}
-            else {c(min(summary_util$plot_buffer_data %>%.$value)-1000, max(summary_util$plot_buffer_data %>% .$value)+1000)}
+            ticksuffix = if (selected_vars$input_acs != "adj_meanhhi") {
+              "%"
+            } else {
+              "$"
+            },
+            range = if (selected_vars$input_acs != "adj_meanhhi") {
+              c(min(summary_util$plot_buffer_data %>% .$value) - 1, max(summary_util$plot_buffer_data %>% .$value) + 1)
+            }
+            else {
+              c(min(summary_util$plot_buffer_data %>% .$value) - 1000, max(summary_util$plot_buffer_data %>% .$value) + 1000)
+            }
           ),
           yaxis = list(
             title = "",
             tickfont = tickfont_list,
             zeroline = FALSE,
             showline = FALSE,
-            showgrid = TRUE#,
+            showgrid = TRUE,
             # autorange = "reversed"
           )
         ),
-      
       nrows = 2,
-      margin =0, #.04, 
-      heights=c(0.07, 0.93),
-        # # (nrow(summary_util$plotly_agency_data))/(nrow(summary_util$plot_buffer_data)),
-        # # (1 - (nrow(summary_util$plotly_agency_data))/(nrow(summary_util$plot_buffer_data)))),
-        # 
-        # (nrow(summary_util$plotly_agency_data) / ((nrow(summary_util$plot_buffer_data[!duplicated(summary_util$plot_buffer_data[, c('name')]), ])) + nrow(summary_util$plotly_agency_data))),
-        # (1 - (nrow(summary_util$plotly_agency_data) / ((nrow(summary_util$plot_buffer_data[!duplicated(summary_util$plot_buffer_data[, c('name')]), ])) + nrow(summary_util$plotly_agency_data))))
-        #   ),
-        
+      margin = 0, # .04,
+      heights = c(0.07, 0.93),
+      # # (nrow(summary_util$plotly_agency_data))/(nrow(summary_util$plot_buffer_data)),
+      # # (1 - (nrow(summary_util$plotly_agency_data))/(nrow(summary_util$plot_buffer_data)))),
+      #
+      # (nrow(summary_util$plotly_agency_data) / ((nrow(summary_util$plot_buffer_data[!duplicated(summary_util$plot_buffer_data[, c('name')]), ])) + nrow(summary_util$plotly_agency_data))),
+      # (1 - (nrow(summary_util$plotly_agency_data) / ((nrow(summary_util$plot_buffer_data[!duplicated(summary_util$plot_buffer_data[, c('name')]), ])) + nrow(summary_util$plotly_agency_data))))
+      #   ),
+
       # horizontal_spacing = 0.05,
       # margin = .1,
       # margin = list(l = 10, r = 45, b = 10, t = 10, pad = 2), # l = left; r = right; t = top; b = bottom
-      
+
       shareX = F,
-      shareY = F, 
-      titleX = T, 
-      titleY = T)#, ,shareX=F,shareY=F,titleX=T,titleY=T
-      # height = nrow(summary_util$plotly_height))
+      shareY = F,
+      titleX = T,
+      titleY = T
+    ) # , ,shareX=F,shareY=F,titleX=T,titleY=T
+    # height = nrow(summary_util$plotly_height))
   })
 
 
@@ -316,7 +332,6 @@ mod_summary_plot_server <- function(input, output, session,
   output$leg <- renderPlot({
     plot_grid(type_status_legend)
   })
-
 }
 ## To be copied in the UI
 # mod_summary_plot_ui("summary_plot_ui_1")

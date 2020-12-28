@@ -4,13 +4,12 @@
 #'
 #' @param id,input,output,session Internal parameters for {shiny}.
 #'
-#' @noRd 
+#' @noRd
 #'
-#' @importFrom shiny NS tagList 
-mod_selections_acs_ui <- function(id){
+#' @importFrom shiny NS tagList
+mod_selections_acs_ui <- function(id) {
   ns <- NS(id)
   tagList(
- 
     selectInput(
       ns("input_acs"),
       label = h5("ACS variable"),
@@ -47,29 +46,27 @@ mod_selections_acs_ui <- function(id){
         )
       ),
       selected = "adj_ageunder15_per", selectize = F
-    ))
-  
-  
+    )
+  )
 }
-    
+
 #' selections_acs Server Function
 #'
-#' @noRd 
-mod_selections_acs_server <- function(input, output, session){
+#' @noRd
+mod_selections_acs_server <- function(input, output, session) {
   ns <- session$ns
- 
+
   input_values <- reactiveValues() # start with an empty reactiveValues object.
-  
+
   observeEvent(input$input_acs, { # only update when the user changes the ACS input
     input_values$input_acs <- input$input_acs # create/update the ACS input value in our reactiveValues object
   })
-  
+
   return(input_values)
 }
-    
+
 ## To be copied in the UI
 # mod_selections_acs_ui("selections_acs_ui_1")
-    
+
 ## To be copied in the server
 # callModule(mod_selections_acs_server, "selections_acs_ui_1")
- 

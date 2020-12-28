@@ -37,9 +37,9 @@ test_that(
     skip_on_appveyor()
     skip_if_not(interactive())
     x <- processx::process$new(
-      "R", 
+      "R",
       c(
-        "-e", 
+        "-e",
         "pkgload::load_all(here::here());run_app()"
       )
     )

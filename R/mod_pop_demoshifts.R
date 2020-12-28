@@ -10,7 +10,7 @@
 mod_pop_demoshifts_ui <- function(id) {
   ns <- NS(id)
   tagList(
-    HTML('<p>Regional demographic characteristics are expected to shift. These estimates are based on the 2010 Census and forecast to 2040. No information is available on the spatial characteristics of forecasted demographic shifts.</p>'),
+    HTML("<p>Regional demographic characteristics are expected to shift. These estimates are based on the 2010 Census and forecast to 2040. No information is available on the spatial characteristics of forecasted demographic shifts.</p>"),
     fluidPage(
       fluidRow(
         column(
@@ -80,8 +80,8 @@ mod_pop_demoshifts_server <- function(input, output, session) {
       ) +
       scale_fill_brewer(palette = "Blues") +
       geom_text(aes(label = paste0(round(Percent, 1), "%")),
-                 position = position_stack(vjust = 0.5),
-                 size = 6
+        position = position_stack(vjust = 0.5),
+        size = 6
       )
   })
   #

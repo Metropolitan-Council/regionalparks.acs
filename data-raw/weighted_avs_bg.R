@@ -53,7 +53,7 @@ agency_filter <- tibble(
   num = c(1:10)
 )
 
-park_trail_geog_temp <- park_trail_geog_LONG %>% #bind_rows(park_trail_geog, .id = "status") %>%
+park_trail_geog_temp <- park_trail_geog_LONG %>% # bind_rows(park_trail_geog, .id = "status") %>%
   full_join(agency_filter) %>%
   mutate(
     name = paste(name, num, sep = "_"),
@@ -160,7 +160,7 @@ return_weighted_demo_percents <- (function(...) {
       adj_blacknh_per = round(adj_blacknh / adj_2019pop * 100, 1),
       adj_asiannh_per = round(adj_asiannh / adj_2019pop * 100, 1),
       adj_amindnh_per = round(adj_amindnh / adj_2019pop * 100, 1),
-      adj_othermultinh_per = round(adj_othermultinh / adj_2019pop * 100, 1), 
+      adj_othermultinh_per = round(adj_othermultinh / adj_2019pop * 100, 1),
       adj_hisppop_per = round(adj_hisppop / adj_2019pop * 100, 1),
       adj_nothisppop_per = round(adj_nothisppop / adj_2019pop * 100, 1),
       adj_meanhhi = round(adj_totalhhi / adj_2019hh, 1),

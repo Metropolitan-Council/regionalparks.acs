@@ -110,4 +110,3 @@ renamekey <- tibble::tribble(
   "Origin, % foreign-born",
   "adj_forborn_per"
 )
-

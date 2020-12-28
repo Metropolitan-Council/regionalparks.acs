@@ -4,21 +4,19 @@
 #'
 #' @param id,input,output,session Internal parameters for {shiny}.
 #'
-#' @noRd 
+#' @noRd
 #'
-#' @importFrom shiny NS tagList 
-mod_parktrail_utils_ui <- function(id){
+#' @importFrom shiny NS tagList
+mod_parktrail_utils_ui <- function(id) {
   ns <- NS(id)
-  tagList(
- 
-  )
+  tagList()
 }
-    
+
 #' parktrail_utils Server Function
 #'
-#' @noRd 
+#' @noRd
 mod_parktrail_utils_server <- function(input, output, session,
-                                       selected_parktrail){
+                                       selected_parktrail) {
   ns <- session$ns
 
   renamekey <- tibble::tribble(
@@ -63,7 +61,7 @@ mod_parktrail_utils_server <- function(input, output, session,
     "Origin, % foreign-born",
     "adj_forborn_per"
   )
-  
+
   make_parktrail_data <- reactive({
     p4 <- regionalparks.acs::park_trail_geog_LONG %>%
       dplyr::filter(
@@ -73,7 +71,7 @@ mod_parktrail_utils_server <- function(input, output, session,
       )
     return(p4)
   })
-  
+
   make_buffer_data <- reactive({
     p5 <- regionalparks.acs::buffer_geo %>%
       dplyr::filter(
@@ -81,11 +79,11 @@ mod_parktrail_utils_server <- function(input, output, session,
         type %in% selected_parktrail$input_type,
         status %in% selected_parktrail$input_status,
         distance == selected_parktrail$input_distance
-      ) %>% 
-      separate(name, into = c("name", "delete"), sep= "_")
+      ) %>%
+      separate(name, into = c("name", "delete"), sep = "_")
     return(p5)
   })
-  
+
   make_table_buffer_data <- reactive({
     p <- regionalparks.acs::long_buffer_data %>%
       dplyr::filter(
@@ -98,7 +96,7 @@ mod_parktrail_utils_server <- function(input, output, session,
         name,
         into = c("name", "delete2"),
         sep = c("_")
-      )  %>%
+      ) %>%
       left_join(renamekey, by = c("ACS" = "ACS")) %>%
       mutate(acs_short = stringr::str_remove(goodname, "% ")) %>%
       mutate(hover_text = stringr::str_wrap(paste0(
@@ -111,28 +109,26 @@ mod_parktrail_utils_server <- function(input, output, session,
       ), 55))
     return(p)
   })
-  
+
   vals <- reactiveValues()
-  
+
   observe({
     vals$parktrail_data <- make_parktrail_data()
   })
-  
+
   observe({
     vals$buffer_data <- make_buffer_data()
   })
-  
+
   observe({
     vals$table_data <- make_table_buffer_data()
   })
-  
+
   return(vals)
-  
 }
-    
+
 ## To be copied in the UI
 # mod_parktrail_utils_ui("parktrail_utils_ui_1")
-    
+
 ## To be copied in the server
 # callModule(mod_parktrail_utils_server, "parktrail_utils_ui_1")
- 

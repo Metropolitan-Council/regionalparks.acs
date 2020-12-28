@@ -54,7 +54,7 @@ agency_filter <- tibble(
 )
 
 
-park_trail_geog_temp <- park_trail_geog_LONG %>% #bind_rows(park_trail_geog, .id = "status") %>%
+park_trail_geog_temp <- park_trail_geog_LONG %>% # bind_rows(park_trail_geog, .id = "status") %>%
   full_join(agency_filter) %>%
   mutate(
     name = paste(name, num, sep = "_"),
@@ -64,9 +64,11 @@ park_trail_geog_temp <- park_trail_geog_LONG %>% #bind_rows(park_trail_geog, .id
   st_transform(3857)
 
 acs_temp <- census_tract_raw %>%
-  mutate("usborncit_percent" = `Origin, US-born`,
-         "forborn_percent" = `Origin, foreign-born`,
-         "anydis_percent" = `Disability, any disability`) %>%
+  mutate(
+    "usborncit_percent" = `Origin, US-born`,
+    "forborn_percent" = `Origin, foreign-born`,
+    "anydis_percent" = `Disability, any disability`
+  ) %>%
   select(GEOID, usborncit_percent, forborn_percent, anydis_percent, geometry) %>%
   mutate(county = substr(GEOID, start = 3, stop = 5)) %>%
   st_transform(3857) %>% # https://epsg.io/3857\
@@ -106,7 +108,7 @@ return_weighted_demo_persons <- (function(...) {
       adj_2019pop = coverage * pop2019, # use 2019 small area estimates to weight
       adj_2019hh = coverage * hh2019,
       adj_anydis = adj_2019pop * anydis_percent, # calculate total pop in demo groups (weighted)
-      adj_forborn = adj_2019pop * forborn_percent, 
+      adj_forborn = adj_2019pop * forborn_percent,
       adj_usborn = adj_2019pop * usborncit_percent
     )
 })
@@ -121,7 +123,7 @@ return_weighted_demo_persons_AVG <- (function(...) {
       adj_2019pop = coverage * pop2019, # use 2019 small area estimates to weight
       adj_2019hh = coverage * hh2019,
       adj_anydis = adj_2019pop * anydis_percent, # calculate total pop in demo groups (weighted)
-      adj_forborn = adj_2019pop * forborn_percent, 
+      adj_forborn = adj_2019pop * forborn_percent,
       adj_usborn = adj_2019pop * usborncit_percent
     )
 })
@@ -285,8 +287,10 @@ long_buffer_data_tract <- bind_rows(
     key = "ACS", value = "value",
     -agency, -name, -type, -status, -distance
   ) %>%
-  filter(ACS != "adj_2019pop", 
-         ACS != "adj_2019hh")
+  filter(
+    ACS != "adj_2019pop",
+    ACS != "adj_2019hh"
+  )
 
 usethis::use_data(long_buffer_data_tract, overwrite = TRUE)
 
@@ -299,4 +303,3 @@ agency_planned_existing_avgs_tract <- long_buffer_data_tract %>%
   filter(stringr::str_detect(ACS, "per"))
 
 usethis::use_data(agency_planned_existing_avgs_tract, overwrite = TRUE)
-
