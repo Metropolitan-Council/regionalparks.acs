@@ -64,8 +64,8 @@ rvtl <- shiny::reactiveValuesToList
 
 
 e_col <- "#78A22F"
-p_col <- "#E69F00"
-s_col <- "#FDE725FF"
+p_col <- "#38AAAA"
+s_col <- "#C29661"
 
 
 renamekey <- tibble::tribble(
