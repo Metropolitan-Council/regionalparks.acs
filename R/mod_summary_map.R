@@ -81,11 +81,11 @@ mod_summary_map_server <- function(input, output, session,
 
   output$buffermap <- renderLeaflet({ # buf map --------
     leaflet() %>%
-      setView(
-        lat = 44.963,
-        lng = -93.22,
-        zoom = 9
-      ) %>%
+      # setView(
+      #   lat = 44.963,
+      #   lng = -93.22,
+      #   zoom = 9
+      # ) %>%
       addProviderTiles("Stamen.TonerLite",
         group = "Stamen Toner"
       ) %>%
@@ -254,8 +254,8 @@ mod_summary_map_server <- function(input, output, session,
           stroke = TRUE,
           weight = 2,
           color = "#616161",
-          fill = T,
-          fillColor = "transparent",
+          fill = FALSE,
+          # fillColor = "transparent",
           opacity = .4,
           fillOpacity = .005,
           highlightOptions = highlightOptions(
