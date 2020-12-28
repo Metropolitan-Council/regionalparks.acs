@@ -10,7 +10,7 @@
 mod_pop_demoshifts_ui <- function(id) {
   ns <- NS(id)
   tagList(
-    HTML("<p>Regional demographic characteristics are expected to shift. These estimates are based on the 2010 Census and forecast to 2040. No information is available on the spatial characteristics of forecasted demographic shifts.</p>"),
+   shiny::p("Regional demographic characteristics are expected to shift. These estimates are based on the 2010 Census and forecast to 2040. No information is available on the spatial characteristics of forecasted demographic shifts."),
     fluidPage(
       fluidRow(
         column(

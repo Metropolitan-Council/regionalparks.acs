@@ -10,9 +10,10 @@
 mod_summary_raw_ui <- function(id) {
   ns <- NS(id)
   tagList(
-    HTML("<p>Something about methods...</p> <br>"),
+    shiny::p("Something about methods..."),
+    br(),
     hr(),
-    HTML('<p>This plot is inteded for advanced users, and shows the methodology behind the weighted average summary values. Points show the values from <strong>all</strong> Census block groups which intersect the buffer zone around regional parks and trails. Point fill indicates the percent of the block which overlaps the buffer zone (lighter grey = lower percent overlap, darker grey = higher percent overlap). Color indicates park/trail status (green = existing, yellow = planned, red = search). Shape indicates park/trail type (circle = park, square = trail). Park/trail names are shortened ("RP" = regional park, "RT" = regional trail, "PR" = park reserve) as is park/trail status ("EP" = existing park, "PP" = planned park, "SP" = search park, "ET" = existing trail, "PT" = planned trail, "ST" = search trail).</p>'),
+    shiny::p('This plot is inteded for advanced users, and shows the methodology behind the weighted average summary values. Points show the values from <strong>all</strong> Census block groups which intersect the buffer zone around regional parks and trails. Point fill indicates the percent of the block which overlaps the buffer zone (lighter grey = lower percent overlap, darker grey = higher percent overlap). Color indicates park/trail status (green = existing, yellow = planned, red = search). Shape indicates park/trail type (circle = park, square = trail). Park/trail names are shortened ("RP" = regional park, "RT" = regional trail, "PR" = park reserve) as is park/trail status ("EP" = existing park, "PP" = planned park, "SP" = search park, "ET" = existing trail, "PT" = planned trail, "ST" = search trail).'),
 
     plotOutput(ns("rangeleg"), height = 100),
 

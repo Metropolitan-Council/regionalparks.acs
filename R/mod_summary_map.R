@@ -10,7 +10,7 @@
 mod_summary_map_ui <- function(id) {
   ns <- NS(id)
   tagList(
-    HTML("<p>This map visualizes the geospatial location of the buffers around the user-selected parks and trails along with the selected demographic data. For the demographic data, darker colors mean higher values and lighter colors mean lower values. Demographic data can be turned off using the layer controls found at the bottom right of the map."),
+    shiny::p("This map visualizes the geospatial location of the buffers around the user-selected parks and trails along with the selected demographic data. For the demographic data, darker colors mean higher values and lighter colors mean lower values. Demographic data can be turned off using the layer controls found at the bottom right of the map."),
 
     leafletOutput(ns("buffermap"), height = 700)
   )

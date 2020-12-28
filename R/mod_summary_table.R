@@ -12,7 +12,7 @@ mod_summary_table_ui <- function(id) {
   tagList(
     fluidRow(
       column(
-        HTML("<p>Cells show the average weighted value of all ACS variables for the park and/or trail units chosen with the above selections. These data are available for download (but please understand that these data are subject to periodic refinements with model updates and new data releases).</p>"),
+        shiny::p("Cells show the average weighted value of all ACS variables for the park and/or trail units chosen with the above selections. These data are available for download (but please understand that these data are subject to periodic refinements with model updates and new data releases)."),
         width = 12
       ),
 
