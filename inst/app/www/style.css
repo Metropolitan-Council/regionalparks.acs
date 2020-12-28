@@ -55,6 +55,10 @@ hr {
 	width: 90%;
 }
 
+#mod_summary_ggplot_ui_1-text_info {
+  font-size: 1.6rem;
+}
+
 .navbar.navbar-default.navbar-static-top {
 	margin-bottom: 12px;
 }
