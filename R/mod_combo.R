@@ -454,11 +454,11 @@ mod_combo_server <- function(input, output, session) {
 
   output$buffermap <- renderLeaflet({
     leaflet() %>%
-      setView(
-        lat = 44.963,
-        lng = -93.22,
-        zoom = 9
-      ) %>%
+      # setView(
+      #   lat = 44.963,
+      #   lng = -93.22,
+      #   zoom = 9
+      # ) %>%
       addProviderTiles("CartoDB.Positron",
         group = "Carto Positron"
       ) %>%

@@ -29,11 +29,11 @@ mod_leaflet_server <- function(input, output, session, tract_data = tract_data) 
 
   output$map <- renderLeaflet({
     leaflet() %>%
-      setView(
-        lat = 44.963,
-        lng = -93.22,
-        zoom = 10
-      ) %>%
+      # setView(
+      #   lat = 44.963,
+      #   lng = -93.22,
+      #   zoom = 10
+      # ) %>%
       addProviderTiles(
         provider = providers$Esri.WorldImagery,
         group = "Esri Imagery"

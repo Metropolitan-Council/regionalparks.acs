@@ -49,11 +49,11 @@ mod_pop_map_server <- function(input, output, session,
 
   output$popmap <- renderLeaflet({ # pop map --------
     leaflet() %>%
-      setView(
-        lat = 44.963,
-        lng = -93.22,
-        zoom = 9
-      ) %>%
+      # setView(
+      #   lat = 44.963,
+      #   lng = -93.22,
+      #   zoom = 9
+      # ) %>%
       addProviderTiles("Stamen.TonerLite",
         group = "Stamen Toner"
       ) %>%
