@@ -221,6 +221,10 @@ mod_leaflet_server <- function(input, output, session, tract_data = tract_data) 
         color = councilR::colors$transitRed,
         fillColor = councilR::colors$transitRed
       ) %>%
+      groupOptions(
+        group = "Transit",
+        zoomLevels = 13:20
+      ) %>% 
       hideGroup(
         c(
           "Regional Parks - planned",
