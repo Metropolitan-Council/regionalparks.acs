@@ -151,7 +151,7 @@ mod_summary_ggplot_server <- function(input, output, session,
         fill = status
       )) +
       facet_grid(level ~ ., scales = "free_y", space = "free") +
-      geom_point(size = 4) +
+      geom_point(size = 8) +
       scale_shape_manual(values = c("avg" = 8, "Park" = 21, "Trail" = 22)) +
       scale_fill_manual(values = c("Existing" = e_col, "Planned" = p_col, "Search" = s_col)) +
       council_theme() +

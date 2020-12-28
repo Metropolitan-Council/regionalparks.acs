@@ -143,7 +143,7 @@ mod_summary_ggplotly_server <- function(input, output, session,
       )) +
       facet_grid(level ~ ., scales = "free_y", space = "free") +
       # ggforce::facet_col(~ level, scales = "free_y", space = "free") +
-      geom_point(size = 4) +
+      geom_point(size = 8) +
       scale_shape_manual(values = c("avg" = 8, "Park" = 21, "Trail" = 22)) +
       scale_fill_manual(values = c("Existing" = e_col, "Planned" = p_col, "Search" = s_col)) +
       council_theme() +
