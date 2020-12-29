@@ -86,14 +86,12 @@ app_ui <- function(request) {
           selected = "Population map",
           tabPanel(
             "Population map",
-            fluidRow(h3("Select inputs: ")),
-            fluidRow(
-              column(width = 3, mod_selections_population_ui("selections_population_ui_1")),
-              column(width = 9, mod_selections_parktrailunits_ui("selections_parktrailunits_ui_1"))
+            sidebarPanel(
+              mod_pop_selections_ui("pop_selections_ui_1")# mod_selections_population_ui("selections_population_ui_1"),
             ),
-
+            mainPanel(
             mod_pop_map_ui("pop_map_ui_1")
-          ),
+          )),
           tabPanel(
             "Demographic shifts",
             mod_pop_demoshifts_ui("pop_demoshifts_ui_1")

@@ -217,14 +217,14 @@ mod_summary_ggplot_server <- function(input, output, session,
   output$text_info <- renderUI({
     click <- input$plot_click
     point <- nearPoints(summary_util$facet_data, click, threshold = 10) # , maxpoints = 1, addDist = TRUE)
-    if (nrow(point) == 0) {
+    if (nrow(point) == 0) (
       return(HTML(paste0("<div style='font-size:1.8rem;padding:1%;background-color:#FFFFFF'>", "Click an icon ")))
-    }
+    )
     background_color <- color_code %>%
       filter(catg == point$status) %>%
       .[, 2]
 
-    HTML(if (selected_vars$input_acs != "adj_meanhhi") {
+    HTML(if (selected_vars$input_acs != "adj_meanhhi") (
       (
         (paste0(
           "<div style='font-size:1.8rem;padding:1%;background-color:", background_color, "'>", "Approx. ", "<b>", point$value, "%", "</b>",
@@ -235,7 +235,7 @@ mod_summary_ggplot_server <- function(input, output, session,
           " fall into the ", "<b>", (filter(renamekey, ACS == selected_vars$input_acs) %>% select(goodname)), "</b> category.", "</br> </div>"
         ))
       )
-    } else {
+    ) else (
       (
         (paste0(
           "<div style='font-size:1.8rem;padding:1%;background-color:", background_color, "'>", "$", prettyNum(point$value, big.mark = ","), " is the approx. mean household income within ",
@@ -245,7 +245,7 @@ mod_summary_ggplot_server <- function(input, output, session,
           "."
         ))
       )
-    })
+    ))
   })
 }
 

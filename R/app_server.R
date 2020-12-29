@@ -17,11 +17,11 @@ app_server <- function(input, output, session) {
 
 
   # global inputs & utils --------------
-  selected_parktrail_vars <- callModule(mod_selections_parktrailunits_server, "selections_parktrailunits_ui_1")
-
-  global_util_parktrail <- callModule(mod_parktrail_utils_server, "parktrail_utils_ui_1",
-    selected_parktrail = selected_parktrail_vars
-  )
+  # selected_parktrail_vars <- callModule(mod_selections_parktrailunits_server, "selections_parktrailunits_ui_1")
+# 
+#   global_util_parktrail <- callModule(mod_parktrail_utils_server, "parktrail_utils_ui_1",
+#     selected_parktrail = selected_parktrail_vars
+#   )
 
 
   # selected_acs_vars <- callModule(mod_selections_acs_server, "selections_acs_ui_1")
@@ -31,10 +31,14 @@ app_server <- function(input, output, session) {
   #                               selected_parktrail = selected_parktrail_vars)
   #
 
-
   # ACS Map tab ----------------------------------------------------------------
-  tract_data <- callModule(mod_input_demos_server, "input_demos_ui_1")
-  callModule(mod_leaflet_server, "leaflet_ui_1", tract_data)
+  # tract_data <- callModule(mod_input_demos_server, "input_demos_ui_1")
+  selected_map_vars <- callModule(mod_input_demos_server, "input_demos_ui_1")
+
+leafletacs_data <- callModule(mod_leaflet_utils_server, "leaflet_utils_ui_1",
+                              selected_map_vars)
+
+  callModule(mod_leaflet_server, "leaflet_ui_1", leafletacs_data, selected_map_vars)#tract_data)
 
   # ACS Summary tab ------------------------------------------------------------
   ## get input values
@@ -75,7 +79,7 @@ app_server <- function(input, output, session) {
   # Population growth tab ------------------------------------------------------
 
   # get input values
-  selected_population_vars <- callModule(mod_selections_population_server, "selections_population_ui_1")
+  selected_population_vars <- callModule(mod_pop_selections_server, "pop_selections_ui_1")#callModule(mod_selections_population_server, "selections_population_ui_1")
 
   summary_util_popvars <- callModule(mod_pop_utils_server, "pop_utils_ui_1",
     selected_population = selected_population_vars
@@ -83,8 +87,8 @@ app_server <- function(input, output, session) {
 
   callModule(mod_pop_map_server, "pop_map_ui_1",
     selected_popvars = selected_population_vars,
-    selected_parktrail = selected_parktrail_vars,
-    parktrail_util = global_util_parktrail,
+    # selected_parktrail = selected_parktrail_vars,
+    # parktrail_util = global_util_parktrail,
     summary_poputil = summary_util_popvars
   )
 

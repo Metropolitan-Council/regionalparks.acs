@@ -24,7 +24,7 @@ mod_leaflet_ui <- function(id) {
 #' @import leaflet
 #' @import councilR
 #' @import leaflet.extras
-mod_leaflet_server <- function(input, output, session, tract_data = tract_data) {
+mod_leaflet_server <- function(input, output, session, leafletacs_data, selected_map_vars) {#} tract_data = tract_data) {
   ns <- session$ns
 
   output$map <- renderLeaflet({
@@ -244,7 +244,7 @@ mod_leaflet_server <- function(input, output, session, tract_data = tract_data) 
           "Regional Parks - search",
           "Regional Trails - search",
           "Agency boundaries",
-          "Census Tracts",
+          "Demographic data",
           "Transit"
         ),
         baseGroups = c(
@@ -257,68 +257,196 @@ mod_leaflet_server <- function(input, output, session, tract_data = tract_data) 
       leaflet::addScaleBar(position = c("bottomleft"))
   })
 
-  observeEvent(tract_data$tract_data, {
-    pal <- if (tract_data$selected_var == "Income, Median Household Income") {
-      colorQuantile(
-        palette = tract_data$color_pal,
-        n = 5,
-        # reverse = TRUE,
-        domain = tract_data$tract_data[[1]]
-      )
-    } else {
-      colorNumeric(
-        palette = tract_data$color_pal,
-        domain = tract_data$tract_data[[1]]
-      )
-    }
-
-    leafletProxy("map") %>%
-      clearGroup("Census Tracts") %>%
-      # clearControls() %>%
+  observeEvent(c(selected_map_vars$input_acs), {
+    leafletProxy("buffermap") %>%
+      clearGroup("Demographic data") %>%
+      addMapPane("Demographic data", zIndex = 0) %>%
+      # clearControls()
       addPolygons(
-        data = tract_data$tract_data,
-        group = "Census Tracts",
+        group = "Demographic data",
+        data = leafletacs_data$leafletacs_data,
         stroke = TRUE,
         color = councilR::colors$suppGray,
         opacity = 0.6,
         weight = 0.25,
         fillOpacity = 0.6,
         smoothFactor = 0.2,
-        fillColor = ~ pal(tract_data$tract_data[[1]]),
-
-        popup = if (tract_data$selected_var == "Income, Median Household Income") {
-          ~ paste0(tags$strong(tract_data$selected_var), " $", format(tract_data$tract_data[[1]], big.mark = ","))
+        fillColor = ~ colorNumeric(
+          # n = 7,
+          palette = "Blues",
+          domain = leafletacs_data$leafletacs_data[[1]]
+        )(leafletacs_data$leafletacs_data[[1]]),
+        
+        popup = if (selected_map_vars$input_acs == "adj_meanhhi") {
+          ~ paste0(tags$strong(filter(renamekey, ACS == selected_map_vars$input_acs) %>% select(goodname)), ": $", format(selected_map_vars$leafletacs_data[[1]], big.mark = ","))
         } else {
           ~ paste0(
-            tags$strong(tract_data$selected_var),
-            " ",
-            tract_data$tract_data[[1]], "%"
+            tags$strong(filter(renamekey, ACS == selected_map_vars$input_acs) %>% select(goodname)),
+            ": ",
+            leafletacs_data$leafletacs_data[[1]], "%"
           )
         },
-        options = list(zIndex = 0),
-        popupOptions = popupOptions(closeOnClick = TRUE)
-      ) %>%
-      addLegend(
-        title = if (tract_data$selected_var == "Income, Median Household Income") {
-          "Income by Percentile"
-        } else {
-          "% of pop."
-        },
-        position = "bottomleft",
-        group = "Census Tracts",
-        layerId = "Census Tracts",
-        pal = pal,
-        values = tract_data$tract_data[[1]],
-        labFormat = if (tract_data$selected_var == "Income, Median Household Income") {
-          labelFormat()
-        } else {
-          labelFormat(suffix = "%")
-        }
+        options = list(zIndex = 0)
       )
   })
+  
+  
+  # observeEvent(leafletacs_data$leafletacs_data, {
+  #   pal <- if (leafletacs_data$selected_var == "Income, Median Household Income") {
+  #     colorQuantile(
+  #       palette = "Blues", # leafletacs_data$color_pal,
+  #       n = 5,
+  #       # reverse = TRUE,
+  #       domain = leafletacs_data$leafletacs_data[[1]]
+  #     )
+  #   } else {
+  #     colorNumeric(
+  #       palette = leafletacs_data$color_pal,
+  #       domain = leafletacs_data$leafletacs_data[[1]]
+  #     )
+  #   }
+  # 
+  #   leafletProxy("map") %>%
+  #     clearGroup("Census Tracts") %>%
+  #     # clearControls() %>%
+  #     addPolygons(
+  #       data = leafletacs_data$leafletacs_data,
+  #       group = "Census Tracts",
+  #       stroke = TRUE,
+  #       color = councilR::colors$suppGray,
+  #       opacity = 0.6,
+  #       weight = 0.25,
+  #       fillOpacity = 0.6,
+  #       smoothFactor = 0.2,
+  #       fillColor = ~ pal(tract_data$tract_data[[1]]),
+  # 
+  #       popup = if (tract_data$selected_var == "Income, Median Household Income") {
+  #         ~ paste0(tags$strong(tract_data$selected_var), " $", format(tract_data$tract_data[[1]], big.mark = ","))
+  #       } else {
+  #         ~ paste0(
+  #           tags$strong(tract_data$selected_var),
+  #           " ",
+  #           tract_data$tract_data[[1]], "%"
+  #         )
+  #       },
+  #       options = list(zIndex = 0),
+  #       popupOptions = popupOptions(closeOnClick = TRUE)
+  #     ) %>%
+  #     addLegend(
+  #       title = if (tract_data$selected_var == "Income, Median Household Income") {
+  #         "Income by Percentile"
+  #       } else {
+  #         "% of pop."
+  #       },
+  #       position = "bottomleft",
+  #       group = "Census Tracts",
+  #       layerId = "Census Tracts",
+  #       pal = pal,
+  #       values = tract_data$tract_data[[1]],
+  #       labFormat = if (tract_data$selected_var == "Income, Median Household Income") {
+  #         labelFormat()
+  #       } else {
+  #         labelFormat(suffix = "%")
+  #       }
+  #     )
+  # }
+  # )
 }
 
-
+#   observeEvent(tract_data$tract_data, {
+#     pal <- if (tract_data$selected_var == "Income, Median Household Income") {
+#       colorQuantile(
+#         palette = tract_data$color_pal,
+#         n = 5,
+#         # reverse = TRUE,
+#         domain = tract_data$tract_data[[1]]
+#       )
+#     } else {
+#       colorNumeric(
+#         palette = tract_data$color_pal,
+#         domain = tract_data$tract_data[[1]]
+#       )
+#     }
+# 
+#     leafletProxy("map") %>%
+#       clearGroup("Census Tracts") %>%
+#       # clearControls() %>%
+#       addPolygons(
+#         data = tract_data$tract_data,
+#         group = "Census Tracts",
+#         stroke = TRUE,
+#         color = councilR::colors$suppGray,
+#         opacity = 0.6,
+#         weight = 0.25,
+#         fillOpacity = 0.6,
+#         smoothFactor = 0.2,
+#         fillColor = ~ pal(tract_data$tract_data[[1]]),
+# 
+#         popup = if (tract_data$selected_var == "Income, Median Household Income") {
+#           ~ paste0(tags$strong(tract_data$selected_var), " $", format(tract_data$tract_data[[1]], big.mark = ","))
+#         } else {
+#           ~ paste0(
+#             tags$strong(tract_data$selected_var),
+#             " ",
+#             tract_data$tract_data[[1]], "%"
+#           )
+#         },
+#         options = list(zIndex = 0),
+#         popupOptions = popupOptions(closeOnClick = TRUE)
+#       ) %>%
+#       addLegend(
+#         title = if (tract_data$selected_var == "Income, Median Household Income") {
+#           "Income by Percentile"
+#         } else {
+#           "% of pop."
+#         },
+#         position = "bottomleft",
+#         group = "Census Tracts",
+#         layerId = "Census Tracts",
+#         pal = pal,
+#         values = tract_data$tract_data[[1]],
+#         labFormat = if (tract_data$selected_var == "Income, Median Household Income") {
+#           labelFormat()
+#         } else {
+#           labelFormat(suffix = "%")
+#         }
+#       )
+#   })
+# }
+# 
+#   observeEvent(c(selected_vars$input_acs), {
+#     leafletProxy("buffermap") %>%
+#       clearGroup("Demographic data") %>%
+#       addMapPane("Demographic data", zIndex = 0) %>%
+#       # clearControls()
+#       addPolygons(
+#         group = "Demographic data",
+#         data = summary_util$map_bg_data,
+#         stroke = TRUE,
+#         color = councilR::colors$suppGray,
+#         opacity = 0.6,
+#         weight = 0.25,
+#         fillOpacity = 0.6,
+#         smoothFactor = 0.2,
+#         fillColor = ~ colorNumeric(
+#           # n = 7,
+#           palette = "Blues",
+#           domain = summary_util$map_bg_data[[1]]
+#         )(summary_util$map_bg_data[[1]]),
+#         
+#         popup = if (selected_vars$input_acs == "adj_meanhhi") {
+#           ~ paste0(tags$strong(filter(renamekey, ACS == selected_vars$input_acs) %>% select(goodname)), ": $", format(summary_util$map_bg_data[[1]], big.mark = ","))
+#         } else {
+#           ~ paste0(
+#             tags$strong(filter(renamekey, ACS == selected_vars$input_acs) %>% select(goodname)),
+#             ": ",
+#             summary_util$map_bg_data[[1]], "%"
+#           )
+#         },
+#         options = list(zIndex = 0)
+#       )
+#   })
+  
 
 #
 ## To be copied in the UI

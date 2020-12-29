@@ -143,8 +143,26 @@ mod_input_demos_ui <- function(id) {
 
     radioButtons(
       inputId = ns("inputCensusTracts"), label = "Census Tracts",
-      choices = sort(table_ct %>% filter(column != "anydis_percent", column != "forborn_percent") %>% .$category),
-      selected = "Age, 18-39"
+      choices = 
+        c("Age, % under 15" = "adj_ageunder15_per", 
+           "Age, % 15-24" = "adj_age15_24_per", 
+          "Age, % 25-64" = "adj_age25_64_per", 
+           "Age, % 65 and up" = "adj_age65up_per", 
+           "Race, % White" = "adj_whitenh_per", 
+           "Race, % Black" = "adj_blacknh_per", 
+           "Race, % Asian" = "adj_asiannh_per", 
+           "Race, % American Indian" = "adj_amindnh_per", 
+           "Race, % Other + Multiracial" = "adj_othermultinh_per", 
+           "Ethnicity, % Hispanic" = "adj_hisppop_per", 
+           "Ethnicity, % not-Hispanic" = "adj_nothisppop_per", 
+           "Mean household income" = "adj_meanhhi", 
+           "% Housholds without a vehicle" = "adj_novehicle_per", 
+           "% speaking English less than very well" = "adj_lep_per", 
+           "% Spanish speakers" = "adj_span_per", 
+           "Ability, % any disability" = "adj_anydis_per", 
+           "Origin, % US-born" = "adj_usborn_per", 
+           "Origin, % foreign-born" = "adj_forborn_per"),#renamekey %>% filter(ACS != "adj_2019pop") %>% .$goodname, #sort(table_ct %>% filter(column != "anydis_percent", column != "forborn_percent") %>% .$category),
+      selected = "Age, % under 15" #"Age, 18-39"
     ),
     tags$div(
       tags$a(
@@ -172,19 +190,32 @@ mod_input_demos_ui <- function(id) {
 mod_input_demos_server <- function(input, output, session) {
   ns <- session$ns
 
+#   tribble(~category, ~column, ~palette, 
+#           "Origin, US-born", "usborncit_percent", "YlGn")
+#   
+#   
+# 
+#   vals <- reactiveValues()
+# 
+#   observeEvent(input$inputCensusTracts, {
+#     vals$selected_var <- input$inputCensusTracts
+#     vals$color_pal <- dplyr::filter(table_ct, category == input$inputCensusTracts)[[3]]
+#     vals$tract_data <- census_tract[input$inputCensusTracts]
+#   })
+# 
+# 
+#   return(vals)
+# }
 
-  vals <- reactiveValues()
-
-  observeEvent(input$inputCensusTracts, {
-    vals$selected_var <- input$inputCensusTracts
-    vals$color_pal <- dplyr::filter(table_ct, category == input$inputCensusTracts)[[3]]
-    vals$tract_data <- census_tract[input$inputCensusTracts]
+  input_values <- reactiveValues() # start with an empty reactiveValues object.
+  
+  observeEvent(input$inputCensusTracts, { # only update when the user changes the ACS input
+    input_values$input_acs <- input$input_acs # create/update the ACS input value in our reactiveValues object
   })
-
-
-  return(vals)
+  
+  return(input_values)
 }
-
+  
 ## To be copied in the UI
 # mod_input_demos_ui("input_demos_ui_1")
 
