@@ -25,7 +25,7 @@ app_ui <- function(request) {
       tabPanel(
         "Map",
         shiny::wellPanel(
-          shiny::p("Select 1 ACS variable. The tracts’ colors correspond to 2014-2018 (5-year) American Community Survey (ACS) demographic metric selected. Each demographic characteristic is shown as a percentage of the total population, with the exception of median household income, which is displayed in dollars. The darker the color, the higher the percentage (or income in dollars).")
+          shiny::p("This map provides a general overview of population characteristics across the 7-county Twin Cities region and adjacent areas. Data is from the 5-year American Community Survey (2015-2019) and shows the highest spatial resolution possible by variable (either Census tract or block group). Each demographic characteristic is shown as a percentage of the total population, with the exception of median household income, which is displayed in dollars. The darker the color, the higher the percentage (or income in dollars).")
         ),
 
         sidebarPanel(
@@ -41,7 +41,7 @@ app_ui <- function(request) {
         title = "Summary",
         id = "sumtabs",
         # mainPanel(
-        HTML("<p>Data are summarized in several ways. The <em>Weighted averages</em> tab distills complex spatial demographic patterns into a single summary statistic, and will be appropriate for most uses. The <em>Buffer map</em> tab shows the spatial demographic patterns with the buffer analysis zones overlayed. The <em>Download tabular data</em> tab displays summary statistics for all ACS variables in tabular form.</p>"),
+        HTML("<p>Population characteristics within a given buffer zone around park and trail units are summarized in several ways. The <em>Weighted averages</em> tab distills complex spatial demographic patterns into a single summary statistic, and will be appropriate for most uses. The <em>Buffer map</em> tab shows the spatial demographic patterns with the buffer analysis zones overlayed. The <em>Download tabular data</em> tab displays summary statistics for all ACS variables in tabular form.</p>"),
         # fluidRow(h3("Select inputs: ")),
         # fluidRow(
         #   column(width = 3, mod_selections_population_ui("selections_population_ui_1")),

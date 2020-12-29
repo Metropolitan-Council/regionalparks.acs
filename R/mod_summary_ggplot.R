@@ -231,7 +231,7 @@ mod_summary_ggplot_server <- function(input, output, session,
           " of people within ", "<b>",
           (if (point$type == "avg") ("</b>") else (paste0(point$distance, " mi</b> of "))),
           "<b>", point$name,
-          (if (point$type == "avg") ("</b>") else (paste0(" (", point$type, " - ", point$status, ") </b>"))),
+          (if (point$type == "avg") ("</b>") else (paste0(" (", point$type, " - ", point$status, ", ", point$agency, ") </b>"))),
           " fall into the ", "<b>", (filter(renamekey, ACS == selected_vars$input_acs) %>% select(goodname)), "</b> category.", "</br> </div>"
         ))
       )
@@ -241,7 +241,7 @@ mod_summary_ggplot_server <- function(input, output, session,
           "<div style='font-size:1.8rem;padding:1%;background-color:", background_color, "'>", "$", prettyNum(point$value, big.mark = ","), " is the approx. mean household income within ",
           (if (point$type == "avg") ("") else (paste0(point$distance, " mi of "))),
           point$name,
-          (if (point$type == "avg") ("</b>") else (paste0(" (", point$type, " - ", point$status, ") </b> </div>"))),
+          (if (point$type == "avg") ("</b>") else (paste0(" (", point$type, " - ", point$status, ", ", point$agency, ") </b> </div>"))),
           "."
         ))
       )
