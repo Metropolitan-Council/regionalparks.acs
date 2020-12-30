@@ -63,7 +63,7 @@ rv <- shiny::reactiveValues
 rvtl <- shiny::reactiveValuesToList
 
 
-# e_col <- "#78A22F" #green
+e_col <- "#78A22F" # CD green
 # p_col <- "#38AAAA"
 # s_col <- "#C29661" #orange
 
@@ -72,7 +72,7 @@ rvtl <- shiny::reactiveValuesToList
 # s_col <- "#FDE725" #yellow
 
 #with blue palette
-e_col <- "#628821" #green
+# e_col <- "#628821" #green
 p_col <- "#AA5FEC"#"#1CBFBF"#"#3DB5B5" #teal
 s_col <- "#DDCC77" #yellow
 
