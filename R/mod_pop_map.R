@@ -313,7 +313,16 @@ mod_pop_map_server <- function(input, output, session,
           TRUE ~ paste0(tags$strong(filter(popkey, popvar == selected_popvars$input_pop) %>% select(goodname)), ": ", format(summary_poputil$pop_data[[1]], big.mark = ","), " persons")
         ),
         options = list(zIndex = 0)
-      ))
+      ) %>%
+       addLegend(position = "bottomleft",
+                       group = "Population data",
+                       layerId = "Population data",
+                       pal = colorQuantile(
+                         n=9,
+                         palette = "Blues",
+                         domain = summary_poputil$pop_data[[1]]
+                       ),
+                       values = summary_poputil$pop_data[[1]]))
   }
   )
 }
