@@ -27,7 +27,49 @@ mod_summary_map_server <- function(input, output, session,
                                    selected_vars) {
   ns <- session$ns
 
- 
+  renamekey <- tibble::tribble( #------
+    ~goodname,
+    ~"ACS",
+    "Total population",
+    "adj_2019pop",
+    "Age, % under 15",
+    "adj_ageunder15_per",
+    "Age, % 15-24",
+    "adj_age15_24_per",
+    "Age, % 25-64",
+    "adj_age25_64_per",
+    "Age, % 65 and up",
+    "adj_age65up_per",
+    "Race, % White",
+    "adj_whitenh_per",
+    "Race, % Black",
+    "adj_blacknh_per",
+    "Race, % Asian",
+    "adj_asiannh_per",
+    "Race, % American Indian",
+    "adj_amindnh_per",
+    "Race, % Other + Multiracial",
+    "adj_othermultinh_per",
+    "Ethnicity, % Hispanic",
+    "adj_hisppop_per",
+    "Ethnicity, % not-Hispanic",
+    "adj_nothisppop_per",
+    "Mean household income",
+    "adj_meanhhi",
+    "% Housholds without a vehicle",
+    "adj_novehicle_per",
+    "% speaking English less than very well",
+    "adj_lep_per",
+    "% Spanish speakers",
+    "adj_span_per",
+    "Ability, % any disability",
+    "adj_anydis_per",
+    "Origin, % US-born",
+    "adj_usborn_per",
+    "Origin, % foreign-born",
+    "adj_forborn_per"
+  )
+
   output$buffermap <- renderLeaflet({ # buf map --------
     leaflet() %>%
       # setView(
@@ -47,7 +89,7 @@ mod_summary_map_server <- function(input, output, session,
       ) %>%
       addMapPane("Agency boundaries", zIndex = 650) %>%
       addMapPane("buff", zIndex = 710) %>%
-      addMapPane("parktrail", zIndex = 700) %>%
+      addMapPane("parktrail", zIndex = 750) %>%
       addPolygons(
         data = agency_boundary,
         group = "Agency boundaries",
@@ -125,6 +167,7 @@ mod_summary_map_server <- function(input, output, session,
           )
         ) %>%
         addPolygons(
+          options = pathOptions(pane = "parktrail"),
           group = "Parks and trails",
           data = summary_util$map_parktrail_data %>% filter(agency %in% selected_vars$input_agency, Type == "Park"),
           color = case_when(
