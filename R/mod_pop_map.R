@@ -286,7 +286,7 @@ mod_pop_map_server <- function(input, output, session,
 
   outputOptions(output, "popmap", suspendWhenHidden = FALSE)
 
-  observeEvent(list(selected_popvars$input_pop),{#}, input$tab_being_displayed), {
+  observeEvent(list(selected_popvars$input_pop),{
     (leafletProxy("popmap") %>%
       clearGroup("Population data") %>%
       # addMapPane("Population data", zIndex = 0) %>%

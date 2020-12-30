@@ -132,6 +132,9 @@ mod_summary_map_server <- function(input, output, session,
       #   ) %>%
       leaflet::addScaleBar(position = c("bottomleft"))
   }) #----
+  
+  outputOptions(output, "buffermap", suspendWhenHidden = FALSE)
+  
 
   # palette_OkabeIto <- c("#E69F00", "#56B4E9", "#009E73", "#F0E442", "#0072B2", "#D55E00", "#CC79A7", "#999999")
   # palette_OkabeIto_black <- c("#E69F00", "#56B4E9", "#009E73", "#F0E442", "#0072B2", "#D55E00", "#CC79A7", "#000000")

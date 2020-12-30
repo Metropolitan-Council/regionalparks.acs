@@ -19,30 +19,20 @@ app_server <- function(input, output, session) {
   # # Introduction tab -----------------------------------------------------------
   callModule(mod_intro_server, "intro_ui_1")
 
-
-  # global inputs & utils --------------
-  # selected_parktrail_vars <- callModule(mod_selections_parktrailunits_server, "selections_parktrailunits_ui_1")
-# 
-#   global_util_parktrail <- callModule(mod_parktrail_utils_server, "parktrail_utils_ui_1",
-#     selected_parktrail = selected_parktrail_vars
-#   )
-
-
-  # selected_acs_vars <- callModule(mod_selections_acs_server, "selections_acs_ui_1")
-
-  # global_util_acs <- callModule(mod_acs_utils_server, "acs_utils_ui_1",
-  #                               selected_acs = selected_acs_vars,
-  #                               selected_parktrail = selected_parktrail_vars)
-  #
-
   # ACS Map tab ----------------------------------------------------------------
   # tract_data <- callModule(mod_input_demos_server, "input_demos_ui_1")
-  selected_map_vars <- callModule(mod_input_demos_server, "input_demos_ui_1")
+  selected_map_vars2 <- callModule(mod_input_demos_server, "input_demos_ui_1")
 
-leafletacs_data <- callModule(mod_leaflet_utils_server, "leaflet_utils_ui_1",
-                              selected_map_vars)
+  util_leaflet2 <- callModule(mod_leaflet_utils_server, "leaflet_utils_ui_1",
+                              selected_map_vars = selected_map_vars2)
 
-  callModule(mod_leaflet_server, "leaflet_ui_1", leafletacs_data, selected_map_vars)#tract_data)
+  observe({
+    print(input$selected_map_vars)
+  })
+
+  callModule(mod_leaflet_server, "leaflet_ui_1", 
+             util_leaflet = util_leaflet2, 
+             selected_map_vars = selected_map_vars2)#tract_data)
 
   # ACS Summary tab ------------------------------------------------------------
   ## get input values

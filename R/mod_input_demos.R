@@ -162,7 +162,7 @@ mod_input_demos_ui <- function(id) {
            "Ability, % any disability" = "adj_anydis_per", 
            "Origin, % US-born" = "adj_usborn_per", 
            "Origin, % foreign-born" = "adj_forborn_per"),#renamekey %>% filter(ACS != "adj_2019pop") %>% .$goodname, #sort(table_ct %>% filter(column != "anydis_percent", column != "forborn_percent") %>% .$category),
-      selected = "Age, % under 15" #"Age, 18-39"
+      selected = "adj_ageunder15_per" #"Age, 18-39"
     ),
     tags$div(
       tags$a(
