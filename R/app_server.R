@@ -25,10 +25,8 @@ app_server <- function(input, output, session) {
 
   util_leaflet2 <- callModule(mod_leaflet_utils_server, "leaflet_utils_ui_1",
                               selected_map_vars = selected_map_vars2)
+  
 
-  observe({
-    print(input$selected_map_vars)
-  })
 
   callModule(mod_leaflet_server, "leaflet_ui_1", 
              util_leaflet = util_leaflet2, 

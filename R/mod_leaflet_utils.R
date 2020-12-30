@@ -26,7 +26,7 @@ mod_leaflet_utils_server <- function(input, output, session, selected_map_vars){
   make_leafletacs_data <- reactive({
     # p6 <- regionalparks.acs::bg_geo[selected_map_vars$input_acs]
     p6 <- 
-    #   if (selected_map_vars$selected_map_vars %in% tractdata$ACS) (
+    #   if (selected_map_vars$input_acs %in% tractdata$ACS) (
     #   regionalparks.acs::census_tract %>%
     #     mutate(
     #       disab_percent = `Disability, any disability` * 100,
@@ -37,7 +37,7 @@ mod_leaflet_utils_server <- function(input, output, session, selected_map_vars){
     #       "adj_anydis_per" = "disab_percent",
     #       "adj_usborn_per" = "usborn_percent",
     #       "adj_forborn_per" = "forborn_percent"
-    #     ) %>% 
+    #     ) %>%
     #     select(selected_map_vars$input_acs)
     # )
     # 
@@ -77,15 +77,45 @@ mod_leaflet_utils_server <- function(input, output, session, selected_map_vars){
           "adj_span_per" = "spanish_percent"
         ) %>%
         select(selected_map_vars$input_acs)
+    # select("adj_whitenh_per")
     # )
+    
+    # leaflet() %>%
+    #   addProviderTiles("Stamen.TonerLite",
+    #                    group = "Stamen Toner"
+    #   )%>%
+    #   addPolygons(
+    #     data = regionalparks.acs::park_trail_geog_LONG[park_trail_geog_LONG$status == "Park - existing", ], # https://cran.r-project.org/web/packages/sf/vignettes/sf4.html
+    #     stroke = TRUE,
+    #     # weight = 0.5,
+    #     color = e_col,
+    #     fill = TRUE,
+    #     fillColor = e_col,
+    #     fillOpacity = 0.9
+    #   ) %>%
+    #   addPolygons(
+    #     data = p6,
+    #     stroke = TRUE,
+    #     color = councilR::colors$suppGray,
+    #     opacity = 0.6,
+    #     weight = 0.25,
+    #     fillOpacity = 0.6,
+    #     smoothFactor = 0.2,
+    #     fillColor = ~ colorBin(
+    #       bins = 9,
+    #       palette = "Blues",
+    #       domain = regionalparks.acs::block_group %>% select(amindnh_percent) %>% .[[1]]
+    #     )(regionalparks.acs::block_group %>% select(amindnh_percent) %>% .[[1]])
+    #   )
+
     return(p6)
   })
-  
+
   vals <- reactiveValues()
   
   
   observe({
-    vals$leafletacs_data <- make_leafletacs_data()
+    vals$leaflet_data <- make_leafletacs_data()
   })
   
   # observe({

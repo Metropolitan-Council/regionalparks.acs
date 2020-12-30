@@ -24,7 +24,8 @@ mod_leaflet_ui <- function(id) {
 #' @import leaflet
 #' @import councilR
 #' @import leaflet.extras
-mod_leaflet_server <- function(input, output, session, util_leaflet, selected_map_vars) {#} tract_data = tract_data) {
+mod_leaflet_server <- function(input, output, session, 
+                               util_leaflet, selected_map_vars) {#} tract_data = tract_data) {
   ns <- session$ns
 
   # output$map <- renderLeaflet({ #-----
@@ -458,7 +459,21 @@ mod_leaflet_server <- function(input, output, session, util_leaflet, selected_ma
         group = "Transit",
         zoomLevels = 13:20
       )   %>%
-      
+    
+      addPolygons(
+              group = "Demographic data",
+              data = util_leaflet,
+              stroke = TRUE,
+              color = councilR::colors$suppGray,
+              opacity = 0.6,
+              weight = 0.25,
+              fillOpacity = 0.6,
+              smoothFactor = 0.2,
+              fillColor = ~ colorNumeric(
+                # n = 7,
+                palette = "Blues",
+                domain = util_leaflet$leaflet_data[[1]]
+              )(util_leaflet$leaflet_data[[1]])) %>%
       hideGroup(
         c(
           "Regional Parks - planned",
@@ -492,42 +507,42 @@ mod_leaflet_server <- function(input, output, session, util_leaflet, selected_ma
       leaflet::addScaleBar(position = c("bottomleft")) 
   }) #----
   
-  
+  # 
   # outputOptions(output, "map", suspendWhenHidden = FALSE)
+  # 
+  # observeEvent((selected_map_vars$input_acs), {
+  #   (leafletProxy("map") %>%
+  #     clearGroup("Demographic data") %>%
+  #     # addMapPane("Demographic data", zIndex = 0) %>%
+  #     # clearControls()
+  #     addPolygons(
+  #       group = "Demographic data",
+  #       data = util_leaflet$leaflet_data,
+  #       stroke = TRUE,
+  #       color = councilR::colors$suppGray,
+  #       opacity = 0.6,
+  #       weight = 0.25,
+  #       fillOpacity = 0.6,
+  #       smoothFactor = 0.2,
+  #       fillColor = ~ colorNumeric(
+  #         # n = 7,
+  #         palette = "Blues",
+  #         domain = util_leaflet$leaflet_data[[1]]
+  #       )(util_leaflet$leaflet_data[[1]])#,
+  # 
+  #       # popup = if (selected_map_vars$input_acs == "adj_meanhhi") {
+  #       #   ~ paste0(tags$strong(filter(renamekey, ACS == selected_map_vars$input_acs) %>% select(goodname)), ": $", format(selected_map_vars$leafletacs_data[[1]], big.mark = ","))
+  #       # } else {
+  #       #   ~ paste0(
+  #       #     tags$strong(filter(renamekey, ACS == selected_map_vars$input_acs) %>% select(goodname)),
+  #       #     ": ",
+  #       #     util_leaflet$leafletacs_data[[1]], "%"
+  #       #   )
+  #       # },
+  #       # options = list(zIndex = 0)
+  #     ))
+  # })
 
-  observeEvent((selected_map_vars$input_acs), {
-    (leafletProxy("map") %>%
-      clearGroup("Demographic data") %>%
-      # addMapPane("Demographic data", zIndex = 0) %>%
-      # clearControls()
-      addPolygons(
-        group = "Demographic data",
-        data = util_leaflet$leafletacs_data,
-        stroke = TRUE,
-        color = councilR::colors$suppGray,
-        opacity = 0.6,
-        weight = 0.25,
-        fillOpacity = 0.6,
-        smoothFactor = 0.2,
-        fillColor = ~ colorNumeric(
-          # n = 7,
-          palette = "Blues",
-          domain = util_leaflet$leafletacs_data[[1]]
-        )(util_leaflet$leafletacs_data[[1]]),
-
-        # popup = if (selected_map_vars$input_acs == "adj_meanhhi") {
-        #   ~ paste0(tags$strong(filter(renamekey, ACS == selected_map_vars$input_acs) %>% select(goodname)), ": $", format(selected_map_vars$leafletacs_data[[1]], big.mark = ","))
-        # } else {
-        #   ~ paste0(
-        #     tags$strong(filter(renamekey, ACS == selected_map_vars$input_acs) %>% select(goodname)),
-        #     ": ",
-        #     util_leaflet$leafletacs_data[[1]], "%"
-        #   )
-        # },
-        options = list(zIndex = 0)
-      ))
-  })
-  
   
   # observeEvent(util_leaflet$leafletacs_data, {
   #   pal <- if (util_leaflet$selected_var == "Income, Median Household Income") {
@@ -652,37 +667,6 @@ mod_leaflet_server <- function(input, output, session, util_leaflet, selected_ma
 #   })
 # }
 # 
-#   observeEvent(c(selected_vars$input_acs), {
-#     leafletProxy("buffermap") %>%
-#       clearGroup("Demographic data") %>%
-#       addMapPane("Demographic data", zIndex = 0) %>%
-#       # clearControls()
-#       addPolygons(
-#         group = "Demographic data",
-#         data = summary_util$map_bg_data,
-#         stroke = TRUE,
-#         color = councilR::colors$suppGray,
-#         opacity = 0.6,
-#         weight = 0.25,
-#         fillOpacity = 0.6,
-#         smoothFactor = 0.2,
-#         fillColor = ~ colorNumeric(
-#           # n = 7,
-#           palette = "Blues",
-#           domain = summary_util$map_bg_data[[1]]
-#         )(summary_util$map_bg_data[[1]]),
-#         
-#         popup = if (selected_vars$input_acs == "adj_meanhhi") {
-#           ~ paste0(tags$strong(filter(renamekey, ACS == selected_vars$input_acs) %>% select(goodname)), ": $", format(summary_util$map_bg_data[[1]], big.mark = ","))
-#         } else {
-#           ~ paste0(
-#             tags$strong(filter(renamekey, ACS == selected_vars$input_acs) %>% select(goodname)),
-#             ": ",
-#             summary_util$map_bg_data[[1]], "%"
-#           )
-#         },
-#         options = list(zIndex = 0)
-#       )
 #   })
   
 

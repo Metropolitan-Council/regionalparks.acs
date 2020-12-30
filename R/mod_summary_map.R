@@ -97,7 +97,8 @@ mod_summary_map_server <- function(input, output, session,
         group = "Esri Imagery"
       ) %>%
       addMapPane("Agency boundaries", zIndex = 650) %>%
-      addMapPane("Buffers", zIndex = 750) %>%
+      addMapPane("buff", zIndex = 710) %>%
+      addMapPane("parktrail", zIndex = 700) %>%
       addPolygons(
         data = agency_boundary,
         group = "Agency boundaries",
@@ -116,8 +117,8 @@ mod_summary_map_server <- function(input, output, session,
           "Agency boundaries"
         ),
         baseGroups = c(
-          "Carto Positron",
           "Stamen Toner",
+          "Carto Positron",
           "Esri Imagery"
         ),
         options = layersControlOptions(collapsed = F)
@@ -139,21 +140,18 @@ mod_summary_map_server <- function(input, output, session,
   # palette_OkabeIto <- c("#E69F00", "#56B4E9", "#009E73", "#F0E442", "#0072B2", "#D55E00", "#CC79A7", "#999999")
   # palette_OkabeIto_black <- c("#E69F00", "#56B4E9", "#009E73", "#F0E442", "#0072B2", "#D55E00", "#CC79A7", "#000000")
 
-  observeEvent( # req(input$nav == "Summary"), #-----
-    # observe({
-    #   req(input$nav == "Summary")
-    c( # input$nav == "Summary",
-      selected_vars$input_agency,
+  observeEvent(
+    c(selected_vars$input_agency,
       selected_vars$input_type,
       selected_vars$input_status
     ),
-    #            # ignoreInit = T, ignoreNULL = T,
     {
       leafletProxy("buffermap") %>%
         clearGroup("Parks and trails") %>%
-        addMapPane("Parks and trails", zIndex = 700) %>%
+        # addMapPane("Parks and trails", zIndex = 700) %>%
         # clearControls() %>%
         addPolylines(
+          options = pathOptions(pane = "parktrail"),
           group = "Parks and trails",
           data = summary_util$map_parktrail_data,
           color = case_when(
@@ -175,8 +173,7 @@ mod_summary_map_server <- function(input, output, session,
             color = "black",
             weight = 6,
             bringToFront = TRUE
-          ),
-          options = list(zIndex = 700)
+          )
         ) %>%
         addPolygons(
           group = "Parks and trails",
@@ -205,8 +202,7 @@ mod_summary_map_server <- function(input, output, session,
             color = "black",
             weight = 6,
             bringToFront = TRUE
-          ),
-          options = list(zIndex = 710)
+          )
         )
     }
   )
@@ -252,6 +248,8 @@ mod_summary_map_server <- function(input, output, session,
         clearGroup("Buffers") %>%
         # clearControls()
         addPolygons(
+          options = pathOptions(pane = "buff"),
+          
           data = summary_util$map_buffer_data,
           group = "Buffers",
           stroke = TRUE,
@@ -289,8 +287,7 @@ mod_summary_map_server <- function(input, output, session,
               "font-size" = "18px",
               "font-family" = "Arial"
             )
-          ),
-          options = list(zIndex = 750),
+          )
         )
     }
   )
