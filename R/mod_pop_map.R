@@ -285,8 +285,23 @@ mod_pop_map_server <- function(input, output, session,
 
 
   outputOptions(output, "popmap", suspendWhenHidden = FALSE)
+  
+  
+  # pal <- case_when(
+  #   selected_popvars$input_pop == "PopDens_2019" ~ 
+  #     colorQuantile(n=9, palette = "Blues", domain = summary_poputil$pop_data[[1]]),
+  #   TRUE ~ 
+  #     colorNumeric(n = 9, palette = "Purples", domain = summary_poputil$pop_data[[1]])
+  # )
 
   observeEvent(list(selected_popvars$input_pop),{
+    pal <- if(
+      selected_popvars$input_pop == "PopDens_2019")
+        (colorQuantile(n=9, palette = "Blues", domain = summary_poputil$pop_data[[1]])) else
+          (
+        colorNumeric(n = 9, palette = "Purples", domain = summary_poputil$pop_data[[1]])
+    )
+    
     (leafletProxy("popmap") %>%
       clearGroup("Population data") %>%
       # addMapPane("Population data", zIndex = 0) %>%
@@ -300,11 +315,7 @@ mod_pop_map_server <- function(input, output, session,
         weight = 0.25,
         fillOpacity = 0.6,
         smoothFactor = 0.2,
-        fillColor = ~ colorQuantile(
-          n=9,
-          palette = "Blues",
-          domain = summary_poputil$pop_data[[1]]
-        )(summary_poputil$pop_data[[1]]),
+        fillColor = ~ pal(summary_poputil$pop_data[[1]]),
         popup = case_when(
           selected_popvars$input_pop == "growth_rel_10_40" ~
           paste0(tags$strong(filter(popkey, popvar == selected_popvars$input_pop) %>% select(goodname)), ": ", round(summary_poputil$pop_data[[1]], 2), " x"),
@@ -314,14 +325,11 @@ mod_pop_map_server <- function(input, output, session,
         ),
         options = list(zIndex = 0)
       ) %>%
-       addLegend(position = "bottomleft",
+       addLegend(title = "Make the title",
+                 position = "bottomleft",
                        group = "Population data",
                        layerId = "Population data",
-                       pal = colorQuantile(
-                         n=9,
-                         palette = "Blues",
-                         domain = summary_poputil$pop_data[[1]]
-                       ),
+                       pal = pal,
                        values = summary_poputil$pop_data[[1]]))
   }
   )
