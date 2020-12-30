@@ -83,6 +83,7 @@ app_ui <- function(request) {
                  
                  a(href = "https://metrocouncil.org/Data-and-Maps/Research-and-Data/Thrive-2040-Forecasts.aspx", "Metropolitian Council website", .noWS = "outside")),
         tabsetPanel(
+          id = "tab_being_displayed",
           selected = "Population map",
           tabPanel(
             "Population map",

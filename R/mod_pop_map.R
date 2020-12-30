@@ -274,8 +274,8 @@ mod_pop_map_server <- function(input, output, session,
           "Agency boundaries"
         ),
         baseGroups = c(
-          "Carto Positron",
           "Stamen Toner",
+          "Carto Positron",
           "Esri Imagery"
         ),
         options = layersControlOptions(collapsed = T)
@@ -283,8 +283,11 @@ mod_pop_map_server <- function(input, output, session,
       leaflet::addScaleBar(position = c("bottomleft")) 
   }) #----
 
-  observeEvent(c(selected_popvars$input_pop), {
-    leafletProxy("popmap") %>%
+
+  outputOptions(output, "popmap", suspendWhenHidden = FALSE)
+
+  observeEvent(list(selected_popvars$input_pop),{#}, input$tab_being_displayed), {
+    (leafletProxy("popmap") %>%
       clearGroup("Population data") %>%
       # addMapPane("Population data", zIndex = 0) %>%
       clearControls() %>%
@@ -310,8 +313,9 @@ mod_pop_map_server <- function(input, output, session,
           TRUE ~ paste0(tags$strong(filter(popkey, popvar == selected_popvars$input_pop) %>% select(goodname)), ": ", format(summary_poputil$pop_data[[1]], big.mark = ","), " persons")
         ),
         options = list(zIndex = 0)
-      )
-  })
+      ))
+  }
+  )
 }
 
 
