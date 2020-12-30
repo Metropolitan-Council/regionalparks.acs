@@ -73,7 +73,7 @@ bg_pop_2019_xlsx <- readxl::read_xlsx(unzip(temp, "SmallAreaEstimatesBlockGroup.
 
 ## ------
 
-bg_pop2019 <- bg_area %>%
+est_pop <- bg_area %>%
   right_join(bg_pop_2019_xlsx, by = c("bg_id" = "bg10")) %>%
   mutate(popdens_2019_mi = round((pop_est / sum_area / 3.861022e-7), 0)) %>% # , #convert m2 to mi2
   # would love to calculate population density over LAND AREA ONLY (use `sum_aland` rather than `sum_area`, however we'd need to mask lakes/river then, and then we should update our buffer "coverage" with water masks too (ie what if 50% of total block area falls w/in buffer zone, but that is only 70% of block land area.?)) In essence, this is just a slippery slope (do we mask non-residential areas? protected wetlands?), so its probably best to keep as simple as we can (dennis convo)
@@ -155,7 +155,8 @@ fs::file_delete("trans_anlys_zones_offical_curent.gpkg")
 #######
 # combine
 #####
-est_pop <- bg_pop2019 %>%
-  bind_rows(taz_growth)
+# est_pop <- bg_pop2019 %>%
+#   bind_rows(taz_growth)
 
 usethis::use_data(est_pop, overwrite = TRUE)
+usethis::use_data(taz_growth, overwrite = TRUE)

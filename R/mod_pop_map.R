@@ -66,7 +66,6 @@ mod_pop_map_server <- function(input, output, session,
         group = "Esri Imagery"
       ) %>%
       addMapPane("Agency boundaries", zIndex = 650) %>%
-      # addMapPane("Buffers", zIndex = 750) %>%
 
       addPolygons(
         data = agency_boundary,
@@ -79,6 +78,8 @@ mod_pop_map_server <- function(input, output, session,
       ) %>%
       
       addMapPane("parks_geo", zIndex = 420) %>%
+      
+      
       addPolygons(
         data = park_trail_geog_LONG[park_trail_geog_LONG$status == "Park - existing", ], # https://cran.r-project.org/web/packages/sf/vignettes/sf4.html
         group = "Regional Parks - existing",
@@ -87,7 +88,7 @@ mod_pop_map_server <- function(input, output, session,
         color = e_col,
         fill = TRUE,
         fillColor = e_col,
-        fillOpacity = 0.8,
+        fillOpacity = 0.9,
         options = pathOptions(pane = "parks_geo"),
         highlightOptions = highlightOptions(
           stroke = TRUE,
@@ -117,7 +118,7 @@ mod_pop_map_server <- function(input, output, session,
         color = p_col,
         fill = TRUE,
         fillColor = p_col, # ouncilR::colors$suppGray,
-        fillOpacity = 0.8,
+        fillOpacity = 0.9,
         options = pathOptions(pane = "parks_geo"),
         highlightOptions = highlightOptions(
           stroke = TRUE,
@@ -147,7 +148,7 @@ mod_pop_map_server <- function(input, output, session,
         color = s_col,
         fill = TRUE,
         fillColor = s_col,
-        fillOpacity = 0.8,
+        fillOpacity = 0.9,
         options = pathOptions(pane = "parks_geo"),
         highlightOptions = highlightOptions(
           stroke = TRUE,
@@ -175,7 +176,7 @@ mod_pop_map_server <- function(input, output, session,
         weight = 3, # 3,
         color = e_col,
         smoothFactor = 0.3,
-        opacity = .8, # 0.5,
+        opacity = 0.9, # 0.5,
         options = pathOptions(pane = "parks_geo"),
         popup = ~ paste0(
           "<b>", park_trail_geog_LONG[park_trail_geog_LONG$status == "Trail - existing", ]$status, "</b>", "<br>",
@@ -196,7 +197,7 @@ mod_pop_map_server <- function(input, output, session,
         weight = 3, # 3,
         color = s_col,
         smoothFactor = 0.3,
-        opacity = .8, # 0.5,
+        opacity = 0.9, # 0.5,
         options = pathOptions(pane = "parks_geo"),
         popup = ~ paste0(
           "<b>", park_trail_geog_LONG[park_trail_geog_LONG$status == "Trail - search", ]$status, "</b>", "<br>",
@@ -217,7 +218,7 @@ mod_pop_map_server <- function(input, output, session,
         weight = 3, # 3,
         color = p_col,
         smoothFactor = 0.3,
-        opacity = .8, # 0.5,
+        opacity = 0.9, # 0.5,
         options = pathOptions(pane = "parks_geo"),
         popup = ~ paste0(
           "<b>", park_trail_geog_LONG[park_trail_geog_LONG$status == "Trail - planned", ]$status, "</b>", "<br>",
@@ -231,16 +232,45 @@ mod_pop_map_server <- function(input, output, session,
           bringToFront = TRUE
         )
       )  %>%
-
+      addMapPane("trans", zIndex = 430) %>%
+      
+      addCircles(#Markers(
+        data = regionalparks.acs::trans_stops,
+        group = "Transit",
+        radius = 10,
+        fill = T,
+        stroke = TRUE,
+        weight = 2, # 0.75,
+        color = councilR::colors$transitRed,
+        fillColor = councilR::colors$transitRed,
+        options = pathOptions(pane = "trans")
+      ) %>%
+      groupOptions(
+        group = "Transit",
+        zoomLevels = 13:20
+      )   %>%
+      
+      hideGroup(
+        c(
+          "Regional Parks - planned",
+          "Regional Trails - planned",
+          "Regional Parks - search",
+          "Regional Trails - search",
+          "Transit"
+        )
+      ) %>%
       
       addLayersControl(
         position = "bottomright",
         overlayGroups = c(
+          "Regional Parks - existing",
           "Regional Trails - existing",
+          "Regional Parks - planned",
           "Regional Trails - planned",
+          "Regional Parks - search",
           "Regional Trails - search",
-          "Buffers",
           "Population data",
+          "Transit",
           "Agency boundaries"
         ),
         baseGroups = c(
@@ -248,15 +278,15 @@ mod_pop_map_server <- function(input, output, session,
           "Stamen Toner",
           "Esri Imagery"
         ),
-        options = layersControlOptions(collapsed = F)
+        options = layersControlOptions(collapsed = T)
       ) %>%
-      leaflet::addScaleBar(position = c("bottomleft"))
+      leaflet::addScaleBar(position = c("bottomleft")) 
   }) #----
 
   observeEvent(c(selected_popvars$input_pop), {
     leafletProxy("popmap") %>%
       clearGroup("Population data") %>%
-      addMapPane("Population data", zIndex = 0) %>%
+      # addMapPane("Population data", zIndex = 0) %>%
       clearControls() %>%
       addPolygons(
         group = "Population data",
@@ -267,7 +297,8 @@ mod_pop_map_server <- function(input, output, session,
         weight = 0.25,
         fillOpacity = 0.6,
         smoothFactor = 0.2,
-        fillColor = ~ colorNumeric(
+        fillColor = ~ colorQuantile(
+          n=9,
           palette = "Blues",
           domain = summary_poputil$pop_data[[1]]
         )(summary_poputil$pop_data[[1]]),

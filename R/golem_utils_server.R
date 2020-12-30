@@ -63,10 +63,18 @@ rv <- shiny::reactiveValues
 rvtl <- shiny::reactiveValuesToList
 
 
-e_col <- "#78A22F"
-p_col <- "#38AAAA"
-s_col <- "#C29661"
+# e_col <- "#78A22F" #green
+# p_col <- "#38AAAA"
+# s_col <- "#C29661" #orange
 
+# e_col <- "#009e61" green
+# p_col <- "#C29661" #orange
+# s_col <- "#FDE725" #yellow
+
+#with blue palette
+e_col <- "#628821" #green
+p_col <- "#AA5FEC"#"#1CBFBF"#"#3DB5B5" #teal
+s_col <- "#DDCC77" #yellow
 
 renamekey <- tibble::tribble(
   ~goodname, ~"ACS", ~pal,

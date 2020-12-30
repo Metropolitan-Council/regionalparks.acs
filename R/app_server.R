@@ -92,5 +92,12 @@ leafletacs_data <- callModule(mod_leaflet_utils_server, "leaflet_utils_ui_1",
     summary_poputil = summary_util_popvars
   )
 
+  callModule(mod_pop_table_server, "pop_table_ui_1",
+             selected_popvars = selected_population_vars,
+             # selected_parktrail = selected_parktrail_vars,
+             # parktrail_util = global_util_parktrail,
+             summary_poputil = summary_util_popvars)
+  
+  
   callModule(mod_pop_demoshifts_server, "pop_demoshifts_ui_1")
 }

@@ -89,7 +89,7 @@ app_ui <- function(request) {
             sidebarPanel(
               mod_pop_selections_ui("pop_selections_ui_1")# mod_selections_population_ui("selections_population_ui_1"),
             ),
-            mainPanel(
+            mainPanel(mod_pop_table_ui("pop_table_ui_1"),
             mod_pop_map_ui("pop_map_ui_1")
           )),
           tabPanel(

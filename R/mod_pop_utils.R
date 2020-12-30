@@ -19,11 +19,19 @@ mod_pop_utils_server <- function(input, output, session,
                                  selected_population) {
   ns <- session$ns
 
+  observed <- tibble(observed = c("PopEst_2019", "PopDens_2019"))
+
   make_pop_data <- reactive({
     p6 <-
-      regionalparks.acs::est_pop %>%
-      select(selected_population$input_pop) %>%
-      filter(!is.na(selected_population$input_pop))
+      
+      if(selected_population$input_pop %in% observed$observed)
+      (regionalparks.acs::est_pop %>%
+      select(selected_population$input_pop,
+             bg_id))
+    else 
+      (regionalparks.acs::taz_growth %>%
+         select(selected_population$input_pop,
+                TAZ2012))
     return(p6)
   })
 
