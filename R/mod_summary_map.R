@@ -88,8 +88,8 @@ mod_summary_map_server <- function(input, output, session,
         group = "Esri Imagery"
       ) %>%
       addMapPane("Agency boundaries", zIndex = 650) %>%
-      addMapPane("buff", zIndex = 710) %>%
-      addMapPane("parktrail", zIndex = 750) %>%
+      addMapPane("buff", zIndex = 660) %>%
+      addMapPane("parktrail", zIndex = 670) %>%
       addPolygons(
         data = agency_boundary,
         group = "Agency boundaries",
