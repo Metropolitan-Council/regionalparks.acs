@@ -75,31 +75,32 @@ app_ui <- function(request) {
       # Pop growth tab -----
       tabPanel(
         "Population Growth",
-        shiny::p('The Metropolitian Council publishes current population estimates and future forecasted population estimates. Current populaton estimates are available for Census block groups. Future forecasts are based on 2010 Census data and city comprehensive plans and available at the transportation analysis zone (a coarser spatial resolution than Census block groups). Forecasts of shifting population demographics (race/ethnicity and age) are only available at the regional level. Given the differential methods and geographies used in calcuating current and future populations, we will not perform further analyses on these data. However, the overarching patterns still may be useful in parks planning. More information and raw data can be found on the ',
-                 
-                 a(href = "https://metrocouncil.org/Data-and-Maps/Research-and-Data/Thrive-2040-Forecasts.aspx", "Metropolitian Council website.", .noWS = "outside")),
+        shiny::p(
+          'The Metropolitian Council publishes current population estimates and future forecasted population estimates. Current populaton estimates are available for Census block groups. Future forecasts are based on 2010 Census data and city comprehensive plans and available at the transportation analysis zone (a coarser spatial resolution than Census block groups). Forecasts of shifting population demographics (race/ethnicity and age) are only available at the regional level. Given the differential methods and geographies used in calcuating current and future populations, we will not perform further analyses on these data. However, the overarching patterns still may be useful in parks planning. More information and raw data can be found on the ',
+          a(
+            href = "https://metrocouncil.org/Data-and-Maps/Research-and-Data/Thrive-2040-Forecasts.aspx",
+            "Metropolitian Council website.",
+            .noWS = "outside"
+          )
+        ),
         tabsetPanel(
           id = "tab_being_displayed",
           selected = "Population map",
           tabPanel(
             "Population map",
-            sidebarPanel(
-              mod_pop_selections_ui("pop_selections_ui_1")# mod_selections_population_ui("selections_population_ui_1"),
-            ),
-            mainPanel(mod_pop_map_ui("pop_map_ui_1")
-          )),
+            sidebarPanel(mod_pop_selections_ui("pop_selections_ui_1")),
+            mainPanel(mod_pop_map_ui("pop_map_ui_1"))
+          ),
           tabPanel(
             "Demographic shifts",
             mod_pop_demoshifts_ui("pop_demoshifts_ui_1")
           )
         )
       ),
-
+      
       ## Notes tab -----
-      tabPanel(
-        "Notes",
-        mod_notes_ui("notes_ui_1")
-      )
+      tabPanel("Notes",
+               mod_notes_ui("notes_ui_1"))
     )
   )
 }
