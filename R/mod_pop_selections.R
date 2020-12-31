@@ -18,21 +18,8 @@ mod_pop_selections_ui <- function(id) {
                       "2019 pop. density" = "PopDens_2019",
                       "2040 forecast pop." = "POP2040",
                       "2040 forecast pop. dens." = "popdens_2040_mi",
-                      "Growth, 2010-2040, absolute" = "growth_abs_10_40",
-                      "Growth, 2010-2040, relative" = "growth_rel_10_40"),
-          # 
-          # choices = list(
-          #   `Observed` = list(
-          #     "2019 population" = "PopEst_2019",
-          #     "2019 pop. density" = "PopDens_2019"
-          #   ),
-          #   `Forecasts` = list(
-          #     "2040 forecast pop." = "POP2040",
-          #     "2040 forecast pop. dens." = "popdens_2040_mi",
-          #     "Growth, 2010-2040, absolute" = "growth_abs_10_40",
-          #     "Growth, 2010-2040, relative" = "growth_rel_10_40"
-          #   )
-          # ),
+                      "2010-2040, absolute growth" = "growth_abs_10_40",
+                      "2010-2040, relative growth" = "growth_rel_10_40"),
           selected = "PopEst_2019"
         
       ) )

@@ -293,13 +293,22 @@ mod_pop_map_server <- function(input, output, session,
   #   TRUE ~ 
   #     colorNumeric(n = 9, palette = "Purples", domain = summary_poputil$pop_data[[1]])
   # )
+  
+  
+  # test <- tibble::tribble(
+  #   ~var, ~pal,
+  #   "PopDens_2019", colorQuantile(n=9, palette = "Purples", domain = regionalparks.acs::est_pop$PopDens_2019[[1]]),
+  #   "PopEst_2019", colorQuantile(n=9, palette = "Blues", domain = regionalparks.acs::est_pop$PopEst_2019[[1]]),
+  #   "growth_rel_10_40", colorQuantile(n = 9, palette = "Greens", domain = regionalparks.acs::taz_growth$growth_rel_10_40[[1]]),
+  #   "growth_abs_10_40", colorQuantile(n = 9, palette = "Greens", domain = regionalparks.acs::taz_growth$growth_abs_10_40[[1]]),
+  #   "popdens_2040_mi", colorQuantile(n = 9, palette = "Greens", domain = regionalparks.acs::taz_growth$popdens_2040_mi[[1]]),
+  #   "POP2040", colorQuantile(n = 9, palette = "Greens", domain = regionalparks.acs::taz_growth$POP2040[[1]]))
 
   observeEvent(list(selected_popvars$input_pop),{
     pal <- if(
-      selected_popvars$input_pop == "PopDens_2019")
-        (colorQuantile(n=9, palette = "Blues", domain = summary_poputil$pop_data[[1]])) else
-          (
-        colorNumeric(n = 9, palette = "Purples", domain = summary_poputil$pop_data[[1]])
+      selected_popvars$input_pop == "PopDens_2019" | selected_popvars$input_pop == "popdens_2040_mi" | selected_popvars$input_pop == "growth_rel_10_40")
+        (colorQuantile(n = 9, palette = "Blues", domain = summary_poputil$pop_data[[1]])) else (
+        colorNumeric(n = 9, palette = "Blues", domain = summary_poputil$pop_data[[1]])
     )
     
     (leafletProxy("popmap") %>%
@@ -325,7 +334,7 @@ mod_pop_map_server <- function(input, output, session,
         ),
         options = list(zIndex = 0)
       ) %>%
-       addLegend(title = "Make the title",
+       addLegend(title = paste0(filter(popkey, popvar == selected_popvars$input_pop) %>% select(goodname)),
                  position = "bottomleft",
                        group = "Population data",
                        layerId = "Population data",
