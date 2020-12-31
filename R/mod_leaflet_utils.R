@@ -17,6 +17,16 @@ mod_leaflet_utils_ui <- function(id){
 #' leaflet_utils Server Function
 #'
 #' @noRd 
+#' @importFrom shiny NS tagList
+#' @import tibble
+#' @import ggplot2
+#' @import cowplot
+#' @import plotly
+#' @import tidyr
+#' @import stringr
+#' @import forcats
+#' @import dplyr
+#' @import leaflet
 mod_leaflet_utils_server <- function(input, output, session, selected_map_vars){
   ns <- session$ns
  
@@ -77,37 +87,8 @@ mod_leaflet_utils_server <- function(input, output, session, selected_map_vars){
           "adj_span_per" = "spanish_percent"
         ) %>%
         select(selected_map_vars$input_acs)
-    # select("adj_whitenh_per")
     # )
-    
-    # leaflet() %>%
-    #   addProviderTiles("Stamen.TonerLite",
-    #                    group = "Stamen Toner"
-    #   )%>%
-    #   addPolygons(
-    #     data = regionalparks.acs::park_trail_geog_LONG[park_trail_geog_LONG$status == "Park - existing", ], # https://cran.r-project.org/web/packages/sf/vignettes/sf4.html
-    #     stroke = TRUE,
-    #     # weight = 0.5,
-    #     color = e_col,
-    #     fill = TRUE,
-    #     fillColor = e_col,
-    #     fillOpacity = 0.9
-    #   ) %>%
-    #   addPolygons(
-    #     data = p6,
-    #     stroke = TRUE,
-    #     color = councilR::colors$suppGray,
-    #     opacity = 0.6,
-    #     weight = 0.25,
-    #     fillOpacity = 0.6,
-    #     smoothFactor = 0.2,
-    #     fillColor = ~ colorBin(
-    #       bins = 9,
-    #       palette = "Blues",
-    #       domain = regionalparks.acs::block_group %>% select(amindnh_percent) %>% .[[1]]
-    #     )(regionalparks.acs::block_group %>% select(amindnh_percent) %>% .[[1]])
-    #   )
-
+  
     return(p6)
   })
 
