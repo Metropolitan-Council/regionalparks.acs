@@ -200,10 +200,11 @@ mod_summary_map_server <- function(input, output, session,
   )
 
   observeEvent(c(selected_vars$input_acs), {
+    pal <- (colorNumeric(n = 9, palette = "Blues", domain = summary_util$map_bg_data[[1]])) 
+    
     leafletProxy("buffermap") %>%
       clearGroup("Demographic data") %>%
       addMapPane("Demographic data", zIndex = 0) %>%
-      # clearControls()
       addPolygons(
         group = "Demographic data",
         data = summary_util$map_bg_data,
@@ -227,9 +228,15 @@ mod_summary_map_server <- function(input, output, session,
             ": ",
             summary_util$map_bg_data[[1]], "%"
           )
-        },
-        options = list(zIndex = 0)
-      )
+        }#,
+        # options = list(zIndex = 0)
+      ) %>%
+      addLegend(title = paste0(filter(renamekey, ACS == selected_vars$input_acs) %>% select(goodname)),
+                position = "bottomleft",
+                group = "Demographic data",
+                layerId = "Demographic data",
+                pal = pal,
+                values = summary_util$map_bg_data[[1]])
   })
 
 
