@@ -55,12 +55,22 @@ mod_pop_map_server <- function(input, output, session,
       #   lng = -93.22,
       #   zoom = 9
       # ) %>%
-      addProviderTiles("Stamen.TonerLite",
+      addMapPane(name = "Stamen Toner", zIndex = 430) %>%
+      addProviderTiles("Stamen.TonerLines",
         group = "Stamen Toner"
       ) %>%
-      addProviderTiles("CartoDB.Positron",
+      addProviderTiles("Stamen.TonerLabels", 
+                       options = leafletOptions(pane = "Stamen Toner"),
+                       group = "Stamen Toner") %>%
+      
+      addMapPane(name = "Carto Positron", zIndex = 430) %>%
+      addProviderTiles("CartoDB.PositronOnlyLabels", 
+                       options = leafletOptions(pane = "Carto Positron"),
+                       group = "Carto Positron") %>%
+      addProviderTiles("CartoDB.PositronNoLabels",
         group = "Carto Positron"
       ) %>%
+      
       addProviderTiles(
         provider = providers$Esri.WorldImagery,
         group = "Esri Imagery"
