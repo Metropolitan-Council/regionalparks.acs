@@ -32,29 +32,17 @@ mod_pop_map_server <- function(input, output, session,
   ns <- session$ns
 
   popkey <- tibble::tribble( #------
-    ~goodname,
-    ~"popvar",
-    "2019 pop.",
-    "PopEst_2019",
-    "2019 pop. density",
-    "PopDens_2019",
-    "2040 pop.",
-    "POP2040",
-    "2040 pop. density",
-    "popdens_2040_mi",
-    "Growth, relative",
-    "growth_rel_10_40",
-    "Growth, absolute",
-    "growth_abs_10_40"
+    ~goodname, ~"popvar", ~"short",
+    "2019 pop.", "PopEst_2019", "2019 pop.\n(persons)",
+    "2019 pop. density",  "PopDens_2019", "2019 density\n(by percentile)",
+    "2040 pop.", "POP2040",  "2040 pop.\n(persons)",
+    "2040 pop. density", "popdens_2040_mi", "2040 density\n(by percentile)",
+    "Growth, relative", "growth_rel_10_40","Relative growth\n(by percentile)",
+    "Growth, absolute", "growth_abs_10_40", "Absolute growth\n(persons)"
   )
-
+  
   output$popmap <- renderLeaflet({ # pop map --------
     leaflet() %>%
-      # setView(
-      #   lat = 44.963,
-      #   lng = -93.22,
-      #   zoom = 9
-      # ) %>%
       addMapPane(name = "Stamen Toner", zIndex = 430) %>%
       addProviderTiles("Stamen.TonerLines",
         group = "Stamen Toner"
@@ -89,9 +77,8 @@ mod_pop_map_server <- function(input, output, session,
       
       addMapPane("parks_geo", zIndex = 420) %>%
       
-      
       addPolygons(
-        data = park_trail_geog_LONG[park_trail_geog_LONG$status == "Park - existing", ], # https://cran.r-project.org/web/packages/sf/vignettes/sf4.html
+        data = park_trail_geog_LONG[park_trail_geog_LONG$status == "Park - existing", ], 
         group = "Regional Parks - existing",
         stroke = TRUE,
         # weight = 0.5,
@@ -127,7 +114,7 @@ mod_pop_map_server <- function(input, output, session,
         # weight = 0.5,
         color = p_col,
         fill = TRUE,
-        fillColor = p_col, # ouncilR::colors$suppGray,
+        fillColor = p_col,
         fillOpacity = 0.9,
         options = pathOptions(pane = "parks_geo"),
         highlightOptions = highlightOptions(
@@ -154,7 +141,6 @@ mod_pop_map_server <- function(input, output, session,
         group = "Regional Parks - search",
         stroke = TRUE,
         radius = 2000,
-        # weight = 0.5,
         color = s_col,
         fill = TRUE,
         fillColor = s_col,
@@ -183,10 +169,10 @@ mod_pop_map_server <- function(input, output, session,
         data = park_trail_geog_LONG[park_trail_geog_LONG$status == "Trail - existing", ],
         group = "Regional Trails - existing",
         stroke = TRUE,
-        weight = 3, # 3,
+        weight = 3, 
         color = e_col,
         smoothFactor = 0.3,
-        opacity = 0.9, # 0.5,
+        opacity = 0.9, 
         options = pathOptions(pane = "parks_geo"),
         popup = ~ paste0(
           "<b>", park_trail_geog_LONG[park_trail_geog_LONG$status == "Trail - existing", ]$status, "</b>", "<br>",
@@ -195,7 +181,7 @@ mod_pop_map_server <- function(input, output, session,
         ),
         highlightOptions = highlightOptions(
           stroke = TRUE,
-          color = "black", # "white",
+          color = "black", 
           weight = 6,
           bringToFront = TRUE
         )
@@ -250,7 +236,7 @@ mod_pop_map_server <- function(input, output, session,
         radius = 20,
         fill = T,
         stroke = TRUE,
-        weight = 2, # 0.75,
+        weight = 2, 
         color = councilR::colors$transitRed,
         fillColor = councilR::colors$transitRed,
         options = pathOptions(pane = "trans")
@@ -294,7 +280,6 @@ mod_pop_map_server <- function(input, output, session,
   }) #----
 
 
-  outputOptions(output, "popmap", suspendWhenHidden = FALSE)
   
   
   # pal <- case_when(
@@ -303,7 +288,6 @@ mod_pop_map_server <- function(input, output, session,
   #   TRUE ~ 
   #     colorNumeric(n = 9, palette = "Purples", domain = summary_poputil$pop_data[[1]])
   # )
-  
   
   # test <- tibble::tribble(
   #   ~var, ~pal,
@@ -314,16 +298,17 @@ mod_pop_map_server <- function(input, output, session,
   #   "popdens_2040_mi", colorQuantile(n = 9, palette = "Greens", domain = regionalparks.acs::taz_growth$popdens_2040_mi[[1]]),
   #   "POP2040", colorQuantile(n = 9, palette = "Greens", domain = regionalparks.acs::taz_growth$POP2040[[1]]))
 
+  outputOptions(output, "popmap", suspendWhenHidden = FALSE)
+  
+  
   observeEvent(list(selected_popvars$input_pop),{
     pal <- if(
       selected_popvars$input_pop == "PopDens_2019" | selected_popvars$input_pop == "popdens_2040_mi" | selected_popvars$input_pop == "growth_rel_10_40")
         (colorQuantile(n = 9, palette = "Blues", domain = summary_poputil$pop_data[[1]])) else (
         colorNumeric(n = 9, palette = "Blues", domain = summary_poputil$pop_data[[1]])
     )
-    
     (leafletProxy("popmap") %>%
       clearGroup("Population data") %>%
-      # addMapPane("Population data", zIndex = 0) %>%
       clearControls() %>%
       addPolygons(
         group = "Population data",
@@ -344,7 +329,7 @@ mod_pop_map_server <- function(input, output, session,
         ),
         options = list(zIndex = 0)
       ) %>%
-       addLegend(title = paste0(filter(popkey, popvar == selected_popvars$input_pop) %>% select(goodname)),
+       addLegend(title = paste0(filter(popkey, popvar == selected_popvars$input_pop) %>% select(short)),
                  position = "bottomleft",
                        group = "Population data",
                        layerId = "Population data",

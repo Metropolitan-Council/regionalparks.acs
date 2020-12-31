@@ -58,11 +58,7 @@ app_ui <- function(request) {
             "Weighted averages",
             mod_summary_ggplot_ui("mod_summary_ggplot_ui_1")
           ),
-          # tabPanel(id="mytabsetpanel",
-          #          "lflt",
-          #          mod_summary_map2_ui("summary_map2_ui_1")
-          # ),
-          #
+
           tabPanel(
             id = "buffermap",
             "Buffer map",
@@ -90,8 +86,7 @@ app_ui <- function(request) {
             sidebarPanel(
               mod_pop_selections_ui("pop_selections_ui_1")# mod_selections_population_ui("selections_population_ui_1"),
             ),
-            mainPanel(mod_pop_table_ui("pop_table_ui_1"),
-            mod_pop_map_ui("pop_map_ui_1")
+            mainPanel(mod_pop_map_ui("pop_map_ui_1")
           )),
           tabPanel(
             "Demographic shifts",

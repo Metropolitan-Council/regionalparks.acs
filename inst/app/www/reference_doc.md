@@ -22,105 +22,83 @@ the value of the weighted averages as a starting point for conversations
 and actions to increase equitable usage of parks and trails across the
 Metro Region.
 
+ACS statistics were used to calculate the percent of people with a
+certain characteristic within each block group or tract. We scaled these
+percentages by the 2019 small area population estimates to obtain a more
+accurate number of people within each group (this more accurate measure
+of population is not available in collar counties). Weighted averages
+were produced by multiplying by the percent overlap of a given block
+group or tract with the buffer zone around individual park and trail
+units.
+
 ### ACS Variable dictionary
 
 Specific variables from the American Community Survey which can be
-evaluated in this tool include: –\>
+evaluated in this tool include:
 
-**Age:** specific park/trail amenities are attractive to different age
-groups (e.g. younger populations may prefer play structures while older
-populations may prefer benches).
+**Age:** The age classification is based on the age of the person in
+complete years at the time of interview. People are not to round an age
+up if the person is close to having a birthday. They can estimate an age
+if the exact age is not known. An additional instruction on babies also
+asks respondents to print “0” for babies less than one year old.
 
-The age classification is based on the age of the person in complete
-years at the time of interview. Both age and date of birth are used in
-combination to calculate the most accurate age at the time of the
-interview. Respondents are asked to give an age in whole, completed
-years as of interview date as well as the month, day and year of birth.
-People are not to round an age up if the person is close to having a
-birthday They can estimate an age if the exact age is not known. An
-additional instruction on babies also asks respondents to print “0” for
-babies less than one year old.
+**Race:** The racial categories included in the census questionnaire
+generally reflect a social definition of race recognized in this country
+and not an attempt to define race biologically, anthropologically, or
+genetically. In addition, it is recognized that the categories of the
+race item include racial and national origin or sociocultural groups.
+People may choose to report more than one race to indicate their racial
+mixture, such as “American Indian” and “White.” People who identify
+their origin as Hispanic, Latino, or Spanish may be of any race.
 
-**Race:** BIPOC (Black, Indigenous, and People of Color) populations are
-historically undeserved by regional parks and trails.
+**Ethnicity:** The terms “Hispanic,” “Latino,” and “Spanish” are used
+interchangeably. Some respondents identify with all three terms while
+others may identify with only one of these three specific terms.
+Hispanics or Latinos who identify with the terms “Hispanic,” “Latino,”
+or “Spanish” are those who classify themselves in one or more of the
+specific Hispanic, Latino, or Spanish categories listed on the
+questionnaire (“Mexican,” “Puerto Rican,” or “Cuban”) as well as those
+who indicate that they are “another Hispanic, Latino, or Spanish
+origin.” People who do not identify with any of the specific origins
+listed on the questionnaire but indicate that they are “another
+Hispanic, Latino, or Spanish origin” are those who identify as
+Argentinian, Colombian, Dominican, Nicaraguan, Salvadoran, Spaniard, or
+other Spanish cultures or origins.
 
-The U.S. Census Bureau collects race data in accordance with guidelines
-provided by the U.S. Office of Management and Budget (OMB), and these
-data are based on self-identification. The racial categories included in
-the census questionnaire generally reflect a social definition of race
-recognized in this country and not an attempt to define race
-biologically, anthropologically, or genetically. In addition, it is
-recognized that the categories of the race item include racial and
-national origin or sociocultural groups. People may choose to report
-more than one race to indicate their racial mixture, such as “American
-Indian” and “White.” People who identify their origin as Hispanic,
-Latino, or Spanish may be of any race.
+**Income:** Asked of the population 15 years old and over. “Total
+income” is the sum of the amounts reported separately for wage or
+salary income; net self-employment income; interest, dividends, or net
+rental or royalty income or income from estates and trusts; Social
+Security or Railroad Retirement income; Supplemental Security Income
+(SSI); public assistance or welfare payments; retirement, survivor, or
+disability pensions; and all other income.
 
-**Ethnicity:** ethnicity is measured separately from race in the ACS,
-although race and ethnicity are often linked in practice. Hispanic
-populations are historically underserved by regional parks and trails.
+**Transportation:** These data show the number of passenger cars, vans,
+and pickup or panel trucks of one-ton (2,000 pounds) capacity or less
+kept at home and available for the use of household members. Vehicles
+rented or leased for one month or more, company vehicles, and police and
+government vehicles are included if kept at home and used for
+non-business purposes. Motorcycles or other recreational vehicles are
+excluded. Dismantled or immobile vehicles are excluded. Vehicles kept at
+home but used only for business purposes also are excluded.
 
-The terms “Hispanic,” “Latino,” and “Spanish” are used interchangeably.
-Some respondents identify with all three terms while others may identify
-with only one of these three specific terms. Hispanics or Latinos who
-identify with the terms “Hispanic,” “Latino,” or “Spanish” are those who
-classify themselves in one or more of the specific Hispanic, Latino, or
-Spanish categories listed on the questionnaire (“Mexican,” “Puerto
-Rican,” or “Cuban”) as well as those who indicate that they are “another
-Hispanic, Latino, or Spanish origin.” People who do not identify with
-any of the specific origins listed on the questionnaire but indicate
-that they are “another Hispanic, Latino, or Spanish origin” are those
-who identify as Argentinian, Colombian, Dominican, Nicaraguan,
-Salvadoran, Spaniard, or other Spanish cultures or origins.
+**Language:** Respondents who reported speaking a language other than
+English were asked to indicate their English-speaking ability based on
+one of the following categories: “Very well,” “Well,” “Not well,” or
+“Not at all.” Those who answered “Well,” “Not well,” or “Not at all”
+are sometimes referred to as “Less than ‘very well.’” Respondents were
+not instructed on how to interpret the response categories in this
+question.
 
-**Income:** lower income households are historically underserved by
-regional parks/trails.
-
-Asked of the population 15 years old and over. “Total income” is the sum
-of the amounts reported separately for wage or salary income; net
-self-employment income; interest, dividends, or net rental or royalty
-income or income from estates and trusts; Social Security or Railroad
-Retirement income; Supplemental Security Income (SSI); public assistance
-or welfare payments; retirement, survivor, or disability pensions; and
-all other income.
-
-**Transportation:** households without vehicles may access regional
-parks/trails differently than households with vehicles.
-
-The question was asked at occupied housing units. These data show the
-number of passenger cars, vans, and pickup or panel trucks of one-ton
-(2,000 pounds) capacity or less kept at home and available for the use
-of household members. Vehicles rented or leased for one month or more,
-company vehicles, and police and government vehicles are included if
-kept at home and used for non-business purposes. Motorcycles or other
-recreational vehicles are excluded. Dismantled or immobile vehicles are
-excluded. Vehicles kept at home but used only for business purposes also
-are excluded.
-
-**Language:** language proficiency may inform written and oral
-communications by regional parks/trails
-
-Respondents who reported speaking a language other than English
-(question 14a in the 2019 American Community Survey (ACS)) were asked to
-indicate their English-speaking ability (question 14c in the 2019 ACS)
-based on one of the following categories: “Very well,” “Well,” “Not
-well,” or “Not at all.” Those who answered “Well,” “Not well,” or “Not
-at all” are sometimes referred to as “Less than ‘very well.’”
-Respondents were not instructed on how to interpret the response
-categories in this question.
-
-**Ability:** Populations with disabilities are historically underserved
-by regional parks and trails.
-
-  - Disability status is determined from the answers from these six
-    types of difficulty. For children under 5 years old, hearing and
-    vision difficulty are used to determine disability status. For
-    children between the ages of 5 and 14, disability status is
-    determined from hearing, vision, cognitive, ambulatory, and
-    self-care difficulties. For people aged 15 years 63 and older, they
-    are considered to have a disability if they have difficulty with any
-    one of the six difficulty types (hearing, vision, cognitive,
-    ambulatory, self-care, independent living difficulty).
+**Ability:** Disability status is determined from the answers from six
+types of difficulty. For children under 5 years old, hearing and vision
+difficulty are used to determine disability status. For children between
+the ages of 5 and 14, disability status is determined from hearing,
+vision, cognitive, ambulatory, and self-care difficulties. For people
+aged 15 years 63 and older, they are considered to have a disability if
+they have difficulty with any one of the six difficulty types (hearing,
+vision, cognitive, ambulatory, self-care, independent living
+difficulty).
 
 **Place of birth:** Respondents were asked to select one of two
 categories: (1) in the United States, or (2) outside the United States.
@@ -418,5 +396,5 @@ Simulate Package Installation and Attach</em>.
 
 <right style="font-size: 1rem; text-align: right; display: block;">
 *Last updated 2020-12-31*  
-Build ID: 2020-12-31.roten.930eff9  
+Build ID: 2020-12-31.roten.a48c9af  
 </right>
