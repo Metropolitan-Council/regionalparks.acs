@@ -99,13 +99,31 @@ mod_summary_map_server <- function(input, output, session,
         weight = 2,
         options = pathOptions(pane = "Agency boundaries")
       ) %>%
+      addMapPane("trans", zIndex = 430) %>%
+      
+      addCircles(#Markers(
+        data = regionalparks.acs::trans_stops,
+        group = "Transit",
+        radius = 20,
+        fill = T,
+        stroke = TRUE,
+        weight = 2, # 0.75,
+        color = councilR::colors$transitRed,
+        fillColor = councilR::colors$transitRed,
+        options = pathOptions(pane = "trans")
+      ) %>%
+      groupOptions(
+        group = "Transit",
+        zoomLevels = 13:20
+      )  %>%
       addLayersControl(
         position = "bottomright",
         overlayGroups = c(
           "Parks and trails",
           "Buffers",
           "Demographic data",
-          "Agency boundaries"
+          "Agency boundaries",
+          "Transit"
         ),
         baseGroups = c(
           "Stamen Toner",

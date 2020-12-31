@@ -237,7 +237,7 @@ mod_pop_map_server <- function(input, output, session,
       addCircles(#Markers(
         data = regionalparks.acs::trans_stops,
         group = "Transit",
-        radius = 10,
+        radius = 20,
         fill = T,
         stroke = TRUE,
         weight = 2, # 0.75,
