@@ -96,16 +96,6 @@ mod_summary_utils_server <- function(input, output, session,
       mutate(hovtext = paste0("Approx. ", .$value, "% of pple within", .$distance, " mi are"))
   })
 
-
-  make_agencyavg_data <- reactive({
-    p3 <- regionalparks.acs::agency_avg %>%
-      dplyr::filter(
-        agency %in% selected_vars$input_agency,
-        ACS == selected_vars$input_acs
-      )
-    return(p3)
-  })
-
   make_map_parktrail_data <- reactive({
     p4 <- regionalparks.acs::park_trail_geog_LONG %>%
       dplyr::filter(
@@ -196,10 +186,6 @@ mod_summary_utils_server <- function(input, output, session,
 
   observe({
     vals$plot_buffer_data <- make_plot_buffer_data()
-  })
-
-  observe({
-    vals$agencyavg_data <- make_agencyavg_data()
   })
 
   observe({
