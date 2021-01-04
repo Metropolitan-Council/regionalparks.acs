@@ -50,10 +50,6 @@ app_ui <- function(request) {
         (mod_summary_selections_ui("summary_selections_ui_1")),
         tabsetPanel(
           selected = "Weighted averages",
-          # tabPanel(
-          #   "Weighted averages",
-          #   mod_summary_plot_ui("summary_plot_ui_1")
-          # ),
           tabPanel(
             "Weighted averages",
             mod_summary_ggplot_ui("mod_summary_ggplot_ui_1")
