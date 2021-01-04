@@ -11,12 +11,13 @@
 #' @import councilR
 #' @import leaflet.extras
 #' @import sf
+#' @import waiter
 mod_pop_map_ui <- function(id) {
   ns <- NS(id)
   tagList(
     # HTML('</p>The Metropolitian Council publishes current population estimates and future forecasted population estimates. Current populaton estimates are available for Census block groups. Future forecasts are based on 2010 Census data and city comprehensive plans and available at the transportation analysis zone (a coarser spatial resolution). Given the differential methods and geographies used in calcuating current and future populations, we will not perform further analyses on these data. However, the overarching patterns still may be useful in parks planning. More information and raw data can be found on the <a href = "https://metrocouncil.org/Data-and-Maps/Research-and-Data/Thrive-2040-Forecasts.aspx">Metropolitian Council website</a>.</p>'),
-
-    leafletOutput(ns("popmap"), width = "100%", height = 600)
+use_waiter(),
+leafletOutput(ns("popmap"), width = "100%", height = 600)
   )
 }
 
@@ -30,6 +31,8 @@ mod_pop_map_server <- function(input, output, session,
                                # selected_parktrail
                                ) {
   ns <- session$ns
+
+  w <- Waiter$new(id = ns("popmap"))
 
   popkey <- tibble::tribble( #------
     ~goodname, ~"popvar", ~"short",
@@ -278,9 +281,6 @@ mod_pop_map_server <- function(input, output, session,
       ) %>%
       leaflet::addScaleBar(position = c("bottomleft")) 
   }) #----
-
-
-  
   
   # pal <- case_when(
   #   selected_popvars$input_pop == "PopDens_2019" ~ 
@@ -300,8 +300,9 @@ mod_pop_map_server <- function(input, output, session,
 
   outputOptions(output, "popmap", suspendWhenHidden = FALSE)
   
-  
   observeEvent(list(selected_popvars$input_pop),{
+    w$show()
+    
     pal <- if(
       selected_popvars$input_pop == "PopDens_2019" | selected_popvars$input_pop == "popdens_2040_mi" | selected_popvars$input_pop == "growth_rel_10_40")
         (colorQuantile(n = 9, palette = "Blues", domain = summary_poputil$pop_data[[1]])) else (
@@ -335,11 +336,11 @@ mod_pop_map_server <- function(input, output, session,
                        layerId = "Population data",
                        pal = pal,
                        values = summary_poputil$pop_data[[1]]))
+    
+    on.exit({w$hide()})
   }
   )
 }
-
-
 
 ## To be copied in the UI
 # mod_pop_map_ui("pop_map_ui_1")

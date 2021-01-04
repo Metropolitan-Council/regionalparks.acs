@@ -47,7 +47,7 @@ mod_summary_table_server <- function(input, output, session,
           into = c("name", "delete2"),
           sep = c("_")
         ) %>%
-        select(-delete2, -Population) %>%
+        select(-delete2) %>% #, -Population) %>%
         mutate(name = str_replace_all(
           name,
           c(
@@ -84,7 +84,7 @@ mod_summary_table_server <- function(input, output, session,
           into = c("name", "delete2"),
           sep = c("_")
         ) %>%
-        select(-delete2, -Population) %>%
+        select(-delete2) %>% #, -Population) %>%
         mutate(name = str_replace_all(
           name,
           c(
