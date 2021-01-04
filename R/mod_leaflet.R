@@ -24,6 +24,16 @@ mod_leaflet_ui <- function(id) {
 #' @import leaflet
 #' @import councilR
 #' @import leaflet.extras
+#' @import tibble
+#' @import ggplot2
+#' @import cowplot
+#' @import plotly
+#' @import tidyr
+#' @import stringr
+#' @import forcats
+#' @import dplyr
+
+
 mod_leaflet_server <- function(input, output, session, 
                                util_leaflet, selected_map_vars) {#} tract_data = tract_data) {
   ns <- session$ns
