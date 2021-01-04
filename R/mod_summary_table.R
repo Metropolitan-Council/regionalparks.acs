@@ -33,55 +33,6 @@ mod_summary_table_server <- function(input, output, session,
                                      summary_util) {
   ns <- session$ns
 
-  # browser()
-
-  ## recode tibble (consider placing in a utils script)  ----
-  recodeadjtable <- tibble::tribble(
-    ~ACS,
-    ~nicename,
-    "adj_2019pop",
-    "Population",
-    "adj_ageunder15_per",
-    "% under age 15",
-    "adj_age15_24_per",
-    "% age 15-24",
-    "adj_age25_64_per",
-    "% age 25-64",
-    "adj_age65up_per",
-    "% age 65+",
-    "adj_whitenh_per",
-    "% White",
-    "adj_blacknh_per",
-    "% Black",
-    "adj_asiannh_per",
-    "% Asian",
-    "adj_amindnh_per",
-    "% Am. Indian",
-    "adj_othermultinh_per",
-    "% Other + Multi",
-    "adj_hisppop_per",
-    "% Hispanic",
-    "adj_nothisppop_per",
-    "% not-Hispanic",
-    "adj_meanhhi",
-    "Mean household income",
-    "adj_novehicle_per",
-    "% Housholds without a vehicle",
-    "adj_lep_per",
-    "% speaking English less than very well",
-    "adj_span_per",
-    "% Spanish speakers",
-    "adj_anydis_per",
-    "Ability, % any disability",
-    "adj_usborn_per",
-    "Origin, % US-born",
-    "adj_forborn_per",
-    "Origin, % foreign-born"
-  )
-
-  #
-  # ee comment - would love to put all the aesthetic improvements into it's own df, and then pass to the render*(), but apparently this needs to be inside a reactive expression? Doens't seem to work to pass thru a reactiveValues() command (at least as I've attempted it)
-
   output$output_datatable <- DT::renderDataTable(
     DT::datatable(
       data = (summary_util$table_buffer_data %>%
