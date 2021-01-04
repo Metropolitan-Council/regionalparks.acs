@@ -46,12 +46,6 @@ app_server <- function(input, output, session) {
     summary_util = summary_util_vars
   ) 
 
-
-  callModule(mod_summary_plot_server, "summary_plot_ui_1",
-    selected_vars = selected_input_vars,
-    summary_util = summary_util_vars
-  )
-
   callModule(mod_summary_ggplot_server, "mod_summary_ggplot_ui_1",
     selected_vars = selected_input_vars,
     summary_util = summary_util_vars
@@ -73,8 +67,6 @@ app_server <- function(input, output, session) {
 
   callModule(mod_pop_map_server, "pop_map_ui_1",
     selected_popvars = selected_population_vars,
-    # selected_parktrail = selected_parktrail_vars,
-    # parktrail_util = global_util_parktrail,
     summary_poputil = summary_util_popvars
   )
   
