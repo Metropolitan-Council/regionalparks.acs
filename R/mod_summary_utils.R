@@ -129,29 +129,9 @@ mod_summary_utils_server <- function(input, output, session,
     return(p5)
   })
 
-  # recode_bg_names <- tibble::tribble( # recode bg names ----
-  #   ~block_group_name, ~acs_selection,
-  #   "ageunder15_percent", "adj_ageunder15_per",
-  #   "age15_24_percent", "adj_age15_24_per",
-  #   "age25_64_percent", "adj_age25_64_per",
-  #   "age65up_percent", "adj_age65up_per",
-  #   "whitenh_percent", "adj_whitenh_per",
-  #   "blacknh_percent", "adj_blacknh_per",
-  #   "asiannh_percent", "adj_asiannh_per",
-  #   "amindnh_percent", "adj_amindnh_per",
-  #   "othermutltnh_percent", "adj_othermultinh",
-  #   "hisppop_percent", "adj_hisppop_per",
-  #   "nothisppop_percent", "adj_nothisppop_per",
-  #   "meanhhinc", "adj_meanhhi",
-  #   "novehicle_percent", "adj_novehicle_per",
-  #   "poorenglish_percent", "adj_lep_per",
-  #   "spanish_percent", "adj_span_per"
-  # )
-
   tractdata <- tibble(ACS = c("adj_anydis_per", "adj_forborn_per", "adj_usborn_per"))
 
   make_map_bg_data <- reactive({
-    # p6 <- regionalparks.acs::bg_geo[selected_vars$input_acs]
     p6 <- if (selected_vars$input_acs %in% tractdata$ACS) {
       regionalparks.acs::census_tract %>%
         mutate(
@@ -229,18 +209,6 @@ mod_summary_utils_server <- function(input, output, session,
   observe({
     vals$map_buffer_data <- make_map_buffer_data()
   })
-
-  # observe({
-  #   vals$plotly_buffer_data <- make_plotly_buffer_data()
-  # })
-
-  observe({
-    vals$plotly_height <- nrow(make_plot_buffer_data())
-  })
-
-  # observe({
-  #   vals$plot_rawbuffer_data <- make_plot_rawbuffer_data()
-  # })
 
   observe({
     vals$map_bg_data <- make_map_bg_data()
