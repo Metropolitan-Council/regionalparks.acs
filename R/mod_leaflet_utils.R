@@ -35,7 +35,7 @@ mod_leaflet_utils_server <- function(input, output, session, selected_map_vars){
   
   make_leafletacs_data <- reactive({
     # p6 <- regionalparks.acs::bg_geo[selected_map_vars$input_acs]
-    p6 <- 
+
     #   if (selected_map_vars$input_acs %in% tractdata$ACS) (
     #   regionalparks.acs::census_tract %>%
     #     mutate(
@@ -52,7 +52,7 @@ mod_leaflet_utils_server <- function(input, output, session, selected_map_vars){
     # )
     # 
     # else (
-      regionalparks.acs::block_group %>%
+    p6 <-      regionalparks.acs::block_group %>%
         mutate(
           ageunder15_percent = ageunder15_percent * 100,
           age15_24_percent = age15_24_percent * 100,
