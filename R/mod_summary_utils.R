@@ -41,7 +41,7 @@ mod_summary_utils_server <- function(input, output, session,
         name, " (", status, ")", " falls into the ",
         "<b>", acs_short, "</b>",
         " category"
-      ), 55))
+      ), 55)) 
     return(p)
   })
 
@@ -102,7 +102,7 @@ mod_summary_utils_server <- function(input, output, session,
         agency %in% selected_vars$input_agency,
         Type %in% selected_vars$input_type,
         status2 %in% selected_vars$input_status
-      )
+      )%>% st_transform(4326)
     return(p4)
   })
 
@@ -115,7 +115,7 @@ mod_summary_utils_server <- function(input, output, session,
         status %in% selected_vars$input_status,
         distance == selected_vars$input_distance
       ) %>%
-      separate(name, into = c("name", "delete"), sep = "_")
+      separate(name, into = c("name", "delete"), sep = "_")%>% st_transform(4326)
     return(p5)
   })
 
@@ -134,7 +134,7 @@ mod_summary_utils_server <- function(input, output, session,
           "adj_usborn_per" = "usborn_percent",
           "adj_forborn_per" = "forborn_percent"
         ) %>%
-        select(selected_vars$input_acs)
+        select(selected_vars$input_acs)%>% st_transform(4326)
     }
 
     else {
@@ -172,7 +172,7 @@ mod_summary_utils_server <- function(input, output, session,
           "adj_lep_per" = "poorenglish_percent",
           "adj_span_per" = "spanish_percent"
         ) %>%
-        select(selected_vars$input_acs)
+        select(selected_vars$input_acs)%>% st_transform(4326)
     }
     return(p6)
   })

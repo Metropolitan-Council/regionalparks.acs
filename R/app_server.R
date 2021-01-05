@@ -21,16 +21,16 @@ app_server <- function(input, output, session) {
 
   # ACS Map tab ----------------------------------------------------------------
   # tract_data <- callModule(mod_input_demos_server, "input_demos_ui_1")
-  selected_map_vars2 <- callModule(mod_input_demos_server, "input_demos_ui_1")
-
-  util_leaflet2 <- callModule(mod_leaflet_utils_server, "leaflet_utils_ui_1",
-                              selected_map_vars = selected_map_vars2)
-  
-
-
-  callModule(mod_leaflet_server, "leaflet_ui_1", 
-             util_leaflet = util_leaflet2, 
-             selected_map_vars = selected_map_vars2)#tract_data)
+  # selected_map_vars2 <- callModule(mod_input_demos_server, "input_demos_ui_1")
+  # 
+  # util_leaflet2 <- callModule(mod_leaflet_utils_server, "leaflet_utils_ui_1",
+  #                             selected_map_vars = selected_map_vars2)
+  # 
+  # 
+  # 
+  # callModule(mod_leaflet_server, "leaflet_ui_1", 
+  #            util_leaflet = util_leaflet2, 
+  #            selected_map_vars = selected_map_vars2)#tract_data)
 
   # ACS Summary tab ------------------------------------------------------------
   ## get input values

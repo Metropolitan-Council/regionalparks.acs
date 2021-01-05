@@ -21,20 +21,20 @@ app_ui <- function(request) {
         mod_intro_ui("intro_ui_1")
       ),
 
-      ## map tab -----
-      tabPanel(
-        "Map",
-        shiny::wellPanel(
-          shiny::p("This map provides a general overview of population characteristics across the 7-county Twin Cities region and adjacent areas. Data is from the 5-year American Community Survey (2015-2019) and shows the highest spatial resolution possible by variable (either Census tract or block group). Each demographic characteristic is shown as a percentage of the total population, with the exception of median household income, which is displayed in dollars. The darker the color, the higher the percentage (or income in dollars).")
-        ),
-
-        sidebarPanel(
-          mod_input_demos_ui(id = "input_demos_ui_1"),
-        ),
-        mainPanel(
-          mod_leaflet_ui(id = "leaflet_ui_1")
-        )
-      ),
+      # ## map tab -----
+      # tabPanel(
+      #   "Map",
+      #   shiny::wellPanel(
+      #     shiny::p("This map provides a general overview of population characteristics across the 7-county Twin Cities region and adjacent areas. Data is from the 5-year American Community Survey (2015-2019) and shows the highest spatial resolution possible by variable (either Census tract or block group). Each demographic characteristic is shown as a percentage of the total population, with the exception of median household income, which is displayed in dollars. The darker the color, the higher the percentage (or income in dollars).")
+      #   ),
+      # 
+      #   sidebarPanel(
+      #     mod_input_demos_ui(id = "input_demos_ui_1"),
+      #   ),
+      #   mainPanel(
+      #     mod_leaflet_ui(id = "leaflet_ui_1")
+      #   )
+      # ),
 
       # acs summary tab -----
       tabPanel(
