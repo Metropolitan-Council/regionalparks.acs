@@ -142,3 +142,33 @@ park_trail_geog_LONG
 taz_growth
 trans_stops
 
+
+# reproject
+```{r}
+agency_boundary <- agency_boundary %>% st_transform(3857)
+usethis::use_data(agency_boundary, overwrite = TRUE)
+
+block_group <- block_group %>% st_transform(3857)
+usethis::use_data(block_group, overwrite = TRUE)
+
+buffer_geo <- buffer_geo %>% st_transform(3857)
+usethis::use_data(buffer_geo, overwrite = TRUE)
+
+census_tract <- census_tract %>% st_transform(3857)
+usethis::use_data(census_tract, overwrite = TRUE)
+
+county_outlines <- county_outlines %>% st_transform(3857)
+usethis::use_data(county_outlines, overwrite = TRUE)
+
+est_pop <- est_pop %>% st_transform(3857)
+usethis::use_data(est_pop, overwrite = TRUE)
+
+park_trail_geog_LONG <- park_trail_geog_LONG %>% st_transform(3857)
+usethis::use_data(park_trail_geog_LONG, overwrite = TRUE)
+
+taz_growth <- taz_growth %>% st_transform(3857)
+usethis::use_data(taz_growth, overwrite = TRUE)
+
+trans_stops <- trans_stops %>% st_transform(3857)
+usethis::use_data(trans_stops, overwrite = TRUE)
+```
