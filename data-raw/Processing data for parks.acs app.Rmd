@@ -127,4 +127,18 @@ source("pop_est.R")
 ```{r transit, message=FALSE, warning = F, echo = F}
 ```
 
+## Only keep final files
+agency_avg
+agency_boundary
+block_group
+buffer_geo
+census_tract
+collar_filter
+county_outlines
+demo_shifts
+est_pop
+long_buffer_data
+park_trail_geog_LONG
+taz_growth
+trans_stops
 
