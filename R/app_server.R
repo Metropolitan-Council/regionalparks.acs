@@ -16,22 +16,21 @@ app_server <- function(input, output, session) {
   #   print(input$tab_being_displayed)
   # })
 
-  # # Introduction tab -----------------------------------------------------------
+  # # Introduction/Notes tab -----------------------------------------------------------
   callModule(mod_intro_server, "intro_ui_1")
-
+  
+  callModule(mod_notes_server, "notes_ui_1")
+  
   # ACS Map tab ----------------------------------------------------------------
-  # tract_data <- callModule(mod_input_demos_server, "input_demos_ui_1")
-  # selected_map_vars2 <- callModule(mod_input_demos_server, "input_demos_ui_1")
-  # 
-  # util_leaflet2 <- callModule(mod_leaflet_utils_server, "leaflet_utils_ui_1",
-  #                             selected_map_vars = selected_map_vars2)
-  # 
-  # 
-  # 
-  # callModule(mod_leaflet_server, "leaflet_ui_1", 
-  #            util_leaflet = util_leaflet2, 
-  #            selected_map_vars = selected_map_vars2)#tract_data)
+  selected_map_vars <- callModule(mod_input_demos_server, "input_demos_ui_1")
 
+ util_leaflet <- callModule(mod_leaflet_utils_server, "leaflet_utils_ui_1",
+                            selected_map_vars = selected_map_vars)
+
+  callModule(mod_leaflet_server, "leaflet_ui_1",
+             selected_map_vars = selected_map_vars,
+             util_leaflet = util_leaflet)
+  
   # ACS Summary tab ------------------------------------------------------------
   ## get input values
   selected_input_vars <- callModule(mod_summary_selections_server, "summary_selections_ui_1")
@@ -44,7 +43,7 @@ app_server <- function(input, output, session) {
   callModule(mod_summary_table_server, "summary_table_ui_1",
     selected_vars = selected_input_vars,
     summary_util = summary_util_vars
-  ) 
+  )
 
   callModule(mod_summary_ggplot_server, "mod_summary_ggplot_ui_1",
     selected_vars = selected_input_vars,
@@ -69,6 +68,6 @@ app_server <- function(input, output, session) {
     selected_popvars = selected_population_vars,
     summary_poputil = summary_util_popvars
   )
-  
+
   callModule(mod_pop_demoshifts_server, "pop_demoshifts_ui_1")
 }

@@ -18,7 +18,7 @@ mod_summary_utils_ui <- function(id) {
 mod_summary_utils_server <- function(input, output, session,
                                      selected_vars) {
   ns <- session$ns
-
+  
   make_table_buffer_data <- reactive({
     p <- regionalparks.acs::long_buffer_data %>%
       dplyr::filter(
@@ -44,7 +44,7 @@ mod_summary_utils_server <- function(input, output, session,
       ), 55)) 
     return(p)
   })
-
+  
   make_plot_buffer_data <- reactive({
     make_table_buffer_data() %>%
       dplyr::filter(
@@ -63,7 +63,7 @@ mod_summary_utils_server <- function(input, output, session,
         name = forcats::fct_reorder(name, (value))
       )
   })
-
+  
   make_facet_data <- reactive({
     regionalparks.acs::agency_avg %>%
       filter(
@@ -95,18 +95,18 @@ mod_summary_utils_server <- function(input, output, session,
       rename(value = starts_with("adj")) %>%
       mutate(hovtext = paste0("Approx. ", .$value, "% of pple within", .$distance, " mi are"))
   })
-
+  
   make_map_parktrail_data <- reactive({
     p4 <- regionalparks.acs::park_trail_geog_LONG %>%
       dplyr::filter(
         agency %in% selected_vars$input_agency,
         Type %in% selected_vars$input_type,
         status2 %in% selected_vars$input_status
-      )%>% st_transform(4326)
+      )
     return(p4)
   })
-
-
+  
+  
   make_map_buffer_data <- reactive({
     p5 <- regionalparks.acs::buffer_geo %>%
       dplyr::filter(
@@ -115,15 +115,15 @@ mod_summary_utils_server <- function(input, output, session,
         status %in% selected_vars$input_status,
         distance == selected_vars$input_distance
       ) %>%
-      separate(name, into = c("name", "delete"), sep = "_")%>% st_transform(4326)
+      separate(name, into = c("name", "delete"), sep = "_")
     return(p5)
   })
-
+  
   tractdata <- tibble(ACS = c("adj_anydis_per", "adj_forborn_per", "adj_usborn_per"))
-
+  
   make_map_bg_data <- reactive({
-    p6 <- if (selected_vars$input_acs %in% tractdata$ACS) {
-      regionalparks.acs::census_tract %>%
+    p6 <- if (selected_vars$input_acs %in% tractdata$ACS) (
+  regionalparks.acs::census_tract %>%
         mutate(
           disab_percent = `Disability, any disability` * 100,
           usborn_percent = `Origin, US-born` * 100,
@@ -134,11 +134,11 @@ mod_summary_utils_server <- function(input, output, session,
           "adj_usborn_per" = "usborn_percent",
           "adj_forborn_per" = "forborn_percent"
         ) %>%
-        select(selected_vars$input_acs)%>% st_transform(4326)
-    }
-
+        select(selected_vars$input_acs)
+  )
+    
     else {
-      regionalparks.acs::block_group %>%
+  regionalparks.acs::block_group %>%
         mutate(
           ageunder15_percent = ageunder15_percent * 100,
           age15_24_percent = age15_24_percent * 100,
@@ -172,38 +172,38 @@ mod_summary_utils_server <- function(input, output, session,
           "adj_lep_per" = "poorenglish_percent",
           "adj_span_per" = "spanish_percent"
         ) %>%
-        select(selected_vars$input_acs)%>% st_transform(4326)
+        select(selected_vars$input_acs)
     }
     return(p6)
   })
-
-
+  
+  
   vals <- reactiveValues()
-
+  
   observe({
     vals$table_buffer_data <- make_table_buffer_data()
   })
-
+  
   observe({
     vals$plot_buffer_data <- make_plot_buffer_data()
   })
-
+  
   observe({
     vals$map_parktrail_data <- make_map_parktrail_data()
   })
-
+  
   observe({
     vals$map_buffer_data <- make_map_buffer_data()
   })
-
+  
   observe({
     vals$map_bg_data <- make_map_bg_data()
   })
-
+  
   observe({
     vals$facet_data <- make_facet_data()
   })
-
+  
   return(vals)
 }
 

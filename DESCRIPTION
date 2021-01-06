@@ -30,10 +30,8 @@ Imports:
     htmltools,
     cowplot (>= 1.1.0),
     tibble (>= 3.0.4),
-    ggplot2,
     forcats,
     stringr,
-    plotly,
     tidyr,
     DT,
     waiter

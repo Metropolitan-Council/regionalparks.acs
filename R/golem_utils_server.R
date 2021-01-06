@@ -62,18 +62,17 @@ drop_nulls <- function(x) {
 rv <- shiny::reactiveValues
 rvtl <- shiny::reactiveValuesToList
 
-
+#' @import leaflet
+#' @import tibble
+#' @import dplyr 
+#' @import ggplot2
+#' @import sf
+#' @import tidyr
+#' @import stringr
+#' @import cowplot
+#' @import councilR
 e_col <- "#78A22F" # CD green
-# p_col <- "#38AAAA"
-# s_col <- "#C29661" #orange
-
-# e_col <- "#009e61" green
-# p_col <- "#C29661" #orange
-# s_col <- "#FDE725" #yellow
-
-#with blue palette
-# e_col <- "#628821" #green
-p_col <- "#AA5FEC"#"#1CBFBF"#"#3DB5B5" #teal
+p_col <- "#AA5FEC" #purple
 s_col <- "#DDCC77" #yellow
 
 renamekey <- tibble::tribble(
@@ -140,4 +139,14 @@ recodeadjtable <- tibble::tribble(
   "Origin, % US-born",
   "adj_forborn_per",
   "Origin, % foreign-born"
+)
+
+popkey <- tibble::tribble( #------
+                           ~goodname, ~"popvar", ~"short",
+                           "2019 pop.", "PopEst_2019", "2019 pop.\n(persons)",
+                           "2019 pop. density",  "PopDens_2019", "2019 density\n(by percentile)",
+                           "2040 pop.", "POP2040",  "2040 pop.\n(persons)",
+                           "2040 pop. density", "popdens_2040_mi", "2040 density\n(by percentile)",
+                           "Growth, relative", "growth_rel_10_40","Relative growth\n(by percentile)",
+                           "Growth, absolute", "growth_abs_10_40", "Absolute growth\n(persons)"
 )

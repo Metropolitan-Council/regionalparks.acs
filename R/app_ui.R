@@ -20,28 +20,28 @@ app_ui <- function(request) {
         "Introduction",
         mod_intro_ui("intro_ui_1")
       ),
+      
+      ## map tab -----
+      tabPanel(
+        "Map",
+        shiny::wellPanel(
+          shiny::p("This map provides a general overview of population characteristics across the 7-county Twin Cities region and adjacent areas. Data is from the 5-year American Community Survey (2015-2019) and shows the highest spatial resolution possible by variable (either Census tract or block group). Each demographic characteristic is shown as a percentage of the total population, with the exception of median household income, which is displayed in dollars. The darker the color, the higher the percentage (or income in dollars).")
+        ),
 
-      # ## map tab -----
-      # tabPanel(
-      #   "Map",
-      #   shiny::wellPanel(
-      #     shiny::p("This map provides a general overview of population characteristics across the 7-county Twin Cities region and adjacent areas. Data is from the 5-year American Community Survey (2015-2019) and shows the highest spatial resolution possible by variable (either Census tract or block group). Each demographic characteristic is shown as a percentage of the total population, with the exception of median household income, which is displayed in dollars. The darker the color, the higher the percentage (or income in dollars).")
-      #   ),
-      # 
-      #   sidebarPanel(
-      #     mod_input_demos_ui(id = "input_demos_ui_1"),
-      #   ),
-      #   mainPanel(
-      #     mod_leaflet_ui(id = "leaflet_ui_1")
-      #   )
-      # ),
+        sidebarPanel(
+          mod_input_demos_ui(id = "input_demos_ui_1"),
+        ),
+        mainPanel(
+          mod_leaflet_ui(id = "leaflet_ui_1")
+        )
+      ),
 
       # acs summary tab -----
       tabPanel(
         title = "Summary",
         id = "sumtabs",
         HTML("<p>Population characteristics within a given buffer zone around park and trail units are summarized in several ways. The <em>Weighted averages</em> tab distills complex spatial demographic patterns into a single summary statistic, and will be appropriate for most uses. The <em>Buffer map</em> tab shows the spatial demographic patterns with the buffer analysis zones overlayed. The <em>Download tabular data</em> tab displays summary statistics for all ACS variables in tabular form.</p>"),
-
+        
         (mod_summary_selections_ui("summary_selections_ui_1")),
         tabsetPanel(
           selected = "Weighted averages",
@@ -49,7 +49,7 @@ app_ui <- function(request) {
             "Weighted averages",
             mod_summary_ggplot_ui("mod_summary_ggplot_ui_1")
           ),
-
+          
           tabPanel(
             id = "buffermap",
             "Buffer map",
@@ -57,12 +57,12 @@ app_ui <- function(request) {
           ),
           tabPanel(
             "Download tabular data",
-            mod_summary_download_ui("summary_download_ui_1"),
+            # mod_summary_download_ui("summary_download_ui_1"),
             mod_summary_table_ui("summary_table_ui_1")
           )
         )
       ),
-
+      
       # Pop growth tab -----
       tabPanel(
         "Population Growth",

@@ -11,7 +11,7 @@ mod_summary_map_ui <- function(id) {
   ns <- NS(id)
   tagList(
     shiny::p("This map visualizes the geospatial location of the buffers around the user-selected parks and trails along with the selected demographic data. For the demographic data, darker colors mean higher values and lighter colors mean lower values. Demographic data can be turned off using the layer controls found at the bottom right of the map."),
-
+    
     leafletOutput(ns("buffermap"), height = 700)
   )
 }
@@ -26,50 +26,7 @@ mod_summary_map_server <- function(input, output, session,
                                    summary_util,
                                    selected_vars) {
   ns <- session$ns
-
-  renamekey <- tibble::tribble( #------
-    ~goodname,
-    ~"ACS",
-    "Total population",
-    "adj_2019pop",
-    "Age, % under 15",
-    "adj_ageunder15_per",
-    "Age, % 15-24",
-    "adj_age15_24_per",
-    "Age, % 25-64",
-    "adj_age25_64_per",
-    "Age, % 65 and up",
-    "adj_age65up_per",
-    "Race, % White",
-    "adj_whitenh_per",
-    "Race, % Black",
-    "adj_blacknh_per",
-    "Race, % Asian",
-    "adj_asiannh_per",
-    "Race, % American Indian",
-    "adj_amindnh_per",
-    "Race, % Other + Multiracial",
-    "adj_othermultinh_per",
-    "Ethnicity, % Hispanic",
-    "adj_hisppop_per",
-    "Ethnicity, % not-Hispanic",
-    "adj_nothisppop_per",
-    "Mean household income",
-    "adj_meanhhi",
-    "% Housholds without a vehicle",
-    "adj_novehicle_per",
-    "% speaking English less than very well",
-    "adj_lep_per",
-    "% Spanish speakers",
-    "adj_span_per",
-    "Ability, % any disability",
-    "adj_anydis_per",
-    "Origin, % US-born",
-    "adj_usborn_per",
-    "Origin, % foreign-born",
-    "adj_forborn_per"
-  )
-
+  
   output$buffermap <- renderLeaflet({ # buf map --------
     leaflet() %>%
       setView(
@@ -142,7 +99,7 @@ mod_summary_map_server <- function(input, output, session,
         ),
         options = layersControlOptions(collapsed = F)
       ) %>%
-
+      
       #   htmlwidgets::onRender(
       #     "
       #     function() {
@@ -153,13 +110,17 @@ mod_summary_map_server <- function(input, output, session,
       leaflet::addScaleBar(position = c("bottomleft"))
   }) #----
   
-  outputOptions(output, "buffermap", suspendWhenHidden = FALSE)
+  # outputOptions(output, "buffermap", suspendWhenHidden = FALSE)
+
+  
+    toListen_parktrail <- reactive({
+    list(selected_vars$input_agency,
+         selected_vars$input_type,
+         selected_vars$input_status)
+  })
   
   observeEvent(
-    c(selected_vars$input_agency,
-      selected_vars$input_type,
-      selected_vars$input_status
-    ),
+    toListen_parktrail(),
     {
       leafletProxy("buffermap") %>%
         clearGroup("Parks and trails") %>%
@@ -222,7 +183,7 @@ mod_summary_map_server <- function(input, output, session,
         )
     }
   )
-
+  
   observeEvent(c(selected_vars$input_acs), {
     pal <- (colorNumeric(n = 9, palette = "Blues", domain = summary_util$map_bg_data[[1]])) 
     
@@ -243,7 +204,7 @@ mod_summary_map_server <- function(input, output, session,
           palette = "Blues",
           domain = summary_util$map_bg_data[[1]]
         )(summary_util$map_bg_data[[1]]),
-
+        
         popup = if (selected_vars$input_acs == "adj_meanhhi") {
           ~ paste0(tags$strong(filter(renamekey, ACS == selected_vars$input_acs) %>% select(goodname)), ": $", format(summary_util$map_bg_data[[1]], big.mark = ","))
         } else {
@@ -262,57 +223,60 @@ mod_summary_map_server <- function(input, output, session,
                 pal = pal,
                 values = summary_util$map_bg_data[[1]])
   })
-
-
+  
+  toListen_buffer <- reactive({
+    list(selected_vars$input_distance, selected_vars$input_agency, selected_vars$input_type, selected_vars$input_status)
+  })
+  
   observeEvent( # add buffers -------
-    c(selected_vars$input_distance, selected_vars$input_agency, selected_vars$input_type, selected_vars$input_status),
-    {
-      leafletProxy("buffermap") %>%
-        clearGroup("Buffers") %>%
-        # clearControls()
-        addPolygons(
-          options = pathOptions(pane = "buff"),
-          
-          data = summary_util$map_buffer_data,
-          group = "Buffers",
-          stroke = TRUE,
-          weight = 2,
-          color = "black",#"#616161",
-          fill = FALSE,
-          # fillColor = "transparent",
-          opacity = .4,
-          fillOpacity = .005,
-          highlightOptions = highlightOptions(
-            stroke = TRUE,
-            color = "black",
-            weight = 6,
-            bringToFront = TRUE,
-            sendToBack = TRUE,
-            opacity = 1
-          ),
-          popup = ~ paste0(
-            "<b>",
-            "Buffer: ",
-            summary_util$map_buffer_data$status,
-            ", ",
-            summary_util$map_buffer_data$type,
-            "</b>",
-            "<br>",
-            summary_util$map_buffer_data$name,
-            "<br>",
-            "<em>",
-            summary_util$map_buffer_data$agency,
-            "</em>"
-          ),
-          popupOptions = popupOptions(
-            closeButton = FALSE,
-            style = list(
-              "font-size" = "18px",
-              "font-family" = "Arial"
-            )
-          )
-        )
-    }
+                toListen_buffer(),
+                {
+                  leafletProxy("buffermap") %>%
+                    clearGroup("Buffers") %>%
+                    # clearControls()
+                    addPolygons(
+                      options = pathOptions(pane = "buff"),
+
+                      data = summary_util$map_buffer_data,
+                      group = "Buffers",
+                      stroke = TRUE,
+                      weight = 2,
+                      color = "black",#"#616161",
+                      fill = FALSE,
+                      # fillColor = "transparent",
+                      opacity = .4,
+                      fillOpacity = .005,
+                      highlightOptions = highlightOptions(
+                        stroke = TRUE,
+                        color = "black",
+                        weight = 6,
+                        bringToFront = TRUE,
+                        sendToBack = TRUE,
+                        opacity = 1
+                      ),
+                      popup = ~ paste0(
+                        "<b>",
+                        "Buffer: ",
+                        summary_util$map_buffer_data$status,
+                        ", ",
+                        summary_util$map_buffer_data$type,
+                        "</b>",
+                        "<br>",
+                        summary_util$map_buffer_data$name,
+                        "<br>",
+                        "<em>",
+                        summary_util$map_buffer_data$agency,
+                        "</em>"
+                      ),
+                      popupOptions = popupOptions(
+                        closeButton = FALSE,
+                        style = list(
+                          "font-size" = "18px",
+                          "font-family" = "Arial"
+                        )
+                      )
+                    )
+                }
   )
 }
 
