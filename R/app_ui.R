@@ -56,8 +56,8 @@ app_ui <- function(request) {
             mod_summary_map_ui("summary_map_ui_1")
           ),
           tabPanel(
-            "Download tabular data",
-            # mod_summary_download_ui("summary_download_ui_1"),
+            "Download tabular data", br(),
+            mod_summary_download_ui("summary_download_ui_1"),
             mod_summary_table_ui("summary_table_ui_1")
           )
         )

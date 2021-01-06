@@ -16,8 +16,7 @@ mod_summary_table_ui <- function(id) {
         width = 12
       ),
       
-      column(downloadButton(outputID = ns("downloadData"), "Download tabular data"), width = 6),
-      HTML("<br>"),
+      # column(downloadButton(outputID = ns("downloadData"), "Download tabular data"), width = 6),
       hr(),
       
       column(DT::dataTableOutput(outputId = ns("output_datatable")), width = 12)
@@ -69,42 +68,42 @@ mod_summary_table_server <- function(input, output, session,
   )
   
   
-  output$downloadData <- downloadHandler(
-    filename = paste0("ParksACS_", Sys.Date(), ".csv"),
-    content = function(file) {
-      write.csv(summary_util$table_buffer_data %>%
-                  left_join(recodeadjtable) %>%
-                  select(-ACS) %>%
-                  rename(ACS = nicename) %>%
-                  filter(!is.na(ACS)) %>%
-                  mutate(value = round(value, 1)) %>%
-                  select(agency, name, type, status, distance, ACS, value) %>%
-                  pivot_wider(names_from = ACS, values_from = value) %>%
-                  separate(name,
-                           into = c("name", "delete2"),
-                           sep = c("_")
-                  ) %>%
-                  select(-delete2) %>% #, -Population) %>%
-                  mutate(name = str_replace_all(
-                    name,
-                    c(
-                      "Regional Park" = "RP",
-                      "Regional Trail" = "RT",
-                      "Park Reserve" = "PR"
-                    )
-                  )) %>%
-                  rename(
-                    Agency = agency,
-                    Name = name,
-                    Type = type,
-                    Status = status,
-                    `Buffer Dist.` = distance
-                  ),
-                file,
-                row.names = FALSE
-      )
-    }
-  )
+  # output$downloadData <- downloadHandler(
+  #   filename = paste0("ParksACS_", Sys.Date(), ".csv"),
+  #   content = function(file) {
+  #     write.csv(summary_util$table_buffer_data %>%
+  #                 left_join(recodeadjtable) %>%
+  #                 select(-ACS) %>%
+  #                 rename(ACS = nicename) %>%
+  #                 filter(!is.na(ACS)) %>%
+  #                 mutate(value = round(value, 1)) %>%
+  #                 select(agency, name, type, status, distance, ACS, value) %>%
+  #                 pivot_wider(names_from = ACS, values_from = value) %>%
+  #                 separate(name,
+  #                          into = c("name", "delete2"),
+  #                          sep = c("_")
+  #                 ) %>%
+  #                 select(-delete2) %>% #, -Population) %>%
+  #                 mutate(name = str_replace_all(
+  #                   name,
+  #                   c(
+  #                     "Regional Park" = "RP",
+  #                     "Regional Trail" = "RT",
+  #                     "Park Reserve" = "PR"
+  #                   )
+  #                 )) %>%
+  #                 rename(
+  #                   Agency = agency,
+  #                   Name = name,
+  #                   Type = type,
+  #                   Status = status,
+  #                   `Buffer Dist.` = distance
+  #                 ),
+  #               file,
+  #               row.names = FALSE
+  #     )
+  #   }
+  # )
 }
 
 ## To be copied in the UI
