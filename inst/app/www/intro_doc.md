@@ -33,7 +33,7 @@ trail system. The tool incorporates existing, planned, and search areas
 for parks and trails. Within this tab, there are **weighted averages**
 which will be suitable for most users, a **buffer map** which
 illustrates the buffer zones geospatially, and the option for users to
-**download tabular data**
+**download tabular data**.
 
 **Population Growth** - is an interactive map which allows users to view
 estimated population growth through 2040 alongside regional parks and
