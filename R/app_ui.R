@@ -11,7 +11,7 @@ app_ui <- function(request) {
     golem_add_external_resources(),
 
     # List the first level UI elements here
-    navbarPage("Regional Parks and Trails Equity Tool",
+    navbarPage(title = div(img(src="www/main-logo.png")),
       id = "nav",
 
 
