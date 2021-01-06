@@ -40,7 +40,7 @@ app_ui <- function(request) {
       tabPanel(
         title = "Summary",
         id = "sumtabs",
-        HTML("<p>Population characteristics within a given buffer zone around park and trail units are summarized in several ways. The <em>Weighted averages</em> tab distills complex spatial demographic patterns into a single summary statistic, and will be appropriate for most uses. The <em>Buffer map</em> tab shows the spatial demographic patterns with the buffer analysis zones overlayed. The <em>Download tabular data</em> tab displays summary statistics for all ACS variables in tabular form.</p>"),
+        HTML("<p>Population characteristics within a given buffer zone around park and trail units are summarized in several ways. The <em>Weighted averages</em> tab distills complex spatial demographic patterns into a single summary statistic and will be appropriate for most uses. The <em>Buffer map</em> tab shows the spatial demographic patterns with the buffer analysis zones overlayed. The <em>Download tabular data</em> tab displays summary statistics for all ACS variables in tabular form.</p>"),
         
         (mod_summary_selections_ui("summary_selections_ui_1")),
         tabsetPanel(
@@ -67,10 +67,10 @@ app_ui <- function(request) {
       tabPanel(
         "Population Growth",
         shiny::p(
-          'The Metropolitian Council publishes current population estimates and future forecasted population estimates. Current populaton estimates are available for Census block groups. Future forecasts are based on 2010 Census data and city comprehensive plans and available at the transportation analysis zone (a coarser spatial resolution than Census block groups). Forecasts of shifting population demographics (race/ethnicity and age) are only available at the regional level. Given the differential methods and geographies used in calcuating current and future populations, we will not perform further analyses on these data. However, the overarching patterns still may be useful in parks planning. More information and raw data can be found on the ',
+          'The Metropolitan Council publishes current population estimates and future forecasted population estimates. Current population estimates are available for Census block groups. Future forecasts are based on 2010 Census data and city comprehensive plans and available at the transportation analysis zone (a coarser spatial resolution than Census block groups). Forecasts of shifting population demographics (race/ethnicity and age) are only available at the regional level. Given the differential methods and geographies used in calculating current and future populations, we will not perform further analyses on these data. However, the overarching patterns still may be useful in parks planning. More information and raw data can be found on the ',
           a(
             href = "https://metrocouncil.org/Data-and-Maps/Research-and-Data/Thrive-2040-Forecasts.aspx",
-            "Metropolitian Council website.",
+            "Metropolitan Council website.",
             .noWS = "outside"
           )
         ),
