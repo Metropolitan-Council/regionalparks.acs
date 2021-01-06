@@ -43,7 +43,7 @@ hr {
 	width: 99%;
 }
 
-
+/*
 #input_demos_ui_1-inputCensusTracts {
 	margin-left: 5%;
 	z-index: 900;
@@ -58,54 +58,65 @@ hr {
 #mod_summary_ggplot_ui_1-text_info {
   font-size: 1.6rem;
 }
+*/
 
+/*
 .navbar.navbar-default.navbar-static-top {
 	margin-bottom: 12px;
 }
 
+*/
 .navbar-default {
-	background-color: white;
-	border-color: white;
-	color: var(--council-black);
-	font-size: 1.8rem;
+	background-color: #ededed;
+	border-color: #ededed;
+//  color: #0054a4; 
+	font-size: 16px; 
+	font-weight: bold;
+	text-transform: uppercase;
+	margin-right: 10px;
+	margin-left: 10px;
+	font-family: Roman, Helvetica, Tahoma, Geneva, Arial, sans-serif;
+	height: 95px;
+	vertical-align:middle;
 }
 
+/*
 .navbar-brand {
   font-family: Light, Helvetica, Tahoma, Geneva, "Arial Narrow", Arial,  sans-serif;
-  font-weight: 300;
-  font-size: 3.6rem;
-  color: var(--council-black);
+//  font-weight: 300;
+//  font-size: 3.6rem;
+  color: var(--council-blue);//ack);
 }
 
+
+/* //unclear what this is doing
 .navbar-default .navbar-brand {
-	color: var(--council-black);
+	color: var(--council-blue);//ack);
 }
-.navbar-default {
-    font-family: Roman, Helvetica, Tahoma, Geneva, Arial, sans-serif;
-    color: var(--council-black);
-}
+*/
 
+
+/* //this is presumable how to add a blue bar on top
 .navbar-header {
-  margin: 1%;
-  height: 95px; 
-  width: 100%;
+ // margin: 1%;
+  height: 5px; 
+//  width: 100%;
   color: #0054a4;
 }
+*/
+
 
 .navbar-default .navbar-nav > .active > a, .navbar-default .navbar-nav > .active > a:focus, .navbar-default .navbar-nav > .active > a:hover {
-	text-decoration: underline;
-	color: var(--council-blue);
+  color:var(--council-blue);
+	background-color: #d6d6d6;
+	height: 95px;
 }
-
-.navbar-default .navbar-nav > .active > a, .navbar-default .navbar-nav > .active > a:focus, .navbar-default .navbar-nav > .active > a:hover {
-  color: var(--council-blue);
-	background-color: white;
-}
-
+/*
 .navbar-nav {
 	float: right;
 	margin: 0;
 }
+*/
 
 .well {
 	min-height: 20px;
