@@ -64,8 +64,7 @@ app_ui <- function(request) {
       ),
       
       # Pop growth tab -----
-      # tabPanel(
-      navbarMenu(
+      tabPanel(
         "Population Growth",
         shiny::p(
           'The Metropolitan Council publishes current population estimates and future forecasted population estimates. Current population estimates are available for Census block groups. Future forecasts are based on 2010 Census data and city comprehensive plans and available at the transportation analysis zone (a coarser spatial resolution than Census block groups). Forecasts of shifting population demographics (race/ethnicity and age) are only available at the regional level. Given the differential methods and geographies used in calculating current and future populations, we will not perform further analyses on these data. However, the overarching patterns still may be useful in parks planning. More information and raw data can be found on the ',
@@ -75,10 +74,9 @@ app_ui <- function(request) {
             .noWS = "outside"
           )
         ),
-        hr(),
-        # tabsetPanel(
-          # id = "tab_being_displayed",
-          # selected = "Population map",
+        tabsetPanel(
+          id = "tab_being_displayed",
+          selected = "Population map",
           tabPanel(
             "Population map",
             sidebarPanel(mod_pop_selections_ui("pop_selections_ui_1")),
@@ -88,7 +86,7 @@ app_ui <- function(request) {
             "Demographic shifts",
             mod_pop_demoshifts_ui("pop_demoshifts_ui_1")
           )
-        # )
+        )
       ),
       
       ## Notes tab -----

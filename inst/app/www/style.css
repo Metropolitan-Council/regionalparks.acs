@@ -40,8 +40,7 @@ hr {
 	margin-bottom: 20px;
 	border: 0;
 	border-top: 1px solid #eee;
-	width: 100%;
-	color:#002B5C;
+	width: 99%;
 }
 
 /*
@@ -70,6 +69,7 @@ hr {
 .navbar-default {
 	background-color: #ededed;
 	border-color: #ededed;
+//  color: #0054a4; 
 	font-size: 16px; 
 	font-weight: bold;
 	text-transform: uppercase;
@@ -111,11 +111,12 @@ hr {
 	background-color: #d6d6d6;
 	height: 95px;
 }
-
+/*
 .navbar-nav {
-	margin: auto;
+	float: right;
+	margin: 0;
 }
-
+*/
 
 .well {
 	min-height: 20px;
