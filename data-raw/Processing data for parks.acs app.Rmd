@@ -34,7 +34,7 @@ Running this script produces:
 As an aside, if any parks/trails need to be reassigned to different agencies and/or statuses, this is the place to do that. 
 
 
-```{r unitgeo, message=FALSE, warning = F, echo = F}
+```{r unitgeog, message=FALSE, warning = F, echo = F}
 source("park_trail_geog_LONG.R")
 ```
 
@@ -52,7 +52,7 @@ Running `block_group_raw.R` produces:
 
 If acs variables need to be added, this is one place where that should be done.
 
-```{r unitgeo, message=FALSE, warning = F, echo = F}
+```{r unitgeoggg, message=FALSE, warning = F, echo = F}
 source("census_tract_raw.R")
 source("block_group_raw.R")
 ```
@@ -76,7 +76,7 @@ Running `weighted_avs_tracts.R` produces:
 and then we will join the 2 geographies together to create one cohesive weighted average dataset. 
 
 *this is kind of ridiculous, speed up somehow? Or monitor progress?
-```{r unitgeo, message=FALSE, warning = F, echo = F}
+```{r unitgeogg, message=FALSE, warning = F, echo = F}
 source("weighted_avs_bg.R")
 source("weighted_avs_tracts.R")
 

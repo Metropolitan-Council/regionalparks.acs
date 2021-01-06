@@ -69,7 +69,7 @@ ct_foreign <- ct %>%
   mutate(
     usborncit_percent = round(usborncit / poptotal, digits = 2), # * 100,
     forborn_percent = round((forborncit + forbornnot) / poptotal, digits = 2))# * 100
-  )
+  
 
 
 ## -----------------------------------------------------------------------------------------------------------------------------------------------------

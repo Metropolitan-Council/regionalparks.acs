@@ -215,7 +215,7 @@ mod_leaflet_server <- function(input, output, session,
       )  %>%
       addMapPane("trans", zIndex = 430) %>%
       
-      addCircles(#Markers(
+      addCircleMarkers(
         data = regionalparks.acs::trans_stops,
         group = "Transit",
         radius = 20,
