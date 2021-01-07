@@ -11,7 +11,7 @@ params:
 
 The majority of data used in this app are derived from the American Community Survey (ACS). These data are survey-based estimates and are subject to error. The errors derive from research design (including instrument bias, data frame, and sampling), the survey data collection (non-response bias and response errors), and processing by the Census Bureau (data coding, compilation processes, and case weighting), as well as statistical inference error and uncertainty (which are related to sample size and variance within the measured attributes). US Census Bureau's report on "Accuracy of the Data" can be found [here](https://www2.census.gov/programs-surveys/acs/tech_docs/accuracy/MultiyearACSAccuracyofData2017.pdf?#).  
 
-Further, producing the "weighted averages" necessarily assumed equal distributions of populations across individual census block groups or tracts in order. Population characteristics are likely to be heterogeneous, rather than homogeneous, across areas. Thus observed population characteristics within a given buffer distance may not reflect the weighted averages presented here, but that does not diminish the value of the weighted averages as a starting point for conversations and actions to increase equitable usage of parks and trails across the Metro Region. 
+Further, producing the "weighted averages" necessarily assumed equal distributions of populations across individual census block groups or tracts in order. Population characteristics are likely to be heterogeneous, rather than homogeneous, across areas. Thus, observed population characteristics within a given buffer distance may not reflect the weighted averages presented here, but that does not diminish the value of the weighted averages as a starting point for conversations and actions to increase equitable usage of parks and trails across the Metro Region. 
 
 ACS statistics were used to calculate the percent of people with a certain characteristic within each block group or tract. We scaled these percentages by the 2019 small area population estimates to obtain a more accurate number of people within each group (this more accurate measure of population is not available in collar counties). Weighted averages were produced by multiplying by the percent overlap of a given block group or tract with the buffer zone around individual park and trail units. 
 
@@ -35,7 +35,7 @@ Specific variables from the American Community Survey which can be evaluated in 
 **Place of birth:** Respondents were asked to select one of two categories: (1) in the United States, or (2) outside the United States. 
 
 ### Contributors  
-- Ellen Esch, Data Scientiest [ellen.esch@metc.state.mnu.us](mailto:ellen.esch@metc.state.mn.us)
+- Ellen Esch, Data Scientist [ellen.esch@metc.state.mnu.us](mailto:ellen.esch@metc.state.mn.us)
 - Liz Roten, Associate Data Scientist [liz.roten@metc.state.mn.us](mailto:liz.roten@metc.state.mn.us)  
 - Darcie Vandegrift, Principal Parks Researcher [darcie.vandegrift@metc.state.mn.us](mailto:darcie.vandegrift@metc.state.mn.us)  
   

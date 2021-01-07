@@ -15,7 +15,7 @@ Bureau’s report on “Accuracy of the Data” can be found
 Further, producing the “weighted averages” necessarily assumed equal
 distributions of populations across individual census block groups or
 tracts in order. Population characteristics are likely to be
-heterogeneous, rather than homogeneous, across areas. Thus observed
+heterogeneous, rather than homogeneous, across areas. Thus, observed
 population characteristics within a given buffer distance may not
 reflect the weighted averages presented here, but that does not diminish
 the value of the weighted averages as a starting point for conversations
@@ -105,7 +105,7 @@ categories: (1) in the United States, or (2) outside the United States.
 
 ### Contributors
 
-  - Ellen Esch, Data Scientiest
+  - Ellen Esch, Data Scientist
     [ellen.esch@metc.state.mnu.us](mailto:ellen.esch@metc.state.mn.us)
   - Liz Roten, Associate Data Scientist <liz.roten@metc.state.mn.us>  
   - Darcie Vandegrift, Principal Parks Researcher
@@ -395,6 +395,6 @@ Simulate Package Installation and Attach</em>.
 </div>
 
 <right style="font-size: 1rem; text-align: right; display: block;">
-*Last updated 2021-01-05*  
-Build ID: 2021-01-05.roten.0009725  
+*Last updated 2021-01-07*  
+Build ID: 2021-01-07.roten.df16f01  
 </right>

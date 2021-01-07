@@ -1,9 +1,5 @@
 
-<center>
-
-![people walking on a park trail](www/Walk-on-path.png)
-
-</center>
+<img src='www/Walk-on-path.png' width='100%'/img>
 
 ## Introduction
 
@@ -37,7 +33,7 @@ trail system. The tool incorporates existing, planned, and search areas
 for parks and trails. Within this tab, there are **weighted averages**
 which will be suitable for most users, a **buffer map** which
 illustrates the buffer zones geospatially, and the option for users to
-**download tabular data**
+**download tabular data**.
 
 **Population Growth** - is an interactive map which allows users to view
 estimated population growth through 2040 alongside regional parks and
@@ -46,7 +42,3 @@ trails.
 **Notes** - provides more information about the background of this tool.
 
 #### **Please click on the individual tabs on the top to start using this tool.**
-
-<!-- ## ACS Variable Dictionary  -->
-
-<!-- Statistics produced for American Community Survey and included in ACS tables are survey-based estimates and are subject to error. The errors derive from research design (including instrument bias, data frame, and sampling), the survey data collection (non-response bias and response errors), and processing by the Census Bureau (data coding, compilation processes, and case weighting), as well as statistical inference error and uncertainty (which are related to sample size and variance within the measured attributes).   -->
