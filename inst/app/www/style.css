@@ -75,9 +75,11 @@ hr {
 	text-transform: uppercase;
 	margin-right: 10px;
 	margin-left: 10px;
-	font-family: Roman, Helvetica, Tahoma, Geneva, Arial, sans-serif;
+    font-family: "Medium-Condensed", "Helvetica", "Tahoma", "Geneva", "Arial Narrow", "Arial", sans-serif;
 	height: 95px;
 	vertical-align:middle;
+	//    margin-left: 30px;
+  //  float: left;
 }
 
 /*
@@ -136,3 +138,4 @@ hr {
   line-height: 1.4;
   font-size: 150%;
 }
+
