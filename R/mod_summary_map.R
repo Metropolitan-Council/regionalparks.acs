@@ -46,6 +46,7 @@ mod_summary_map_server <- function(input, output, session,
     toListen_parktrail(),
     {
       # browser()
+      print("Rendering parks and trails layer")
       
       leafletProxy("buffermap") %>%
         clearGroup("Parks and trails") %>%
@@ -89,6 +90,7 @@ mod_summary_map_server <- function(input, output, session,
   )
   
   observeEvent(c(selected_vars$input_acs), {
+    print("Rendering demographic layer")
     pal <- (colorNumeric(n = 9, palette = "Blues", domain = summary_util$map_bg_data[[1]])) 
     
     leafletProxy("buffermap") %>%
@@ -138,6 +140,8 @@ mod_summary_map_server <- function(input, output, session,
   observeEvent( # add buffers -------
                 toListen_buffer(),
                 {
+                  print("Rendering buffer layer")
+                  
                   leafletProxy("buffermap") %>%
                     clearGroup("Buffers") %>%
                     # addMapPane(name = "buff", zIndex = 650) %>% 
@@ -175,6 +179,7 @@ mod_summary_map_server <- function(input, output, session,
   
   observeEvent(current_sub_tab, ignoreInit = TRUE, once = TRUE, { # on startup -----
     # browser()
+    print("Rendering buffer map (1)")
     
     pal <- colorNumeric(n = 9, palette = "Blues", domain = summary_util$map_bg_data[[1]])
     

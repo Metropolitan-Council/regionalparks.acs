@@ -35,7 +35,9 @@ mod_leaflet_server <- function(input, output, session,
   
 
   observeEvent(selected_map_vars$input_acsmap, {
-
+    
+    print("Rendering overview map")
+    
     leafletProxy("overviewmap") %>%
       clearGroup("Demographic data") %>%
       addMapPane("Demographic data", zIndex = 0) %>%
@@ -73,6 +75,7 @@ mod_leaflet_server <- function(input, output, session,
   
   observeEvent(current_tab,  ignoreInit = TRUE, once = TRUE, {
     # browser()
+    print("Rendering overview map (1)")
     leafletProxy("overviewmap") %>%
       addMapPane("Demographic data", zIndex = 0) %>%
       addPolygons(

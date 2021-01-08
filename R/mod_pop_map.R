@@ -40,6 +40,7 @@ mod_pop_map_server <- function(input, output, session,
   # outputOptions(output, "popmap", suspendWhenHidden = FALSE)
   
   observeEvent(selected_popvars$input_pop,{
+    print("Rendering population map")
     
     leafletProxy("popmap") %>%
       clearGroup("Population data") %>%
@@ -73,6 +74,7 @@ mod_pop_map_server <- function(input, output, session,
   })
   
   observeEvent(current_tab, ignoreInit = TRUE, once = TRUE, {
+    print("Rendering population map (1)")
     
     leafletProxy("popmap") %>%
       addPolygons(
