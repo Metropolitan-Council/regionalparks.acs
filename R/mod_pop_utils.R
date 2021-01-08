@@ -41,7 +41,23 @@ mod_pop_utils_server <- function(input, output, session,
     vals$pop_data <- make_pop_data()
   })
   
-  return(vals)
+  
+  generate_pop_pal <- reactive({
+    pal <- 
+      if (selected_population$input_pop == "PopDens_2019" | selected_population$input_pop == "popdens_2040_mi" | selected_population$input_pop == "growth_rel_10_40"){
+      colorQuantile(n = 9, palette = "Blues", domain = summary_poputil$pop_data[[1]])
+    } else {
+      colorNumeric(n = 9, palette = "Blues", domain = summary_poputil$pop_data[[1]])
+    }
+    return(pal)
+  })
+      
+  
+  observe({
+    vals$pop_pal <- generate_pop_pal()
+  })
+  
+      return(vals)
 }
 
 ## To be copied in the UI
