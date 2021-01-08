@@ -201,8 +201,13 @@ fs::file_delete("plan_parks_regional_search_areas.gpkg")
 park_trail_geog_LONG <- bind_rows(
   parks, parks_planned, trails, trails_planned,
   trailsearch, parksearch
-)
+) %>% 
+  mutate(popup_text = paste0(
+    "<b>", status, "</b>", "<br>",
+    name, "<br>", "<em>",
+    agency, "</em>"
+  ))
 
 usethis::use_data(park_trail_geog_LONG, overwrite = TRUE)
 
-usethis::use_git_ignore(".DS_Store")
+# usethis::use_git_ignore(".DS_Store")
