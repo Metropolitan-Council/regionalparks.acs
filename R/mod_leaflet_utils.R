@@ -20,6 +20,7 @@ mod_leaflet_utils_ui <- function(id){
 mod_leaflet_utils_server <- function(input, output, session,
                                      selected_map_vars){
   ns <- session$ns
+  vals <- reactiveValues()
   
   
   make_leafletacs_data <- reactive({
@@ -81,7 +82,6 @@ mod_leaflet_utils_server <- function(input, output, session,
   })
   
   
-  vals <- reactiveValues()
   observe({
     vals$leaflet_data <- make_leafletacs_data()
   })
