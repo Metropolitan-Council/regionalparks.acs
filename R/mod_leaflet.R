@@ -85,11 +85,7 @@ mod_leaflet_server <- function(input, output, session,
           bringToFront = TRUE,
           opacity = 1
         ),
-        popup = ~ paste0(
-          "<b>", park_trail_geog_LONG[park_trail_geog_LONG$status == "Park - existing", ]$status, "</b>", "<br>",
-          park_trail_geog_LONG[park_trail_geog_LONG$status == "Park - existing", ]$name, "<br>", "<em>",
-          park_trail_geog_LONG[park_trail_geog_LONG$status == "Park - existing", ]$agency, "</em>"
-        ),
+        popup = ~popup_text,
         popupOptions = popupOptions(
           closeButton = FALSE,
           style = list(
