@@ -9,7 +9,7 @@ on:
     branches:
       - main
       - master
-      -v1.0.0
+      - v1.0.0
 
 name: R-CMD-check
 
