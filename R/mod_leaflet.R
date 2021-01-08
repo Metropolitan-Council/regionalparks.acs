@@ -218,9 +218,35 @@ mod_leaflet_server <- function(input, output, session,
           bringToFront = TRUE
         )
       )  %>%
-      addMapPane("trans", zIndex = 430) %>%
+    
+    
+    addMapPane("water_access", zIndex = 431) %>%
+      addAwesomeMarkers(
+        group = "Water Access",
+        data = regionalparks.acs::water_access,
+        icon = iconwater,
+        options = pathOptions(pane = "water_access")
+      ) %>%
+      groupOptions(
+        group = "Water Access",
+        zoomLevels = 13:20
+      )   %>%
       
-      addCircleMarkers(
+      addMapPane("entrance", zIndex = 432) %>%
+      addAwesomeMarkers(
+        group = "Park Entrance",
+        data = regionalparks.acs::entrance,
+        icon = iconentry,
+        options = pathOptions(pane = "entrance")
+      ) %>%
+      groupOptions(
+        group = "Park Entrance",
+        zoomLevels = 13:20
+      )   %>%
+      
+      
+      addMapPane("trans", zIndex = 430) %>%
+      addCircles(#Markers(
         data = regionalparks.acs::trans_stops,
         group = "Transit",
         radius = 20,
@@ -234,7 +260,20 @@ mod_leaflet_server <- function(input, output, session,
       groupOptions(
         group = "Transit",
         zoomLevels = 13:20
-      )   %>%
+      )  %>%
+      
+      addMapPane("riverlake", zIndex = 429) %>%
+      addPolygons(
+        data = regionalparks.acs::river_lake,
+        group = "Rivers & Lakes",
+        stroke = TRUE,
+        # weight = 0.5,
+        color = "black",
+        fill = TRUE,
+        fillColor = "black",
+        fillOpacity = 0.9,
+        options = pathOptions(pane = "riverlake")
+      )  %>%
       
       hideGroup(
         c(
@@ -242,7 +281,10 @@ mod_leaflet_server <- function(input, output, session,
           "Regional Trails - planned",
           "Regional Parks - search",
           "Regional Trails - search",
-          "Transit"
+          "Transit",
+          "Water Access",
+          "Park Entrance",
+          "Rivers & Lakes"
         )
       ) %>%
       
@@ -257,6 +299,9 @@ mod_leaflet_server <- function(input, output, session,
           "Regional Trails - search",
           "Demographic data",
           "Transit",
+          "Water Access",
+          "Park Entrance",
+          "Rivers & Lakes",
           "Agency boundaries"
         ),
         baseGroups = c(

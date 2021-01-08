@@ -34,8 +34,12 @@ Running this script produces:
 As an aside, if any parks/trails need to be reassigned to different agencies and/or statuses, this is the place to do that. 
 
 
-```{r unitgeog, message=FALSE, warning = F, echo = F}
+Park amenities produces park entrance locations and public water access locations.And rivers/lakes.
+
+```{r unitgeo, message=FALSE, warning = F, echo = F}
 source("park_trail_geog_LONG.R")
+
+source("park_amenities.R")
 ```
 
 
@@ -52,7 +56,7 @@ Running `block_group_raw.R` produces:
 
 If acs variables need to be added, this is one place where that should be done.
 
-```{r unitgeoggg, message=FALSE, warning = F, echo = F}
+```{r unitgeo, message=FALSE, warning = F, echo = F}
 source("census_tract_raw.R")
 source("block_group_raw.R")
 ```
@@ -76,7 +80,7 @@ Running `weighted_avs_tracts.R` produces:
 and then we will join the 2 geographies together to create one cohesive weighted average dataset. 
 
 *this is kind of ridiculous, speed up somehow? Or monitor progress?
-```{r unitgeogg, message=FALSE, warning = F, echo = F}
+```{r unitgeo, message=FALSE, warning = F, echo = F}
 source("weighted_avs_bg.R")
 source("weighted_avs_tracts.R")
 
@@ -141,34 +145,36 @@ long_buffer_data
 park_trail_geog_LONG
 taz_growth
 trans_stops
-
+entrance
+water_access
+river_lake
 
 # reproject
 ```{r}
-agency_boundary <- agency_boundary %>% st_transform(4326)
-usethis::use_data(agency_boundary, overwrite = TRUE)
-
-block_group <- block_group %>% st_transform(4326)
-usethis::use_data(block_group, overwrite = TRUE)
-
-buffer_geo <- buffer_geo %>% st_transform(4326)
-usethis::use_data(buffer_geo, overwrite = TRUE)
-
-census_tract <- census_tract %>% st_transform(4326)
-usethis::use_data(census_tract, overwrite = TRUE)
-
-county_outlines <- county_outlines %>% st_transform(4326)
-usethis::use_data(county_outlines, overwrite = TRUE)
-
-est_pop <- est_pop %>% st_transform(4326)
-usethis::use_data(est_pop, overwrite = TRUE)
-
-park_trail_geog_LONG <- park_trail_geog_LONG %>% st_transform(4326)
-usethis::use_data(park_trail_geog_LONG, overwrite = TRUE)
-
-taz_growth <- taz_growth %>% st_transform(4326)
-usethis::use_data(taz_growth, overwrite = TRUE)
-
-trans_stops <- trans_stops %>% st_transform(4326)
-usethis::use_data(trans_stops, overwrite = TRUE)
+# agency_boundary <- agency_boundary %>% st_transform(4326)
+# usethis::use_data(agency_boundary, overwrite = TRUE)
+# 
+# block_group <- block_group %>% st_transform(4326)
+# usethis::use_data(block_group, overwrite = TRUE)
+# 
+# buffer_geo <- buffer_geo %>% st_transform(4326)
+# usethis::use_data(buffer_geo, overwrite = TRUE)
+# 
+# census_tract <- census_tract %>% st_transform(4326)
+# usethis::use_data(census_tract, overwrite = TRUE)
+# 
+# county_outlines <- county_outlines %>% st_transform(4326)
+# usethis::use_data(county_outlines, overwrite = TRUE)
+# 
+# est_pop <- est_pop %>% st_transform(4326)
+# usethis::use_data(est_pop, overwrite = TRUE)
+# 
+# park_trail_geog_LONG <- park_trail_geog_LONG %>% st_transform(4326)
+# usethis::use_data(park_trail_geog_LONG, overwrite = TRUE)
+# 
+# taz_growth <- taz_growth %>% st_transform(4326)
+# usethis::use_data(taz_growth, overwrite = TRUE)
+# 
+# trans_stops <- trans_stops %>% st_transform(4326)
+# usethis::use_data(trans_stops, overwrite = TRUE)
 ```

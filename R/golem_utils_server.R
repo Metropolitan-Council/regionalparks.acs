@@ -150,3 +150,18 @@ popkey <- tibble::tribble( #------
                            "Growth, relative", "growth_rel_10_40","Relative growth\n(by percentile)",
                            "Growth, absolute", "growth_abs_10_40", "Absolute growth\n(persons)"
 )
+
+
+iconwater <- awesomeIcons(
+  icon = 'tint',
+  iconColor = 'black',
+  library = 'glyphicon',
+  markerColor = "blue"
+)
+
+iconentry <- awesomeIcons(
+  icon = 'map-marker',
+  iconColor = 'black',
+  library = 'glyphicon',
+  markerColor = "orange"
+)
