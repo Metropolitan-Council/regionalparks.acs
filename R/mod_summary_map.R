@@ -129,7 +129,10 @@ mod_summary_map_server <- function(input, output, session,
   })
   
   toListen_buffer <- reactive({
-    list(selected_vars$input_distance, selected_vars$input_agency, selected_vars$input_type, selected_vars$input_status)
+    list(selected_vars$input_distance,
+         selected_vars$input_agency, 
+         selected_vars$input_type,
+         selected_vars$input_status)
   })
   
   observeEvent( # add buffers -------
@@ -137,10 +140,10 @@ mod_summary_map_server <- function(input, output, session,
                 {
                   leafletProxy("buffermap") %>%
                     clearGroup("Buffers") %>%
+                    # addMapPane(name = "buff", zIndex = 650) %>% 
                     # clearControls()
                     addPolygons(
                       options = pathOptions(pane = "buff"),
-
                       data = summary_util$map_buffer_data,
                       group = "Buffers",
                       stroke = TRUE,
