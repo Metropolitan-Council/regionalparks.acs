@@ -383,10 +383,27 @@ buffer_geo <- (buff_1.0mi %>% mutate(distance = 1.0)) %>%
   bind_rows(buff_1.5mi %>% mutate(distance = 1.5)) %>%
   bind_rows(buff_3mi %>% mutate(distance = 3)) %>%
   st_transform(4326) %>%
-  st_as_sf()
+  st_as_sf() 
+
+buffer_geo <- buffer_geo %>% 
+  separate(name, remove = FALSE, into = c("map_name", "delete"), sep = "_") %>% 
+  mutate(popup_text = paste0(
+    "<b>",
+    "Buffer: ",
+  status,
+    ", ",
+   type,
+    "</b>",
+    "<br>",
+    map_name,
+    "<br>",
+    "<em>",
+   agency,
+    "</em>"
+  ))
 usethis::use_data(buffer_geo, overwrite = TRUE)
 
-usethis::use_git_ignore(".DS_Store")
+# usethis::use_git_ignore(".DS_Store")
 
 
 # filter(buffer_geo, agency == "Scott County") %>% view()
