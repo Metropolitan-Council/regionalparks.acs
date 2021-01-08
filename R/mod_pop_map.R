@@ -24,7 +24,8 @@ mod_pop_map_ui <- function(id) {
 #' @noRd
 mod_pop_map_server <- function(input, output, session,
                                summary_poputil,
-                               selected_popvars#,
+                               selected_popvars,
+                               current_tab
                                # parktrail_util,
                                # selected_parktrail
 ) {

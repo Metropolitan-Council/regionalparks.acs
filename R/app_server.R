@@ -74,7 +74,8 @@ app_server <- function(input, output, session) {
   
   callModule(mod_pop_map_server, "pop_map_ui_1",
              selected_popvars = selected_population_vars,
-             summary_poputil = summary_util_popvars
+             summary_poputil = summary_util_popvars,
+             current_tab = input$nav
   )
   
   callModule(mod_pop_demoshifts_server, "pop_demoshifts_ui_1")
