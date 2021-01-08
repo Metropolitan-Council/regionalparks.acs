@@ -8,9 +8,10 @@
 app_server <- function(input, output, session) {
   # List the first level callModules here
   # note: color assignment for parks/trails by status (existing, search, planned) is within golem_utils_server.R file
-  # observe({
-  #   print(input$nav)
-  # })
+  observe({
+    print(input$nav)
+    print(input$summary_sub_tab)
+  })
   # 
   # observe({
   #   print(input$tab_being_displayed)
@@ -56,8 +57,10 @@ app_server <- function(input, output, session) {
   )
 
   callModule(mod_summary_map_server, "summary_map_ui_1",
-    selected_vars = selected_input_vars,
-    summary_util = summary_util_vars
+             selected_vars = selected_input_vars,
+             summary_util = summary_util_vars,
+             current_tab = input$nav,
+             current_sub_tab = input$summary_sub_tab
   )
 
   # Population growth tab ------------------------------------------------------

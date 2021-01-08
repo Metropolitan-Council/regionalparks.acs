@@ -169,6 +169,121 @@ mod_summary_map_server <- function(input, output, session,
                     )
                 }
   )
+  
+  observeEvent(current_sub_tab, ignoreInit = TRUE, once = TRUE, { # on startup -----
+    # browser()
+    
+    # if(current_sub_tab != "Weighted averages"){
+    # return()
+    # }
+    pal <- colorNumeric(n = 9, palette = "Blues", domain = summary_util$map_bg_data[[1]])
+    
+    
+    leafletProxy("buffermap") %>%
+      ## demographics----
+    addMapPane("Demographic data", zIndex = 0) %>%
+      addPolygons(
+        group = "Demographic data",
+        data = summary_util$map_bg_data,
+        stroke = TRUE,
+        color = councilR::colors$suppGray,
+        opacity = 0.6,
+        weight = 0.25,
+        fillOpacity = 0.6,
+        smoothFactor = 0.2,
+        fillColor = ~ colorNumeric(
+          # n = 7,
+          palette = "Blues",
+          domain = summary_util$map_bg_data[[1]]
+        )(summary_util$map_bg_data[[1]]),
+        
+        popup = if (selected_vars$input_acs == "adj_meanhhi") {
+          ~ paste0(tags$strong(filter(renamekey, ACS == selected_vars$input_acs) %>% select(goodname)), ": $", format(summary_util$map_bg_data[[1]], big.mark = ","))
+        } else {
+          ~ paste0(
+            tags$strong(filter(renamekey, ACS == selected_vars$input_acs) %>% select(goodname)),
+            ": ",
+            summary_util$map_bg_data[[1]], "%"
+          )
+        }#,
+        # options = list(zIndex = 0)
+      ) %>%
+      addLegend(title = paste0(filter(renamekey, ACS == selected_vars$input_acs) %>% select(goodname)),
+                position = "bottomleft",
+                group = "Demographic data",
+                layerId = "Demographic data",
+                pal = pal,
+                values = summary_util$map_bg_data[[1]]) %>% 
+      
+      addMapPane("Parks and trails", zIndex = 600) %>%
+      # clearControls() %>%
+      addPolylines(
+        options = pathOptions(pane = "Parks and trails"),
+        group = "Parks and trails",
+        data = summary_util$map_parktrail_data %>% filter(Type == "Trail"),
+        color = ~geog_color,
+        weight = 3,
+        stroke = T,
+        opacity = 1,
+        popup = ~popup_text,
+        highlightOptions = highlightOptions(
+          stroke = TRUE,
+          color = "black",
+          weight = 6,
+          bringToFront = TRUE
+        )
+      ) %>%
+      addPolygons(
+        options = pathOptions(pane = "Parks and trails"),
+        group = "Parks and trails",
+        data = summary_util$map_parktrail_data %>% filter(Type == "Park"),
+        color = ~geog_color,
+        fillColor = ~geog_color,
+        fillOpacity = 1,
+        weight = 3,
+        stroke = T,
+        opacity = 1,
+        popup = ~popup_text,
+        highlightOptions = highlightOptions(
+          stroke = TRUE,
+          color = "black",
+          weight = 6,
+          bringToFront = TRUE
+        )
+      ) %>% 
+      
+      ## buffers----
+    addMapPane(name = "buff", zIndex = 650) %>% 
+      # clearControls()
+      addPolygons(
+        options = pathOptions(pane = "buff"),
+        data = summary_util$map_buffer_data,
+        group = "Buffers",
+        stroke = TRUE,
+        weight = 2,
+        color = "black",#"#616161",
+        fill = FALSE,
+        # fillColor = "transparent",
+        opacity = .4,
+        fillOpacity = .005,
+        highlightOptions = highlightOptions(
+          stroke = TRUE,
+          color = "black",
+          weight = 6,
+          bringToFront = TRUE,
+          sendToBack = TRUE,
+          opacity = 1
+        ),
+        popup = ~popup_text,
+        popupOptions = popupOptions(
+          closeButton = FALSE,
+          style = list(
+            "font-size" = "18px",
+            "font-family" = "Arial"
+          )
+        )
+      )
+  })
 }
 
 ## To be copied in the UI ------
