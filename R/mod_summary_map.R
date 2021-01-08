@@ -24,140 +24,19 @@ mod_summary_map_ui <- function(id) {
 #' @noRd
 mod_summary_map_server <- function(input, output, session,
                                    summary_util,
-                                   selected_vars) {
+                                   selected_vars,
+                                   current_tab,
+                                   current_sub_tab) {
   ns <- session$ns
   
-  output$buffermap <- renderLeaflet({ # buf map --------
-    leaflet() %>%
-      setView(
-        lat = 44.963,
-        lng = -93.22,
-        zoom = 9
-      ) %>%
-      addMapPane(name = "Stamen Toner", zIndex = 430) %>%
-      addProviderTiles("Stamen.TonerLines",
-                       group = "Stamen Toner"
-      ) %>%
-      addProviderTiles("Stamen.TonerLabels", 
-                       options = leafletOptions(pane = "Stamen Toner"),
-                       group = "Stamen Toner") %>%
-      
-      addMapPane(name = "Carto Positron", zIndex = 430) %>%
-      addProviderTiles("CartoDB.PositronOnlyLabels", 
-                       options = leafletOptions(pane = "Carto Positron"),
-                       group = "Carto Positron") %>%
-      addProviderTiles("CartoDB.PositronNoLabels",
-                       group = "Carto Positron"
-      ) %>%
-      
-      addProviderTiles(
-        provider = providers$Esri.WorldImagery,
-        group = "Esri Imagery"
-      ) %>%
-      addMapPane("Agency boundaries", zIndex = 650) %>%
-      addMapPane("buff", zIndex = 660) %>%
-      addMapPane("parktrail", zIndex = 670) %>%
-      addPolygons(
-        data = agency_boundary,
-        group = "Agency boundaries",
-        stroke = T,
-        color = "black",
-        fill = F,
-        weight = 2,
-        options = pathOptions(pane = "Agency boundaries")
-      ) %>%
-    
-      addMapPane("water_access", zIndex = 431) %>%
-      addAwesomeMarkers(
-        group = "Water Access",
-        data = regionalparks.acs::water_access,
-        icon = iconwater,
-        options = pathOptions(pane = "water_access")
-      ) %>%
-      groupOptions(
-        group = "Water Access",
-        zoomLevels = 13:20
-      )   %>%
-      
-      addMapPane("entrance", zIndex = 432) %>%
-      addAwesomeMarkers(
-        group = "Park Entrance",
-        data = regionalparks.acs::entrance,
-        icon = iconentry,
-        options = pathOptions(pane = "entrance")
-      ) %>%
-      groupOptions(
-        group = "Park Entrance",
-        zoomLevels = 13:20
-      )   %>%
-      
-      
-      addMapPane("trans", zIndex = 430) %>%
-      addCircles(#Markers(
-        data = regionalparks.acs::trans_stops,
-        group = "Transit",
-        radius = 20,
-        fill = T,
-        stroke = TRUE,
-        weight = 2, 
-        color = councilR::colors$transitRed,
-        fillColor = councilR::colors$transitRed,
-        options = pathOptions(pane = "trans")
-      ) %>%
-      groupOptions(
-        group = "Transit",
-        zoomLevels = 13:20
-      )  %>%
-      
-      addMapPane("riverlake", zIndex = 429) %>%
-      addPolygons(
-        data = regionalparks.acs::river_lake,
-        group = "Rivers & Lakes",
-        stroke = TRUE,
-        # weight = 0.5,
-        color = "black",
-        fill = TRUE,
-        fillColor = "black",
-        fillOpacity = 0.9,
-        options = pathOptions(pane = "riverlake")
-      )   %>%
-      
-          addLayersControl(
-        position = "bottomright",
-        overlayGroups = c(
-          "Parks and trails",
-          "Buffers",
-          "Demographic data",
-          "Transit",
-          "Water Access",
-          "Park Entrance",
-          "Rivers & Lakes",
-          "Agency boundaries"
-        ),
-        hideGroup = c("Rivers & Lakes"),
-        
-        baseGroups = c(
-          "Stamen Toner",
-          "Carto Positron",
-          "Esri Imagery"
-        ),
-        options = layersControlOptions(collapsed = F)
-      ) %>%
-      
-      #   htmlwidgets::onRender(
-      #     "
-      #     function() {
-      #         $('.leaflet-control-layers-overlays').prepend('<label style=\"text-align:center\">Map layers</label>');
-      #     }
-      # "
-      #   ) %>%
-      leaflet::addScaleBar(position = c("bottomleft"))
-  }) #----
+  output$buffermap <- mod_leaflet_base_server(input = input,
+                                              output = output,
+                                              session = session,
+                                              add_all_parks = FALSE) #----
   
   # outputOptions(output, "buffermap", suspendWhenHidden = FALSE)
-
   
-    toListen_parktrail <- reactive({
+  toListen_parktrail <- reactive({
     list(selected_vars$input_agency,
          selected_vars$input_type,
          selected_vars$input_status)
