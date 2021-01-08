@@ -45,28 +45,21 @@ mod_summary_map_server <- function(input, output, session,
   observeEvent(
     toListen_parktrail(),
     {
+      # browser()
+      
       leafletProxy("buffermap") %>%
         clearGroup("Parks and trails") %>%
-        # addMapPane("Parks and trails", zIndex = 700) %>%
+        addMapPane("Parks and trails", zIndex = 600) %>%
         # clearControls() %>%
         addPolylines(
-          options = pathOptions(pane = "parktrail"),
+          options = pathOptions(pane = "Parks and trails"),
           group = "Parks and trails",
-          data = summary_util$map_parktrail_data,
-          color = case_when(
-            summary_util$map_parktrail_data$status2[summary_util$map_parktrail_data$Type == "Trail"] == "Existing" ~ e_col,
-            summary_util$map_parktrail_data$status2[summary_util$map_parktrail_data$Type == "Trail"] == "Planned" ~ p_col,
-            summary_util$map_parktrail_data$status2[summary_util$map_parktrail_data$Type == "Trail"] == "Search" ~ s_col
-          ),
+          data = summary_util$map_parktrail_data %>% filter(Type == "Trail"),
+          color = ~geog_color,
           weight = 3,
           stroke = T,
           opacity = 1,
-          popup = ~ paste0(
-            "<b>", summary_util$map_parktrail_data$status[summary_util$map_parktrail_data$Type == "Trail"], "</b>", "<br>",
-            summary_util$map_parktrail_data$name[summary_util$map_parktrail_data$Type == "Trail"], "<br>",
-            "<em>",
-            summary_util$map_parktrail_data$agency[summary_util$map_parktrail_data$Type == "Trail"], "</em>"
-          ),
+          popup = ~popup_text,
           highlightOptions = highlightOptions(
             stroke = TRUE,
             color = "black",
@@ -75,28 +68,16 @@ mod_summary_map_server <- function(input, output, session,
           )
         ) %>%
         addPolygons(
-          options = pathOptions(pane = "parktrail"),
+          options = pathOptions(pane = "Parks and trails"),
           group = "Parks and trails",
-          data = summary_util$map_parktrail_data %>% filter(agency %in% selected_vars$input_agency, Type == "Park"),
-          color = case_when(
-            summary_util$map_parktrail_data$status2[summary_util$map_parktrail_data$Type == "Park"] == "Existing" ~ e_col,
-            summary_util$map_parktrail_data$status2[summary_util$map_parktrail_data$Type == "Park"] == "Planned" ~ p_col,
-            summary_util$map_parktrail_data$status2[summary_util$map_parktrail_data$Type == "Park"] == "Search" ~ s_col
-          ),
-          fillColor = case_when(
-            summary_util$map_parktrail_data$status2[summary_util$map_parktrail_data$Type == "Park"] == "Existing" ~ e_col,
-            summary_util$map_parktrail_data$status2[summary_util$map_parktrail_data$Type == "Park"] == "Planned" ~ p_col,
-            summary_util$map_parktrail_data$status2[summary_util$map_parktrail_data$Type == "Park"] == "Search" ~ s_col
-          ),
+          data = summary_util$map_parktrail_data %>% filter(Type == "Park"),
+          color = ~geog_color,
+          fillColor = ~geog_color,
           fillOpacity = 1,
           weight = 3,
           stroke = T,
           opacity = 1,
-          popup = ~ paste0(
-            "<b>", summary_util$map_parktrail_data$status[summary_util$map_parktrail_data$Type == "Park"], "</b>", "<br>",
-            summary_util$map_parktrail_data$name[summary_util$map_parktrail_data$Type == "Park"], "<br>",
-            "<em>", summary_util$map_parktrail_data$agency[summary_util$map_parktrail_data$Type == "Park"], "</em>"
-          ),
+          popup = ~popup_text,
           highlightOptions = highlightOptions(
             stroke = TRUE,
             color = "black",
@@ -177,20 +158,7 @@ mod_summary_map_server <- function(input, output, session,
                         sendToBack = TRUE,
                         opacity = 1
                       ),
-                      popup = ~ paste0(
-                        "<b>",
-                        "Buffer: ",
-                        summary_util$map_buffer_data$status,
-                        ", ",
-                        summary_util$map_buffer_data$type,
-                        "</b>",
-                        "<br>",
-                        summary_util$map_buffer_data$name,
-                        "<br>",
-                        "<em>",
-                        summary_util$map_buffer_data$agency,
-                        "</em>"
-                      ),
+                      popup = ~popup_text,
                       popupOptions = popupOptions(
                         closeButton = FALSE,
                         style = list(
