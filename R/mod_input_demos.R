@@ -15,12 +15,11 @@ mod_input_demos_ui <- function(id){
     HTML("<form class='well'>
                   <div id='input_demos_ui_1-input_acsmap' class='form-group shiny-input-radiogroup shiny-input-container shiny-bound-input'>
                     <label class='control-label' id='input_demos_ui_1-input_acsmap-label' for='input_demos_ui_1-input_acsmap'>
-                      <h5>ACS characteristics</h5>
+                      <h4>ACS characteristics</h4>
                     </label>
                     <div class='shiny-options-group'>
                     
-                    
-                                                                                      <h6>Ability</h6>
+                    <h5>Ability</h5>
 
                       <div class='radio'>
                         <label>
@@ -30,7 +29,7 @@ mod_input_demos_ui <- function(id){
                       </div>
                     
                     
-                    <h6>Age</h6>
+                    <h5>Age</h5>
 
                       <div class='radio'>
                         <label>
@@ -59,7 +58,7 @@ mod_input_demos_ui <- function(id){
                       
                                             
                       
-                                            <h6>Ethnicity & Race</h6>
+                                            <h5>Ethnicity & Race</h5>
 
                       <div class='radio'>
                         <label>
@@ -102,7 +101,7 @@ mod_input_demos_ui <- function(id){
                         </label>
                       </div>
                       
-                                                 <h6>Income</h6>
+                                                 <h5>Income</h5>
 
                       <div class='radio'>
                         <label>
@@ -111,7 +110,7 @@ mod_input_demos_ui <- function(id){
                         </label>
                       </div>
                       
-                                                                   <h6>Language</h6>
+                                                                   <h5>Language</h5>
 
                       <div class='radio'>
                         <label>
@@ -126,7 +125,7 @@ mod_input_demos_ui <- function(id){
                         </label>
                       </div>
                       
-                                                                  <h6>National Origin</h6>
+                                                                  <h5>National Origin</h5>
 
                       <div class='radio'>
                         <label>
@@ -144,7 +143,7 @@ mod_input_demos_ui <- function(id){
 
                       
                       
-                                             <h6>Transportation</h6>
+                                             <h5>Transportation</h5>
 
                       <div class='radio'>
                         <label>
