@@ -41,4 +41,4 @@ trails.
 
 **Notes** - provides more information about the background of this tool.
 
-#### **Please click on the individual tabs on the top to start using this tool.**
+#### **We suggest you use a desktop web browser. Please click on the individual tabs on the top to start using this tool.**
