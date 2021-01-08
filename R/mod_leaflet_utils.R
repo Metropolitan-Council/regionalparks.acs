@@ -21,12 +21,11 @@ mod_leaflet_utils_server <- function(input, output, session,
                                      selected_map_vars){
   ns <- session$ns
   
-  tractdata2 <- tibble(ACS = c("adj_anydis_per", "adj_forborn_per", "adj_usborn_per"))
   
   make_leafletacs_data <- reactive({
     p6 <-  
-      
-      if (selected_map_vars$input_acsmap %in% tractdata2$ACS) {
+      if (selected_map_vars$input_acsmap %in% tract_vars$ACS) {
+        regionalparks.acs::census_tract %>%
       regionalparks.acs::census_tract %>%
         mutate(
           disab_percent = `Disability, any disability` * 100,

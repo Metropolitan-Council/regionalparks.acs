@@ -295,7 +295,7 @@ long_buffer_data_tract <- bind_rows(
 usethis::use_data(long_buffer_data_tract, overwrite = TRUE)
 
 
-# agency-level averages for each variable including existing and planned units
+# agency-level averages for each variable including existing and planned units ----
 agency_planned_existing_avgs_tract <- long_buffer_data_tract %>%
   filter(status != "Search") %>%
   group_by(agency, distance, ACS) %>%
@@ -303,3 +303,10 @@ agency_planned_existing_avgs_tract <- long_buffer_data_tract %>%
   filter(stringr::str_detect(ACS, "per"))
 
 usethis::use_data(agency_planned_existing_avgs_tract, overwrite = TRUE)
+
+# helper tibble ----------------------------------------------------------------
+
+tract_vars <- tibble(ACS = c("adj_anydis_per", "adj_forborn_per", "adj_usborn_per"))
+
+usethis::use_data(tract_vars, overwrite = TRUE)
+
