@@ -19,11 +19,11 @@ library(janitor)
 # )
 # trans_routes <- sf::read_sf(unzip(temp, "trans_transit_routes.gpkg")) %>%
 #   st_transform(4326)
-# 
+#
 # fs::file_delete("trans_transit_routes.gpkg")
-# 
+#
 # usethis::use_data(trans_routes, overwrite = TRUE)
-# 
+#
 
 
 ## transit stops ---------------

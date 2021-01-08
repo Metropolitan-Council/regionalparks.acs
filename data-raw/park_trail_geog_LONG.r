@@ -201,17 +201,18 @@ fs::file_delete("plan_parks_regional_search_areas.gpkg")
 park_trail_geog_LONG <- bind_rows(
   parks, parks_planned, trails, trails_planned,
   trailsearch, parksearch
-) %>% 
-  mutate(popup_text = paste0(
-    "<b>", status, "</b>", "<br>",
-    name, "<br>", "<em>",
-    agency, "</em>"
-  ),
-  geog_color = case_when(
-     status2 == "Existing" ~ e_col,
-     status2 == "Planned" ~ p_col,
-     status2 == "Search" ~ s_col
-  ),
+) %>%
+  mutate(
+    popup_text = paste0(
+      "<b>", status, "</b>", "<br>",
+      name, "<br>", "<em>",
+      agency, "</em>"
+    ),
+    geog_color = case_when(
+      status2 == "Existing" ~ e_col,
+      status2 == "Planned" ~ p_col,
+      status2 == "Search" ~ s_col
+    ),
   )
 
 usethis::use_data(park_trail_geog_LONG, overwrite = TRUE)

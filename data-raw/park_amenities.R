@@ -1,6 +1,6 @@
 # park entrances -----------------
 
-entrance <- sf::read_sf("/Volumes/shared/CommDev/Research/Public/GIS/Parks/BaseMaps/Entrances_parks.shp")%>%
+entrance <- sf::read_sf("/Volumes/shared/CommDev/Research/Public/GIS/Parks/BaseMaps/Entrances_parks.shp") %>%
   st_transform(4326)
 
 usethis::use_data(entrance, overwrite = TRUE)
@@ -11,7 +11,7 @@ metc <- tibble(counties = c("Anoka", "Carver", "Dakota", "Hennepin", "Ramsey", "
 
 temp <- tempfile()
 download.file("ftp://ftp.gisdata.mn.gov/pub/gdrs/data/pub/us_mn_state_dnr/loc_water_access_sites/gpkg_loc_water_access_sites.zip",
-              destfile = temp
+  destfile = temp
 )
 
 water_access <- sf::read_sf(unzip(temp, "loc_water_access_sites.gpkg")) %>%

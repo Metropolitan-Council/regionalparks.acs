@@ -20,8 +20,8 @@ download.file("https://resources.gisdata.mn.gov/pub/gdrs/data/pub/us_mn_state_me
 )
 
 ct <- readxl::read_xlsx(unzip(temp, "CensusACSTract.xlsx")) %>%
-  janitor::clean_names() #%>%
-  # filter(tcflag == 1)
+  janitor::clean_names() # %>%
+# filter(tcflag == 1)
 
 fs::file_delete("CensusACSTract.xlsx")
 
@@ -68,16 +68,17 @@ ct_foreign <- ct %>%
   select(geoid, geoid2, poptotal, usborncit, forborncit, forbornnot) %>%
   mutate(
     usborncit_percent = round(usborncit / poptotal, digits = 2) * 100,
-    forborn_percent = round((forborncit + forbornnot) / poptotal, digits = 2) * 100 
+    forborn_percent = round((forborncit + forbornnot) / poptotal, digits = 2) * 100
   )
 
 
 ## -----------------------------------------------------------------------------------------------------------------------------------------------------
 ct_disability <- ct %>%
   select(geoid, geoid2, poptotal, anydis, ambdis, cdenom) %>%
-  mutate(#anydis_percent = round(anydis / cdenom, digits = 2),
-         ambdis_percent = round(ambdis / cdenom, digits = 2) * 100,
-         anydis_percent = (1 - ambdis_percent)  * 100)
+  mutate( # anydis_percent = round(anydis / cdenom, digits = 2),
+    ambdis_percent = round(ambdis / cdenom, digits = 2) * 100,
+    anydis_percent = (1 - ambdis_percent) * 100
+  )
 
 
 ## ------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -110,13 +111,13 @@ WItract <- tigris::tracts(
   county = c("St. Croix", "Polk", "Pierce"),
   class = "sf"
 ) %>%
-  select(GEOID) 
+  select(GEOID)
 
 census_tract_spatial <- bind_rows(MNtract, WItract) %>%
-  left_join(ct_merge, by = c("GEOID" = "geoid2")) %>% 
+  left_join(ct_merge, by = c("GEOID" = "geoid2")) %>%
   st_transform(4326) # for leaflet
 
-# 
+#
 # census_tract_spatial <- tigris::tracts(
 #   state = "MN",
 #   class = "sf"

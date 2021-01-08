@@ -47,7 +47,7 @@ block_group <- block_group_raw %>%
 usethis::use_data(block_group, overwrite = TRUE)
 
 
-block_group_map <- block_group %>% 
+block_group_map <- block_group %>%
   mutate(
     ageunder15_percent = ageunder15_percent * 100,
     age15_24_percent = age15_24_percent * 100,
@@ -97,7 +97,7 @@ census_tract <- census_tract_raw %>%
 usethis::use_data(census_tract, overwrite = TRUE)
 
 
-census_tract_map <- census_tract %>% 
+census_tract_map <- census_tract %>%
   mutate(
     disab_percent = `Disability, any disability` * 100,
     usborn_percent = `Origin, US-born` * 100,
@@ -107,6 +107,6 @@ census_tract_map <- census_tract %>%
     "adj_anydis_per" = "disab_percent",
     "adj_usborn_per" = "usborn_percent",
     "adj_forborn_per" = "forborn_percent"
-  ) 
+  )
 
 usethis::use_data(census_tract_map, overwrite = TRUE)

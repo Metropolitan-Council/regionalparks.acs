@@ -4,13 +4,12 @@
 #'
 #' @param id,input,output,session Internal parameters for {shiny}.
 #'
-#' @noRd 
+#' @noRd
 #'
-#' @importFrom shiny NS tagList 
-mod_pop_selections_ui <- function(id){
+#' @importFrom shiny NS tagList
+mod_pop_selections_ui <- function(id) {
   ns <- NS(id)
   tagList(
- 
     HTML("<form class='well'>
                   <div id='pop_selections_ui_1-input_pop' class='form-group shiny-input-radiogroup shiny-input-container shiny-bound-input'>
                     <label class='control-label' id='pop_selections_ui_1-input_pop-label' for='pop_selections_ui_1-input_pop'>
@@ -62,27 +61,26 @@ mod_pop_selections_ui <- function(id){
                     </div>
                   </div>
                 </form>")
-  ) 
+  )
 }
-    
+
 #' pop_selections Server Function
 #'
-#' @noRd 
-mod_pop_selections_server <- function(input, output, session){
+#' @noRd
+mod_pop_selections_server <- function(input, output, session) {
   ns <- session$ns
-  
+
   input_values <- reactiveValues() # start with an empty reactiveValues object.
-  
+
   observeEvent(input$input_pop, { # only update when the user changes the ACS input
     input_values$input_pop <- input$input_pop # create/update the ACS input value in our reactiveValues object
   })
-  
+
   return(input_values)
 }
-    
+
 ## To be copied in the UI
 # mod_pop_selections_ui("pop_selections_ui_1")
-    
+
 ## To be copied in the server
 # callModule(mod_pop_selections_server, "pop_selections_ui_1")
- 

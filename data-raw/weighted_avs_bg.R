@@ -383,22 +383,22 @@ buffer_geo <- (buff_1.0mi %>% mutate(distance = 1.0)) %>%
   bind_rows(buff_1.5mi %>% mutate(distance = 1.5)) %>%
   bind_rows(buff_3mi %>% mutate(distance = 3)) %>%
   st_transform(4326) %>%
-  st_as_sf() 
+  st_as_sf()
 
-buffer_geo <- buffer_geo %>% 
-  separate(name, remove = FALSE, into = c("map_name", "delete"), sep = "_") %>% 
+buffer_geo <- buffer_geo %>%
+  separate(name, remove = FALSE, into = c("map_name", "delete"), sep = "_") %>%
   mutate(popup_text = paste0(
     "<b>",
     "Buffer: ",
-  status,
+    status,
     ", ",
-   type,
+    type,
     "</b>",
     "<br>",
     map_name,
     "<br>",
     "<em>",
-   agency,
+    agency,
     "</em>"
   ))
 usethis::use_data(buffer_geo, overwrite = TRUE)

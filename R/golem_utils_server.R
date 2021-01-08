@@ -64,7 +64,7 @@ rvtl <- shiny::reactiveValuesToList
 
 #' @import leaflet
 #' @import tibble
-#' @import dplyr 
+#' @import dplyr
 #' @import ggplot2
 #' @import sf
 #' @import tidyr
@@ -72,30 +72,30 @@ rvtl <- shiny::reactiveValuesToList
 #' @import cowplot
 #' @import councilR
 e_col <- "#78A22F" # CD green
-p_col <- "#AA5FEC" #purple
-s_col <- "#DDCC77" #yellow
+p_col <- "#AA5FEC" # purple
+s_col <- "#DDCC77" # yellow
 
 renamekey <- tibble::tribble(
   ~goodname, ~"ACS", ~pal,
   "Total population", "adj_2019pop", "Blues",
-  "Age, % under 15",  "adj_ageunder15_per", "BuPu",
-  "Age, % 15-24",  "adj_age15_24_per", "BuPu",
-  "Age, % 25-64",  "adj_age25_64_per", "BuPu",
-  "Age, % 65 and up",  "adj_age65up_per", "BuPu",
-  "Race, % White",  "adj_whitenh_per", "RdPu",
-  "Race, % Black",  "adj_blacknh_per", "RdPu",
-  "Race, % Asian",  "adj_asiannh_per", "RdPu",
-  "Race, % American Indian",  "adj_amindnh_per", "RdPu",
-  "Race, % Other + Multiracial",  "adj_othermultinh_per", "RdPu",
-  "Ethnicity, % Hispanic",  "adj_hisppop_per", "YlGnBu",
-  "Ethnicity, % not-Hispanic",  "adj_nothisppop_per", "YlGnBu",
-  "Mean household income",  "adj_meanhhi", "YlGnBu",
-  "% Housholds without a vehicle",  "adj_novehicle_per", "Blues",
-  "% speaking English less than very well",  "adj_lep_per", "Blues",
-  "% Spanish speakers",  "adj_span_per", "Blues",
-  "Ability, % any disability",  "adj_anydis_per", "OrRd",
-  "Origin, % US-born",  "adj_usborn_per", "YlGn",
-  "Origin, % foreign-born",  "adj_forborn_per", "YlGn"
+  "Age, % under 15", "adj_ageunder15_per", "BuPu",
+  "Age, % 15-24", "adj_age15_24_per", "BuPu",
+  "Age, % 25-64", "adj_age25_64_per", "BuPu",
+  "Age, % 65 and up", "adj_age65up_per", "BuPu",
+  "Race, % White", "adj_whitenh_per", "RdPu",
+  "Race, % Black", "adj_blacknh_per", "RdPu",
+  "Race, % Asian", "adj_asiannh_per", "RdPu",
+  "Race, % American Indian", "adj_amindnh_per", "RdPu",
+  "Race, % Other + Multiracial", "adj_othermultinh_per", "RdPu",
+  "Ethnicity, % Hispanic", "adj_hisppop_per", "YlGnBu",
+  "Ethnicity, % not-Hispanic", "adj_nothisppop_per", "YlGnBu",
+  "Mean household income", "adj_meanhhi", "YlGnBu",
+  "% Housholds without a vehicle", "adj_novehicle_per", "Blues",
+  "% speaking English less than very well", "adj_lep_per", "Blues",
+  "% Spanish speakers", "adj_span_per", "Blues",
+  "Ability, % any disability", "adj_anydis_per", "OrRd",
+  "Origin, % US-born", "adj_usborn_per", "YlGn",
+  "Origin, % foreign-born", "adj_forborn_per", "YlGn"
 )
 
 recodeadjtable <- tibble::tribble(
@@ -142,26 +142,26 @@ recodeadjtable <- tibble::tribble(
 )
 
 popkey <- tibble::tribble( #------
-                           ~goodname, ~"popvar", ~"short",
-                           "2019 pop.", "PopEst_2019", "2019 pop.\n(persons)",
-                           "2019 pop. density",  "PopDens_2019", "2019 density\n(by percentile)",
-                           "2040 pop.", "POP2040",  "2040 pop.\n(persons)",
-                           "2040 pop. density", "popdens_2040_mi", "2040 density\n(by percentile)",
-                           "Growth, relative", "growth_rel_10_40","Relative growth\n(by percentile)",
-                           "Growth, absolute", "growth_abs_10_40", "Absolute growth\n(persons)"
+  ~goodname, ~"popvar", ~"short",
+  "2019 pop.", "PopEst_2019", "2019 pop.\n(persons)",
+  "2019 pop. density", "PopDens_2019", "2019 density\n(by percentile)",
+  "2040 pop.", "POP2040", "2040 pop.\n(persons)",
+  "2040 pop. density", "popdens_2040_mi", "2040 density\n(by percentile)",
+  "Growth, relative", "growth_rel_10_40", "Relative growth\n(by percentile)",
+  "Growth, absolute", "growth_abs_10_40", "Absolute growth\n(persons)"
 )
 
 
 iconwater <- awesomeIcons(
-  icon = 'tint',
-  iconColor = 'black',
-  library = 'glyphicon',
+  icon = "tint",
+  iconColor = "black",
+  library = "glyphicon",
   markerColor = "blue"
 )
 
 iconentry <- awesomeIcons(
-  icon = 'map-marker',
-  iconColor = 'black',
-  library = 'glyphicon',
+  icon = "map-marker",
+  iconColor = "black",
+  library = "glyphicon",
   markerColor = "orange"
 )

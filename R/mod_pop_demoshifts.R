@@ -32,7 +32,7 @@ mod_pop_demoshifts_ui <- function(id) {
 #' @importFrom ggplot2 ggplot aes
 mod_pop_demoshifts_server <- function(input, output, session) {
   ns <- session$ns
-  
+
   # ##########
   # # Figs
   # ##########
@@ -56,7 +56,7 @@ mod_pop_demoshifts_server <- function(input, output, session) {
   #   scale_fill_brewer(palette = "Blues")
   #
   # # but I like this:
-  
+
   output$race <- renderPlot({
     regionalparks.acs::demo_shifts %>%
       filter(Type == "raceshift") %>%
@@ -80,8 +80,8 @@ mod_pop_demoshifts_server <- function(input, output, session) {
       ) +
       scale_fill_brewer(palette = "Blues") +
       geom_text(aes(label = paste0(round(Percent, 1), "%")),
-                position = position_stack(vjust = 0.5),
-                size = 6
+        position = position_stack(vjust = 0.5),
+        size = 6
       )
   })
   #
@@ -128,8 +128,8 @@ mod_pop_demoshifts_server <- function(input, output, session) {
       ) +
       scale_fill_brewer(palette = "Greens") +
       geom_text(aes(label = paste0(round(Percent, 1), "%")),
-                position = position_stack(vjust = 0.5),
-                size = 6
+        position = position_stack(vjust = 0.5),
+        size = 6
       )
   })
 }

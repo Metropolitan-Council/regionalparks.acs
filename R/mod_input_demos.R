@@ -4,13 +4,13 @@
 #'
 #' @param id,input,output,session Internal parameters for {shiny}.
 #'
-#' @noRd 
+#' @noRd
 #'
-#' @importFrom shiny NS tagList 
-mod_input_demos_ui <- function(id){
+#' @importFrom shiny NS tagList
+mod_input_demos_ui <- function(id) {
   ns <- NS(id)
-  
-  
+
+
   tagList(
     HTML("<form class='well'>
                   <div id='input_demos_ui_1-input_acsmap' class='form-group shiny-input-radiogroup shiny-input-container shiny-bound-input'>
@@ -156,32 +156,30 @@ mod_input_demos_ui <- function(id){
                     </div>
                   </div>
                 </form>")
-  ) 
+  )
 }
-    
 
-    
+
+
 #' input_demos Server Function
 #'
-#' @noRd 
-mod_input_demos_server <- function(input, output, session){
+#' @noRd
+mod_input_demos_server <- function(input, output, session) {
   ns <- session$ns
- 
+
   input_values <- reactiveValues() # start with an empty reactiveValues object.
-  
+
   observeEvent(input$input_acsmap, { # only update when the user changes the ACS input
     input_values$input_acsmap <- input$input_acsmap # create/update the ACS input value in our reactiveValues object
   })
-  
+
   return(input_values)
-  
 }
 
 
 
 ## To be copied in the UI
 # mod_input_demos_ui("input_demos_ui_1")
-    
+
 ## To be copied in the server
 # callModule(mod_input_demos_server, "input_demos_ui_1")
- 

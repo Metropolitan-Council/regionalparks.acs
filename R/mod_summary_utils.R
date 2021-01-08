@@ -18,7 +18,7 @@ mod_summary_utils_ui <- function(id) {
 mod_summary_utils_server <- function(input, output, session,
                                      selected_vars) {
   ns <- session$ns
-  
+
   make_table_buffer_data <- reactive({
     p <- regionalparks.acs::long_buffer_data %>%
       dplyr::filter(
@@ -41,10 +41,10 @@ mod_summary_utils_server <- function(input, output, session,
         name, " (", status, ")", " falls into the ",
         "<b>", acs_short, "</b>",
         " category"
-      ), 55)) 
+      ), 55))
     return(p)
   })
-  
+
   make_plot_buffer_data <- reactive({
     make_table_buffer_data() %>%
       dplyr::filter(
@@ -63,7 +63,7 @@ mod_summary_utils_server <- function(input, output, session,
         name = forcats::fct_reorder(name, (value))
       )
   })
-  
+
   make_facet_data <- reactive({
     regionalparks.acs::agency_avg %>%
       filter(
@@ -90,12 +90,12 @@ mod_summary_utils_server <- function(input, output, session,
       ) %>%
       rename(name = agency) %>%
       bind_rows(make_plot_buffer_data() %>%
-                  mutate(level = "Unit values")) %>%
+        mutate(level = "Unit values")) %>%
       pivot_wider(names_from = ACS, values_from = value) %>%
       rename(value = starts_with("adj")) %>%
       mutate(hovtext = paste0("Approx. ", .$value, "% of pple within", .$distance, " mi are"))
   })
-  
+
   make_map_parktrail_data <- reactive({
     p4 <- regionalparks.acs::park_trail_geog_LONG %>%
       dplyr::filter(
@@ -105,8 +105,8 @@ mod_summary_utils_server <- function(input, output, session,
       )
     return(p4)
   })
-  
-  
+
+
   make_map_buffer_data <- reactive({
     p5 <- regionalparks.acs::buffer_geo %>%
       dplyr::filter(
@@ -117,8 +117,8 @@ mod_summary_utils_server <- function(input, output, session,
       )
     return(p5)
   })
-  
-  
+
+
   make_map_bg_data <- reactive({
     p6 <- if (selected_vars$input_acs %in% tract_vars$ACS) {
       regionalparks.acs::census_tract_map %>%
@@ -129,34 +129,34 @@ mod_summary_utils_server <- function(input, output, session,
     }
     return(p6)
   })
-  
-  
+
+
   vals <- reactiveValues()
-  
+
   observe({
     vals$table_buffer_data <- make_table_buffer_data()
   })
-  
+
   observe({
     vals$plot_buffer_data <- make_plot_buffer_data()
   })
-  
+
   observe({
     vals$map_parktrail_data <- make_map_parktrail_data()
   })
-  
+
   observe({
     vals$map_buffer_data <- make_map_buffer_data()
   })
-  
+
   observe({
     vals$map_bg_data <- make_map_bg_data()
   })
-  
+
   observe({
     vals$facet_data <- make_facet_data()
   })
-  
+
   return(vals)
 }
 
