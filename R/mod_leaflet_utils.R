@@ -86,10 +86,20 @@ mod_leaflet_utils_server <- function(input, output, session,
   observe({
     vals$leaflet_data <- make_leafletacs_data()
   })
+  
+  
+  generate_leaflet_pal <- reactive({
+    pal <- colorNumeric(n = 9, palette = "Blues", domain = vals$leaflet_data[[1]])
+    return(pal)
+  })
+  
+  observe({
+    vals$leaflet_pal <- generate_leaflet_pal()
+  })
+  
   return(vals)
   
   
-
 }
     
 ## To be copied in the UI

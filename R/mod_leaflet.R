@@ -319,7 +319,6 @@ mod_leaflet_server <- function(input, output, session,
   
 
   observeEvent(selected_map_vars$input_acsmap, {
-    pal <- (colorNumeric(n = 9, palette = "Blues", domain = util_leaflet$leaflet_data[[1]]))
 
     leafletProxy("overviewmap") %>%
       clearGroup("Demographic data") %>%
@@ -333,11 +332,7 @@ mod_leaflet_server <- function(input, output, session,
         weight = 0.25,
         fillOpacity = 0.6,
         smoothFactor = 0.2,
-        fillColor = ~ colorNumeric(
-          # n = 7,
-          palette = "Blues",
-          domain = util_leaflet$leaflet_data[[1]]
-        )(util_leaflet$leaflet_data[[1]]),
+        fillColor = ~util_leaflet$leaflet_pal(util_leaflet$leaflet_data[[1]]),
 
         popup = if (selected_map_vars$input_acsmap == "adj_meanhhi") {
           ~ paste0(tags$strong(filter(renamekey, ACS == selected_map_vars$input_acsmap) %>% select(goodname)), ": $", format(util_leaflet$leaflet_data[[1]], big.mark = ","))
@@ -354,7 +349,7 @@ mod_leaflet_server <- function(input, output, session,
                 position = "bottomleft",
                 group = "Demographic data",
                 layerId = "Demographic data",
-                pal = pal,
+                pal = util_leaflet$leaflet_pal,
                 values = util_leaflet$leaflet_data[[1]])
   })
 
