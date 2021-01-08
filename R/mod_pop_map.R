@@ -31,71 +31,81 @@ mod_pop_map_server <- function(input, output, session,
 ) {
   ns <- session$ns
   
-  # w <- Waiter$new(id = ns("popmap"))
-  # output$test<-renderPrint(selected_popvars$input_pop)
-  
   output$popmap <- mod_leaflet_base_server(input = input,
                                            output = output,
                                            session = session) #----
   
-  # pal <- case_when(
-  #   selected_popvars$input_pop == "PopDens_2019" ~ 
-  #     colorQuantile(n=9, palette = "Blues", domain = summary_poputil$pop_data[[1]]),
-  #   TRUE ~ 
-  #     colorNumeric(n = 9, palette = "Purples", domain = summary_poputil$pop_data[[1]])
-  # )
   
-  # test <- tibble::tribble(
-  #   ~var, ~pal,
-  #   "PopDens_2019", colorQuantile(n=9, palette = "Purples", domain = regionalparks.acs::est_pop$PopDens_2019[[1]]),
-  #   "PopEst_2019", colorQuantile(n=9, palette = "Blues", domain = regionalparks.acs::est_pop$PopEst_2019[[1]]),
-  #   "growth_rel_10_40", colorQuantile(n = 9, palette = "Greens", domain = regionalparks.acs::taz_growth$growth_rel_10_40[[1]]),
-  #   "growth_abs_10_40", colorQuantile(n = 9, palette = "Greens", domain = regionalparks.acs::taz_growth$growth_abs_10_40[[1]]),
-  #   "popdens_2040_mi", colorQuantile(n = 9, palette = "Greens", domain = regionalparks.acs::taz_growth$popdens_2040_mi[[1]]),
-  #   "POP2040", colorQuantile(n = 9, palette = "Greens", domain = regionalparks.acs::taz_growth$POP2040[[1]]))
   
   # outputOptions(output, "popmap", suspendWhenHidden = FALSE)
   
   observeEvent(selected_popvars$input_pop,{
-    # w$show()
     
-    pal <- if(
-      selected_popvars$input_pop == "PopDens_2019" | selected_popvars$input_pop == "popdens_2040_mi" | selected_popvars$input_pop == "growth_rel_10_40")
-      (colorQuantile(n = 9, palette = "Blues", domain = summary_poputil$pop_data[[1]])) else (
-        colorNumeric(n = 9, palette = "Blues", domain = summary_poputil$pop_data[[1]])
-      )
-    (leafletProxy("popmap") %>%
-        clearGroup("Population data") %>%
-        clearControls() %>%
-        addPolygons(
-          group = "Population data",
-          data = summary_poputil$pop_data,
-          stroke = TRUE,
-          color = councilR::colors$suppGray,
-          opacity = 0.6,
-          weight = 0.25,
-          fillOpacity = 0.6,
-          smoothFactor = 0.2,
-          fillColor = ~ pal(summary_poputil$pop_data[[1]]),
-          popup = case_when(
-            selected_popvars$input_pop == "growth_rel_10_40" ~
-              paste0(tags$strong(filter(popkey, popvar == selected_popvars$input_pop) %>% select(goodname)), ": ", round(summary_poputil$pop_data[[1]], 2), " x"),
-            (selected_popvars$input_pop == "popdens_2040_mi" | selected_popvars$input_pop == "PopDens_2019") ~
-              paste0(tags$strong(filter(popkey, popvar == selected_popvars$input_pop) %>% select(goodname)), ": ", format(round(summary_poputil$pop_data[[1]], 1), big.mark = ","), " persons/mile"),
-            TRUE ~ paste0(tags$strong(filter(popkey, popvar == selected_popvars$input_pop) %>% select(goodname)), ": ", format(summary_poputil$pop_data[[1]], big.mark = ","), " persons")
-          ),
-          options = list(zIndex = 0)
-        ) %>%
-        addLegend(title = paste0(filter(popkey, popvar == selected_popvars$input_pop) %>% select(short)),
-                  position = "bottomleft",
-                  group = "Population data",
-                  layerId = "Population data",
-                  pal = pal,
-                  values = summary_poputil$pop_data[[1]]))
+    leafletProxy("popmap") %>%
+      clearGroup("Population data") %>%
+      clearControls() %>%
+      addPolygons(
+        group = "Population data",
+        data = summary_poputil$pop_data,
+        stroke = TRUE,
+        color = councilR::colors$suppGray,
+        opacity = 0.6,
+        weight = 0.25,
+        fillOpacity = 0.6,
+        smoothFactor = 0.2,
+        fillColor = ~ summary_pop_util$pop_pal(summary_poputil$pop_data[[1]]),
+        popup = case_when(
+          selected_popvars$input_pop == "growth_rel_10_40" ~
+            paste0(tags$strong(filter(popkey, popvar == selected_popvars$input_pop) %>% select(goodname)), ": ", round(summary_poputil$pop_data[[1]], 2), " x"),
+          (selected_popvars$input_pop == "popdens_2040_mi" | selected_popvars$input_pop == "PopDens_2019") ~
+            paste0(tags$strong(filter(popkey, popvar == selected_popvars$input_pop) %>% select(goodname)), ": ", format(round(summary_poputil$pop_data[[1]], 1), big.mark = ","), " persons/mile"),
+          TRUE ~ paste0(tags$strong(filter(popkey, popvar == selected_popvars$input_pop) %>% select(goodname)), ": ", format(summary_poputil$pop_data[[1]], big.mark = ","), " persons")
+        ),
+        options = list(zIndex = 0)
+      ) %>%
+      addLegend(title = paste0(filter(popkey, popvar == selected_popvars$input_pop) %>% select(short)),
+                position = "bottomleft",
+                group = "Population data",
+                layerId = "Population data",
+                pal = summary_pop_util$pop_pal,
+                values = summary_poputil$pop_data[[1]])
     
-    # on.exit({w$hide()})
-  }
-  )
+  })
+  
+  observeEvent(current_tab, ignoreInit = TRUE, once = TRUE, {
+    
+    leafletProxy("popmap") %>%
+      addPolygons(
+        group = "Population data",
+        data = summary_poputil$pop_data,
+        stroke = TRUE,
+        color = councilR::colors$suppGray,
+        opacity = 0.6,
+        weight = 0.25,
+        fillOpacity = 0.6,
+        smoothFactor = 0.2,
+        fillColor = ~ summary_pop_util$pop_pal(summary_poputil$pop_data[[1]]),
+        popup = case_when(
+          selected_popvars$input_pop == "growth_rel_10_40" ~
+            paste0(tags$strong(filter(popkey, popvar == selected_popvars$input_pop) %>%
+                                 select(goodname)), ": ", round(summary_poputil$pop_data[[1]], 2), " x"),
+          (selected_popvars$input_pop == "popdens_2040_mi" | selected_popvars$input_pop == "PopDens_2019") ~
+            paste0(tags$strong(filter(popkey, popvar == selected_popvars$input_pop) %>% select(goodname)),
+                   ": ", format(round(summary_poputil$pop_data[[1]], 1), big.mark = ","), " persons/mile"),
+          TRUE ~ paste0(tags$strong(filter(popkey, popvar == selected_popvars$input_pop) %>% select(goodname)),
+                        ": ", format(summary_poputil$pop_data[[1]], big.mark = ","), " persons")
+        ),
+        options = list(zIndex = 0)
+      ) %>%
+      addLegend(title = paste0(filter(popkey, popvar == selected_popvars$input_pop) %>% select(short)),
+                position = "bottomleft",
+                group = "Population data",
+                layerId = "Population data",
+                pal = summary_pop_util$pop_pal,
+                values = summary_poputil$pop_data[[1]])
+    
+    
+  })
 }
 
 ## To be copied in the UI
