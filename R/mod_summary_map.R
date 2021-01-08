@@ -66,15 +66,40 @@ mod_summary_map_server <- function(input, output, session,
         weight = 2,
         options = pathOptions(pane = "Agency boundaries")
       ) %>%
-      addMapPane("trans", zIndex = 430) %>%
+    
+      addMapPane("water_access", zIndex = 431) %>%
+      addAwesomeMarkers(
+        group = "Water Access",
+        data = regionalparks.acs::water_access,
+        icon = iconwater,
+        options = pathOptions(pane = "water_access")
+      ) %>%
+      groupOptions(
+        group = "Water Access",
+        zoomLevels = 13:20
+      )   %>%
       
+      addMapPane("entrance", zIndex = 432) %>%
+      addAwesomeMarkers(
+        group = "Park Entrance",
+        data = regionalparks.acs::entrance,
+        icon = iconentry,
+        options = pathOptions(pane = "entrance")
+      ) %>%
+      groupOptions(
+        group = "Park Entrance",
+        zoomLevels = 13:20
+      )   %>%
+      
+      
+      addMapPane("trans", zIndex = 430) %>%
       addCircles(#Markers(
         data = regionalparks.acs::trans_stops,
         group = "Transit",
         radius = 20,
         fill = T,
         stroke = TRUE,
-        weight = 2, # 0.75,
+        weight = 2, 
         color = councilR::colors$transitRed,
         fillColor = councilR::colors$transitRed,
         options = pathOptions(pane = "trans")
@@ -83,15 +108,34 @@ mod_summary_map_server <- function(input, output, session,
         group = "Transit",
         zoomLevels = 13:20
       )  %>%
-      addLayersControl(
+      
+      addMapPane("riverlake", zIndex = 429) %>%
+      addPolygons(
+        data = regionalparks.acs::river_lake,
+        group = "Rivers & Lakes",
+        stroke = TRUE,
+        # weight = 0.5,
+        color = "black",
+        fill = TRUE,
+        fillColor = "black",
+        fillOpacity = 0.9,
+        options = pathOptions(pane = "riverlake")
+      )   %>%
+      
+          addLayersControl(
         position = "bottomright",
         overlayGroups = c(
           "Parks and trails",
           "Buffers",
           "Demographic data",
-          "Agency boundaries",
-          "Transit"
+          "Transit",
+          "Water Access",
+          "Park Entrance",
+          "Rivers & Lakes",
+          "Agency boundaries"
         ),
+        hideGroup = c("Rivers & Lakes"),
+        
         baseGroups = c(
           "Stamen Toner",
           "Carto Positron",

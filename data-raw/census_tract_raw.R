@@ -67,20 +67,23 @@ ct_hisp <- ct %>%
 ct_foreign <- ct %>%
   select(geoid, geoid2, poptotal, usborncit, forborncit, forbornnot) %>%
   mutate(
-    usborncit_percent = round(usborncit / poptotal, digits = 2), # * 100,
-    forborn_percent = round((forborncit + forbornnot) / poptotal, digits = 2))# * 100
+    usborncit_percent = round(usborncit / poptotal, digits = 2) * 100,
+    forborn_percent = round((forborncit + forbornnot) / poptotal, digits = 2) * 100 
   )
 
 
 ## -----------------------------------------------------------------------------------------------------------------------------------------------------
 ct_disability <- ct %>%
-  select(geoid, geoid2, poptotal, anydis, cdenom) %>%
-  mutate(anydis_percent = round(anydis / cdenom, digits = 2)) # * 100)
+  select(geoid, geoid2, poptotal, anydis, ambdis, cdenom) %>%
+  mutate(#anydis_percent = round(anydis / cdenom, digits = 2),
+         ambdis_percent = round(ambdis / cdenom, digits = 2) * 100,
+         anydis_percent = (1 - ambdis_percent)  * 100)
 
 
 ## ------------------------------------------------------------------------------------------------------------------------------------------------------
 ct_inc <- ct %>%
-  select(geoid, geoid2, poptotal, medianhhi)
+  select(geoid, geoid2, poptotal, medianhhi, povertyn, poverty150, pov150_185, povdenom) %>%
+  mutate(pov185_percent = round((povertyn + poverty150 + pov150_185) / povdenom) * 100)
 
 
 ## ------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -128,6 +131,7 @@ census_tract_raw <- census_tract_spatial %>%
     "usborncit_percent",
     "forborn_percent",
     "anydis_percent",
+    "ambdis_percent",
     "age_10_19_percent",
     "ageunder18_percent",
     "age18_39_percent",
@@ -143,6 +147,7 @@ census_tract_raw <- census_tract_spatial %>%
     "hisppop_percent",
     "nothisppop_percent",
     "medianhhi",
+    "pov185_percent",
     geometry
   )
 
@@ -150,7 +155,8 @@ names(census_tract_raw) <- c(
   "GEOID",
   "Origin, US-born",
   "Origin, foreign-born",
-  "Disability, any disability",
+  "Ability, any other disability",
+  "Ability, ambulatory disability",
   "Age, 10-19",
   "Age, under 18",
   "Age, 18-39",
@@ -166,6 +172,7 @@ names(census_tract_raw) <- c(
   "Ethnicity, Hispanic",
   "Ethnicity, Not Hispanic",
   "Income, Median Household Income",
+  "Income, Under 185 poverty threshold",
   "geometry"
 )
 
