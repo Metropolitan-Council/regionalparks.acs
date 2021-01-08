@@ -44,6 +44,7 @@ app_ui <- function(request) {
         
         (mod_summary_selections_ui("summary_selections_ui_1")),
         tabsetPanel(
+          id = "summary_sub_tab",
           selected = "Weighted averages",
           tabPanel(
             "Weighted averages",
