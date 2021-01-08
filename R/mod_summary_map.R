@@ -176,9 +176,6 @@ mod_summary_map_server <- function(input, output, session,
   observeEvent(current_sub_tab, ignoreInit = TRUE, once = TRUE, { # on startup -----
     # browser()
     
-    # if(current_sub_tab != "Weighted averages"){
-    # return()
-    # }
     pal <- colorNumeric(n = 9, palette = "Blues", domain = summary_util$map_bg_data[[1]])
     
     

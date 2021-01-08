@@ -71,7 +71,7 @@ mod_leaflet_server <- function(input, output, session,
 
  
   
-  observeEvent(current_tab, {
+  observeEvent(current_tab,  ignoreInit = TRUE, once = TRUE, {
     # browser()
     leafletProxy("overviewmap") %>%
       addMapPane("Demographic data", zIndex = 0) %>%
@@ -103,7 +103,7 @@ mod_leaflet_server <- function(input, output, session,
                 layerId = "Demographic data",
                 pal = util_leaflet$leaflet_pal,
                 values = util_leaflet$leaflet_data[[1]])
-  }, ignoreInit = TRUE, once = TRUE)
+  })
   
 }
     

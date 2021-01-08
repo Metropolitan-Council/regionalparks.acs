@@ -53,7 +53,7 @@ mod_pop_map_server <- function(input, output, session,
         weight = 0.25,
         fillOpacity = 0.6,
         smoothFactor = 0.2,
-        fillColor = ~ summary_pop_util$pop_pal(summary_poputil$pop_data[[1]]),
+        fillColor = ~ summary_poputil$pop_pal(summary_poputil$pop_data[[1]]),
         popup = case_when(
           selected_popvars$input_pop == "growth_rel_10_40" ~
             paste0(tags$strong(filter(popkey, popvar == selected_popvars$input_pop) %>% select(goodname)), ": ", round(summary_poputil$pop_data[[1]], 2), " x"),
@@ -67,7 +67,7 @@ mod_pop_map_server <- function(input, output, session,
                 position = "bottomleft",
                 group = "Population data",
                 layerId = "Population data",
-                pal = summary_pop_util$pop_pal,
+                pal = summary_poputil$pop_pal,
                 values = summary_poputil$pop_data[[1]])
     
   })
@@ -84,7 +84,7 @@ mod_pop_map_server <- function(input, output, session,
         weight = 0.25,
         fillOpacity = 0.6,
         smoothFactor = 0.2,
-        fillColor = ~ summary_pop_util$pop_pal(summary_poputil$pop_data[[1]]),
+        fillColor = ~ summary_poputil$pop_pal(summary_poputil$pop_data[[1]]),
         popup = case_when(
           selected_popvars$input_pop == "growth_rel_10_40" ~
             paste0(tags$strong(filter(popkey, popvar == selected_popvars$input_pop) %>%
@@ -101,7 +101,7 @@ mod_pop_map_server <- function(input, output, session,
                 position = "bottomleft",
                 group = "Population data",
                 layerId = "Population data",
-                pal = summary_pop_util$pop_pal,
+                pal = summary_poputil$pop_pal,
                 values = summary_poputil$pop_data[[1]])
     
     

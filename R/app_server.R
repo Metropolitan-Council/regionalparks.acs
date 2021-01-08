@@ -8,14 +8,12 @@
 app_server <- function(input, output, session) {
   # List the first level callModules here
   # note: color assignment for parks/trails by status (existing, search, planned) is within golem_utils_server.R file
-  observe({
-    print(input$nav)
-    print(input$summary_sub_tab)
-  })
-  # 
+  
   # observe({
-  #   print(input$tab_being_displayed)
+  #   print(input$nav)
+  #   print(input$summary_sub_tab)
   # })
+  
   
   # # Introduction/Notes tab -----------------------------------------------------------
   callModule(mod_intro_server, "intro_ui_1")
