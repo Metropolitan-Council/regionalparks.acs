@@ -20,7 +20,8 @@ mod_leaflet_ui <- function(id){
 #'
 #' @noRd 
 mod_leaflet_server <- function(input, output, session,
-                               util_leaflet, selected_map_vars){
+                               util_leaflet, selected_map_vars,
+                               current_tab){
   ns <- session$ns
  
   # output$test<-renderPrint(selected_map_vars$input_acsmap)

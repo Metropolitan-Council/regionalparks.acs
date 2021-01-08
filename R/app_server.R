@@ -29,7 +29,8 @@ app_server <- function(input, output, session) {
 
   callModule(mod_leaflet_server, "leaflet_ui_1",
              selected_map_vars = selected_map_vars,
-             util_leaflet = util_leaflet)
+             util_leaflet = util_leaflet,
+             current_tab = input$nav)
   
   # ACS Summary tab ------------------------------------------------------------
   ## get input values
