@@ -29,6 +29,7 @@ mod_summary_ggplot_ui <- function(id) {
 #' mod_summary_ggplot Server Function
 #'
 #' @noRd
+#' @import ggplot2
 mod_summary_ggplot_server <- function(input, output, session,
                                       selected_vars,
                                       summary_util) {
