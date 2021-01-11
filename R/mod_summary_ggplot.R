@@ -11,14 +11,14 @@ mod_summary_ggplot_ui <- function(id) {
   ns <- NS(id)
   tagList(
     shiny::p("This plot provides summarized demographic values for all the regional parks and trails. Point location along the x-axis indicates the demographic value which can be compared across and within units or agencies. Color indicates unit status (green = existing, orange = planned, yellow = search). Shape indicates unit type (circle = park, square = trail). Subplots indicate either average values within agency boundaries or unit-level values. (Right-click on image to copy or download. Click on any point to create a text-based interpretation.)"),
-    
-    
+
+
     plotOutput(ns("leg"), height = 100),
-    
+
     hr(),
-    
+
     uiOutput(ns("text_info")),
-    
+
     plotOutput(
       outputId = ns("Rggplots"),
       click = hoverOpts(ns("plot_click"))
@@ -34,67 +34,67 @@ mod_summary_ggplot_server <- function(input, output, session,
                                       selected_vars,
                                       summary_util) {
   ns <- session$ns
-  
-  
+
+
   type_status_legend <- # status legend -------
-  cowplot::get_legend(
-    tibble(
-      status = rep(c("Existing", "Planned", "Search"), 3),
-      type = rep(c(" Park ", " Trail ", "Agency avg."), each = 3),
-      location = rep(1, 9)
-    ) %>%
-      ggplot2::ggplot(aes(
-        fill = status,
-        pch = type,
-        x = location,
-        y = status
-      )) +
-      ggplot2::geom_point() +
-      scale_shape_manual(values = c(
-        " Park " = 21,
-        " Trail " = 22,
-        "Agency avg." = 8
-      )) +
-      scale_fill_manual(
-        values = c(
-          "Existing" = e_col,
-          "Planned" = p_col,
-          "Search" = s_col
-        )
-      ) +
-      cowplot::theme_cowplot() +
-      guides(
-        fill = guide_legend(
-          override.aes = list(pch = 23, size = 8),
-          label.position = "bottom"
-        ),
-        shape = guide_legend(
-          override.aes = list(size = 8),
-          label.position = "bottom"
-        )
-      ) +
-      labs(fill = "        Status:", shape = "Type:") +
-      theme(legend.position = "bottom")
-  )
-  
-  
+    cowplot::get_legend(
+      tibble(
+        status = rep(c("Existing", "Planned", "Search"), 3),
+        type = rep(c(" Park ", " Trail ", "Agency avg."), each = 3),
+        location = rep(1, 9)
+      ) %>%
+        ggplot2::ggplot(aes(
+          fill = status,
+          pch = type,
+          x = location,
+          y = status
+        )) +
+        ggplot2::geom_point() +
+        scale_shape_manual(values = c(
+          " Park " = 21,
+          " Trail " = 22,
+          "Agency avg." = 8
+        )) +
+        scale_fill_manual(
+          values = c(
+            "Existing" = e_col,
+            "Planned" = p_col,
+            "Search" = s_col
+          )
+        ) +
+        cowplot::theme_cowplot() +
+        guides(
+          fill = guide_legend(
+            override.aes = list(pch = 23, size = 8),
+            label.position = "bottom"
+          ),
+          shape = guide_legend(
+            override.aes = list(size = 8),
+            label.position = "bottom"
+          )
+        ) +
+        labs(fill = "        Status:", shape = "Type:") +
+        theme(legend.position = "bottom")
+    )
+
+
   ## legend -----
   output$leg <- renderPlot({
     plot_grid(type_status_legend)
   })
-  
+
   PlotHeight <- reactive( # plot height ------
-                          # #if want to set a minimum height
-                          return(
-                            if ((nrow(summary_util$plot_buffer_data[!duplicated(summary_util$plot_buffer_data[, c("name")]), ]) * 30) > 200) {
-                              (nrow(summary_util$plot_buffer_data[!duplicated(summary_util$plot_buffer_data[, c("name")]), ]) * 30)
-                            } else {
-                              200
-                            }
-                          )
+    # #if want to set a minimum height
+    return(
+      if ((nrow(summary_util$plot_buffer_data[!duplicated(summary_util$plot_buffer_data[, c("name")]), ]) * 30) > 200) {
+        (nrow(summary_util$plot_buffer_data[!duplicated(summary_util$plot_buffer_data[, c("name")]), ]) * 30)
+      } else {
+        200
+      }
+    )
   )
-  
-  
+
+
   output$Rggplots <- renderPlot(height = function() PlotHeight(), {
     summary_util$facet_data %>%
       ggplot2::ggplot(aes(
@@ -127,10 +127,10 @@ mod_summary_ggplot_server <- function(input, output, session,
       guides(shape = FALSE, fill = FALSE) +
       scale_x_continuous(labels = scales::comma)
   })
-  
+
   color_code <- data.frame(catg = c("Existing", "Planned", "Search"), color = c(e_col, p_col, s_col))
-  
-  
+
+
   output$text_info <- renderUI({
     click <- input$plot_click
     point <- nearPoints(summary_util$facet_data, click, threshold = 10) # , maxpoints = 1, addDist = TRUE)
@@ -142,7 +142,7 @@ mod_summary_ggplot_server <- function(input, output, session,
     background_color <- color_code %>%
       filter(catg == point$status) %>%
       .[, 2]
-    
+
     HTML(if (selected_vars$input_acs != "adj_meanhhi") {
       (
         (

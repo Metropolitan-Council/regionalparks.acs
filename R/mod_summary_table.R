@@ -39,9 +39,9 @@ mod_summary_table_server <- function(input, output, session,
       options = list(scrollX = 500)
     )
   )
-  
+
   observeEvent(selected_vars, {
-    DT::dataTableProxy("output_datatable") %>% 
+    DT::dataTableProxy("output_datatable") %>%
       DT::replaceData(data = summary_util$table_buffer_data_display)
   })
 
