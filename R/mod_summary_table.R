@@ -33,23 +33,14 @@ mod_summary_table_server <- function(input, output, session,
   ns <- session$ns
 
   output$output_datatable <- DT::renderDataTable(
+    server = TRUE,
     DT::datatable(
-      data = (summary_util$table_buffer_data %>%
-        left_join(recodeadjtable) %>%
-        select(-ACS) %>%
-        rename(ACS = nicename) %>%
-        filter(!is.na(ACS)) %>%
+      data = summary_util$table_buffer_data_display,
         mutate(value = round(value, 1)) %>%
         select(agency, name, type, status, distance, ACS, value) %>%
         pivot_wider(names_from = ACS, values_from = value) %>%
-        separate(name,
-          into = c("name", "delete2"),
-          sep = c("_")
         ) %>%
-        select(-delete2) %>% # , -Population) %>%
-        mutate(name = str_replace_all(
           name,
-          c(
             "Regional Park" = "RP",
             "Regional Trail" = "RT",
             "Park Reserve" = "PR"
