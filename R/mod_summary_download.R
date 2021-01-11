@@ -17,6 +17,7 @@ mod_summary_download_ui <- function(id) {
 #' summary_download Server Function
 #'
 #' @noRd
+#' @importFrom utils write.csv
 mod_summary_download_server <- function(input, output, session,
                                         selected_vars,
                                         summary_util) {
@@ -25,7 +26,7 @@ mod_summary_download_server <- function(input, output, session,
   output$downloadData <- downloadHandler(
     filename = paste0("ParksACS_", Sys.Date(), ".csv"),
     content = function(file) {
-      write.csv(summary_util$table_buffer_data %>%
+      utils::write.csv(summary_util$table_buffer_data %>%
         left_join(recodeadjtable) %>%
         select(-ACS) %>%
         rename(ACS = nicename) %>%
