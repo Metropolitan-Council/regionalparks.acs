@@ -36,27 +36,14 @@ mod_summary_table_server <- function(input, output, session,
     server = TRUE,
     DT::datatable(
       data = summary_util$table_buffer_data_display,
-        mutate(value = round(value, 1)) %>%
-        select(agency, name, type, status, distance, ACS, value) %>%
-        pivot_wider(names_from = ACS, values_from = value) %>%
-        ) %>%
-          name,
-            "Regional Park" = "RP",
-            "Regional Trail" = "RT",
-            "Park Reserve" = "PR"
-          )
-        )) %>%
-        rename(
-          Agency = agency,
-          Name = name,
-          Type = type,
-          Status = status,
-          `Buffer Dist.` = distance
-        )
-      ),
       options = list(scrollX = 500)
     )
   )
+  
+  observeEvent(selected_vars, {
+    DT::dataTableProxy("output_datatable") %>% 
+      DT::replaceData(data = summary_util$table_buffer_data_display)
+  })
 
 
   # output$downloadData <- downloadHandler(
