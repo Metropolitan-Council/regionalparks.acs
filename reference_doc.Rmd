@@ -9,18 +9,33 @@ params:
 ---
 ## Notes  
 
-*Regional Parks and the American Community Survey* is a mini-app designed for use by Regional Parks implementing agencies to assist in their progressing toward a more equitable use of regional parks. The app complements the [Regional Parks Equity Toolkit](https://metrocouncil.org/parks/Planning/Parks-Equity-Toolkit.aspx), a set of questions and a process to clarify how regional park projects are advancing equity. The app facilitates direct examination of regional parks and trails system and the demographic characteristics of the census tracts surrounding them.  
+The majority of data used in this app are derived from the American Community Survey (ACS). These data are survey-based estimates and are subject to error. The errors derive from research design (including instrument bias, data frame, and sampling), the survey data collection (non-response bias and response errors), and processing by the Census Bureau (data coding, compilation processes, and case weighting), as well as statistical inference error and uncertainty (which are related to sample size and variance within the measured attributes). US Census Bureau's report on "Accuracy of the Data" can be found [here](https://www2.census.gov/programs-surveys/acs/tech_docs/accuracy/MultiyearACSAccuracyofData2017.pdf?#).  
 
+Further, producing the "weighted averages" necessarily assumed equal distributions of populations across individual census block groups or tracts in order. Population characteristics are likely to be heterogeneous, rather than homogeneous, across areas. Thus, observed population characteristics within a given buffer distance may not reflect the weighted averages presented here, but that does not diminish the value of the weighted averages as a starting point for conversations and actions to increase equitable usage of parks and trails across the Metro Region. 
 
+ACS statistics were used to calculate the percent of people with a certain characteristic within each block group or tract. We scaled these percentages by the 2019 small area population estimates to obtain a more accurate number of people within each group (this more accurate measure of population is not available in collar counties). Weighted averages were produced by multiplying by the percent overlap of a given block group or tract with the buffer zone around individual park and trail units. 
 
-The "Map" tab displays census tracts in the Twin Cities metropolitan area. The tracts' colors correspond to 2014-2018 (5-year) American Community Survey (ACS) demographic metric selected by the user. Each demographic characteristic is shown as a percentage of the total population, with the exception of median household income, which is displayed in dollars. The darker the color, the higher the percentage (or income in dollars).    
+### ACS Variable dictionary
+Specific variables from the American Community Survey which can be evaluated in this tool include:
 
+**Age:** The age classification is based on the age of the person in complete years at the time of interview. People are not to round an age up if the person is close to having a birthday. They can estimate an age if the exact age is not known. An additional instruction on babies also asks respondents to print “0” for babies less than one year old. 
 
+**Race:** The racial categories included in the census questionnaire generally reflect a social definition of race recognized in this country and not an attempt to define race biologically, anthropologically, or genetically. In addition, it is recognized that the categories of the race item include racial and national origin or sociocultural groups. People may choose to report more than one race to indicate their racial mixture, such as “American Indian” and “White.” People who identify their origin as Hispanic, Latino, or Spanish may be of any race.
 
-Statistics produced for American Community Survey and included in ACS tables are survey-based estimates and are subject to error. The errors derive from research design (including instrument bias, data frame, and sampling), the survey data collection (non-response bias and response errors), and processing by the Census Bureau (data coding, compilation processes, and case weighting), as well as statistical inference error and uncertainty (which are related to sample size and variance within the measured attributes). US Census Bureau's report on "Accuracy of the Data" can be found [here](https://www2.census.gov/programs-surveys/acs/tech_docs/accuracy/MultiyearACSAccuracyofData2017.pdf?#).  
+**Ethnicity:** The terms “Hispanic,” “Latino,” and “Spanish” are used interchangeably. Some respondents identify with all three terms while others may identify with only one of these three specific terms. Hispanics or Latinos who identify with the terms “Hispanic,” “Latino,” or “Spanish” are those who classify themselves in one or more of the specific Hispanic, Latino, or Spanish categories listed on the questionnaire (“Mexican,” “Puerto Rican,” or “Cuban”) as well as those who indicate that they are “another Hispanic, Latino, or Spanish origin.” People who do not identify with any of the specific origins listed on the questionnaire but indicate that they are “another Hispanic, Latino, or Spanish origin” are those who identify as Argentinian, Colombian, Dominican, Nicaraguan, Salvadoran, Spaniard, or other Spanish cultures or origins. 
+
+**Income:** Asked of the population 15 years old and over. “Total income” is the sum of the amounts reported separately for wage or salary income; net self-employment income; interest, dividends, or net rental or royalty income or income from estates and trusts; Social Security or Railroad Retirement income; Supplemental Security Income (SSI); public assistance or welfare payments; retirement, survivor, or disability pensions; and all other income.
+
+**Transportation:** These data show the number of passenger cars, vans, and pickup or panel trucks of one-ton (2,000 pounds) capacity or less kept at home and available for the use of household members. Vehicles rented or leased for one month or more, company vehicles, and police and government vehicles are included if kept at home and used for non-business purposes. Motorcycles or other recreational vehicles are excluded. Dismantled or immobile vehicles are excluded. Vehicles kept at home but used only for business purposes also are excluded.
+
+**Language:** Respondents who reported speaking a language other than English were asked to indicate their English-speaking ability based on one of the following categories: “Very well,” “Well,” “Not well,” or “Not at all.” Those who answered “Well,” “Not well,” or “Not at all” are sometimes referred to as “Less than ‘very well.’” Respondents were not instructed on how to interpret the response categories in this question.
+
+**Ability:** Disability status is determined from the answers from  six types of difficulty. For children under 5 years old, hearing and vision difficulty are used to determine disability status. For children between the ages of 5 and 14, disability status is determined from hearing, vision, cognitive, ambulatory, and self-care difficulties. For people aged 15 years  63 and older, they are considered to have a disability if they have difficulty with any one of the six difficulty types (hearing, vision, cognitive, ambulatory, self-care, independent living difficulty).
+
+**Place of birth:** Respondents were asked to select one of two categories: (1) in the United States, or (2) outside the United States. 
 
 ### Contributors  
-
+- Ellen Esch, Data Scientist [ellen.esch@metc.state.mnu.us](mailto:ellen.esch@metc.state.mn.us)
 - Liz Roten, Associate Data Scientist [liz.roten@metc.state.mn.us](mailto:liz.roten@metc.state.mn.us)  
 - Darcie Vandegrift, Principal Parks Researcher [darcie.vandegrift@metc.state.mn.us](mailto:darcie.vandegrift@metc.state.mn.us)  
   
@@ -31,7 +46,7 @@ Statistics produced for American Community Survey and included in ACS tables are
 
 Bibliography includes both data sources and R packages used in app development.  
 ```{r, include=FALSE}
-pkgs <- c("attempt", "config", "councilR", "dplyr", "glue", "golem", "htmltools", "leaflet", "magrittr", "processx", "shiny", "pkgload", "leaflet.extras", "testthat", "data.table", "tigris", "fs", "readxl", "janitor")
+pkgs <- c("attempt", "config", "councilR", "dplyr", "glue", "golem", "htmltools", "leaflet", "magrittr", "processx", "shiny", "pkgload", "leaflet.extras", "testthat", "data.table", "tigris", "fs", "readxl", "janitor", "sf")
 bibtex::write.bib(pkgs)
 # bibliography: Rpackages.bib
 # nocite: '@*'

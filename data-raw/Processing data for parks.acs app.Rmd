@@ -1,0 +1,180 @@
+---
+title: "Processing data for parks.acs app"
+author: "Ellen"
+date: "`r format(Sys.time(), '%d %B %Y')`"
+# output:
+#   pdf_document: default
+#   word_document: default
+#   html_document: default
+output: 
+  github_document:
+    toc: true
+always_allow_html: true
+urlcolor: blue
+---
+
+```{r include=F, warning=F, message=F}
+library(tidyverse)
+library(sf)
+library(tigris)
+```
+
+# Overview
+
+This markdown file walks through the creation of all the data files necessary to run the parks.acs app. 
+
+
+## Park and trail geography
+
+First a single file containing the geographies of the regional parks and trail units needs to be created from files which are published to the MN geospatial commons. *Note:* this is a single, long sf file because the buffer map parses all combinations of agencies * status * type. All code has been updated so that the leaflet map works with the long data as well. 
+
+Running this script produces:
+- `park_trail_geog_LONG.rda`. 
+
+As an aside, if any parks/trails need to be reassigned to different agencies and/or statuses, this is the place to do that. 
+
+
+Park amenities produces park entrance locations and public water access locations.And rivers/lakes.
+
+```{r unitgeo, message=FALSE, warning = F, echo = F}
+source("park_trail_geog_LONG.R")
+
+source("park_amenities.R")
+```
+
+
+## ACS data
+
+ACS data at both the tract and block group levels needs to be processed for the 7 county core, as well as collar counties. We want to include the collar counties within this processing step because the buffer area for some parks and trails extends into areas beyond the 7 county core region. 
+
+Running `census_tract_raw.R` produces:
+- `county_outlines.rda` (leveraging the fact that we have to load the tigris package anyways)
+- `census_tract_raw.rda`
+
+Running `block_group_raw.R` produces:
+- `block_group_raw.rda`
+
+If acs variables need to be added, this is one place where that should be done.
+
+```{r unitgeo, message=FALSE, warning = F, echo = F}
+source("census_tract_raw.R")
+source("block_group_raw.R")
+```
+
+
+## Create the tabular weighted average ACS values 
+
+And this is also done at the block group and tract levels. In some cases demographic variables are suppressed at the block group. We must process those variables at the tract level. 
+
+Running `weighted_avs_bg.R` produces:
+- `agency_avg_bg.rda` (the average acs values within an implementing agency's jurisdiction)
+- `long_buffer_data_bg.rda` (acs values for each park/trail unit at each buffer distance for the variables which exist at the block group level)
+- `agency_planned_existing_avgs` (agency-level averages for each variable including existing and planned units)
+- `buffer_geo.rda` (the buffer geometries at 1, 1.5 and 3 mi radii. these will be plotted)
+
+Running `weighted_avs_tracts.R` produces:
+- `long_buffer_data_tract.rda` ()
+- `agency_planned_existing_avgs_tract.rda` ()
+- `agency_avg_tract` ()
+
+and then we will join the 2 geographies together to create one cohesive weighted average dataset. 
+
+*this is kind of ridiculous, speed up somehow? Or monitor progress?
+```{r unitgeo, message=FALSE, warning = F, echo = F}
+source("weighted_avs_bg.R")
+source("weighted_avs_tracts.R")
+
+long_buffer_data <- long_buffer_data_bg %>% 
+  mutate(geo = "blockgroup") %>%
+  bind_rows(long_buffer_data_tract %>%
+              mutate(geo = "tract"))
+
+usethis::use_data(long_buffer_data, overwrite = TRUE)
+
+agency_avg <- agency_avg_bg %>%
+  mutate(geo = "blockgroup") %>%
+  bind_rows(agency_avg_tract %>%
+              mutate(geo = "tract"))
+
+usethis::use_data(agency_avg, overwrite = TRUE)
+```
+
+## Create the spatial ACS data
+
+We only want to plot the block groups/tracts within the 7 county core region or within the collar counties if the bg/tract intersects with a buffer
+
+Running this produces: 
+- `collar_filter.rda`
+- `block_group.rda`
+- `census_tract.rda`
+
+```{r spatialacs, message=FALSE, warning = F, echo = F}
+source("collar_county_filter.R")
+source("acs_geo.R")
+
+```
+
+## Create population estimates
+
+This script doesn't depend on inputs from any other script.
+
+Running this produces:
+- `est_pop.rda`
+
+```{r popest, message=FALSE, warning = F, echo = F}
+source("pop_est.R")
+
+```
+
+## Create transit layer
+
+```{r transit, message=FALSE, warning = F, echo = F}
+```
+
+## Only keep final files
+agency_avg
+agency_boundary
+block_group
+buffer_geo
+census_tract
+collar_filter
+county_outlines
+demo_shifts
+est_pop
+long_buffer_data
+park_trail_geog_LONG
+taz_growth
+trans_stops
+entrance
+water_access
+river_lake
+
+# reproject
+```{r}
+# agency_boundary <- agency_boundary %>% st_transform(4326)
+# usethis::use_data(agency_boundary, overwrite = TRUE)
+# 
+# block_group <- block_group %>% st_transform(4326)
+# usethis::use_data(block_group, overwrite = TRUE)
+# 
+# buffer_geo <- buffer_geo %>% st_transform(4326)
+# usethis::use_data(buffer_geo, overwrite = TRUE)
+# 
+# census_tract <- census_tract %>% st_transform(4326)
+# usethis::use_data(census_tract, overwrite = TRUE)
+# 
+# county_outlines <- county_outlines %>% st_transform(4326)
+# usethis::use_data(county_outlines, overwrite = TRUE)
+# 
+# est_pop <- est_pop %>% st_transform(4326)
+# usethis::use_data(est_pop, overwrite = TRUE)
+# 
+# park_trail_geog_LONG <- park_trail_geog_LONG %>% st_transform(4326)
+# usethis::use_data(park_trail_geog_LONG, overwrite = TRUE)
+# 
+# taz_growth <- taz_growth %>% st_transform(4326)
+# usethis::use_data(taz_growth, overwrite = TRUE)
+# 
+# trans_stops <- trans_stops %>% st_transform(4326)
+# usethis::use_data(trans_stops, overwrite = TRUE)
+```
