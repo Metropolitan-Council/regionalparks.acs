@@ -43,13 +43,13 @@ mod_summary_ggplot_server <- function(input, output, session,
       type = rep(c(" Park ", " Trail ", "Agency avg."), each = 3),
       location = rep(1, 9)
     ) %>%
-      ggplot(aes(
+      ggplot2::ggplot(aes(
         fill = status,
         pch = type,
         x = location,
         y = status
       )) +
-      geom_point() +
+      ggplot2::geom_point() +
       scale_shape_manual(values = c(
         " Park " = 21,
         " Trail " = 22,
