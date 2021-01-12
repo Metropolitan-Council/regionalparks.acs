@@ -11,7 +11,7 @@ mod_main_leaflet_ui <- function(id){
   ns <- NS(id)
   tagList(
  
-    leafletOutput(ns("map"), width = "100%", height = 400)
+    leafletOutput(ns("map"), width = "100%", height = 700)
     
   )
 }
@@ -51,7 +51,85 @@ mod_main_leaflet_server <- function(input, output, session,
       fill = F,
       weight = 2,
       options = pathOptions(pane = "Agency boundaries")
-    ) 
+    ) %>%
+     
+     addMapPane("water_access", zIndex = 431) %>%
+     addAwesomeMarkers(
+       group = "Water Access",
+       data = regionalparks.acs::water_access,
+       icon = iconwater,
+       options = pathOptions(pane = "water_access")
+     ) %>%
+     groupOptions(
+       group = "Water Access",
+       zoomLevels = 13:20
+     ) %>%
+     addMapPane("entrance", zIndex = 432) %>%
+     addAwesomeMarkers(
+       group = "Park Entrance",
+       data = regionalparks.acs::entrance,
+       icon = iconentry,
+       options = pathOptions(pane = "entrance")
+     ) %>%
+     groupOptions(
+       group = "Park Entrance",
+       zoomLevels = 13:20
+     ) %>%
+     addMapPane("trans", zIndex = 430) %>%
+     addCircles( # Markers(
+       data = regionalparks.acs::trans_stops,
+       group = "Active transit stops",
+       radius = 20,
+       fill = T,
+       stroke = TRUE,
+       weight = 2,
+       color = councilR::colors$transitRed,
+       fillColor = councilR::colors$transitRed,
+       options = pathOptions(pane = "trans")
+     ) %>%
+     groupOptions(
+       group = "Active transit stops",
+       zoomLevels = 13:20
+     ) %>%
+     addMapPane("riverlake", zIndex = 429) %>%
+     addPolygons(
+       data = regionalparks.acs::river_lake,
+       group = "Rivers & Lakes",
+       stroke = TRUE,
+       # weight = 0.5,
+       color = "black",
+       fill = TRUE,
+       fillColor = "black",
+       fillOpacity = 0.9,
+       options = pathOptions(pane = "riverlake")
+     ) %>%
+     hideGroup(
+       c(
+         "Active transit stops",
+         "Water Access",
+         "Park Entrance",
+         "Rivers & Lakes"
+       )
+     ) %>%
+     addLayersControl(
+       position = "bottomright",
+       overlayGroups = c(
+         "Parks and trails",
+         "Buffers",
+         "Population data",
+         "Active transit stops",
+         "Water Access",
+         "Park Entrance",
+         "Rivers & Lakes",
+         "Agency boundaries"
+       ),
+       baseGroups = c(
+         "Carto Positron",
+         "Aerial photography"
+       ),
+       options = layersControlOptions(collapsed = T)
+     ) %>%
+     leaflet::addScaleBar(position = c("bottomleft"))
  })
  
  
@@ -71,8 +149,8 @@ mod_main_leaflet_server <- function(input, output, session,
    print("Rendering main leaflet map")
 
    leafletProxy("map") %>%
-     # clearGroup("Population data") %>%
-     # clearControls() %>%
+     clearGroup("Population data") %>%
+     clearControls() %>%
      addPolygons(
        group = "Population data",
        data = main_lft_inputs$map_bg_data_main,

@@ -19,26 +19,43 @@ app_ui <- function(request) {
 
       # intro tab -----
       tabPanel(
-        "Introduction",
-        mod_intro_ui("intro_ui_1"),
-        sidebarPanel(
-          mod_leaflet_sidebar_ui(id = "leaflet_sidebar_ui_1")
-        ),
-        mainPanel(
-          mod_main_leaflet_ui("main_leaflet_ui_1")
-        )
+        "Home",
+        mod_intro_ui("intro_ui_1")#,
+        # sidebarPanel(
+        #   mod_leaflet_sidebar_ui(id = "leaflet_sidebar_ui_1")
+        # ),
+        # mainPanel(
+        #   mod_main_leaflet_ui("main_leaflet_ui_1")
+        # )
       ),
 
       ## map tab -----
       tabPanel(
         "System Map",
-        tags$p(HTML("This map provides a general overview of population characteristics across the 7-county Twin Cities region and adjacent areas. Data is from the 5-year American Community Survey (2015-2019) and shows the highest spatial resolution possible by variable (either Census tract or block group). Each demographic characteristic is shown as a percentage of the total population, with the exception of median household income, which is displayed in dollars. The darker the color, the higher the percentage (or income in dollars).")),
+        tags$p(HTML("This map provides a general overview of the population across the 7-county Twin Cities region and adjacent areas.")),
+        tags$p(HTML("Population characteristic data is from the 5-year American Community Survey (2015-2019) and shows the highest spatial resolution possible by variable (either Census tract or block group). Each demographic characteristic is shown as a percentage of the total population, with the exception of median household income, which is displayed in dollars. The darker the color, the higher the percentage (or income in dollars).")), 
+        shiny::p(
+          "Population growth data is from the Metropolitan Council's published estimates. Current population estimates are available for Census block groups. Future forecasts are based on 2010 Census data and city comprehensive plans and available at the transportation analysis zone (a coarser spatial resolution than Census block groups). Forecasts of shifting population demographics (race/ethnicity and age) are only available at the regional level, and are summarised in a ", 
+          a(href = "https://metrocouncil.org/Data-and-Maps/Publications-And-Resources/MetroStats/Land-Use-and-Development/Steady-Growth-and-Big-Changes-Ahead-Regional-Forec.aspx", 
+            "MetroStats publication.",
+            .noWS = "outside",
+            target="_blank"
+          ), "More information and raw data can be found on the ",
+          a(
+            href = "https://metrocouncil.org/Data-and-Maps/Research-and-Data/Thrive-2040-Forecasts.aspx",
+            "Metropolitan Council website.",
+            .noWS = "outside",
+            target="_blank"
+          )
+        ),
 
         sidebarPanel(
-          mod_input_demos_ui(id = "input_demos_ui_1"),
+          mod_leaflet_sidebar_ui(id = "leaflet_sidebar_ui_1")
+          # mod_input_demos_ui(id = "input_demos_ui_1")
         ),
         mainPanel(
-          mod_leaflet_ui(id = "leaflet_ui_1")
+          mod_main_leaflet_ui("main_leaflet_ui_1")
+          # mod_leaflet_ui(id = "leaflet_ui_1")
         )
       ),
 
@@ -58,45 +75,45 @@ app_ui <- function(request) {
                            # height = "mod_summary_utils$sum_plotheight"),
                            # style = "height:mod_summary_utils$sum_plotheight"),
                   hr(),
-                  fluidRow(mod_summary_map_ui("summary_map_ui_1")),
+                  # fluidRow(mod_summary_map_ui("summary_map_ui_1")),
                   hr(),
                   fluidRow(mod_summary_download_ui("summary_download_ui_1"),
                            mod_summary_table_ui("summary_table_ui_1")))
         
       ),
 
-      # Pop growth tab -----
-      tabPanel(
-        "Population Growth",
-        shiny::p(
-          "The Metropolitan Council publishes current population estimates and future forecasted population estimates. Current population estimates are available for Census block groups. Future forecasts are based on 2010 Census data and city comprehensive plans and available at the transportation analysis zone (a coarser spatial resolution than Census block groups). Forecasts of shifting population demographics (race/ethnicity and age) are only available at the regional level, and are summarised in a ", 
-          a(href = "https://metrocouncil.org/Data-and-Maps/Publications-And-Resources/MetroStats/Land-Use-and-Development/Steady-Growth-and-Big-Changes-Ahead-Regional-Forec.aspx", 
-          "MetroStats publication.",
-          .noWS = "outside",
-          target="_blank"
-          ), 
-          br(), br(), " Given the differential methods and geographies used in calculating current and future populations, we will not perform further analyses on these data. However, the overarching patterns still may be useful in parks planning. More information and raw data can be found on the ",
-          a(
-            href = "https://metrocouncil.org/Data-and-Maps/Research-and-Data/Thrive-2040-Forecasts.aspx",
-            "Metropolitan Council website.",
-            .noWS = "outside",
-            target="_blank"
-          )
-        ),
-        # tabsetPanel(
-          # id = "tab_being_displayed",
-          # selected = "Population map",
-          # tabPanel(
-            # "Population map",
-            sidebarPanel(mod_pop_selections_ui("pop_selections_ui_1")),
-            mainPanel(mod_pop_map_ui("pop_map_ui_1"))
-          # ),
-          # tabPanel(
-            # "Demographic shifts",
-            # mod_pop_demoshifts_ui("pop_demoshifts_ui_1")
-          # )
-        # )
-      ),
+      # # Pop growth tab -----
+      # tabPanel(
+      #   "Population Growth",
+      #   shiny::p(
+      #     "The Metropolitan Council publishes current population estimates and future forecasted population estimates. Current population estimates are available for Census block groups. Future forecasts are based on 2010 Census data and city comprehensive plans and available at the transportation analysis zone (a coarser spatial resolution than Census block groups). Forecasts of shifting population demographics (race/ethnicity and age) are only available at the regional level, and are summarised in a ", 
+      #     a(href = "https://metrocouncil.org/Data-and-Maps/Publications-And-Resources/MetroStats/Land-Use-and-Development/Steady-Growth-and-Big-Changes-Ahead-Regional-Forec.aspx", 
+      #     "MetroStats publication.",
+      #     .noWS = "outside",
+      #     target="_blank"
+      #     ), 
+      #     br(), br(), " Given the differential methods and geographies used in calculating current and future populations, we will not perform further analyses on these data. However, the overarching patterns still may be useful in parks planning. More information and raw data can be found on the ",
+      #     a(
+      #       href = "https://metrocouncil.org/Data-and-Maps/Research-and-Data/Thrive-2040-Forecasts.aspx",
+      #       "Metropolitan Council website.",
+      #       .noWS = "outside",
+      #       target="_blank"
+      #     )
+      #   ),
+      #   # tabsetPanel(
+      #     # id = "tab_being_displayed",
+      #     # selected = "Population map",
+      #     # tabPanel(
+      #       # "Population map",
+      #       sidebarPanel(mod_pop_selections_ui("pop_selections_ui_1")),
+      #       mainPanel(mod_pop_map_ui("pop_map_ui_1"))
+      #     # ),
+      #     # tabPanel(
+      #       # "Demographic shifts",
+      #       # mod_pop_demoshifts_ui("pop_demoshifts_ui_1")
+      #     # )
+      #   # )
+      # ),
 
       ## Notes tab -----
       tabPanel(
