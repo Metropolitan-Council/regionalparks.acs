@@ -13,9 +13,9 @@ mod_summary_ggplot_ui <- function(id) {
     shiny::p("This plot provides summarized demographic values for all the regional parks and trails. Point location along the x-axis indicates the demographic value which can be compared across and within units or agencies. Color indicates unit status (green = existing, orange = planned, yellow = search). Shape indicates unit type (circle = park, square = trail). Subplots indicate either average values within agency boundaries or unit-level values. (Right-click on image to copy or download. Click on any point to create a text-based interpretation.)"),
 
 
-    plotOutput(ns("leg"), height = 100),
+    # plotOutput(ns("leg"), height = 100),
 
-    hr(),
+    # hr(),
 
     uiOutput(ns("text_info")),
 
@@ -122,10 +122,14 @@ mod_summary_ggplot_server <- function(input, output, session,
         strip.background = element_rect(fill = "grey90"),
         panel.border = element_rect(color = "black", fill = NA),
         strip.placement = "outside",
-        panel.grid.minor.x = element_blank()
+        panel.grid.minor.x = element_blank()#,
+        # legend.position = "bottom", legend.box = "vertical"
       ) +
-      guides(shape = FALSE, fill = FALSE) +
-      scale_x_continuous(labels = scales::comma)
+      guides(fill = guide_legend(override.aes = list(shape = 21) )) +
+      # guides(shape = FALSE, fill = FALSE) +
+      scale_x_continuous(labels = scales::comma) +
+      geom_stripes(odd = "#00000000", even = "#cfcfcf33")
+    
   })
 
   color_code <- data.frame(catg = c("Existing", "Planned", "Search"), color = c(e_col, p_col, s_col))

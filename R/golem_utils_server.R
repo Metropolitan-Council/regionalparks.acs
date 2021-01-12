@@ -71,6 +71,8 @@ rvtl <- shiny::reactiveValuesToList
 #' @import stringr
 #' @import cowplot
 #' @import councilR
+#' @import ggforestplot
+
 e_col <- "#78A22F" # CD green
 p_col <- "#AA5FEC" # purple
 s_col <- "#DDCC77" # yellow
@@ -152,14 +154,14 @@ popkey <- tibble::tribble( #------
 )
 
 
-iconwater <- awesomeIcons(
+iconwater <- leaflet::awesomeIcons(
   icon = "tint",
   iconColor = "black",
   library = "glyphicon",
   markerColor = "blue"
 )
 
-iconentry <- awesomeIcons(
+iconentry <- leaflet::awesomeIcons(
   icon = "map-marker",
   iconColor = "black",
   library = "glyphicon",

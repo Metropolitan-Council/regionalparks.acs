@@ -12,8 +12,8 @@ mod_summary_selections_ui <- function(id) {
   tagList(
     h3("Select inputs "),
     fluidRow(
-      column(
-        width = 3,
+      # column(
+        # width = 3,
         selectInput(
           ns("input_acs"),
           label = h5("ACS variable"),
@@ -49,10 +49,10 @@ mod_summary_selections_ui <- function(id) {
             )
           ),
           selected = "adj_ageunder15_per", selectize = F
-        )
+        # )
       ),
-      column(
-        width = 3,
+      # column(
+        # width = 3,
         selectInput(
           ns("input_agency"),
           label = h5("Agenc(y/ies)"),
@@ -70,35 +70,35 @@ mod_summary_selections_ui <- function(id) {
           ),
           selected = "Anoka County",
           multiple = TRUE, selectize = T
-        )
+        # )
       ),
-      column(
-        width = 2,
+      # column(
+        # width = 2,
         radioButtons(
           ns("input_distance"),
           label = h5("Buffer dist. (mi)"),
           choices = c(1.0, 1.5, 3),
           selected = c(1.0)
-        )
+        # )
       ),
-      column(
-        width = 2,
+      # column(
+        # width = 2,
         checkboxGroupInput(
           ns("input_type"),
           label = h5("Type"),
           choices = c("Park", "Trail"),
           selected = c("Park", "Trail")
-        )
+        # )
       ),
-      column(
-        width = 2,
+      # column(
+        # width = 2,
         checkboxGroupInput(
           ns("input_status"),
           label = h5("Status"),
           choices = c("Existing", "Planned", "Search"), # HTML("<strong>Existing</strong>") #something like this doesn't exist, but if these text colors could match point colors that would be great!
           selected = c("Existing", "Planned", "Search")
         )
-      )
+      # )
     )
   )
 }

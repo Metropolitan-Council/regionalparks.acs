@@ -40,28 +40,42 @@ app_ui <- function(request) {
       tabPanel(
         title = "Unit Summary",
         id = "sumtabs",
-        HTML("<p>Population characteristics within a given buffer zone around park and trail units are summarized in several ways. The <em>Weighted averages</em> tab distills complex spatial demographic patterns into a single summary statistic and will be appropriate for most uses. The <em>Buffer map</em> tab shows the spatial demographic patterns with the buffer analysis zones overlayed. The <em>Download tabular data</em> tab displays summary statistics for all ACS variables in tabular form.</p>"),
+        # HTML("<p>Population characteristics within a given buffer zone around park and trail units are summarized in several ways. The <em>Weighted averages</em> tab distills complex spatial demographic patterns into a single summary statistic and will be appropriate for most uses. The <em>Buffer map</em> tab shows the spatial demographic patterns with the buffer analysis zones overlayed. The <em>Download tabular data</em> tab displays summary statistics for all ACS variables in tabular form.</p>"),
+        
+        # hr()
 
-        (mod_summary_selections_ui("summary_selections_ui_1")),
-        tabsetPanel(
-          id = "summary_sub_tab",
-          selected = "Weighted averages",
-          tabPanel(
-            "Weighted averages",
-            mod_summary_ggplot_ui("mod_summary_ggplot_ui_1")
-          ),
-
-          tabPanel(
-            id = "buffermap",
-            "Buffer map",
-            mod_summary_map_ui("summary_map_ui_1")
-          ),
-          tabPanel(
-            "Download tabular data", br(),
-            mod_summary_download_ui("summary_download_ui_1"),
-            mod_summary_table_ui("summary_table_ui_1")
-          )
-        )
+        sidebarPanel(width = 3, mod_summary_selections_ui("summary_selections_ui_1"),
+                      style = "position:fixed;width:inherit;"),
+        mainPanel(width = 9,
+                  fluidRow(mod_summary_ggplot_ui("mod_summary_ggplot_ui_1"),
+                           style = "height:1000px"),
+                           # height = "mod_summary_utils$sum_plotheight"),
+                           # style = "height:mod_summary_utils$sum_plotheight"),
+                  hr(),
+                  fluidRow(mod_summary_map_ui("summary_map_ui_1")),
+                  hr(),
+                  fluidRow(mod_summary_download_ui("summary_download_ui_1"),
+                           mod_summary_table_ui("summary_table_ui_1")))
+        
+        # tabsetPanel(
+        #   id = "summary_sub_tab",
+        #   selected = "Weighted averages",
+        #   tabPanel(
+        #     "Weighted averages",
+        #     mod_summary_ggplot_ui("mod_summary_ggplot_ui_1")
+        #   ),
+        # 
+        #   tabPanel(
+        #     id = "buffermap",
+        #     "Buffer map",
+        #     mod_summary_map_ui("summary_map_ui_1")
+        #   ),
+        #   tabPanel(
+        #     "Download tabular data", br(),
+        #     mod_summary_download_ui("summary_download_ui_1"),
+        #     mod_summary_table_ui("summary_table_ui_1")
+        #   )
+        # )
       ),
 
       # Pop growth tab -----
