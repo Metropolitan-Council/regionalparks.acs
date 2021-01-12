@@ -22,14 +22,20 @@ are advancing equity. Other stakeholders are invited to use this app in
 service of strengthening equitable use through understanding populations
 and their proximities to the regional park system.
 
-<!-- ## User Guide -->
+## User Guide
 
-<!-- **Map** - is an interactive tool that maps key demographic variables alongside regional parks and trails. -->
+**System Map** - is an interactive tool that maps key population
+demographic variables and population size information alongside regional
+parks and trails.
 
-<!-- **Summary** - is a data visualization that produces discrete demographic characteristics for user-defined inputs across the regional park and trail system. The tool incorporates existing, planned, and search areas for parks and trails. Within this tab, there are **weighted averages** which will be suitable for most users, a **buffer map** which illustrates the buffer zones geospatially, and the option for users to **download tabular data**. -->
+**Unity Summary** - is a data visualization that produces discrete
+demographic characteristics for user-defined inputs across the regional
+park and trail system. The tool incorporates existing, planned, and
+search areas for parks and trails.
+<!-- Within this tab, there are **weighted averages** which will be suitable for most users, a **buffer map** which illustrates the buffer zones geospatially, and the option for users to **download tabular data**. -->
 
 <!-- **Population Growth** - is an interactive map which allows users to view estimated population growth through 2040 alongside regional parks and trails. -->
 
-<!-- **Notes** - provides more information about the background of this tool. -->
+**Notes** - provides more information about the background of this tool.
 
 #### **We suggest you use a desktop web browser. Please click on the individual tabs on the top to start using this tool.**
