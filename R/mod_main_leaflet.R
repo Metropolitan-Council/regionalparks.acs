@@ -53,6 +53,39 @@ mod_main_leaflet_server <- function(input, output, session,
       options = pathOptions(pane = "Agency boundaries")
     ) 
  })
+ 
+ 
+ toListen_mainleaflet <- reactive({
+   list(
+     main_lft_inputs$map_bg_data_main,
+     main_lft_inputs$source,
+     main_lft_inputs$mainacs,
+     main_lft_inputs$mainpop
+   )
+ })
+ 
+ 
+ 
+ observeEvent(
+   toListen_mainleaflet(), {
+   print("Rendering main leaflet map")
+
+   leafletProxy("map") %>%
+     # clearGroup("Population data") %>%
+     # clearControls() %>%
+     addPolygons(
+       group = "Population data",
+       data = main_lft_inputs$map_bg_data_main,
+       stroke = TRUE,
+       color = councilR::colors$suppGray,
+       opacity = 0.6,
+       weight = 0.25,
+       fillOpacity = 0.6,
+       smoothFactor = 0.2,
+       # fillColor = ~ main_lft_inputs$pop_pal(main_lft_inputs$map_bg_data_main[[1]]),
+       options = list(zIndex = 0)
+     )
+ })
   
   
 }

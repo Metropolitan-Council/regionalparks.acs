@@ -161,8 +161,22 @@ mod_leaflet_sidebar_server <- function(input, output, session){
   observe({
     vals$map_bg_data_main <- make_map_bg_data_main()
   })
+
+  observeEvent(input$source, {
+    vals$source <- input$source
+  })
+  
+  observeEvent(input$mainpop, {
+    vals$mainpop <- input$mainpop
+  })
+  
+  observeEvent(input$mainacs, {
+    vals$mainacs <- input$mainacs
+  })
   
   return(vals)
+  
+
   
 }
     
