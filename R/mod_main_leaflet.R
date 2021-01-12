@@ -82,6 +82,11 @@ mod_main_leaflet_server <- function(input, output, session,
        weight = 0.25,
        fillOpacity = 0.6,
        smoothFactor = 0.2,
+      fillColor = ~ colorNumeric(
+         # n = 7,
+         palette = "Blues",
+         domain = main_lft_inputs$map_bg_data_main[[1]]
+       )(main_lft_inputs$map_bg_data_main[[1]]),
        # fillColor = ~ main_lft_inputs$pop_pal(main_lft_inputs$map_bg_data_main[[1]]),
        options = list(zIndex = 0)
      )
