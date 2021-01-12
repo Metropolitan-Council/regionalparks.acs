@@ -111,7 +111,9 @@ mod_summary_ggplot_server <- function(input, output, session,
       labs(
         y = "",
         x = filter(renamekey, ACS == selected_vars$input_acs) %>% select(goodname),
-        title = paste0((filter(renamekey, ACS == selected_vars$input_acs) %>% select(goodname)), " - ", selected_vars$input_distance, " mi buffer")
+        title = paste0((filter(renamekey, ACS == selected_vars$input_acs) %>% select(goodname)), " - ", selected_vars$input_distance, " mi buffer"),
+        fill = "Unit status", shape = "Unit type",
+        caption = paste0("Metropolitan Council, 12 Jan. 2020")
       ) +
       theme(
         axis.text = element_text(size = 14),

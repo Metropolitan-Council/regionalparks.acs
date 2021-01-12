@@ -62,10 +62,10 @@ app_ui <- function(request) {
         id = "sumtabs",
         shiny::p("This plot provides summarized population characteristics (",
         a(href = "",
-        "ACS 2014-2019", 
+        "American Community Survey, 2014-2019", 
         .noWS = "outside",
         target="_blank"
-        ), ") for all the regional parks and trails. Point location along the x-axis indicates the demographic value which can be compared across and within units or agencies. Point color indicates unit status (green = existing, orange = planned, yellow = search). Point shape indicates unit type (circle = park, square = trail). Subplots indicate either average values within agency boundaries or unit-level values."), 
+        ), ") for all the regional parks and trails. Point location along the x-axis indicates the demographic value which can be compared across and within units or agencies. Subplots indicate either average values within agency boundaries or unit-level values."), 
         shiny::p("Right-click on image to copy or download. Click on any point to create a text-based interpretation. Tabular data filtered by agency may also be downloaded."),
         mod_summary_download_ui("summary_download_ui_1"), 
         hr(),

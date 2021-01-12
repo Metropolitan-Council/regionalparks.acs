@@ -11,7 +11,7 @@ mod_summary_selections_ui <- function(id) {
   ns <- NS(id)
   tagList(
     wellPanel(
-      h3("Select inputs "),
+      h3("Select inputs:"),
       # column(
         # width = 3,
         selectInput(
@@ -95,7 +95,7 @@ mod_summary_selections_ui <- function(id) {
         # width = 2,
         checkboxGroupInput(
           ns("input_status"),
-          label = h5("Unit Status"),
+          label = h4("Unit Status"),
           choices = c("Existing", "Planned", "Search"), # HTML("<strong>Existing</strong>") #something like this doesn't exist, but if these text colors could match point colors that would be great!
           selected = c("Existing", "Planned", "Search")
         )
