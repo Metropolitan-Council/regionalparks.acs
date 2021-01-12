@@ -28,7 +28,7 @@ and their proximities to the regional park system.
 demographic variables and population size information alongside regional
 parks and trails.
 
-**Unity Summary** - is a data visualization that produces discrete
+**Unit Summary** - is a data visualization that produces discrete
 demographic characteristics for user-defined inputs across the regional
 park and trail system. The tool incorporates existing, planned, and
 search areas for parks and trails.

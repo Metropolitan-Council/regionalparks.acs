@@ -10,13 +10,14 @@
 mod_summary_selections_ui <- function(id) {
   ns <- NS(id)
   tagList(
-    h3("Select inputs "),
-    fluidRow(
+    wellPanel(
+      h3("Select inputs "),
       # column(
         # width = 3,
         selectInput(
+          # width = '100%',
           ns("input_acs"),
-          label = h5("ACS variable"),
+          label = h4("ACS variable"),
           choices = list(
             `Age` = list(
               "Age, % under 15" = "adj_ageunder15_per",
@@ -55,7 +56,7 @@ mod_summary_selections_ui <- function(id) {
         # width = 3,
         selectInput(
           ns("input_agency"),
-          label = h5("Agenc(y/ies)"),
+          label = h4("Agenc(y/ies)"),
           choices = c(
             "Anoka County",
             "Bloomington",
@@ -76,7 +77,7 @@ mod_summary_selections_ui <- function(id) {
         # width = 2,
         radioButtons(
           ns("input_distance"),
-          label = h5("Buffer dist. (mi)"),
+          label = h4("Buffer dist. (mi)"),
           choices = c(1.0, 1.5, 3),
           selected = c(1.0)
         # )
@@ -85,7 +86,7 @@ mod_summary_selections_ui <- function(id) {
         # width = 2,
         checkboxGroupInput(
           ns("input_type"),
-          label = h5("Type"),
+          label = h4("Unit Type"),
           choices = c("Park", "Trail"),
           selected = c("Park", "Trail")
         # )
@@ -94,7 +95,7 @@ mod_summary_selections_ui <- function(id) {
         # width = 2,
         checkboxGroupInput(
           ns("input_status"),
-          label = h5("Status"),
+          label = h5("Unit Status"),
           choices = c("Existing", "Planned", "Search"), # HTML("<strong>Existing</strong>") #something like this doesn't exist, but if these text colors could match point colors that would be great!
           selected = c("Existing", "Planned", "Search")
         )
