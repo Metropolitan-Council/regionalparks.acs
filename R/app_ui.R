@@ -20,7 +20,13 @@ app_ui <- function(request) {
       # intro tab -----
       tabPanel(
         "Introduction",
-        mod_intro_ui("intro_ui_1")
+        mod_intro_ui("intro_ui_1"),
+        sidebarPanel(
+          mod_leaflet_sidebar_ui(id = "leaflet_sidebar_ui_1")
+        ),
+        mainPanel(
+          
+        )
       ),
 
       ## map tab -----
@@ -57,25 +63,6 @@ app_ui <- function(request) {
                   fluidRow(mod_summary_download_ui("summary_download_ui_1"),
                            mod_summary_table_ui("summary_table_ui_1")))
         
-        # tabsetPanel(
-        #   id = "summary_sub_tab",
-        #   selected = "Weighted averages",
-        #   tabPanel(
-        #     "Weighted averages",
-        #     mod_summary_ggplot_ui("mod_summary_ggplot_ui_1")
-        #   ),
-        # 
-        #   tabPanel(
-        #     id = "buffermap",
-        #     "Buffer map",
-        #     mod_summary_map_ui("summary_map_ui_1")
-        #   ),
-        #   tabPanel(
-        #     "Download tabular data", br(),
-        #     mod_summary_download_ui("summary_download_ui_1"),
-        #     mod_summary_table_ui("summary_table_ui_1")
-        #   )
-        # )
       ),
 
       # Pop growth tab -----
