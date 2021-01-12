@@ -82,26 +82,33 @@ app_ui <- function(request) {
       tabPanel(
         "Population Growth",
         shiny::p(
-          "The Metropolitan Council publishes current population estimates and future forecasted population estimates. Current population estimates are available for Census block groups. Future forecasts are based on 2010 Census data and city comprehensive plans and available at the transportation analysis zone (a coarser spatial resolution than Census block groups). Forecasts of shifting population demographics (race/ethnicity and age) are only available at the regional level. Given the differential methods and geographies used in calculating current and future populations, we will not perform further analyses on these data. However, the overarching patterns still may be useful in parks planning. More information and raw data can be found on the ",
+          "The Metropolitan Council publishes current population estimates and future forecasted population estimates. Current population estimates are available for Census block groups. Future forecasts are based on 2010 Census data and city comprehensive plans and available at the transportation analysis zone (a coarser spatial resolution than Census block groups). Forecasts of shifting population demographics (race/ethnicity and age) are only available at the regional level, and are summarised in a ", 
+          a(href = "https://metrocouncil.org/Data-and-Maps/Publications-And-Resources/MetroStats/Land-Use-and-Development/Steady-Growth-and-Big-Changes-Ahead-Regional-Forec.aspx", 
+          "MetroStats publication.",
+          .noWS = "outside",
+          target="_blank"
+          ), 
+          br(), br(), " Given the differential methods and geographies used in calculating current and future populations, we will not perform further analyses on these data. However, the overarching patterns still may be useful in parks planning. More information and raw data can be found on the ",
           a(
             href = "https://metrocouncil.org/Data-and-Maps/Research-and-Data/Thrive-2040-Forecasts.aspx",
             "Metropolitan Council website.",
-            .noWS = "outside"
+            .noWS = "outside",
+            target="_blank"
           )
         ),
-        tabsetPanel(
-          id = "tab_being_displayed",
-          selected = "Population map",
-          tabPanel(
-            "Population map",
+        # tabsetPanel(
+          # id = "tab_being_displayed",
+          # selected = "Population map",
+          # tabPanel(
+            # "Population map",
             sidebarPanel(mod_pop_selections_ui("pop_selections_ui_1")),
             mainPanel(mod_pop_map_ui("pop_map_ui_1"))
-          ),
-          tabPanel(
-            "Demographic shifts",
-            mod_pop_demoshifts_ui("pop_demoshifts_ui_1")
-          )
-        )
+          # ),
+          # tabPanel(
+            # "Demographic shifts",
+            # mod_pop_demoshifts_ui("pop_demoshifts_ui_1")
+          # )
+        # )
       ),
 
       ## Notes tab -----
