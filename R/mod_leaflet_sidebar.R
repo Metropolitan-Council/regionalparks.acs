@@ -68,18 +68,18 @@ mod_leaflet_sidebar_ui <- function(id){
       
       conditionalPanel(
         ns = ns,
-        condition = "input.source == 'Population size'",
+        condition = "input.source == 'Population estimates'",
         
         selectInput(ns("mainpop"),
                     h4("Choose a variable to map:"),
                     choices = list(
-                      `Observed pop.` = list(
+                      `Annual population estimates` = list(
                         "2019 population" = "PopEst_2019",
                         "2019 population density" = "PopDens_2019"
                       ),
-                      `Forecasted pop.` = list(
-                        "2040 forecast pop." = "POP2040",
-                        "2040 forecast pop. dens." = "popdens_2040_mi"
+                      `Long-range population forecast` = list(
+                        "2040 population" = "POP2040",
+                        "2040 population density" = "popdens_2040_mi"
                       ),
                       `Growth` = list(
                         "2010-2040, absolute growth" = "growth_abs_10_40",
@@ -139,7 +139,7 @@ mod_leaflet_sidebar_server <- function(input, output, session){
     } else {
       regionalparks.acs::block_group_map %>%
         select(input$mainacs)
-    }} else if (input$source == "Population size")  {
+    }} else if (input$source == "Population estimates")  {
       if (input$mainpop %in% observed$observed) {
       regionalparks.acs::est_pop %>%
          select(

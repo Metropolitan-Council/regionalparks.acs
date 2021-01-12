@@ -16,10 +16,8 @@ output:
 *Thrive MSP 2040* directs the Council to collaborate with the Metropolitan Parks and Open Space Commission, regional park implementing agencies, and state partners to strengthen equitable use of regional parks and trails.
 
 
-Accordingly, the Council implemented an equity analysis requirement for all park and trail master plans. Master plans are required to identify the demographics of areas served by the proposed park or trail with a focus on underserved populations on the basis of age, race, ethnicity, income, ability, national origin, and other pertinent characteristics (see the "Variable Dictionary" within the "Notes" tab for more).
-
-
-The app complements the [Regional Parks Equity Toolkit](https://metrocouncil.org/parks/Planning/Parks-Equity-Toolkit.aspx), a set of questions and a process to clarify how regional park projects are advancing equity. Other stakeholders are invited to use this app in service of strengthening equitable use through understanding populations and their proximities to the regional park system.
+The Regional Parks and Trails Equity tool aims to provide all stakeholders with a shared foundation of data and understanding about the characteristics of residents and households living near parks and trails today, and what population shifts are expected in the future with the goal of enhancing both engagement and planning efforts to achieve Thrive’s directive. 
+<!-- The app complements the [Regional Parks Equity Toolkit](https://metrocouncil.org/parks/Planning/Parks-Equity-Toolkit.aspx), a set of questions and a process to clarify how regional park projects are advancing equity. Other stakeholders are invited to use this app in service of strengthening equitable use through understanding populations and their proximities to the regional park system. -->
 
 
 ## User Guide
