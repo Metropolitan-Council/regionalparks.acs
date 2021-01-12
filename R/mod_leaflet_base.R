@@ -28,14 +28,6 @@ mod_leaflet_base_server <- function(input, output, session,
           lng = -93.22,
           zoom = 9
         ) %>%
-        addMapPane(name = "Stamen Toner", zIndex = 430) %>%
-        addProviderTiles("Stamen.TonerLines",
-          group = "Stamen Toner"
-        ) %>%
-        addProviderTiles("Stamen.TonerLabels",
-          options = leafletOptions(pane = "Stamen Toner"),
-          group = "Stamen Toner"
-        ) %>%
         addMapPane(name = "Carto Positron", zIndex = 430) %>%
         addProviderTiles("CartoDB.PositronOnlyLabels",
           options = leafletOptions(pane = "Carto Positron"),
@@ -46,7 +38,7 @@ mod_leaflet_base_server <- function(input, output, session,
         ) %>%
         addProviderTiles(
           provider = providers$Esri.WorldImagery,
-          group = "Esri Imagery"
+          group = "Aerial photography"
         ) %>%
         addMapPane("Agency boundaries", zIndex = 650) %>%
         addPolygons(
@@ -211,7 +203,7 @@ mod_leaflet_base_server <- function(input, output, session,
         addMapPane("trans", zIndex = 430) %>%
         addCircles( # Markers(
           data = regionalparks.acs::trans_stops,
-          group = "Transit",
+          group = "Active transit stops",
           radius = 20,
           fill = T,
           stroke = TRUE,
@@ -221,7 +213,7 @@ mod_leaflet_base_server <- function(input, output, session,
           options = pathOptions(pane = "trans")
         ) %>%
         groupOptions(
-          group = "Transit",
+          group = "Active transit stops",
           zoomLevels = 13:20
         ) %>%
         addMapPane("riverlake", zIndex = 429) %>%
@@ -242,7 +234,7 @@ mod_leaflet_base_server <- function(input, output, session,
             "Regional Trails - planned",
             "Regional Parks - search",
             "Regional Trails - search",
-            "Transit",
+            "Active transit stops",
             "Water Access",
             "Park Entrance",
             "Rivers & Lakes"
@@ -258,16 +250,15 @@ mod_leaflet_base_server <- function(input, output, session,
             "Regional Parks - search",
             "Regional Trails - search",
             "Demographic data",
-            "Transit",
+            "Active transit stops",
             "Water Access",
             "Park Entrance",
             "Rivers & Lakes",
             "Agency boundaries"
           ),
           baseGroups = c(
-            "Stamen Toner",
             "Carto Positron",
-            "Esri Imagery"
+            "Aerial photography"
           ),
           options = layersControlOptions(collapsed = T)
         ) %>%
@@ -281,14 +272,6 @@ mod_leaflet_base_server <- function(input, output, session,
           lng = -93.22,
           zoom = 9
         ) %>%
-        addMapPane(name = "Stamen Toner", zIndex = 430) %>%
-        addProviderTiles("Stamen.TonerLines",
-          group = "Stamen Toner"
-        ) %>%
-        addProviderTiles("Stamen.TonerLabels",
-          options = leafletOptions(pane = "Stamen Toner"),
-          group = "Stamen Toner"
-        ) %>%
         addMapPane(name = "Carto Positron", zIndex = 430) %>%
         addProviderTiles("CartoDB.PositronOnlyLabels",
           options = leafletOptions(pane = "Carto Positron"),
@@ -299,7 +282,7 @@ mod_leaflet_base_server <- function(input, output, session,
         ) %>%
         addProviderTiles(
           provider = providers$Esri.WorldImagery,
-          group = "Esri Imagery"
+          group = "Aerial photography"
         ) %>%
         addMapPane("Agency boundaries", zIndex = 650) %>%
         addPolygons(
@@ -336,7 +319,7 @@ mod_leaflet_base_server <- function(input, output, session,
         addMapPane("trans", zIndex = 430) %>%
         addCircles( # Markers(
           data = regionalparks.acs::trans_stops,
-          group = "Transit",
+          group = "Active transit stops",
           radius = 20,
           fill = T,
           stroke = TRUE,
@@ -346,7 +329,7 @@ mod_leaflet_base_server <- function(input, output, session,
           options = pathOptions(pane = "trans")
         ) %>%
         groupOptions(
-          group = "Transit",
+          group = "Active transit stops",
           zoomLevels = 13:20
         ) %>%
         addMapPane("riverlake", zIndex = 429) %>%
@@ -363,7 +346,7 @@ mod_leaflet_base_server <- function(input, output, session,
         ) %>%
         hideGroup(
           c(
-            "Transit",
+            "Active transit stops",
             "Water Access",
             "Park Entrance",
             "Rivers & Lakes"
@@ -375,7 +358,7 @@ mod_leaflet_base_server <- function(input, output, session,
             "Parks and trails",
             "Buffers",
             "Demographic data",
-            "Transit",
+            "Active transit stops",
             "Water Access",
             "Park Entrance",
             "Rivers & Lakes",
@@ -384,7 +367,7 @@ mod_leaflet_base_server <- function(input, output, session,
           baseGroups = c(
             "Stamen Toner",
             "Carto Positron",
-            "Esri Imagery"
+            "Aerial photography"
           ),
           options = layersControlOptions(collapsed = T)
         ) %>%
