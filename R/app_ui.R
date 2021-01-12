@@ -25,7 +25,7 @@ app_ui <- function(request) {
           mod_leaflet_sidebar_ui(id = "leaflet_sidebar_ui_1")
         ),
         mainPanel(
-          
+          mod_main_leaflet_ui("main_leaflet_ui_1")
         )
       ),
 

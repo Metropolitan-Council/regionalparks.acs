@@ -22,13 +22,13 @@ mod_leaflet_sidebar_ui <- function(id){
                     "Population characteristics",
                     "Population size"
                   ), selectize = FALSE,
-                  selected = "CoStar"
+                  selected = "Population characteristics"
       ),
       
       conditionalPanel(
         ns = ns,
         condition = "input.source == 'Population characteristics'",
-        selectInput(ns("zdate"),
+        selectInput(ns("mainacs"),
                     h4("Choose a variable to map:"),
                       choices = list(
                         `Age` = list(
@@ -70,20 +70,20 @@ mod_leaflet_sidebar_ui <- function(id){
         ns = ns,
         condition = "input.source == 'Population size'",
         
-        selectInput(ns("cdate"),
+        selectInput(ns("mainpop"),
                     h4("Choose a variable to map:"),
                     choices = list(
                       `Observed pop.` = list(
-                        "2019 population" = "adj_ageunder15_per",
-                        "2019 population density" = "adj_age15_24_per"
+                        "2019 population" = "PopEst_2019",
+                        "2019 population density" = "PopDens_2019"
                       ),
                       `Forecasted pop.` = list(
-                        "2040 forecast pop." = "adj_hisppop_per",
-                        "2040 forecast pop. dens." = "adj_nothisppop_per"
+                        "2040 forecast pop." = "POP2040",
+                        "2040 forecast pop. dens." = "popdens_2040_mi"
                       ),
                       `Growth` = list(
-                        "2010-2040, absolute growth" = "adj_forborn_per",
-                        "2010-2040, relative growth" = "adj_usborn_per"
+                        "2010-2040, absolute growth" = "growth_abs_10_40",
+                        "2010-2040, relative growth" = "growth_rel_10_40"
                       )
                     ),
                     selectize = FALSE
@@ -125,19 +125,44 @@ mod_leaflet_sidebar_ui <- function(id){
 #' @noRd 
 mod_leaflet_sidebar_server <- function(input, output, session){
   ns <- session$ns
- 
+  
+  observed <- tibble(observed = c("PopEst_2019", "PopDens_2019"))
+  
+  
+  make_map_bg_data_main <- reactive({
+    req(input$source)
+    
+    p6 <- if (input$source == "Population characteristics") {
+      if (input$mainacs %in% tract_vars$ACS) {
+      regionalparks.acs::census_tract_map %>%
+        select(input$mainacs)
+    } else {
+      regionalparks.acs::block_group_map %>%
+        select(input$mainacs)
+    }} else if (input$source == "Population size")  {
+      if (input$mainpop %in% observed$observed) {
+      regionalparks.acs::est_pop %>%
+         select(
+           input$mainpop,
+           bg_id)
+    } else {
+      regionalparks.acs::taz_growth %>%
+         select(
+           input$mainpop,
+           TAZ2012)
+    }}
+    return(p6)
+
+    })
+  
+  
   vals <- reactiveValues()
   
   observe({
-    vals$acs_variable <- input$acs_variable
-  })
-  
-  observe({
-    vals$pop_variable <- input$pop_variable
+    vals$map_bg_data_main <- make_map_bg_data_main()
   })
   
   return(vals)
-  
   
 }
     
