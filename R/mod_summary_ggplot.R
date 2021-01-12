@@ -124,7 +124,8 @@ mod_summary_ggplot_server <- function(input, output, session,
         strip.background = element_rect(fill = "grey90"),
         panel.border = element_rect(color = "black", fill = NA),
         strip.placement = "outside",
-        panel.grid.minor.x = element_blank()#,
+        panel.grid.minor.x = element_blank(),
+        plot.caption = element_text(size = 10)#,
         # legend.position = "bottom", legend.box = "vertical"
       ) +
       guides(fill = guide_legend(override.aes = list(shape = 21) )) +
