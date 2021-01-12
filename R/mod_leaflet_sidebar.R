@@ -20,7 +20,7 @@ mod_leaflet_sidebar_ui <- function(id){
       selectInput(ns("source"), h4("Choose your data source:"),
                   choices = c(
                     "Population characteristics",
-                    "Population size"
+                    "Population estimates"
                   ), selectize = FALSE,
                   selected = "Population characteristics"
       ),
