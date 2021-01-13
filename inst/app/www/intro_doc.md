@@ -30,6 +30,7 @@ search areas for parks and trails.
 
 <!-- **Population Growth** - is an interactive map which allows users to view estimated population growth through 2040 alongside regional parks and trails. -->
 
-**Notes** - provides more information about the background of this tool.
+**Notes** - provides more information about data sources used and the
+background of this tool.
 
 #### **We suggest you use a desktop web browser. Please click on the individual tabs on the top to start using this tool.**

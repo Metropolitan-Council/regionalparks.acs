@@ -20,24 +20,12 @@ app_server <- function(input, output, session) {
 
   callModule(mod_notes_server, "notes_ui_1")
   
-  
+
+  # ACS Map tab ----------------------------------------------------------------
   main_lft_inputs <- callModule(mod_leaflet_sidebar_server, "leaflet_sidebar_ui_1")
   
   callModule(mod_main_leaflet_server, "main_leaflet_ui_1", 
              main_lft_inputs)
-
-  # ACS Map tab ----------------------------------------------------------------
-  # selected_map_vars <- callModule(mod_input_demos_server, "input_demos_ui_1")
-  # 
-  # util_leaflet <- callModule(mod_leaflet_utils_server, "leaflet_utils_ui_1",
-  #   selected_map_vars = selected_map_vars
-  # )
-  # 
-  # callModule(mod_leaflet_server, "leaflet_ui_1",
-  #   selected_map_vars = selected_map_vars,
-  #   util_leaflet = util_leaflet,
-  #   current_tab = input$nav
-  # )
 
   # ACS Summary tab ------------------------------------------------------------
   ## get input values

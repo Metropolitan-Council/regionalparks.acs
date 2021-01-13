@@ -2,18 +2,18 @@
 ## Notes
 
 The majority of data used in this app are derived from the American
-Community Survey (ACS). Complete [variable
-definitions](https://www2.census.gov/programs-surveys/acs/tech_docs/subject_definitions/2019_ACSSubjectDefinitions.pdf)
-can provide more information about each response. These data are
-survey-based estimates and are subject to error. The errors derive from
-research design (including instrument bias, data frame, and sampling),
-the survey data collection (non-response bias and response errors), and
-processing by the Census Bureau (data coding, compilation processes, and
-case weighting), as well as statistical inference error and uncertainty
-(which are related to sample size and variance within the measured
-attributes). US Census Bureau’s report on “[Accuracy of the
-Data](https://www2.census.gov/programs-surveys/acs/tech_docs/accuracy/MultiyearACSAccuracyofData2017.pdf?#)”
-gives more information about potential sources of error.
+Community Survey (ACS). Complete
+<a href="https://www2.census.gov/programs-surveys/acs/tech_docs/subject_definitions/2019_ACSSubjectDefinitions.pdf" target="_blank">variable
+definitions</a> can provide more information about each response. These
+data are survey-based estimates and are subject to error. The errors
+derive from research design (including instrument bias, data frame, and
+sampling), the survey data collection (non-response bias and response
+errors), and processing by the Census Bureau (data coding, compilation
+processes, and case weighting), as well as statistical inference error
+and uncertainty (which are related to sample size and variance within
+the measured attributes). US Census Bureau’s report on
+<a href="https://www2.census.gov/programs-surveys/acs/tech_docs/accuracy/MultiyearACSAccuracyofData2017.pdf?#" target="_blank">Accuracy
+of the Data</a> gives more information about potential sources of error.
 
 Further, producing the “weighted averages” necessarily assumed equal
 distributions of populations across individual census block groups or
@@ -37,12 +37,14 @@ units.
 ### Data sources
 
 All data used in the application is hosted on the Minnesota Geospatial
-Commons. - [ACS
-data](https://gisdata.mn.gov/dataset/us-mn-state-metc-society-census-acs)
-- [Long-range population
-forecasts](https://gisdata.mn.gov/dataset/us-mn-state-metc-trans-anlys-zones-frcst-taz-com){target="\_blank}
-- [Annual small area population
-esimates](https://gisdata.mn.gov/dataset/us-mn-state-metc-society-small-area-estimates)
+Commons.
+
+  - <a href="https://gisdata.mn.gov/dataset/us-mn-state-metc-society-census-acs" target="_blank">ACS
+    data</a>
+  - <a href="https://gisdata.mn.gov/dataset/us-mn-state-metc-trans-anlys-zones-frcst-taz-com" target="_blank">Long-range
+    population forecasts</a>
+  - <a href="https://gisdata.mn.gov/dataset/us-mn-state-metc-society-small-area-estimates" target="_blank">Annual
+    small area population estimates</a>
 
 ### Contributors
 
@@ -337,5 +339,5 @@ Simulate Package Installation and Attach</em>.
 
 <right style="font-size: 1rem; text-align: right; display: block;">
 *Last updated 2021-01-13*  
-Build ID: 2021-01-13.roten.c51e8c9  
+Build ID: 2021-01-13.roten.838307c  
 </right>
