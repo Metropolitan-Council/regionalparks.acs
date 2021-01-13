@@ -37,10 +37,10 @@ app_server <- function(input, output, session) {
     selected_vars = selected_input_vars
   )
 
-  callModule(mod_summary_table_server, "summary_table_ui_1",
-    selected_vars = selected_input_vars,
-    summary_util = summary_util_vars
-  )
+  # callModule(mod_summary_table_server, "summary_table_ui_1",
+  #   selected_vars = selected_input_vars,
+  #   summary_util = summary_util_vars
+  # )
 
   callModule(mod_summary_download_server, "summary_download_ui_1",
     selected_vars = selected_input_vars,
