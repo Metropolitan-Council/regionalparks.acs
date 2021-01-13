@@ -145,10 +145,13 @@ mod_main_leaflet_server <- function(input, output, session,
  
  
  
+ 
  observeEvent(
    toListen_mainleaflet(), {
    print("Rendering main leaflet map - pop polygons")
 
+     pal <- colorNumeric(n = 9, palette = "Blues", domain = main_lft_inputs$map_bg_data_main[[1]])
+     
    leafletProxy("map") %>%
      clearGroup("Population data") %>%
      clearControls() %>%
@@ -161,11 +164,12 @@ mod_main_leaflet_server <- function(input, output, session,
        weight = 0.25,
        fillOpacity = 0.6,
        smoothFactor = 0.2,
-      fillColor = ~ colorNumeric(
-         # n = 7,
-         palette = "Blues",
-         domain = main_lft_inputs$map_bg_data_main[[1]]
-       )(main_lft_inputs$map_bg_data_main[[1]]),
+      # fillColor = ~ colorNumeric(
+      #    # n = 7,
+      #    palette = "Blues",
+      #    domain = main_lft_inputs$map_bg_data_main[[1]]
+      #  )(main_lft_inputs$map_bg_data_main[[1]]),
+      fillColor = ~ pal(main_lft_inputs$map_bg_data_main[[1]]),
        # fillColor = ~ main_lft_inputs$pop_pal(main_lft_inputs$map_bg_data_main[[1]]),
        options = list(zIndex = 0),
       
@@ -185,7 +189,16 @@ mod_main_leaflet_server <- function(input, output, session,
           paste0(tags$strong(filter(popkey, popvar == main_lft_inputs$mainpop) %>% select(goodname)), ": ", format(round(main_lft_inputs$map_bg_data_main[[1]], 1), big.mark = ","), " persons/mile"),
         TRUE ~ paste0(tags$strong(filter(popkey, popvar == main_lft_inputs$mainpop) %>% select(goodname)), ": ", format(main_lft_inputs$map_bg_data_main[[1]], big.mark = ","), " persons")
       ) }
-     )
+     ) %>%
+     
+     addLegend(
+       title = paste0(filter(renamekey, ACS == main_lft_inputs$mainacs) %>% select(goodname)),
+       position = "bottomleft",
+       group = "Population data",
+       layerId = "Population data",
+       pal = pal,
+       values = main_lft_inputs$map_bg_data_main[[1]]
+     ) 
  })
  
  toListen_mainleaflet_parktrail <- reactive({
