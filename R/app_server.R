@@ -25,7 +25,8 @@ app_server <- function(input, output, session) {
   main_lft_inputs <- callModule(mod_leaflet_sidebar_server, "leaflet_sidebar_ui_1")
   
   callModule(mod_main_leaflet_server, "main_leaflet_ui_1", 
-             main_lft_inputs)
+             main_lft_inputs,
+             current_tab = input$nav)
 
   # ACS Summary tab ------------------------------------------------------------
   ## get input values

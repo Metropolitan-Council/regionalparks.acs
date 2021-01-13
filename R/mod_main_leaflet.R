@@ -20,7 +20,8 @@ mod_main_leaflet_ui <- function(id){
 #'
 #' @noRd 
 mod_main_leaflet_server <- function(input, output, session,
-                                    main_lft_inputs){
+                                    main_lft_inputs,
+                                    current_tab){
   ns <- session$ns
  
  output$map <- renderLeaflet({

@@ -25,6 +25,7 @@ app_ui <- function(request) {
 
       ## map tab -----
       tabPanel(
+        id = "map_tab",
         "System Map",
         shiny::p("This map provides a general overview of the population across the 7-county Twin Cities region and adjacent areas."),
         shiny::p("Population characteristic data is from the U.S. Census Bureau ",
