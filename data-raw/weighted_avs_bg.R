@@ -113,6 +113,7 @@ return_weighted_demo_persons <- (function(...) {
       adj_hisppop = adj_2019pop * hisppop_percent,
       adj_nothisppop = adj_2019pop * nothisppop_percent,
       adj_totalhhi = adj_2019hh * meanhhinc,
+      adj_185pov = adj_2019pop * pov185_percent, #new - this is pop not hh right?
       adj_novehicle = adj_2019hh * novehicle_percent,
       adj_lep = adj_2019pop * poorenglish_percent,
       adj_span = adj_2019pop * spanish_percent
@@ -140,6 +141,7 @@ return_weighted_demo_persons_AVG <- (function(...) {
       adj_hisppop = adj_2019pop * hisppop_percent,
       adj_nothisppop = adj_2019pop * nothisppop_percent,
       adj_totalhhi = adj_2019hh * meanhhinc,
+      adj_185pov = adj_2019pop * pov185_percent, #new - this is pop not hh right?
       adj_novehicle = adj_2019hh * novehicle_percent,
       adj_lep = adj_2019pop * poorenglish_percent,
       adj_span = adj_2019pop * spanish_percent
@@ -164,6 +166,7 @@ return_weighted_demo_percents <- (function(...) {
       adj_hisppop_per = round(adj_hisppop / adj_2019pop * 100, 1),
       adj_nothisppop_per = round(adj_nothisppop / adj_2019pop * 100, 1),
       adj_meanhhi = round(adj_totalhhi / adj_2019hh, 1),
+      adj_185pov_per = round(adj_185pov / adj_2019pop * 100, 1), #just double check pop not hh
       adj_novehicle_per = round(adj_novehicle / adj_2019hh * 100, 1),
       adj_lep_per = round(adj_lep / adj_2019pop * 100, 1),
       adj_span_per = round(adj_span / adj_2019pop * 100, 1)

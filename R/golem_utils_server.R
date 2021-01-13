@@ -93,16 +93,15 @@ renamekey <- tibble::tribble(
   "% not-Hispanic population", "adj_nothisppop_per", "YlGnBu",
   
   "Mean household income", "adj_meanhhi", "YlGnBu",
-  "% households below 185% poverty line", "adj_pov185_per", "YlGnBu",
+  "% households below 185% poverty line", "adj_185pov_per", "YlGnBu",
 
   "% housholds without a vehicle", "adj_novehicle_per", "Blues",
   "% population with limited English proficiency", "adj_lep_per", "Blues",
   "% population primarily speaking Spanish", "adj_span_per", "Blues",
   
-  "% population with any disability", "adj_anydis_per", "OrRd",
+  "% population with any other disability", "adj_anydis_per", "OrRd",
   "% population with ambulatory disability", "adj_ambdis_per", "OrRd", 
-  "% population with any other disability","adj_nonambdis_per", "OrRd",
-  
+
   "% US-born population", "adj_usborn_per", "YlGn",
   "% foreign-born population", "adj_forborn_per", "YlGn"
 )
@@ -123,16 +122,15 @@ recodeadjtable <- tibble::tribble(
   "adj_nothisppop_per",  "Not-Hispanic population",
   
   "adj_meanhhi",  "Mean household income",
-  "adj_pov185_per",  "Households below 185% poverty line",
+  "adj_185pov_per",  "Households below 185% poverty line",
   
   "adj_novehicle_per",  "Housholds without a vehicle",
   "adj_lep_per",  "Population with limited English proficiency",
   "adj_span_per", "Population primarily speaking Spanish",
   
-  "adj_anydis_per",  "Population with any disability",
+  "adj_anydis_per",  "Population with any other disability",
   "adj_ambdis_per", "Population with ambulatory disability",
-  "adj_nonambdis_per", "Population with any other disability",
-  
+
   "adj_usborn_per",  "US-born population",
   "adj_forborn_per",  "Foreign-born population"
 )

@@ -135,25 +135,29 @@ source("pop_est.R")
 agency_avg
 agency_boundary
 block_group
+block_group_map
 buffer_geo
 census_tract
+census_tract_map
 collar_filter
 county_outlines
 demo_shifts
+entrance
 est_pop
 long_buffer_data
 park_trail_geog_LONG
+river_lake
 taz_growth
 trans_stops
 entrance
 water_access
-river_lake
+
 
 # reproject
 ```{r}
-# agency_boundary <- agency_boundary %>% st_transform(4326)
-# usethis::use_data(agency_boundary, overwrite = TRUE)
-# 
+agency_boundary <- agency_boundary %>% st_transform(4326)
+usethis::use_data(agency_boundary, overwrite = TRUE)
+
 # block_group <- block_group %>% st_transform(4326)
 # usethis::use_data(block_group, overwrite = TRUE)
 # 

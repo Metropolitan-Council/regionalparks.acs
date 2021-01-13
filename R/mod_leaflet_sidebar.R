@@ -52,9 +52,13 @@ mod_leaflet_sidebar_ui <- function(id){
                           "Origin, % US-born" = "adj_usborn_per"
                         ),
                         `Ability` = list(
-                          "Ability, % any disability" = "adj_anydis_per"
+                          "Ability, % ambulatory disability" = "adj_ambdis_per",
+                          "Ability, % any other disability" = "adj_anydis_per"
                         ),
-                        `Income` = list("Mean household income ($)" = "adj_meanhhi"),
+                        `Income` = list(
+                          "Mean household income ($)" = "adj_meanhhi",
+                          "Income, % population below 185% poverty line" = "adj_185pov_per"
+                          ),
                         `Transportation` = list("% Housholds without a vehicle" = "adj_novehicle_per"),
                         `Language` = list(
                           "% limited English proficiency" = "adj_lep_per",

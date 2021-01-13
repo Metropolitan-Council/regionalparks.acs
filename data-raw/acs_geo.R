@@ -60,6 +60,7 @@ block_group_map <- block_group %>%
     othermultinh_percent = othermultinh_percent * 100,
     hisppop_percent = hisppop_percent * 100,
     nothisppop_percent = nothisppop_percent * 100,
+    pov185_percent = pov185_percent * 100,
     novehicle_percent = novehicle_percent * 100,
     poorenglish_percent = poorenglish_percent * 100,
     spanish_percent = spanish_percent * 100
@@ -77,6 +78,7 @@ block_group_map <- block_group %>%
     "adj_hisppop_per" = "hisppop_percent",
     "adj_nothisppop_per" = "nothisppop_percent",
     "adj_meanhhi" = "meanhhinc",
+    "adj_185pov_per" = "pov185_percent",
     "adj_novehicle_per" = "novehicle_percent",
     "adj_lep_per" = "poorenglish_percent",
     "adj_span_per" = "spanish_percent"
@@ -99,12 +101,14 @@ usethis::use_data(census_tract, overwrite = TRUE)
 
 census_tract_map <- census_tract %>%
   mutate(
-    disab_percent = `Disability, any disability` * 100,
-    usborn_percent = `Origin, US-born` * 100,
-    forborn_percent = `Origin, foreign-born` * 100
+    disab_percent = `Ability, any other disability`, # * 100,
+    ambdis_percent = `Ability, ambulatory disability`,
+    usborn_percent = `Origin, US-born`, # * 100,
+    forborn_percent = `Origin, foreign-born`, # * 100
   ) %>%
   rename(
     "adj_anydis_per" = "disab_percent",
+    "adj_ambdis_per" = "ambdis_percent",
     "adj_usborn_per" = "usborn_percent",
     "adj_forborn_per" = "forborn_percent"
   )
