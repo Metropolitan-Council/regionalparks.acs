@@ -30,16 +30,17 @@ mod_main_leaflet_server <- function(input, output, session,
   
   # adding proxys --------
   
- # add pop polygons -----
- toListen_mainleaflet <- reactive({
-   list(current_tab,
-     main_lft_inputs$map_bg_data_main,
+  # add pop polygons -----
+  toListen_mainleaflet <- reactive({
+    list(
+      # current_tab,
+         main_lft_inputs$map_bg_data_main,
          main_lft_inputs$source,
-     main_lft_inputs$mainacs,
-     main_lft_inputs$mainpop
-   )
- })
- 
+         main_lft_inputs$mainacs,
+         main_lft_inputs$mainpop
+    )
+  })
+  
  observeEvent(
    toListen_mainleaflet(), {
    print("Rendering main leaflet map - pop polygons")
@@ -91,11 +92,12 @@ mod_main_leaflet_server <- function(input, output, session,
  
  # add parktrails
  toListen_mainleaflet_parktrail <- reactive({
-   list(current_tab,
-     main_lft_inputs$map_parktrail_data_main
-   )
- }) 
-
+    list(
+      # current_tab,
+         main_lft_inputs$map_parktrail_data_main
+    )
+  }) 
+  
   observeEvent(
     toListen_mainleaflet_parktrail(), {
      print("Rendering main leaflet map - parks/trails")
