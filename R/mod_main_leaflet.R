@@ -105,6 +105,7 @@ mod_main_leaflet_server <- function(input, output, session,
      ) %>%
      hideGroup(
        c(
+         "Agency boundaries",
          "Active transit stops",
          "Water Access",
          "Park Entrance",
@@ -179,7 +180,8 @@ mod_main_leaflet_server <- function(input, output, session,
   observeEvent(
     main_lft_inputs$input_parktype, {
      print("Rendering main leaflet map - parks/trails")
-     leafletProxy("map") %>%
+
+      leafletProxy("map") %>%
        clearGroup("Parks and trails") %>%
        clearControls() %>%
        
@@ -315,6 +317,52 @@ mod_main_leaflet_server <- function(input, output, session,
        )
 
    })
+  
+  
+  
+  toListen_mainleaflet_buffer <- reactive({
+    list(
+      main_lft_inputs$map_parktrail_data_main,
+      main_lft_inputs$input_bufferdist
+    )
+  })
+  
+  
+  observeEvent(
+    toListen_mainleaflet_buffer(), {
+  print("Rendering buffer layer")
+      # addMapPane(name = "buff", zIndex = 650) %>%
+      
+  leafletProxy("map") %>%
+    clearGroup("Buffers") %>%
+    addPolygons(
+      # options = pathOptions(pane = "buff"),
+      data = main_lft_inputs$map_buffer_data_main,
+      group = "Buffers",
+      stroke = TRUE,
+      weight = 2,
+      color = "black", 
+      fill = FALSE,
+      opacity = .4,
+      fillOpacity = .005,
+      highlightOptions = highlightOptions(
+        stroke = TRUE,
+        color = "black",
+        weight = 6,
+        bringToFront = TRUE,
+        sendToBack = TRUE,
+        opacity = 1
+      ),
+      popup = ~popup_text,
+      popupOptions = popupOptions(
+        closeButton = FALSE,
+        style = list(
+          "font-size" = "18px",
+          "font-family" = "Arial"
+        )
+      )
+    )
+    })
   
 }
     

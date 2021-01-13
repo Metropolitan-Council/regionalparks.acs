@@ -110,12 +110,10 @@ mod_leaflet_sidebar_ui <- function(id){
     
     wellPanel(
       id = "mainbufs",
-      checkboxGroupInput(
-        ns("input_buffer"),
+      radioButtons(
+        ns("input_bufferdist"),
         label = h4("Choose buffer distances:"),
-        choices = c("1 mile buffer", 
-                    "1.5 mile buffer", 
-                    "3 mile buffer")
+        choices = c(1, 1.5, 3), selected = c(1)
       )
     )
   )
@@ -165,16 +163,18 @@ mod_leaflet_sidebar_server <- function(input, output, session){
   })
   
   
-  # make_map_buffer_data <- reactive({
-  #   p5 <- regionalparks.acs::buffer_geo %>%
-  #     dplyr::filter(
-  #       agency %in% selected_vars$input_agency,
-  #       type %in% selected_vars$input_type,
-  #       status %in% selected_vars$input_status,
-  #       distance == selected_vars$input_distance
-  #     )
-  #   return(p5)
-  # })
+  make_map_buffer_data_main <- reactive({
+    p5 <- regionalparks.acs::buffer_geo %>%
+      mutate(status = case_when(status == "Existing" ~ "existing", 
+                                status == "Planned" ~ "planned", 
+                                status == "Search" ~ "search")) %>%
+      mutate(typestatus = paste0(type, " - ", status)) %>% 
+      dplyr::filter(
+        typestatus %in% input$input_parktype,
+        distance == input$input_bufferdist
+      )
+    return(p5)
+  })
   
   
   
@@ -186,6 +186,11 @@ mod_leaflet_sidebar_server <- function(input, output, session){
   
   observe({
     vals$map_parktrail_data_main <- make_map_parktrail_data_main()
+  })
+  
+  
+  observe({
+    vals$map_buffer_data_main <- make_map_buffer_data_main()
   })
 
   observeEvent(input$source, {
@@ -202,6 +207,10 @@ mod_leaflet_sidebar_server <- function(input, output, session){
   
   observeEvent(input$input_parktype, {
     vals$input_parktype <- input$input_parktype
+  })
+  
+  observeEvent(input$input_bufferdist, {
+    vals$input_bufferdist <- input$input_bufferdist
   })
   
   return(vals)
