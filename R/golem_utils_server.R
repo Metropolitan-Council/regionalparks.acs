@@ -91,16 +91,16 @@ renamekey <- tibble::tribble(
   "% Other + Multiracial population", "adj_othermultinh_per", "RdPu",
   "% Hispanic population", "adj_hisppop_per", "YlGnBu",
   "% not-Hispanic population", "adj_nothisppop_per", "YlGnBu",
-  
+
   "Mean household income", "adj_meanhhi", "YlGnBu",
   "% households below 185% poverty line", "adj_185pov_per", "YlGnBu",
 
   "% housholds without a vehicle", "adj_novehicle_per", "Blues",
   "% population with limited English proficiency", "adj_lep_per", "Blues",
   "% population primarily speaking Spanish", "adj_span_per", "Blues",
-  
+
   "% population with any other disability", "adj_anydis_per", "OrRd",
-  "% population with ambulatory disability", "adj_ambdis_per", "OrRd", 
+  "% population with ambulatory disability", "adj_ambdis_per", "OrRd",
 
   "% US-born population", "adj_usborn_per", "YlGn",
   "% foreign-born population", "adj_forborn_per", "YlGn"
@@ -109,30 +109,30 @@ renamekey <- tibble::tribble(
 recodeadjtable <- tibble::tribble(
   ~ACS, ~nicename,
   "adj_poptotal", "Population",
-  "adj_ageunder15_per",  "Population under age 15",
-  "adj_age15_24_per",  "Population age 15-24",
+  "adj_ageunder15_per", "Population under age 15",
+  "adj_age15_24_per", "Population age 15-24",
   "adj_age25_64_per", "Population age 25-64",
-  "adj_age65up_per",  "Population age 65+",
-  "adj_whitenh_per",  "White population",
-  "adj_blacknh_per",  "Black population",
-  "adj_asiannh_per",  "Asian population",
-  "adj_amindnh_per",  "Am. Indian population",
-  "adj_othermultinh_per",  "Other + Multiracial population",
-  "adj_hisppop_per",  "Hispanic population",
-  "adj_nothisppop_per",  "Not-Hispanic population",
-  
-  "adj_meanhhi",  "Mean household income",
-  "adj_185pov_per",  "Households below 185% poverty line",
-  
-  "adj_novehicle_per",  "Housholds without a vehicle",
-  "adj_lep_per",  "Population with limited English proficiency",
+  "adj_age65up_per", "Population age 65+",
+  "adj_whitenh_per", "White population",
+  "adj_blacknh_per", "Black population",
+  "adj_asiannh_per", "Asian population",
+  "adj_amindnh_per", "Am. Indian population",
+  "adj_othermultinh_per", "Other + Multiracial population",
+  "adj_hisppop_per", "Hispanic population",
+  "adj_nothisppop_per", "Not-Hispanic population",
+
+  "adj_meanhhi", "Mean household income",
+  "adj_185pov_per", "Households below 185% poverty line",
+
+  "adj_novehicle_per", "Housholds without a vehicle",
+  "adj_lep_per", "Population with limited English proficiency",
   "adj_span_per", "Population primarily speaking Spanish",
-  
-  "adj_anydis_per",  "Population with any other disability",
+
+  "adj_anydis_per", "Population with any other disability",
   "adj_ambdis_per", "Population with ambulatory disability",
 
-  "adj_usborn_per",  "US-born population",
-  "adj_forborn_per",  "Foreign-born population"
+  "adj_usborn_per", "US-born population",
+  "adj_forborn_per", "Foreign-born population"
 )
 
 popkey <- tibble::tribble( #------
@@ -164,7 +164,7 @@ tract_vars <- tibble::tibble(ACS = c("adj_anydis_per", "adj_ambdis_per", "adj_fo
 
 # leaflet global options -------------------------------------------------------
 
-leaflet_highlight_options <- quote( 
+leaflet_highlight_options <- quote(
   highlightOptions(
     stroke = TRUE,
     color = "black",
@@ -172,7 +172,8 @@ leaflet_highlight_options <- quote(
     bringToFront = TRUE,
     sendToBack = TRUE,
     opacity = 1
-  ))
+  )
+)
 
 leaflet_popup_options <- quote(
   popupOptions(

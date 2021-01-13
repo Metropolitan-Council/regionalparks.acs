@@ -76,7 +76,7 @@ ct_foreign <- ct %>%
 ct_disability <- ct %>%
   select(geoid, geoid2, poptotal, anydis, ambdis, cdenom) %>%
   mutate( # anydis_percent = round(anydis / cdenom, digits = 2),
-    TRUEANYDIS_PERCENT = round(anydis/cdenom, digits = 2) * 100, 
+    TRUEANYDIS_PERCENT = round(anydis / cdenom, digits = 2) * 100,
     ambdis_percent = round(ambdis / cdenom, digits = 2) * 100,
     anydis_percent = round(anydis / cdenom, digits = 2) * 100 - ambdis_percent
   )

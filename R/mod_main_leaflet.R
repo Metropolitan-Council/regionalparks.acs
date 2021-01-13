@@ -4,47 +4,48 @@
 #'
 #' @param id,input,output,session Internal parameters for {shiny}.
 #'
-#' @noRd 
+#' @noRd
 #'
-#' @importFrom shiny NS tagList 
-mod_main_leaflet_ui <- function(id){
+#' @importFrom shiny NS tagList
+mod_main_leaflet_ui <- function(id) {
   ns <- NS(id)
   tagList(
-    
     leafletOutput(ns("map"), width = "100%", height = 700)
-    
   )
 }
 
 #' main_leaflet Server Function
 #'
-#' @noRd 
+#' @noRd
 mod_main_leaflet_server <- function(input, output, session,
                                     main_lft_inputs,
-                                    current_tab){
+                                    current_tab) {
   ns <- session$ns
-  
-  
+
+
   # output$map ----
-  output$map <-  mod_map_base_server(input = input,
-                                     output = output,
-                                     session = session)
-  
+  output$map <- mod_map_base_server(
+    input = input,
+    output = output,
+    session = session
+  )
+
   # adding proxys --------
-  
+
   # add pop polygons -----
   toListen_mainleaflet <- reactive({
     list(
       # current_tab,
-         main_lft_inputs$map_bg_data_main,
-         main_lft_inputs$source,
-         main_lft_inputs$mainacs,
-         main_lft_inputs$mainpop
+      main_lft_inputs$map_bg_data_main,
+      main_lft_inputs$source,
+      main_lft_inputs$mainacs,
+      main_lft_inputs$mainpop
     )
   })
-  
+
   observeEvent(
-    toListen_mainleaflet(), {
+    toListen_mainleaflet(),
+    {
       # browser()
       print("Rendering main leaflet map - pop polygons")
       leafletProxy("map") %>%
@@ -61,7 +62,7 @@ mod_main_leaflet_server <- function(input, output, session,
           smoothFactor = 0.2,
           fillColor = ~ main_lft_inputs$pop_pal(main_lft_inputs$map_bg_data_main[[1]]),
           options = list(zIndex = 0),
-          
+
           popup = if (main_lft_inputs$source == "Population characteristics") {
             if (main_lft_inputs$mainacs == "adj_meanhhi") {
               ~ paste0(tags$strong(filter(renamekey, ACS == main_lft_inputs$mainacs) %>% select(goodname)), ": $", format(main_lft_inputs$map_bg_data_main[[1]], big.mark = ","))
@@ -71,45 +72,49 @@ mod_main_leaflet_server <- function(input, output, session,
                 ": ",
                 main_lft_inputs$map_bg_data_main[[1]], "%"
               )
-            }} else { case_when(
+            }
+          } else {
+            case_when(
               main_lft_inputs$mainpop == "growth_rel_10_40" ~
-                paste0(tags$strong(filter(popkey, popvar == main_lft_inputs$mainpop) %>% select(goodname)), ": ", round(main_lft_inputs$map_bg_data_main[[1]], 2), " x"),
+              paste0(tags$strong(filter(popkey, popvar == main_lft_inputs$mainpop) %>% select(goodname)), ": ", round(main_lft_inputs$map_bg_data_main[[1]], 2), " x"),
               (main_lft_inputs$mainpop == "popdens_2040_mi" | main_lft_inputs$mainpop == "PopDens_2019") ~
-                paste0(tags$strong(filter(popkey, popvar == main_lft_inputs$mainpop) %>% select(goodname)), ": ", format(round(main_lft_inputs$map_bg_data_main[[1]], 1), big.mark = ","), " persons/mile"),
+              paste0(tags$strong(filter(popkey, popvar == main_lft_inputs$mainpop) %>% select(goodname)), ": ", format(round(main_lft_inputs$map_bg_data_main[[1]], 1), big.mark = ","), " persons/mile"),
               TRUE ~ paste0(tags$strong(filter(popkey, popvar == main_lft_inputs$mainpop) %>% select(goodname)), ": ", format(main_lft_inputs$map_bg_data_main[[1]], big.mark = ","), " persons")
-            ) }
+            )
+          }
         ) %>%
-        
         addLegend(
           title = if (main_lft_inputs$source == "Population characteristics") {
-            paste0(filter(renamekey, ACS == main_lft_inputs$mainacs) %>% select(goodname))} else {
-              paste0(filter(popkey, popvar == main_lft_inputs$mainpop) %>% select(short))
-            },
+            paste0(filter(renamekey, ACS == main_lft_inputs$mainacs) %>% select(goodname))
+          } else {
+            paste0(filter(popkey, popvar == main_lft_inputs$mainpop) %>% select(short))
+          },
           position = "bottomleft",
           group = "Population data",
           layerId = "Population data",
           pal = main_lft_inputs$pop_pal,
           values = main_lft_inputs$map_bg_data_main[[1]]
         )
-    })
-  
+    }
+  )
+
   # add parktrails
   toListen_mainleaflet_parktrail <- reactive({
     list(
       # current_tab,
-         main_lft_inputs$map_parktrail_data_main
+      main_lft_inputs$map_parktrail_data_main
     )
-  }) 
-  
+  })
+
   observeEvent(
-    toListen_mainleaflet_parktrail(), {
+    toListen_mainleaflet_parktrail(),
+    {
       # browser()
       print("Rendering main leaflet map - parks/trails")
-      
+
       leafletProxy("map") %>%
         clearGroup("Parks and trails") %>%
         clearControls() %>%
-        
         addPolygons(
           data = main_lft_inputs$map_parktrail_data_main[main_lft_inputs$map_parktrail_data_main$Type == "Park" & main_lft_inputs$map_parktrail_data_main$status2 == "Existing", ],
           group = "Parks and trails",
@@ -136,11 +141,10 @@ mod_main_leaflet_server <- function(input, output, session,
           popup = ~popup_text,
           popupOptions = leaflet_popup_options
         ) %>%
-        
-        
         addCircles(
           data = main_lft_inputs$map_parktrail_data_main[
-            main_lft_inputs$map_parktrail_data_main$Type == "Park" & main_lft_inputs$map_parktrail_data_main$status2 == "Search", ],
+            main_lft_inputs$map_parktrail_data_main$Type == "Park" & main_lft_inputs$map_parktrail_data_main$status2 == "Search",
+          ],
           group = "Parks and trails",
           stroke = TRUE,
           radius = 2000,
@@ -152,8 +156,7 @@ mod_main_leaflet_server <- function(input, output, session,
           highlightOptions = leaflet_highlight_options,
           popup = ~popup_text,
           popupOptions = leaflet_popup_options
-        )   %>%
-        
+        ) %>%
         addPolylines(
           data = main_lft_inputs$map_parktrail_data_main[main_lft_inputs$map_parktrail_data_main$Type == "Trail" & main_lft_inputs$map_parktrail_data_main$status2 == "Existing", ],
           group = "Parks and trails",
@@ -178,7 +181,8 @@ mod_main_leaflet_server <- function(input, output, session,
           options = pathOptions(pane = "parks_geo"),
           popup = ~popup_text,
           highlightOptions = leaflet_highlight_options,
-          popupOptions = leaflet_popup_options        ) %>%
+          popupOptions = leaflet_popup_options
+        ) %>%
         addPolylines(
           data = main_lft_inputs$map_parktrail_data_main[main_lft_inputs$map_parktrail_data_main$Type == "Trail" & main_lft_inputs$map_parktrail_data_main$status2 == "Planned", ],
           group = "Parks and trails",
@@ -190,26 +194,28 @@ mod_main_leaflet_server <- function(input, output, session,
           options = pathOptions(pane = "parks_geo"),
           popup = ~popup_text,
           highlightOptions = leaflet_highlight_options,
-          popupOptions = leaflet_popup_options        )
-      
-    })
-  
-  
-  
+          popupOptions = leaflet_popup_options
+        )
+    }
+  )
+
+
+
   toListen_mainleaflet_buffer <- reactive({
     list(
       # current_tab,
-         main_lft_inputs$map_parktrail_data_main,
-         main_lft_inputs$input_bufferdist
+      main_lft_inputs$map_parktrail_data_main,
+      main_lft_inputs$input_bufferdist
     )
   })
-  
-  
+
+
   observeEvent(
-    toListen_mainleaflet_buffer(), {
+    toListen_mainleaflet_buffer(),
+    {
       print("Rendering buffer layer")
       # addMapPane(name = "buff", zIndex = 650) %>%
-      
+
       leafletProxy("map") %>%
         clearGroup("Buffers") %>%
         addPolygons(
@@ -218,7 +224,7 @@ mod_main_leaflet_server <- function(input, output, session,
           group = "Buffers",
           stroke = TRUE,
           weight = 2,
-          color = "black", 
+          color = "black",
           fill = FALSE,
           opacity = .4,
           fillOpacity = .005,
@@ -226,16 +232,21 @@ mod_main_leaflet_server <- function(input, output, session,
           popupOptions = leaflet_popup_options,
           highlightOptions = leaflet_highlight_options
         )
-    })
+    }
+  )
 
-  
-  # startup ------------------  
-  observeEvent(once = TRUE, ignoreInit = TRUE, label = "startup", 
-    current_tab, {
+
+  # startup ------------------
+  observeEvent(
+    once = TRUE,
+    ignoreInit = TRUE,
+    label = "startup",
+    current_tab,
+    {
       # browser()
       # getDefaultReactiveDomain()
       print("Rendering start-up map")
-      
+
       leafletProxy("map") %>%
         ## park start-up polygons ---------
         addPolygons(
@@ -270,11 +281,10 @@ mod_main_leaflet_server <- function(input, output, session,
           popup = ~popup_text,
           popupOptions = leaflet_popup_options
         ) %>%
-        
-        
         addCircles(
           data = main_lft_inputs$map_parktrail_data_main[
-            main_lft_inputs$map_parktrail_data_main$Type == "Park" & main_lft_inputs$map_parktrail_data_main$status2 == "Search", ],
+            main_lft_inputs$map_parktrail_data_main$Type == "Park" & main_lft_inputs$map_parktrail_data_main$status2 == "Search",
+          ],
           group = "Parks and trails",
           stroke = TRUE,
           radius = 2000,
@@ -286,8 +296,7 @@ mod_main_leaflet_server <- function(input, output, session,
           highlightOptions = leaflet_highlight_options,
           popup = ~popup_text,
           popupOptions = leaflet_popup_options
-        )   %>%
-        
+        ) %>%
         addPolylines(
           data = main_lft_inputs$map_parktrail_data_main[main_lft_inputs$map_parktrail_data_main$Type == "Trail" & main_lft_inputs$map_parktrail_data_main$status2 == "Existing", ],
           group = "Parks and trails",
@@ -323,7 +332,7 @@ mod_main_leaflet_server <- function(input, output, session,
           options = pathOptions(pane = "parks_geo"),
           popup = ~popup_text,
           highlightOptions = leaflet_highlight_options
-        ) %>% 
+        ) %>%
         addPolygons(
           group = "Population data",
           data = main_lft_inputs$map_bg_data_main,
@@ -335,7 +344,7 @@ mod_main_leaflet_server <- function(input, output, session,
           smoothFactor = 0.2,
           fillColor = ~ main_lft_inputs$pop_pal(main_lft_inputs$map_bg_data_main[[1]]),
           options = list(zIndex = 0),
-          
+
           popup = if (main_lft_inputs$source == "Population characteristics") {
             if (main_lft_inputs$mainacs == "adj_meanhhi") {
               ~ paste0(tags$strong(filter(renamekey, ACS == main_lft_inputs$mainacs) %>% select(goodname)), ": $", format(main_lft_inputs$map_bg_data_main[[1]], big.mark = ","))
@@ -345,50 +354,50 @@ mod_main_leaflet_server <- function(input, output, session,
                 ": ",
                 main_lft_inputs$map_bg_data_main[[1]], "%"
               )
-            }} else { case_when(
+            }
+          } else {
+            case_when(
               main_lft_inputs$mainpop == "growth_rel_10_40" ~
-                paste0(tags$strong(filter(popkey, popvar == main_lft_inputs$mainpop) %>% select(goodname)), ": ", round(main_lft_inputs$map_bg_data_main[[1]], 2), " x"),
+              paste0(tags$strong(filter(popkey, popvar == main_lft_inputs$mainpop) %>% select(goodname)), ": ", round(main_lft_inputs$map_bg_data_main[[1]], 2), " x"),
               (main_lft_inputs$mainpop == "popdens_2040_mi" | main_lft_inputs$mainpop == "PopDens_2019") ~
-                paste0(tags$strong(filter(popkey, popvar == main_lft_inputs$mainpop) %>% select(goodname)), ": ", format(round(main_lft_inputs$map_bg_data_main[[1]], 1), big.mark = ","), " persons/mile"),
+              paste0(tags$strong(filter(popkey, popvar == main_lft_inputs$mainpop) %>% select(goodname)), ": ", format(round(main_lft_inputs$map_bg_data_main[[1]], 1), big.mark = ","), " persons/mile"),
               TRUE ~ paste0(tags$strong(filter(popkey, popvar == main_lft_inputs$mainpop) %>% select(goodname)), ": ", format(main_lft_inputs$map_bg_data_main[[1]], big.mark = ","), " persons")
-            ) }
+            )
+          }
         ) %>%
-        
         addLegend(
           title = if (main_lft_inputs$source == "Population characteristics") {
-            paste0(filter(renamekey, ACS == main_lft_inputs$mainacs) %>% select(goodname))} else {
-              paste0(filter(popkey, popvar == main_lft_inputs$mainpop) %>% select(short))
-            },
+            paste0(filter(renamekey, ACS == main_lft_inputs$mainacs) %>% select(goodname))
+          } else {
+            paste0(filter(popkey, popvar == main_lft_inputs$mainpop) %>% select(short))
+          },
           position = "bottomleft",
           group = "Population data",
           layerId = "Population data",
           pal = main_lft_inputs$pop_pal,
           values = main_lft_inputs$map_bg_data_main[[1]]
-        ) %>% 
+        ) %>%
         addPolygons(
           # options = pathOptions(pane = "buff"),
           data = main_lft_inputs$map_buffer_data_main,
           group = "Buffers",
           stroke = TRUE,
           weight = 2,
-          color = "black", 
+          color = "black",
           fill = FALSE,
           opacity = .4,
           fillOpacity = .005,
           popup = ~popup_text,
           popupOptions = leaflet_popup_options,
           highlightOptions = leaflet_highlight_options
-        ) %>% 
+        ) %>%
         hideGroup(group = "buffers")
-      
-    })
-  
-  
-  }
+    }
+  )
+}
 
 ## To be copied in the UI
 # mod_main_leaflet_ui("main_leaflet_ui_1")
 
 ## To be copied in the server
 # callModule(mod_main_leaflet_server, "main_leaflet_ui_1")
-

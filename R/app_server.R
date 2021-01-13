@@ -19,14 +19,15 @@ app_server <- function(input, output, session) {
   callModule(mod_intro_server, "intro_ui_1")
 
   callModule(mod_notes_server, "notes_ui_1")
-  
+
 
   # ACS Map tab ----------------------------------------------------------------
   main_lft_inputs <- callModule(mod_leaflet_sidebar_server, "leaflet_sidebar_ui_1")
-  
-  callModule(mod_main_leaflet_server, "main_leaflet_ui_1", 
-             main_lft_inputs,
-             current_tab = input$nav)
+
+  callModule(mod_main_leaflet_server, "main_leaflet_ui_1",
+    main_lft_inputs,
+    current_tab = input$nav
+  )
 
   # ACS Summary tab ------------------------------------------------------------
   ## get input values
@@ -60,19 +61,19 @@ app_server <- function(input, output, session) {
   # )
 
   # # Population growth tab ------------------------------------------------------
-  # 
+  #
   # # get input values
   # selected_population_vars <- callModule(mod_pop_selections_server, "pop_selections_ui_1") # callModule(mod_selections_population_server, "selections_population_ui_1")
-  # 
+  #
   # summary_util_popvars <- callModule(mod_pop_utils_server, "pop_utils_ui_1",
   #   selected_population = selected_population_vars
   # )
-  # 
+  #
   # callModule(mod_pop_map_server, "pop_map_ui_1",
   #   selected_popvars = selected_population_vars,
   #   summary_poputil = summary_util_popvars,
   #   current_tab = input$nav
   # )
-  # 
+  #
   # callModule(mod_pop_demoshifts_server, "pop_demoshifts_ui_1")
 }

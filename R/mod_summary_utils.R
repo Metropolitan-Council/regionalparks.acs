@@ -162,17 +162,17 @@ mod_summary_utils_server <- function(input, output, session,
     }
     return(p6)
   })
-  
-  
+
+
   make_PlotHeight <- reactive( # plot height ------
-                          # #if want to set a minimum height
-                          return(
-                            if ((nrow(make_plot_buffer_data()[!duplicated(make_plot_buffer_data()[, c("name")]), ]) * 30) > 200) {
-                              (nrow(make_plot_buffer_data()[!duplicated(make_plot_buffer_data()[, c("name")]), ]) * 30)
-                            } else {
-                              200
-                            }
-                          )
+    # #if want to set a minimum height
+    return(
+      if ((nrow(make_plot_buffer_data()[!duplicated(make_plot_buffer_data()[, c("name")]), ]) * 30) > 200) {
+        (nrow(make_plot_buffer_data()[!duplicated(make_plot_buffer_data()[, c("name")]), ]) * 30)
+      } else {
+        200
+      }
+    )
   )
 
 
@@ -206,7 +206,7 @@ mod_summary_utils_server <- function(input, output, session,
   #   vals$table_buffer_data_display <- make_table_buffer_data_display()
   # })
 
-  
+
   observe({
     vals$sum_plotheight <- make_PlotHeight()
   })

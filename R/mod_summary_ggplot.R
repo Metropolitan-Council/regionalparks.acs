@@ -125,14 +125,13 @@ mod_summary_ggplot_server <- function(input, output, session,
         panel.border = element_rect(color = "black", fill = NA),
         strip.placement = "outside",
         panel.grid.minor.x = element_blank(),
-        plot.caption = element_text(size = 10)#,
+        plot.caption = element_text(size = 10) # ,
         # legend.position = "bottom", legend.box = "vertical"
       ) +
-      guides(fill = guide_legend(override.aes = list(shape = 21) )) +
+      guides(fill = guide_legend(override.aes = list(shape = 21))) +
       # guides(shape = FALSE, fill = FALSE) +
       scale_x_continuous(labels = scales::comma) +
       geom_stripes(odd = "#00000000", even = "#cfcfcf33")
-    
   })
 
   color_code <- data.frame(catg = c("Existing", "Planned", "Search"), color = c(e_col, p_col, s_col))

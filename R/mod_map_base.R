@@ -4,24 +4,22 @@
 #'
 #' @param id,input,output,session Internal parameters for {shiny}.
 #'
-#' @noRd 
+#' @noRd
 #'
-#' @importFrom shiny NS tagList 
-mod_map_base_ui <- function(id){
+#' @importFrom shiny NS tagList
+mod_map_base_ui <- function(id) {
   ns <- NS(id)
-  tagList(
- 
-  )
+  tagList()
 }
-    
+
 #' map_base Server Function
 #'
-#' @noRd 
-mod_map_base_server <- function(input, output, session){
+#' @noRd
+mod_map_base_server <- function(input, output, session) {
   ns <- session$ns
-  
-  
-  output$ns <- renderLeaflet(quoted = TRUE,{
+
+
+  output$ns <- renderLeaflet(quoted = TRUE, {
     leaflet() %>%
       setView(
         lat = 44.963,
@@ -31,11 +29,11 @@ mod_map_base_server <- function(input, output, session){
       addMapPane("parks_geo", zIndex = 420) %>%
       addMapPane(name = "Carto Positron", zIndex = 430) %>%
       addProviderTiles("CartoDB.PositronOnlyLabels",
-                       options = leafletOptions(pane = "Carto Positron"),
-                       group = "Carto Positron"
+        options = leafletOptions(pane = "Carto Positron"),
+        group = "Carto Positron"
       ) %>%
       addProviderTiles("CartoDB.PositronNoLabels",
-                       group = "Carto Positron"
+        group = "Carto Positron"
       ) %>%
       addProviderTiles(
         provider = providers$Esri.WorldImagery,
@@ -51,7 +49,6 @@ mod_map_base_server <- function(input, output, session){
         weight = 2,
         options = pathOptions(pane = "Agency boundaries")
       ) %>%
-      
       addMapPane("water_access", zIndex = 431) %>%
       addAwesomeMarkers(
         group = "Water Access",
@@ -103,7 +100,8 @@ mod_map_base_server <- function(input, output, session){
         options = pathOptions(pane = "riverlake")
       ) %>%
       hideGroup(
-        c("Buffers",
+        c(
+          "Buffers",
           "Agency boundaries",
           "Active transit stops",
           "Water Access",
@@ -131,13 +129,10 @@ mod_map_base_server <- function(input, output, session){
       ) %>%
       leaflet::addScaleBar(position = c("bottomleft"))
   })
-  
- 
 }
-    
+
 ## To be copied in the UI
 # mod_map_base_ui("map_base_ui_1")
-    
+
 ## To be copied in the server
 # callModule(mod_map_base_server, "map_base_ui_1")
- 
