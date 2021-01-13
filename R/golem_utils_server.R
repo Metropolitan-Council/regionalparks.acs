@@ -161,3 +161,25 @@ iconentry <- leaflet::awesomeIcons(
 )
 
 tract_vars <- tibble::tibble(ACS = c("adj_anydis_per", "adj_ambdis_per", "adj_forborn_per", "adj_usborn_per"))
+
+# leaflet global options -------------------------------------------------------
+
+leaflet_highlight_options <- quote( 
+  highlightOptions(
+    stroke = TRUE,
+    color = "black",
+    weight = 6,
+    bringToFront = TRUE,
+    sendToBack = TRUE,
+    opacity = 1
+  ))
+
+leaflet_popup_options <- quote(
+  popupOptions(
+    closeButton = FALSE,
+    style = list(
+      "font-size" = "18px",
+      "font-family" = "Arial"
+    )
+  )
+)
