@@ -135,6 +135,8 @@ mod_main_leaflet_server <- function(input, output, session,
  })
  
  # adding proxys --------
+ 
+ # add pop polygons -----
  toListen_mainleaflet <- reactive({
    list(current_tab,
      main_lft_inputs$map_bg_data_main,
@@ -144,17 +146,9 @@ mod_main_leaflet_server <- function(input, output, session,
    )
  })
  
-
  observeEvent(
    toListen_mainleaflet(), {
    print("Rendering main leaflet map - pop polygons")
-
-     # pal <- if (main_lft_inputs$source == "Population characteristics") {
-     #   colorNumeric(n = 9, palette = "Blues", domain = main_lft_inputs$map_bg_data_main[[1]])}
-     # else if (main_lft_inputs$mainpop == "PopDens_2019") {
-     #   color
-     # }
-     
    leafletProxy("map") %>%
      clearGroup("Population data") %>%
      clearControls() %>%
@@ -167,14 +161,7 @@ mod_main_leaflet_server <- function(input, output, session,
        weight = 0.25,
        fillOpacity = 0.6,
        smoothFactor = 0.2,
-      # fillColor = ~ colorNumeric(
-      #    # n = 7,
-      #    palette = "Blues",
-      #    domain = main_lft_inputs$map_bg_data_main[[1]]
-      #  )(main_lft_inputs$map_bg_data_main[[1]]),
-      # fillColor = ~ pal(main_lft_inputs$map_bg_data_main[[1]]),
       fillColor = ~ main_lft_inputs$pop_pal(main_lft_inputs$map_bg_data_main[[1]]),
-       # fillColor = ~ main_lft_inputs$pop_pal(main_lft_inputs$map_bg_data_main[[1]]),
        options = list(zIndex = 0),
       
       popup = if (main_lft_inputs$source == "Population characteristics") {
@@ -208,14 +195,15 @@ mod_main_leaflet_server <- function(input, output, session,
      )
  })
  
+ # add parktrails
  toListen_mainleaflet_parktrail <- reactive({
-   list(
+   list(current_tab,
      main_lft_inputs$map_parktrail_data_main
    )
  }) 
 
   observeEvent(
-    main_lft_inputs$input_parktype, {
+    toListen_mainleaflet_parktrail(), {
      print("Rendering main leaflet map - parks/trails")
 
       leafletProxy("map") %>%
@@ -358,7 +346,7 @@ mod_main_leaflet_server <- function(input, output, session,
   
   
   toListen_mainleaflet_buffer <- reactive({
-    list(
+    list(current_tab,
       main_lft_inputs$map_parktrail_data_main,
       main_lft_inputs$input_bufferdist
     )
