@@ -260,6 +260,58 @@ mod_main_leaflet_server <- function(input, output, session,
              "font-family" = "Arial"
            )
          )
+       )   %>%
+       
+       addPolylines(
+         data = main_lft_inputs$map_parktrail_data_main[main_lft_inputs$map_parktrail_data_main$Type == "Trail" & main_lft_inputs$map_parktrail_data_main$status2 == "Existing", ],
+         group = "Parks and trails",
+         stroke = TRUE,
+         weight = 3,
+         color = e_col,
+         smoothFactor = 0.3,
+         opacity = 0.9,
+         options = pathOptions(pane = "parks_geo"),
+         popup = ~popup_text,
+         highlightOptions = highlightOptions(
+           stroke = TRUE,
+           color = "black",
+           weight = 6,
+           bringToFront = TRUE
+         )
+       ) %>%
+       addPolylines(
+         data = main_lft_inputs$map_parktrail_data_main[main_lft_inputs$map_parktrail_data_main$Type == "Trail" & main_lft_inputs$map_parktrail_data_main$status2 == "Search", ],
+         group = "Parks and trails",
+         stroke = TRUE,
+         weight = 3, # 3,
+         color = s_col,
+         smoothFactor = 0.3,
+         opacity = 0.9, # 0.5,
+         options = pathOptions(pane = "parks_geo"),
+         popup = ~popup_text,
+         highlightOptions = highlightOptions(
+           stroke = TRUE,
+           color = "black",
+           weight = 6,
+           bringToFront = TRUE
+         )
+       ) %>%
+       addPolylines(
+         data = main_lft_inputs$map_parktrail_data_main[main_lft_inputs$map_parktrail_data_main$Type == "Trail" & main_lft_inputs$map_parktrail_data_main$status2 == "Planned", ],
+         group = "Parks and trails",
+         stroke = TRUE,
+         weight = 3, # 3,
+         color = p_col,
+         smoothFactor = 0.3,
+         opacity = 0.9, # 0.5,
+         options = pathOptions(pane = "parks_geo"),
+         popup = ~popup_text,
+         highlightOptions = highlightOptions(
+           stroke = TRUE,
+           color = "black",
+           weight = 6,
+           bringToFront = TRUE
+         )
        )
 
    })
