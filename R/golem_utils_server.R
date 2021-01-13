@@ -159,3 +159,5 @@ iconentry <- leaflet::awesomeIcons(
   library = "glyphicon",
   markerColor = "orange"
 )
+
+tract_vars <- tibble(ACS = c("adj_anydis_per", "adj_ambdis_per", "adj_forborn_per", "adj_usborn_per"))

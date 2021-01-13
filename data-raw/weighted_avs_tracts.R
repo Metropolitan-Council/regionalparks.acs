@@ -310,6 +310,6 @@ usethis::use_data(agency_planned_existing_avgs_tract, overwrite = TRUE)
 
 # helper tibble ----------------------------------------------------------------
 
-tract_vars <- tibble(ACS = c("adj_anydis_per", "adj_ambdis_per", "adj_forborn_per", "adj_usborn_per"))
-
-usethis::use_data(tract_vars, overwrite = TRUE)
+# tract_vars <- tibble(ACS = c("adj_anydis_per", "adj_ambdis_per", "adj_forborn_per", "adj_usborn_per"))
+# 
+# usethis::use_data(tract_vars, overwrite = TRUE)
