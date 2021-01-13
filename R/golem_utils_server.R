@@ -80,31 +80,31 @@ s_col <- "#DDCC77" # yellow
 renamekey <- tibble::tribble(
   ~goodname, ~"ACS", ~pal,
   "Total population", "adj_2019pop", "Blues",
-  "Age, % under 15", "adj_ageunder15_per", "BuPu",
-  "Age, % 15-24", "adj_age15_24_per", "BuPu",
-  "Age, % 25-64", "adj_age25_64_per", "BuPu",
-  "Age, % 65 and up", "adj_age65up_per", "BuPu",
-  "Race, % White", "adj_whitenh_per", "RdPu",
-  "Race, % Black", "adj_blacknh_per", "RdPu",
-  "Race, % Asian", "adj_asiannh_per", "RdPu",
-  "Race, % American Indian", "adj_amindnh_per", "RdPu",
-  "Race, % Other + Multiracial", "adj_othermultinh_per", "RdPu",
-  "Ethnicity, % Hispanic", "adj_hisppop_per", "YlGnBu",
-  "Ethnicity, % not-Hispanic", "adj_nothisppop_per", "YlGnBu",
+  "% population under age 15", "adj_ageunder15_per", "BuPu",
+  "% population age 15-24", "adj_age15_24_per", "BuPu",
+  "% population age 25-64", "adj_age25_64_per", "BuPu",
+  "% population age 65 and up", "adj_age65up_per", "BuPu",
+  "% White population", "adj_whitenh_per", "RdPu",
+  "% Black population", "adj_blacknh_per", "RdPu",
+  "% Asian population", "adj_asiannh_per", "RdPu",
+  "% American Indian population", "adj_amindnh_per", "RdPu",
+  "% Other + Multiracial population", "adj_othermultinh_per", "RdPu",
+  "% Hispanic population", "adj_hisppop_per", "YlGnBu",
+  "% not-Hispanic population", "adj_nothisppop_per", "YlGnBu",
   
-  "Income, Mean household income", "adj_meanhhi", "YlGnBu",
-  "Income, % below 185% poverty line", "adj_pov185_per", "YlGnBu",
+  "Mean household income", "adj_meanhhi", "YlGnBu",
+  "% households below 185% poverty line", "adj_pov185_per", "YlGnBu",
 
-  "% Housholds without a vehicle", "adj_novehicle_per", "Blues",
-  "% limited English proficiency", "adj_lep_per", "Blues",
-  "% Spanish speakers", "adj_span_per", "Blues",
+  "% housholds without a vehicle", "adj_novehicle_per", "Blues",
+  "% population with limited English proficiency", "adj_lep_per", "Blues",
+  "% population primarily speaking Spanish", "adj_span_per", "Blues",
   
-  "Ability, % any disability", "adj_anydis_per", "OrRd",
-  "Ability, % ambulatory disability", "adj_ambdis_per", "OrRd", 
-  "Ability, % any other disability","adj_nonambdis_per", "OrRd",
+  "% population with any disability", "adj_anydis_per", "OrRd",
+  "% population with ambulatory disability", "adj_ambdis_per", "OrRd", 
+  "% population with any other disability","adj_nonambdis_per", "OrRd",
   
-  "Origin, % US-born", "adj_usborn_per", "YlGn",
-  "Origin, % foreign-born", "adj_forborn_per", "YlGn"
+  "% US-born population", "adj_usborn_per", "YlGn",
+  "% foreign-born population", "adj_forborn_per", "YlGn"
 )
 
 recodeadjtable <- tibble::tribble(
