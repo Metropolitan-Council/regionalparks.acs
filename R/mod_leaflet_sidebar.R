@@ -95,22 +95,23 @@ mod_leaflet_sidebar_ui <- function(id){
       # h4("Choose park/trail units:"),
       id = "maintype",
       checkboxGroupInput(
-        ns("input_type"),
+        ns("input_parktype"),
         label = h4("Choose park/trail units:"),
-        choices = c("Park - Existing", 
-                    "Trail - Existing",
-                    "Park - Planned", 
-                    "Trail - Planned", 
-                    "Park - Search", 
-                    "Trail - Search"),
-        selected = c("Park - Existing", "Trail - Existing")
+        choices = c("Park - existing", 
+                    "Trail - existing",
+                    "Park - planned", 
+                    "Trail - planned", 
+                    "Park - search", 
+                    "Trail - search"),
+        selected = c("Park - existing", 
+                     "Trail - existing")
       )
     ),
     
     wellPanel(
       id = "mainbufs",
       checkboxGroupInput(
-        ns("input_type"),
+        ns("input_buffer"),
         label = h4("Choose buffer distances:"),
         choices = c("1 mile buffer", 
                     "1.5 mile buffer", 
@@ -152,14 +153,39 @@ mod_leaflet_sidebar_server <- function(input, output, session){
            TAZ2012)
     }}
     return(p6)
-
     })
+  
+  
+  make_map_parktrail_data_main <- reactive({
+    p4 <- regionalparks.acs::park_trail_geog_LONG %>%
+      dplyr::filter(
+        status %in% input$input_parktype
+      )
+    return(p4)
+  })
+  
+  
+  # make_map_buffer_data <- reactive({
+  #   p5 <- regionalparks.acs::buffer_geo %>%
+  #     dplyr::filter(
+  #       agency %in% selected_vars$input_agency,
+  #       type %in% selected_vars$input_type,
+  #       status %in% selected_vars$input_status,
+  #       distance == selected_vars$input_distance
+  #     )
+  #   return(p5)
+  # })
+  
   
   
   vals <- reactiveValues()
   
   observe({
     vals$map_bg_data_main <- make_map_bg_data_main()
+  })
+  
+  observe({
+    vals$map_parktrail_data_main <- make_map_parktrail_data_main()
   })
 
   observeEvent(input$source, {
@@ -172,6 +198,10 @@ mod_leaflet_sidebar_server <- function(input, output, session){
   
   observeEvent(input$mainacs, {
     vals$mainacs <- input$mainacs
+  })
+  
+  observeEvent(input$input_parktype, {
+    vals$input_parktype <- input$input_parktype
   })
   
   return(vals)

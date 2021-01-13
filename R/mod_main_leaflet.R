@@ -146,7 +146,7 @@ mod_main_leaflet_server <- function(input, output, session,
  
  observeEvent(
    toListen_mainleaflet(), {
-   print("Rendering main leaflet map")
+   print("Rendering main leaflet map - pop polygons")
 
    leafletProxy("map") %>%
      clearGroup("Population data") %>%
@@ -169,7 +169,100 @@ mod_main_leaflet_server <- function(input, output, session,
        options = list(zIndex = 0)
      )
  })
-  
+ 
+ toListen_mainleaflet_parktrail <- reactive({
+   list(
+     main_lft_inputs$map_parktrail_data_main
+   )
+ }) 
+
+  observeEvent(
+    main_lft_inputs$input_parktype, {
+     print("Rendering main leaflet map - parks/trails")
+     leafletProxy("map") %>%
+       clearGroup("Parks and trails") %>%
+       clearControls() %>%
+       
+       addMapPane("parks_geo", zIndex = 420) %>%
+       addPolygons(
+         data = main_lft_inputs$map_parktrail_data_main[main_lft_inputs$map_parktrail_data_main$Type == "Park" & main_lft_inputs$map_parktrail_data_main$status2 == "Existing", ],
+         group = "Parks and trails",
+         stroke = TRUE,
+         color = e_col,
+         fill = TRUE,
+         fillColor = e_col,
+         fillOpacity = 0.9,
+         options = pathOptions(pane = "parks_geo"),
+         highlightOptions = highlightOptions(
+           stroke = TRUE,
+           color = "black",
+           weight = 6,
+           bringToFront = TRUE,
+           opacity = 1
+         ),
+         popup = ~popup_text,
+         popupOptions = popupOptions(
+           closeButton = FALSE,
+           style = list(
+             "font-size" = "18px",
+             "font-family" = "Arial"
+           )
+         )
+       ) %>%
+       addPolygons(
+         data = main_lft_inputs$map_parktrail_data_main[main_lft_inputs$map_parktrail_data_main$Type == "Park" & main_lft_inputs$map_parktrail_data_main$status2 == "Planned", ],
+         group = "Parks and trails",
+         stroke = TRUE,
+         color = p_col,
+         fill = TRUE,
+         fillColor = p_col,
+         fillOpacity = 0.9,
+         options = pathOptions(pane = "parks_geo"),
+         highlightOptions = highlightOptions(
+           stroke = TRUE,
+           color = "black",
+           weight = 6,
+           bringToFront = TRUE,
+           opacity = 1
+         ),
+         popup = ~popup_text,
+         popupOptions = popupOptions(
+           closeButton = FALSE,
+           style = list(
+             "font-size" = "18px",
+             "font-family" = "Arial"
+           )
+         )
+       ) %>%
+       
+
+       addCircles(
+         data = main_lft_inputs$map_parktrail_data_main[main_lft_inputs$map_parktrail_data_main$Type == "Park" & main_lft_inputs$map_parktrail_data_main$status2 == "Search", ],
+         group = "Parks and trails",
+         stroke = TRUE,
+         radius = 2000,
+         color = s_col,
+         fill = TRUE,
+         fillColor = s_col,
+         fillOpacity = 0.9,
+         options = pathOptions(pane = "parks_geo"),
+         highlightOptions = highlightOptions(
+           stroke = TRUE,
+           color = "black", weight = 6,
+           bringToFront = TRUE,
+           opacity = 1
+         ),
+         popup = ~popup_text,
+         popupOptions = popupOptions(
+           closeButton = FALSE,
+           style = list(
+             "font-size" = "18px",
+             "font-family" = "Arial"
+           )
+         )
+       )
+
+   })
   
 }
     
