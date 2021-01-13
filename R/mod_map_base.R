@@ -22,6 +22,7 @@ mod_map_base_server <- function(input, output, session){
   
   
   output$ns <- renderLeaflet(quoted = TRUE,{
+    print("Rendering base")
     leaflet() %>%
       setView(
         lat = 44.963,
