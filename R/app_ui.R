@@ -27,9 +27,9 @@ app_ui <- function(request) {
       tabPanel(
         "System Map",
         shiny::p("This map provides a general overview of the population across the 7-county Twin Cities region and adjacent areas."),
-        shiny::p("Population characteristic data is from the ",
+        shiny::p("Population characteristic data is from the U.S. Census Bureau ",
         a(href = "https://www.census.gov/programs-surveys/acs", 
-        "5-year American Community Survey (2015-2019)",
+        "(American Community Survey, 2015-2019)",
         .noWS = "outside",
         target = "_blank"
         ), " and shows the highest spatial resolution possible by variable (either Census tract or block group). Each demographic characteristic is shown as a percentage of the total population, with the exception of median household income, which is displayed in dollars. The darker the color, the higher the percentage (or income in dollars)."), 
