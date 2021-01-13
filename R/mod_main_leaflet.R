@@ -167,7 +167,17 @@ mod_main_leaflet_server <- function(input, output, session,
          domain = main_lft_inputs$map_bg_data_main[[1]]
        )(main_lft_inputs$map_bg_data_main[[1]]),
        # fillColor = ~ main_lft_inputs$pop_pal(main_lft_inputs$map_bg_data_main[[1]]),
-       options = list(zIndex = 0)
+       options = list(zIndex = 0),
+      
+      popup = if (main_lft_inputs$mainacs == "adj_meanhhi") {
+        ~ paste0(tags$strong(filter(renamekey, ACS == main_lft_inputs$mainacs) %>% select(goodname)), ": $", format(main_lft_inputs$map_bg_data_main[[1]], big.mark = ","))
+      } else {
+        ~ paste0(
+          tags$strong(filter(renamekey, ACS == main_lft_inputs$mainacs) %>% select(goodname)),
+          ": ",
+          main_lft_inputs$map_bg_data_main[[1]], "%"
+        )
+      }
      )
  })
  
