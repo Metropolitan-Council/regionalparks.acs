@@ -164,6 +164,18 @@ mod_summary_utils_server <- function(input, output, session,
   })
 
 
+  make_PlotHeight <- reactive( # plot height ------
+    # #if want to set a minimum height
+    return(
+      if ((nrow(make_plot_buffer_data()[!duplicated(make_plot_buffer_data()[, c("name")]), ]) * 30) > 200) {
+        (nrow(make_plot_buffer_data()[!duplicated(make_plot_buffer_data()[, c("name")]), ]) * 30)
+      } else {
+        200
+      }
+    )
+  )
+
+
   vals <- reactiveValues()
 
   observe({
@@ -190,10 +202,14 @@ mod_summary_utils_server <- function(input, output, session,
     vals$facet_data <- make_facet_data()
   })
 
-  observe({
-    vals$table_buffer_data_display <- make_table_buffer_data_display()
-  })
+  # observe({
+  #   vals$table_buffer_data_display <- make_table_buffer_data_display()
+  # })
 
+
+  observe({
+    vals$sum_plotheight <- make_PlotHeight()
+  })
   return(vals)
 }
 

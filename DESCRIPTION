@@ -24,7 +24,8 @@ Imports:
     dplyr (>= 1.0.0),
     DT (>= 0.16),
     forcats (>= 0.5.0),
-    ggplot2 (>= 3.3.3),
+    ggforestplot (>= 0.1.0),
+    ggplot2 (>= 3.3.2),
     golem (>= 0.2.1),
     htmltools (>= 0.5.0),
     leaflet (>= 2.0.3),
@@ -44,7 +45,8 @@ Suggests:
     testthat (>= 2.3.2),
     tigris (>= 0.9.4)
 Remotes:
-    Metropolitan-Council/councilR
+    Metropolitan-Council/councilR,
+    NightingaleHealth/ggforestplot
 Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)

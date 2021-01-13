@@ -1,6 +1,6 @@
 
 load("./data/census_tract_raw.rda")
-load("./data/park_trail_geog.rda")
+load("./data/park_trail_geog_LONG.rda")
 
 
 requireNamespace("readxl", quietly = TRUE)
@@ -67,13 +67,14 @@ acs_temp <- census_tract_raw %>%
   mutate(
     "usborncit_percent" = `Origin, US-born`,
     "forborn_percent" = `Origin, foreign-born`,
-    "anydis_percent" = `Disability, any disability`
+    "ambdis_percent" = `Ability, ambulatory disability`,
+    "anydis_percent" = `Ability, any other disability`
   ) %>%
-  select(GEOID, usborncit_percent, forborn_percent, anydis_percent, geometry) %>%
+  select(GEOID, usborncit_percent, forborn_percent, ambdis_percent, anydis_percent, geometry) %>%
   mutate(county = substr(GEOID, start = 3, stop = 5)) %>%
   st_transform(3857) %>% # https://epsg.io/3857\
   mutate(bg_area = st_area(.)) %>%
-  select(GEOID, usborncit_percent, forborn_percent, anydis_percent, geometry, bg_area)
+  select(GEOID, usborncit_percent, forborn_percent, ambdis_percent, anydis_percent, geometry, bg_area)
 
 agency_boundary <- read_sf("/Volumes/shared/CommDev/Research/Public/GIS/Parks/Park_Operating_Agencies.shp") %>%
   mutate(COMCD_DESC = recode(COMCD_DESC, "Minneapolis" = "MPRB")) %>%
@@ -108,6 +109,7 @@ return_weighted_demo_persons <- (function(...) {
       adj_2019pop = coverage * pop2019, # use 2019 small area estimates to weight
       adj_2019hh = coverage * hh2019,
       adj_anydis = adj_2019pop * anydis_percent, # calculate total pop in demo groups (weighted)
+      adj_ambdis = adj_2019pop * ambdis_percent, # new
       adj_forborn = adj_2019pop * forborn_percent,
       adj_usborn = adj_2019pop * usborncit_percent
     )
@@ -123,6 +125,7 @@ return_weighted_demo_persons_AVG <- (function(...) {
       adj_2019pop = coverage * pop2019, # use 2019 small area estimates to weight
       adj_2019hh = coverage * hh2019,
       adj_anydis = adj_2019pop * anydis_percent, # calculate total pop in demo groups (weighted)
+      adj_ambdis = adj_2019pop * ambdis_percent, # new
       adj_forborn = adj_2019pop * forborn_percent,
       adj_usborn = adj_2019pop * usborncit_percent
     )
@@ -135,6 +138,7 @@ return_weighted_demo_percents <- (function(...) {
     mutate(
       adj_2019pop = round(adj_2019pop, 0), # calculate %s again (from the ppl)
       adj_anydis_per = round(adj_anydis / adj_2019pop * 100, 1),
+      adj_ambdis_per = round(adj_ambdis / adj_2019pop * 100, 1), # new
       adj_forborn_per = round(adj_forborn / adj_2019pop * 100, 1),
       adj_usborn_per = round(adj_usborn / adj_2019pop * 100, 1)
     )
@@ -306,6 +310,6 @@ usethis::use_data(agency_planned_existing_avgs_tract, overwrite = TRUE)
 
 # helper tibble ----------------------------------------------------------------
 
-tract_vars <- tibble(ACS = c("adj_anydis_per", "adj_forborn_per", "adj_usborn_per"))
-
-usethis::use_data(tract_vars, overwrite = TRUE)
+# tract_vars <- tibble(ACS = c("adj_anydis_per", "adj_ambdis_per", "adj_forborn_per", "adj_usborn_per"))
+#
+# usethis::use_data(tract_vars, overwrite = TRUE)

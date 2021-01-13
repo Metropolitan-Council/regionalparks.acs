@@ -17,7 +17,7 @@ mod_summary_table_ui <- function(id) {
       ),
 
       # column(downloadButton(outputID = ns("downloadData"), "Download tabular data"), width = 6),
-      hr(),
+      # hr(),
 
       column(DT::dataTableOutput(outputId = ns("output_datatable")), width = 12)
     )

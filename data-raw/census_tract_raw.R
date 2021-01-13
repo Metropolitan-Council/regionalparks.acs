@@ -76,8 +76,9 @@ ct_foreign <- ct %>%
 ct_disability <- ct %>%
   select(geoid, geoid2, poptotal, anydis, ambdis, cdenom) %>%
   mutate( # anydis_percent = round(anydis / cdenom, digits = 2),
+    TRUEANYDIS_PERCENT = round(anydis / cdenom, digits = 2) * 100,
     ambdis_percent = round(ambdis / cdenom, digits = 2) * 100,
-    anydis_percent = (1 - ambdis_percent) * 100
+    anydis_percent = round(anydis / cdenom, digits = 2) * 100 - ambdis_percent
   )
 
 
@@ -131,6 +132,7 @@ census_tract_raw <- census_tract_spatial %>%
     GEOID,
     "usborncit_percent",
     "forborn_percent",
+    "TRUEANYDIS_PERCENT",
     "anydis_percent",
     "ambdis_percent",
     "age_10_19_percent",
@@ -156,6 +158,7 @@ names(census_tract_raw) <- c(
   "GEOID",
   "Origin, US-born",
   "Origin, foreign-born",
+  "TRUEANYDIS_PERCENT",
   "Ability, any other disability",
   "Ability, ambulatory disability",
   "Age, 10-19",
