@@ -134,9 +134,9 @@ mod_main_leaflet_server <- function(input, output, session,
      leaflet::addScaleBar(position = c("bottomleft"))
  })
  
- 
+ # adding proxys --------
  toListen_mainleaflet <- reactive({
-   list(
+   list(current_tab,
      main_lft_inputs$map_bg_data_main,
      main_lft_inputs$source,
      main_lft_inputs$mainacs,
@@ -144,9 +144,7 @@ mod_main_leaflet_server <- function(input, output, session,
    )
  })
  
- 
- 
- 
+
  observeEvent(
    toListen_mainleaflet(), {
    print("Rendering main leaflet map - pop polygons")
