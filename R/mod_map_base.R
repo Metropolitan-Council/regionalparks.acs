@@ -22,13 +22,13 @@ mod_map_base_server <- function(input, output, session){
   
   
   output$ns <- renderLeaflet(quoted = TRUE,{
-    print("Rendering base")
     leaflet() %>%
       setView(
         lat = 44.963,
         lng = -93.22,
         zoom = 9
       ) %>%
+      addMapPane("parks_geo", zIndex = 420) %>%
       addMapPane(name = "Carto Positron", zIndex = 430) %>%
       addProviderTiles("CartoDB.PositronOnlyLabels",
                        options = leafletOptions(pane = "Carto Positron"),
