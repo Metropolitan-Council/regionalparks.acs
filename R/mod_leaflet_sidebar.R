@@ -217,8 +217,28 @@ mod_leaflet_sidebar_server <- function(input, output, session){
     vals$input_bufferdist <- input$input_bufferdist
   })
   
-  return(vals)
+
+  generate_pop_pal <- reactive({
+    pal <-
+      if (input$mainpop == "PopDens_2019" | input$mainpop == "popdens_2040_mi" | input$mainpop == "growth_rel_10_40") {
+        colorQuantile(n = 9, palette = "Blues", domain = vals$map_bg_data_main[[1]])
+      } else {
+        colorNumeric(n = 9, palette = "Blues", domain = vals$map_bg_data_main[[1]])
+      }
+    return(pal)
+  })
   
+  observe({
+    vals$pop_pal <- generate_pop_pal()
+  })
+  
+    return(vals)
+  
+  #------
+  
+
+  
+
 
   
 }

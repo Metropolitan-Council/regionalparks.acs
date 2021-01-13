@@ -138,9 +138,9 @@ recodeadjtable <- tibble::tribble(
 popkey <- tibble::tribble( #------
   ~goodname, ~"popvar", ~"short",
   "2019 population", "PopEst_2019", "2019 population\n(persons)",
-  "2019 population density", "PopDens_2019", "2019 density\n(by percentile)",
+  "2019 population density", "PopDens_2019", "2019 population density\n(by percentile)",
   "2040 population", "POP2040", "2040 pop.\n(persons)",
-  "2040 population density", "popdens_2040_mi", "2040 density\n(by percentile)",
+  "2040 population density", "popdens_2040_mi", "2040 population density\n(by percentile)",
   "Growth, relative", "growth_rel_10_40", "Relative growth\n(by percentile)",
   "Growth, absolute", "growth_abs_10_40", "Absolute growth\n(persons)"
 )

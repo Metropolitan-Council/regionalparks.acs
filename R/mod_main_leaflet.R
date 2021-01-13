@@ -104,7 +104,7 @@ mod_main_leaflet_server <- function(input, output, session,
        options = pathOptions(pane = "riverlake")
      ) %>%
      hideGroup(
-       c(
+       c("Buffers",
          "Agency boundaries",
          "Active transit stops",
          "Water Access",
@@ -150,7 +150,11 @@ mod_main_leaflet_server <- function(input, output, session,
    toListen_mainleaflet(), {
    print("Rendering main leaflet map - pop polygons")
 
-     pal <- colorNumeric(n = 9, palette = "Blues", domain = main_lft_inputs$map_bg_data_main[[1]])
+     # pal <- if (main_lft_inputs$source == "Population characteristics") {
+     #   colorNumeric(n = 9, palette = "Blues", domain = main_lft_inputs$map_bg_data_main[[1]])}
+     # else if (main_lft_inputs$mainpop == "PopDens_2019") {
+     #   color
+     # }
      
    leafletProxy("map") %>%
      clearGroup("Population data") %>%
@@ -169,7 +173,8 @@ mod_main_leaflet_server <- function(input, output, session,
       #    palette = "Blues",
       #    domain = main_lft_inputs$map_bg_data_main[[1]]
       #  )(main_lft_inputs$map_bg_data_main[[1]]),
-      fillColor = ~ pal(main_lft_inputs$map_bg_data_main[[1]]),
+      # fillColor = ~ pal(main_lft_inputs$map_bg_data_main[[1]]),
+      fillColor = ~ main_lft_inputs$pop_pal(main_lft_inputs$map_bg_data_main[[1]]),
        # fillColor = ~ main_lft_inputs$pop_pal(main_lft_inputs$map_bg_data_main[[1]]),
        options = list(zIndex = 0),
       
@@ -192,13 +197,16 @@ mod_main_leaflet_server <- function(input, output, session,
      ) %>%
      
      addLegend(
-       title = paste0(filter(renamekey, ACS == main_lft_inputs$mainacs) %>% select(goodname)),
+       title = if (main_lft_inputs$source == "Population characteristics") {
+         paste0(filter(renamekey, ACS == main_lft_inputs$mainacs) %>% select(goodname))} else {
+           paste0(filter(popkey, popvar == main_lft_inputs$mainpop) %>% select(short))
+         },
        position = "bottomleft",
        group = "Population data",
        layerId = "Population data",
-       pal = pal,
+       pal = main_lft_inputs$pop_pal,
        values = main_lft_inputs$map_bg_data_main[[1]]
-     ) 
+     )
  })
  
  toListen_mainleaflet_parktrail <- reactive({
