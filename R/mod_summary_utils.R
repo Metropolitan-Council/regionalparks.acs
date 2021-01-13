@@ -202,9 +202,9 @@ mod_summary_utils_server <- function(input, output, session,
     vals$facet_data <- make_facet_data()
   })
 
-  observe({
-    vals$table_buffer_data_display <- make_table_buffer_data_display()
-  })
+  # observe({
+  #   vals$table_buffer_data_display <- make_table_buffer_data_display()
+  # })
 
   
   observe({
