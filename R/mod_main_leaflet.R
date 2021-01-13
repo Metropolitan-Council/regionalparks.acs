@@ -169,7 +169,8 @@ mod_main_leaflet_server <- function(input, output, session,
        # fillColor = ~ main_lft_inputs$pop_pal(main_lft_inputs$map_bg_data_main[[1]]),
        options = list(zIndex = 0),
       
-      popup = if (main_lft_inputs$mainacs == "adj_meanhhi") {
+      popup = if (main_lft_inputs$source == "Population characteristics") {
+        if (main_lft_inputs$mainacs == "adj_meanhhi") {
         ~ paste0(tags$strong(filter(renamekey, ACS == main_lft_inputs$mainacs) %>% select(goodname)), ": $", format(main_lft_inputs$map_bg_data_main[[1]], big.mark = ","))
       } else {
         ~ paste0(
@@ -177,7 +178,13 @@ mod_main_leaflet_server <- function(input, output, session,
           ": ",
           main_lft_inputs$map_bg_data_main[[1]], "%"
         )
-      }
+      }} else { case_when(
+        main_lft_inputs$mainpop == "growth_rel_10_40" ~
+          paste0(tags$strong(filter(popkey, popvar == main_lft_inputs$mainpop) %>% select(goodname)), ": ", round(main_lft_inputs$map_bg_data_main[[1]], 2), " x"),
+        (main_lft_inputs$mainpop == "popdens_2040_mi" | main_lft_inputs$mainpop == "PopDens_2019") ~
+          paste0(tags$strong(filter(popkey, popvar == main_lft_inputs$mainpop) %>% select(goodname)), ": ", format(round(main_lft_inputs$map_bg_data_main[[1]], 1), big.mark = ","), " persons/mile"),
+        TRUE ~ paste0(tags$strong(filter(popkey, popvar == main_lft_inputs$mainpop) %>% select(goodname)), ": ", format(main_lft_inputs$map_bg_data_main[[1]], big.mark = ","), " persons")
+      ) }
      )
  })
  
