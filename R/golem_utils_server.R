@@ -108,31 +108,32 @@ renamekey <- tibble::tribble(
 
 recodeadjtable <- tibble::tribble(
   ~ACS, ~nicename,
-  "adj_poptotal", "Population",
-  "adj_ageunder15_per", "Population under age 15",
-  "adj_age15_24_per", "Population age 15-24",
-  "adj_age25_64_per", "Population age 25-64",
-  "adj_age65up_per", "Population age 65+",
-  "adj_whitenh_per", "White population",
-  "adj_blacknh_per", "Black population",
-  "adj_asiannh_per", "Asian population",
-  "adj_amindnh_per", "Am. Indian population",
-  "adj_othermultinh_per", "Other + Multiracial population",
-  "adj_hisppop_per", "Hispanic population",
-  "adj_nothisppop_per", "Not-Hispanic population",
+  "adj_2019pop", "Weighted population (#)",
+  "adj_2019hh", "Weighted households (#)",
+  "adj_ageunder15_per", "Population under age 15 (%)",
+  "adj_age15_24_per", "Population age 15-24 (%)",
+  "adj_age25_64_per", "Population age 25-64 (%)",
+  "adj_age65up_per", "Population age 65+ (%)",
+  "adj_amindnh_per", "Am. Indian population (%)",
+  "adj_asiannh_per", "Asian population (%)",
+  "adj_blacknh_per", "Black population (%)",
+  "adj_othermultinh_per", "Other + Multiracial population (%)",
+  "adj_whitenh_per", "White population (%)",
+  "adj_hisppop_per", "Hispanic population (%)",
+  "adj_nothisppop_per", "Not-Hispanic population (%)",
 
-  "adj_meanhhi", "Mean household income",
-  "adj_185pov_per", "Households below 185% poverty line",
+  "adj_meanhhi", "Mean household income ($)",
+  "adj_185pov_per", "Households below 185% poverty line (%)",
 
-  "adj_novehicle_per", "Housholds without a vehicle",
-  "adj_lep_per", "Population with limited English proficiency",
-  "adj_span_per", "Population primarily speaking Spanish",
+  "adj_novehicle_per", "Housholds without a vehicle (%)",
+  "adj_lep_per", "Population with limited English proficiency (%)",
+  "adj_span_per", "Population primarily speaking Spanish (%)",
 
-  "adj_anydis_per", "Population with any other disability",
-  "adj_ambdis_per", "Population with ambulatory disability",
-
-  "adj_usborn_per", "US-born population",
-  "adj_forborn_per", "Foreign-born population"
+  "adj_ambdis_per", "Population with ambulatory disability (%)",
+  "adj_anydis_per", "Population with any other disability (%)",
+  
+  "adj_forborn_per", "Foreign-born population (%)",
+  "adj_usborn_per", "US-born population (%)"
 )
 
 popkey <- tibble::tribble( #------
