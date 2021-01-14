@@ -45,6 +45,39 @@ mod_summary_utils_server <- function(input, output, session,
     return(p)
   })
 
+
+  make_table_buffer_data_display <- reactive({
+    make_table_buffer_data() %>%
+      left_join(recodeadjtable) %>%
+      select(-ACS) %>%
+      rename(ACS = nicename) %>%
+      filter(!is.na(ACS)) %>%
+      mutate(value = round(value, 1)) %>%
+      select(agency, name, type, status, distance, ACS, value) %>%
+      pivot_wider(names_from = ACS, values_from = value) %>%
+      separate(name,
+        into = c("name", "delete2"),
+        sep = c("_")
+      ) %>%
+      select(-delete2) %>% # , -Population) %>%
+      mutate(name = str_replace_all(
+        name,
+        c(
+          "Regional Park" = "RP",
+          "Regional Trail" = "RT",
+          "Park Reserve" = "PR"
+        )
+      )) %>%
+      rename(
+        Agency = agency,
+        Name = name,
+        Type = type,
+        Status = status,
+        `Buffer Dist.` = distance
+      )
+  })
+
+
   make_plot_buffer_data <- reactive({
     make_table_buffer_data() %>%
       dplyr::filter(
@@ -169,8 +202,13 @@ mod_summary_utils_server <- function(input, output, session,
     vals$facet_data <- make_facet_data()
   })
 
+  # observe({
+  #   vals$table_buffer_data_display <- make_table_buffer_data_display()
+  # })
+
+
   observe({
-    vals$reactive_plotheight <- make_PlotHeight()
+    vals$sum_plotheight <- make_PlotHeight()
   })
   return(vals)
 }

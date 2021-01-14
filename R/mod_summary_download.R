@@ -53,8 +53,8 @@ mod_summary_download_server <- function(input, output, session,
             rename(
               Agency = agency,
               Name = name,
-              `Unit Type` = type,
-              `Unit Status` = status,
+              Type = type,
+              Status = status,
               `Buffer Dist.` = distance
             ),
         file = con,
