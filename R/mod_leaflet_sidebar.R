@@ -57,7 +57,7 @@ mod_leaflet_sidebar_ui <- function(id) {
             ),
             `Income` = list(
               "Mean household income ($)" = "adj_meanhhi",
-              "Income, % population below 185% poverty line" = "adj_185pov_per"
+              "Income, % below 185% poverty line" = "adj_185pov_per"
             ),
             `Transportation` = list("% Housholds without a vehicle" = "adj_novehicle_per"),
             `Language` = list(
