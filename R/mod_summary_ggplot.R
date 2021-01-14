@@ -83,19 +83,19 @@ mod_summary_ggplot_server <- function(input, output, session,
     plot_grid(type_status_legend)
   })
 
-  PlotHeight <- reactive( # plot height ------
-    # #if want to set a minimum height
-    return(
-      if ((nrow(summary_util$plot_buffer_data[!duplicated(summary_util$plot_buffer_data[, c("name")]), ]) * 30) > 200) {
-        (nrow(summary_util$plot_buffer_data[!duplicated(summary_util$plot_buffer_data[, c("name")]), ]) * 30)
-      } else {
-        200
-      }
-    )
-  )
+  # PlotHeight <- reactive( # plot height ------
+  #   # #if want to set a minimum height
+  #   return(
+  #     if ((nrow(summary_util$plot_buffer_data[!duplicated(summary_util$plot_buffer_data[, c("name")]), ]) * 30) > 200) {
+  #       (nrow(summary_util$plot_buffer_data[!duplicated(summary_util$plot_buffer_data[, c("name")]), ]) * 30)
+  #     } else {
+  #       200
+  #     }
+  #   )
+  # )
 
 
-  output$Rggplots <- renderPlot(height = function() PlotHeight(), {
+  output$Rggplots <- renderPlot(height = function() summary_util$reactive_plotheight, {
     summary_util$facet_data %>%
       ggplot2::ggplot(aes(
         y = name,
