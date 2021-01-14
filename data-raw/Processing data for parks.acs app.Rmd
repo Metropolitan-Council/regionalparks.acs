@@ -111,7 +111,6 @@ Running this produces:
 ```{r spatialacs, message=FALSE, warning = F, echo = F}
 source("collar_county_filter.R")
 source("acs_geo.R")
-
 ```
 
 ## Create population estimates
@@ -151,6 +150,17 @@ taz_growth
 trans_stops
 entrance
 water_access
+
+```{r}
+fs::file_delete("../data/agency_avg_bg.rda")
+fs::file_delete("../data/agency_avg_tract.rda")
+fs::file_delete("../data/agency_planned_existing_avgs.rda")
+fs::file_delete("../data/agency_planned_existing_avgs_tract.rda")
+fs::file_delete("../data/block_group_raw.rda")
+fs::file_delete("../data/census_tract_raw.rda")
+fs::file_delete("../data/long_buffer_data_bg.rda")
+fs::file_delete("../data/long_buffer_data_tract.rda")
+```
 
 
 # reproject
