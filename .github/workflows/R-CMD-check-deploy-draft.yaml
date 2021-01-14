@@ -61,7 +61,7 @@ jobs:
           remotes::install_deps(dependencies = TRUE)
           remotes::install_cran("rcmdcheck")
           remotes::install_cran("rsconnect")
-          shell: Rscript {0}
+        shell: Rscript {0} 
 
       - name: Check
         env:
