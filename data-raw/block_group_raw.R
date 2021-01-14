@@ -75,12 +75,6 @@ bg_hisp <- bg %>%
     nothisppop_percent = round(nothisppop / poptotal, digits = 2)
   )
 
-## -----------------------------------------------------------------------------------------------------------------------------------------------------
-# #there is not disability info at the block group level
-# bg_disability <- bg %>%
-#   select(geoid, geoid2, poptotal, anydis) %>%
-#   mutate(anydis_percent = round(anydis / poptotal, digits = 2) * 100)
-
 
 # -----------------------------------------------------------------------------------------------------------------------------------------------------
 bg_transportation <- bg %>%
@@ -91,13 +85,6 @@ bg_transportation <- bg %>%
 
 
 # -----------------------------------------------------------------------------------------------------------------------------------------------------
-# #surpressed at block group level
-# bg_birth <- bg %>%
-#   select(geoid, geoid2, forbornnot, forborncit)
-
-
-# -----------------------------------------------------------------------------------------------------------------------------------------------------
-# summary(bg$lep_russ) #suppressed at bg level
 
 bg_lang <- bg %>%
   transmute(
@@ -115,7 +102,6 @@ bg_income <- bg %>%
 
 ## -----------------------------------------------------------------------------------------------------------------------------------------------------
 bg_merge <- right_join(bg_age, bg_race) %>%
-  # right_join(bg_disability) %>%
   right_join(bg_hisp) %>%
   right_join(bg_income) %>%
   right_join(bg_transportation) %>%
@@ -133,7 +119,6 @@ MNblock_group <- tigris::block_groups(
 ) %>%
   select(GEOID)
 
-# wifilter <- read_csv("./data-raw/wi_bg.csv")
 
 WIblock_group <- tigris::block_groups(
   state = "WI",
@@ -141,7 +126,6 @@ WIblock_group <- tigris::block_groups(
   class = "sf"
 ) %>%
   select(GEOID) # %>%
-# filter(GEOID %in% wifilter$GEOID) #104 w/o filter, 19 w/ filter
 
 
 block_group_raw <- bind_rows(MNblock_group, WIblock_group) %>%
@@ -150,4 +134,3 @@ block_group_raw <- bind_rows(MNblock_group, WIblock_group) %>%
 
 
 usethis::use_data(block_group_raw, overwrite = TRUE)
-# save(block_group, file = "./regionalparks.acs/data/block_group.rda")
