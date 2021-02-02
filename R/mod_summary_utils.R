@@ -88,7 +88,7 @@ mod_summary_utils_server <- function(input, output, session,
         "."
       ), 50)) %>%
       mutate(
-        level = "Agency avg.",
+        level = "Agency avgerage",
         type = "avg"
       ) %>%
       rename(name = agency) %>%

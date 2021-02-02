@@ -76,6 +76,8 @@ parks_temp <- sf::read_sf(unzip(temp, "plan_parks_regional.gpkg")) %>%
   st_transform(4326) %>%
   st_as_sf()
 
+# levels(as.factor(parks_temp$PARKNAME)) %>% view()
+
 parks <- parks_temp %>%
   filter(status == "Park - existing") %>%
   mutate(
@@ -113,6 +115,7 @@ trails_temp <- sf::read_sf(unzip(temp, "trans_regional_trails_exst_plan.gpkg")) 
   )) %>%
   rename(AGENCY = Agency) %>%
   left_join(namecleaner) %>%
+  mutate(NAME = ifelse(NAME == "Birch lake Regional Trail", "Birch Lake Regional Trail", NAME)) %>%
   # mutate(consistentagency = ifelse(name == "Scott County Regional Trail" & is.na(consistentagency),
   #                                  "Scott County Parks", consistentagency)) %>% #should confirm this is the right agency
   group_by(NAME, STATUS, Label, consistentagency) %>%

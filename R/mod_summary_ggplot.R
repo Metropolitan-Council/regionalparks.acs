@@ -97,7 +97,6 @@ mod_summary_ggplot_server <- function(input, output, session,
 
   output$Rggplots <- renderPlot(height = function() PlotHeight(), {
     summary_util$facet_data %>%
-      mutate(level = if_else(level == "Agency avg.", "Agency average", level)) %>%
       ggplot2::ggplot(aes(
         y = name,
         x = value, # .[, 8],
