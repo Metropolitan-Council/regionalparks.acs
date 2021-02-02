@@ -79,7 +79,7 @@ mod_summary_selections_ui <- function(id) {
       # width = 2,
       radioButtons(
         ns("input_distance"),
-        label = h4("Buffer dist. (mi)"),
+        label = h4("Buffer distance (mi)"),
         choices = c(1.0, 1.5, 3),
         selected = c(1.0)
         # )

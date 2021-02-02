@@ -63,7 +63,7 @@ app_ui <- function(request) {
 
       # acs summary tab -----
       tabPanel(
-        title = "Unit Summary",
+        title = "Unit Level Data",
         id = "sumtabs",
         shiny::p(
           "This plot provides summarized population characteristics (",

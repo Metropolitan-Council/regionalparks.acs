@@ -18,10 +18,10 @@ today, and the population changes forecasted to 2040.
 ## What this tool *cannot* do
 
 We have every confidence in our data (and you can read all about the
-sources and our methods here). But our experience tells us that
-demographic and housing data are most powerful when used as starting
-point. In other words, the data provided by this tool alone is not a
-substitute for engagement with prioritized stakeholders. The
+sources and our methods in the “notes” tab). But our experience tells us
+that demographic and housing data are most powerful when used as
+starting point. In other words, the data provided by this tool alone is
+not a substitute for engagement with prioritized stakeholders. The
 on-the-ground knowledge of agency staff and the community expertise of
 residents are also valued sources of information and enhance and refine
 the shared understanding of this data.
@@ -41,8 +41,8 @@ regional park system.
     multilingual signage, for example. Learning more about the
     forecasted changes in population can help plan for the future.
     Further, this tool can help complete the Council’s Equity Analysis
-    Requirement for park and trail master plans (Question 1 Project
-    Data).
+    Requirement for park and trail master plans (Question 1 *Project
+    Data*).
 
   - **Outreach and Engagement**. Learning more about who lives near
     parks and trails can guide strategies for community partnerships,
@@ -56,19 +56,19 @@ regional park system.
     close by.
 
   - **Research**. Use the data to better understand neighbors who might
-    not currently access the park by comparing demographics in this tool
-    to who currently visits. We can use the data to ask questions about
-    with analyses of the inclusivity of current research practices
+    *not currently* access the park by comparing demographics in this
+    tool to who currently visits. We can use the data to ask questions
+    about with analyses of the inclusivity of current research practices
     relative to surrounding demographics. The data can be downloaded for
     additional analyses.
 
 ## Why we built it
 
-Thrive MSP 2040 directs the Council to collaborate with the Metropolitan
-Parks and Open Space Commission, regional park implementing agencies,
-and state partners to strengthen equitable use of regional parks and
-trails. Read more about this in the 2040 Regional Parks Policy Plan
-Update or
+*Thrive MSP 2040* directs the Council to collaborate with the
+Metropolitan Parks and Open Space Commission, regional park implementing
+agencies, and state partners to strengthen equitable use of regional
+parks and trails. Read more about this in the 2040 Regional Parks Policy
+Plan Update or
 <a href="https://metrocouncil.org/planning/projects/thrive-2040.aspx" target="_blank">Thrive
 MSP 2040</a>.
 
