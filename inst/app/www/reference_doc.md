@@ -32,7 +32,10 @@ accurate number of people within each group (this more accurate measure
 of population is not available in collar counties). Weighted averages
 were produced by multiplying by the percent overlap of a given block
 group or tract with the buffer zone around individual park and trail
-units.
+units. Variables on disability (% with an ambulatory disability, % with
+any other disability) and national origin (% US-born, % foreign-born)
+were calculated at the tract level. All other variables were calculated
+at the block group.
 
 ### Data sources
 
@@ -338,6 +341,6 @@ Simulate Package Installation and Attach</em>.
 </div>
 
 <right style="font-size: 1rem; text-align: right; display: block;">
-*Last updated 2021-01-14*  
-Build ID: 2021-01-14.roten.a512497  
+*Last updated 2021-02-01*  
+Build ID: 2021-02-01.roten.a603769  
 </right>

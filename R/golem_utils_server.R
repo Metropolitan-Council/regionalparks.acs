@@ -163,6 +163,9 @@ iconentry <- leaflet::awesomeIcons(
 
 tract_vars <- tibble::tibble(ACS = c("adj_anydis_per", "adj_ambdis_per", "adj_forborn_per", "adj_usborn_per"))
 
+quantile_vars <- tibble::tibble (mainpop = c("PopDens_2019", "popdens_2040_mi", "growth_rel_10_40"))
+
+
 # leaflet global options -------------------------------------------------------
 
 leaflet_highlight_options <- quote(

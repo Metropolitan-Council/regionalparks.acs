@@ -230,10 +230,10 @@ mod_leaflet_sidebar_server <- function(input, output, session) {
 
   generate_pop_pal <- reactive({
     pal <-
-      if (input$mainpop == "PopDens_2019" | input$mainpop == "popdens_2040_mi" | input$mainpop == "growth_rel_10_40") {
-        colorQuantile(n = 9, palette = "Blues", domain = vals$map_bg_data_main[[1]])
+      if (input$mainpop %in% quantile_vars$mainpop) {
+        colorQuantile(n = 8, palette = "Blues", domain = vals$map_bg_data_main[[1]])
       } else {
-        colorNumeric(n = 9, palette = "Blues", domain = vals$map_bg_data_main[[1]])
+        colorNumeric(n = 8, palette = "Blues", domain = vals$map_bg_data_main[[1]])
       }
     return(pal)
   })
@@ -241,6 +241,13 @@ mod_leaflet_sidebar_server <- function(input, output, session) {
   observe({
     vals$pop_pal <- generate_pop_pal()
   })
+  
+  
+  
+  # generateqpal_colors <- unique(qpal(sort(a[[1]]))) # hex codes
+  # qpal_labs <- quantile(a[[1]], seq(0, 1, (1/8)), na.rm = T) # depends on n from pal
+  # qpal_labs <- paste(lag(qpal_labs), qpal_labs, sep = " - ")[-1] # first lag is NA
+  # qpal_labsPERCENT <- paste0(qpal_labs, " %")
 
   return(vals)
 
