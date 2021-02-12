@@ -23,9 +23,6 @@ app_server <- function(input, output, session) {
 
   # ACS Map tab ----------------------------------------------------------------
   main_lft_inputs <- callModule(mod_leaflet_sidebar_server, "leaflet_sidebar_ui_1")
-  observe({
-    print(main_lft_inputs$source)
-  })
 
   callModule(mod_main_leaflet_server, "main_leaflet_ui_1",
     main_lft_inputs,

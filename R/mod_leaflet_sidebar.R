@@ -15,139 +15,84 @@ mod_leaflet_sidebar_ui <- function(id) {
     #   tags$p("This mapping tool visualizes population characteristics and sizes alongside regional parks and trails across the Twin Cities region.")
     # ),
 
-    
-    # # chunk to make conditional selections: acs vs population estimates data:
-    # wellPanel(
-    #   id = "controls",
-    #   selectInput(ns("source"), h4("Choose your data source:"),
-    #     choices = c(
-    #       "Population characteristics",
-    #       "Population estimates"
-    #     ), selectize = FALSE,
-    #     selected = "Population characteristics"
-    #   ),
-    # 
-    #   conditionalPanel(
-    #     ns = ns,
-    #     condition = "input.source == 'Population characteristics'",
-    #     selectInput(ns("mainacs"),
-    #       h4("Choose a variable to map:"),
-    #       choices = list(
-    #         `Age` = list(
-    #           "Age, % under 15" = "adj_ageunder15_per",
-    #           "Age, % 15-24" = "adj_age15_24_per",
-    #           "Age, % 25-64" = "adj_age25_64_per",
-    #           "Age, % 65+" = "adj_age65up_per"
-    #         ),
-    #         `Ethnicity & Race` = list(
-    #           "Ethnicity, % Hispanic" = "adj_hisppop_per",
-    #           "Ethnicity, % not-Hispanic" = "adj_nothisppop_per",
-    #           "Race, % Am. Indian" = "adj_amindnh_per",
-    #           "Race, % Asian" = "adj_asiannh_per",
-    #           "Race, % Black" = "adj_blacknh_per",
-    #           "Race, % Other + Multi" = "adj_othermultinh_per",
-    #           "Race, % White" = "adj_whitenh_per"
-    #         ),
-    # 
-    #         `National origin` = list(
-    #           "Origin, % foreign-born" = "adj_forborn_per",
-    #           "Origin, % US-born" = "adj_usborn_per"
-    #         ),
-    #         `Ability` = list(
-    #           "Ability, % ambulatory disability" = "adj_ambdis_per",
-    #           "Ability, % any other disability" = "adj_anydis_per"
-    #         ),
-    #         `Income` = list(
-    #           "Mean household income ($)" = "adj_meanhhi",
-    #           "Income, % below 185% poverty line" = "adj_185pov_per"
-    #         ),
-    #         `Transportation` = list("% Housholds without a vehicle" = "adj_novehicle_per"),
-    #         `Language` = list(
-    #           "% limited English proficiency" = "adj_lep_per",
-    #           "% Spanish speakers" = "adj_span_per"
-    #         )
-    #       ),
-    #       selectize = FALSE,
-    #       selected = "adj_ageunder15_per"
-    #     )
-    #   ),
-    # 
-    #   conditionalPanel(
-    #     ns = ns,
-    #     condition = "input.source == 'Population estimates'",
-    # 
-    #     selectInput(ns("mainpop"),
-    #       h4("Choose a variable to map:"),
-    #       choices = list(
-    #         `Annual population estimates` = list(
-    #           "2019 population" = "PopEst_2019",
-    #           "2019 population density" = "PopDens_2019"
-    #         ),
-    #         `Long-range population forecast` = list(
-    #           "2040 population" = "POP2040",
-    #           "2040 population density" = "popdens_2040_mi"
-    #         ),
-    #         `Growth` = list(
-    #           "2010-2040, absolute growth" = "growth_abs_10_40",
-    #           "2010-2040, relative growth" = "growth_rel_10_40"
-    #         )
-    #       ),
-    #       selectize = FALSE
-    #     )
-    #   )
-    # ),
-    
     wellPanel(
-      selectInput(
-        # width = '100%',
-        ns("source"),
-        label = h4("Choose a variable to map:"),
-        choices = list(
-          `Age` = list(
-            "Age, % under 15" = "adj_ageunder15_per",
-            "Age, % 15-24" = "adj_age15_24_per",
-            "Age, % 25-64" = "adj_age25_64_per",
-            "Age, % 65+" = "adj_age65up_per"
-          ),
-          `Ethnicity & Race` = list(
-            "Ethnicity, % Hispanic" = "adj_hisppop_per",
-            "Ethnicity, % not-Hispanic" = "adj_nothisppop_per",
-            "Race, % Am. Indian" = "adj_amindnh_per",
-            "Race, % Asian" = "adj_asiannh_per",
-            "Race, % Black" = "adj_blacknh_per",
-            "Race, % Other + Multi" = "adj_othermultinh_per",
-            "Race, % White" = "adj_whitenh_per"
-          ),
-          
-          `National origin` = list(
-            "Origin, % foreign-born" = "adj_forborn_per",
-            "Origin, % US-born" = "adj_usborn_per"
-          ),
-          `Disability` = list(
-            "Disability, % any ambulatory disability" = "adj_ambdis_per",
-            "Ability, % any other disability" = "adj_anydis_per"
-          ),
-          `Income` = list("Mean household income ($)" = "adj_meanhhi",
-                          "Income, % below 185% poverty line" = "adj_185pov_per"),
-          `Transportation` = list("% Housholds without a vehicle" = "adj_novehicle_per"),
-          `Language` = list(
-            "% limited English proficiency" = "adj_lep_per",
-            "% Spanish speakers" = "adj_span_per"
-          ),
-          `Annual population estimates` = list(
-                      "2019 population" = "PopEst_2019",
-                      "2019 population density" = "PopDens_2019"
-                    ),
-                    `Long-range population forecast` = list(
-                      "2040 population" = "POP2040",
-                      "2040 population density" = "popdens_2040_mi"
-                    ),
-                    `Population growth` = list(
-                      "2010-2040, absolute growth" = "growth_abs_10_40",
-                      "2010-2040, relative growth" = "growth_rel_10_40"
-                    )
+      id = "controls",
+      selectInput(ns("source"), h4("Choose your data source:"),
+        choices = c(
+          "Population characteristics",
+          "Population estimates"
+        ), selectize = FALSE,
+        selected = "Population characteristics"
       ),
-      selected = "adj_ageunder15_per", selectize = F
+
+      conditionalPanel(
+        ns = ns,
+        condition = "input.source == 'Population characteristics'",
+        selectInput(ns("mainacs"),
+          h4("Choose a variable to map:"),
+          choices = list(
+            `Age` = list(
+              "Age, % under 15" = "adj_ageunder15_per",
+              "Age, % 15-24" = "adj_age15_24_per",
+              "Age, % 25-64" = "adj_age25_64_per",
+              "Age, % 65+" = "adj_age65up_per"
+            ),
+            `Ethnicity & Race` = list(
+              "Ethnicity, % Hispanic" = "adj_hisppop_per",
+              "Ethnicity, % not-Hispanic" = "adj_nothisppop_per",
+              "Race, % Am. Indian" = "adj_amindnh_per",
+              "Race, % Asian" = "adj_asiannh_per",
+              "Race, % Black" = "adj_blacknh_per",
+              "Race, % Other + Multi" = "adj_othermultinh_per",
+              "Race, % White" = "adj_whitenh_per"
+            ),
+
+            `National origin` = list(
+              "Origin, % foreign-born" = "adj_forborn_per",
+              "Origin, % US-born" = "adj_usborn_per"
+            ),
+            `Ability` = list(
+              "Ability, % ambulatory disability" = "adj_ambdis_per",
+              "Ability, % any other disability" = "adj_anydis_per"
+            ),
+            `Income` = list(
+              "Mean household income ($)" = "adj_meanhhi",
+              "Income, % below 185% poverty line" = "adj_185pov_per"
+            ),
+            `Transportation` = list("% Housholds without a vehicle" = "adj_novehicle_per"),
+            `Language` = list(
+              "% limited English proficiency" = "adj_lep_per",
+              "% Spanish speakers" = "adj_span_per"
+            )
+          ),
+          selectize = FALSE,
+          selected = "adj_ageunder15_per"
+        )
+      ),
+
+      conditionalPanel(
+        ns = ns,
+        condition = "input.source == 'Population estimates'",
+
+        selectInput(ns("mainpop"),
+          h4("Choose a variable to map:"),
+          choices = list(
+            `Annual population estimates` = list(
+              "2019 population" = "PopEst_2019",
+              "2019 population density" = "PopDens_2019"
+            ),
+            `Long-range population forecast` = list(
+              "2040 population" = "POP2040",
+              "2040 population density" = "popdens_2040_mi"
+            ),
+            `Growth` = list(
+              "2010-2040, absolute growth" = "growth_abs_10_40",
+              "2010-2040, relative growth" = "growth_rel_10_40"
+            )
+          ),
+          selectize = FALSE
+        )
+      )
     ),
 
     wellPanel(
@@ -179,7 +124,6 @@ mod_leaflet_sidebar_ui <- function(id) {
         choices = c(1, 1.5, 3), selected = c(1)
       )
     )
-  ) 
   )
 }
 
@@ -190,77 +134,36 @@ mod_leaflet_sidebar_server <- function(input, output, session) {
   ns <- session$ns
 
   observed <- tibble(observed = c("PopEst_2019", "PopDens_2019"))
-  
-  popvars <- tibble(popvars = c("PopEst_2019", "PopDens_2019", "POP2040", "popdens_2040_mi", "growth_abs_10_40", "growth_rel_10_40"))
-  acsvars <- tibble(acsvars = c("adj_ageunder15_per", "adj_age15_24_per", "adj_age25_64_per", "adj_age65up_per",
-                                "adj_hisppop_per", "adj_nothisppop_per",
-                                "adj_amindnh_per", "adj_asiannh_per", "adj_blacknh_per", "adj_othermultinh_per", "adj_whitenh_per",
-                                "adj_forborn_per", "adj_usborn_per",
-                                "adj_ambdis_per", "adj_anydis_per",
-                                "adj_meanhhi", "adj_185pov_per",
-                                "adj_novehicle_per",
-                                "adj_lep_per", "adj_span_per"))
-  
+
+
   make_map_bg_data_main <- reactive({
-    # req(input$source)
-    
-    p6 <- if (input$source %in% acsvars$acsvars) {
-      if (input$source %in% tract_vars$ACS) {
+    req(input$source)
+
+    p6 <- if (input$source == "Population characteristics") {
+      if (input$mainacs %in% tract_vars$ACS) {
         regionalparks.acs::census_tract_map %>%
-          select(input$source)
+          select(input$mainacs)
       } else {
         regionalparks.acs::block_group_map %>%
-          select(input$source)
+          select(input$mainacs)
       }
-    } else if (input$source %in% popvars$popvars) {
-      if (input$source %in% observed$observed) {
+    } else if (input$source == "Population estimates") {
+      if (input$mainpop %in% observed$observed) {
         regionalparks.acs::est_pop %>%
           select(
-            input$source,
+            input$mainpop,
             bg_id
           )
       } else {
         regionalparks.acs::taz_growth %>%
           select(
-            input$source,
+            input$mainpop,
             TAZ2012
           )
       }
     }
     return(p6)
   })
-  
-  
-
-# #use this if using conditional patterns
-  # make_map_bg_data_main <- reactive({
-  #   req(input$source)
-  # 
-  #   p6 <- if (input$source == "Population characteristics") {
-  #     if (input$mainacs %in% tract_vars$ACS) {
-  #       regionalparks.acs::census_tract_map %>%
-  #         select(input$mainacs)
-  #     } else {
-  #       regionalparks.acs::block_group_map %>%
-  #         select(input$mainacs)
-  #     }
-  #   } else if (input$source == "Population estimates") {
-  #     if (input$mainpop %in% observed$observed) {
-  #       regionalparks.acs::est_pop %>%
-  #         select(
-  #           input$mainpop,
-  #           bg_id
-  #         )
-  #     } else {
-  #       regionalparks.acs::taz_growth %>%
-  #         select(
-  #           input$mainpop,
-  #           TAZ2012
-  #         )
-  #     }
-  #   }
-  #   return(p6)
-  # })
 
 
   make_map_parktrail_data_main <- reactive({
@@ -308,13 +211,13 @@ mod_leaflet_sidebar_server <- function(input, output, session) {
     vals$source <- input$source
   })
 
-  # observeEvent(input$mainpop, {
-  #   vals$mainpop <- input$mainpop
-  # })
+  observeEvent(input$mainpop, {
+    vals$mainpop <- input$mainpop
+  })
 
-  # observeEvent(input$mainacs, {
-  #   vals$mainacs <- input$mainacs
-  # })
+  observeEvent(input$mainacs, {
+    vals$mainacs <- input$mainacs
+  })
 
   observeEvent(input$input_parktype, {
     vals$input_parktype <- input$input_parktype
@@ -327,8 +230,7 @@ mod_leaflet_sidebar_server <- function(input, output, session) {
 
   generate_pop_pal <- reactive({
     pal <-
-      if (input$source %in% popvars$popvars & input$source %in% quantile_vars$mainpop) {
-        # if (input$mainpop %in% quantile_vars$mainpop) {
+      if (input$mainpop %in% quantile_vars$mainpop) {
         colorQuantile(n = 8, palette = "Blues", domain = vals$map_bg_data_main[[1]])
       } else {
         colorNumeric(n = 8, palette = "Blues", domain = vals$map_bg_data_main[[1]])

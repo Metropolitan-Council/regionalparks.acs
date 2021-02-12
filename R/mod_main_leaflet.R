@@ -22,15 +22,6 @@ mod_main_leaflet_server <- function(input, output, session,
                                     current_tab) {
   ns <- session$ns
 
-  popvars <- tibble(popvars = c("PopEst_2019", "PopDens_2019", "POP2040", "popdens_2040_mi", "growth_abs_10_40", "growth_rel_10_40"))
-  acsvars <- tibble(acsvars = c("adj_ageunder15_per", "adj_age15_24_per", "adj_age25_64_per", "adj_age65up_per",
-                                "adj_hisppop_per", "adj_nothisppop_per",
-                                "adj_amindnh_per", "adj_asiannh_per", "adj_blacknh_per", "adj_othermultinh_per", "adj_whitenh_per",
-                                "adj_forborn_per", "adj_usborn_per",
-                                "adj_ambdis_per", "adj_anydis_per",
-                                "adj_meanhhi", "adj_185pov_per",
-                                "adj_novehicle_per",
-                                "adj_lep_per", "adj_span_per"))
 
   # output$map ----
   output$map <- mod_map_base_server(
@@ -42,82 +33,16 @@ mod_main_leaflet_server <- function(input, output, session,
   # adding proxys --------
 
   # add pop polygons -----
-  
-  # FOR CONDITIONAL PANEL USE
-  # toListen_mainleaflet <- reactive({
-  #   list(
-  #     # current_tab,
-  #     main_lft_inputs$map_bg_data_main,
-  #     main_lft_inputs$source,
-  #     main_lft_inputs$mainacs,
-  #     main_lft_inputs$mainpop
-  #   )
-  # })
-  # 
-  # observeEvent(
-  #   toListen_mainleaflet(),
-  #   {
-  #     # browser()
-  #     print("Rendering main leaflet map - pop polygons")
-  #     leafletProxy("map") %>%
-  #       clearGroup("Population data") %>%
-  #       clearControls() %>%
-  #       addPolygons(
-  #         group = "Population data",
-  #         data = main_lft_inputs$map_bg_data_main,
-  #         stroke = TRUE,
-  #         color = councilR::colors$suppGray,
-  #         opacity = 0.6,
-  #         weight = 0.25,
-  #         fillOpacity = 0.6,
-  #         smoothFactor = 0.2,
-  #         fillColor = ~ main_lft_inputs$pop_pal(main_lft_inputs$map_bg_data_main[[1]]),
-  #         options = list(zIndex = 0),
-  # 
-  #         popup = if (main_lft_inputs$source == "Population characteristics") {
-  #           if (main_lft_inputs$mainacs == "adj_meanhhi") {
-  #             ~ paste0(tags$strong(filter(renamekey, ACS == main_lft_inputs$mainacs) %>% select(goodname)), ": $", format(main_lft_inputs$map_bg_data_main[[1]], big.mark = ","))
-  #           } else {
-  #             ~ paste0(
-  #               tags$strong(filter(renamekey, ACS == main_lft_inputs$mainacs) %>% select(goodname)),
-  #               ": ",
-  #               main_lft_inputs$map_bg_data_main[[1]], "%"
-  #             )
-  #           }
-  #         } else {
-  #           case_when(
-  #             main_lft_inputs$mainpop == "growth_rel_10_40" ~
-  #             paste0(tags$strong(filter(popkey, popvar == main_lft_inputs$mainpop) %>% select(goodname)), ": ", round(main_lft_inputs$map_bg_data_main[[1]], 2), " x"),
-  #             (main_lft_inputs$mainpop == "popdens_2040_mi" | main_lft_inputs$mainpop == "PopDens_2019") ~
-  #             paste0(tags$strong(filter(popkey, popvar == main_lft_inputs$mainpop) %>% select(goodname)), ": ", format(round(main_lft_inputs$map_bg_data_main[[1]], 1), big.mark = ","), " persons/mile"),
-  #             TRUE ~ paste0(tags$strong(filter(popkey, popvar == main_lft_inputs$mainpop) %>% select(goodname)), ": ", format(main_lft_inputs$map_bg_data_main[[1]], big.mark = ","), " persons")
-  #           )
-  #         }
-  #       ) %>%
-  #       addLegend(
-  #         title = if (main_lft_inputs$source == "Population characteristics") {
-  #           paste0(filter(renamekey, ACS == main_lft_inputs$mainacs) %>% select(goodname))
-  #         } else {
-  #           paste0(filter(popkey, popvar == main_lft_inputs$mainpop) %>% select(short))
-  #         },
-  #         position = "bottomleft",
-  #         group = "Population data",
-  #         layerId = "Population data",
-  #         pal = main_lft_inputs$pop_pal,
-  #         values = main_lft_inputs$map_bg_data_main[[1]]
-  #       )
-  #   }
-  # )
-  
-  # FOR NOOOOO CONDITIONAL PANELS
   toListen_mainleaflet <- reactive({
     list(
       # current_tab,
       main_lft_inputs$map_bg_data_main,
-      main_lft_inputs$source
+      main_lft_inputs$source,
+      main_lft_inputs$mainacs,
+      main_lft_inputs$mainpop
     )
   })
-  
+
   observeEvent(
     toListen_mainleaflet(),
     {
@@ -137,39 +62,39 @@ mod_main_leaflet_server <- function(input, output, session,
           smoothFactor = 0.2,
           fillColor = ~ main_lft_inputs$pop_pal(main_lft_inputs$map_bg_data_main[[1]]),
           options = list(zIndex = 0),
-          
-          popup = if (main_lft_inputs$source %in% acsvars$acsvars) {
-            if (main_lft_inputs$source == "adj_meanhhi") {
-              ~ paste0(tags$strong(filter(renamekey, ACS == main_lft_inputs$source) %>% select(goodname)), ": $", format(main_lft_inputs$map_bg_data_main[[1]], big.mark = ","))
+
+          popup = if (main_lft_inputs$source == "Population characteristics") {
+            if (main_lft_inputs$mainacs == "adj_meanhhi") {
+              ~ paste0(tags$strong(filter(renamekey, ACS == main_lft_inputs$mainacs) %>% select(goodname)), ": $", format(main_lft_inputs$map_bg_data_main[[1]], big.mark = ","))
             } else {
               ~ paste0(
-                tags$strong(filter(renamekey, ACS == main_lft_inputs$source) %>% select(goodname)),
+                tags$strong(filter(renamekey, ACS == main_lft_inputs$mainacs) %>% select(goodname)),
                 ": ",
                 main_lft_inputs$map_bg_data_main[[1]], "%"
               )
             }
           } else {
             case_when(
-              main_lft_inputs$source == "growth_rel_10_40" ~
-                paste0(tags$strong(filter(popkey, popvar == main_lft_inputs$source) %>% select(goodname)), ": ", round(main_lft_inputs$map_bg_data_main[[1]], 2), " x"),
-              (main_lft_inputs$source == "popdens_2040_mi" | main_lft_inputs$source == "PopDens_2019") ~
-                paste0(tags$strong(filter(popkey, popvar == main_lft_inputs$source) %>% select(goodname)), ": ", format(round(main_lft_inputs$map_bg_data_main[[1]], 1), big.mark = ","), " persons/mile"),
-              TRUE ~ paste0(tags$strong(filter(popkey, popvar == main_lft_inputs$source) %>% select(goodname)), ": ", format(main_lft_inputs$map_bg_data_main[[1]], big.mark = ","), " persons")
+              main_lft_inputs$mainpop == "growth_rel_10_40" ~
+              paste0(tags$strong(filter(popkey, popvar == main_lft_inputs$mainpop) %>% select(goodname)), ": ", round(main_lft_inputs$map_bg_data_main[[1]], 2), " x"),
+              (main_lft_inputs$mainpop == "popdens_2040_mi" | main_lft_inputs$mainpop == "PopDens_2019") ~
+              paste0(tags$strong(filter(popkey, popvar == main_lft_inputs$mainpop) %>% select(goodname)), ": ", format(round(main_lft_inputs$map_bg_data_main[[1]], 1), big.mark = ","), " persons/mile"),
+              TRUE ~ paste0(tags$strong(filter(popkey, popvar == main_lft_inputs$mainpop) %>% select(goodname)), ": ", format(main_lft_inputs$map_bg_data_main[[1]], big.mark = ","), " persons")
             )
           }
         ) %>%
-  addLegend(
-    title = if (main_lft_inputs$source %in% acsvars$acsvars) {
-      paste0(filter(renamekey, ACS == main_lft_inputs$source) %>% select(goodname))
-    } else {
-      paste0(filter(popkey, popvar == main_lft_inputs$source) %>% select(short))
-    },
-    position = "bottomleft",
-    group = "Population data",
-    layerId = "Population data",
-    pal = main_lft_inputs$pop_pal,
-    values = main_lft_inputs$map_bg_data_main[[1]]
-  )
+        addLegend(
+          title = if (main_lft_inputs$source == "Population characteristics") {
+            paste0(filter(renamekey, ACS == main_lft_inputs$mainacs) %>% select(goodname))
+          } else {
+            paste0(filter(popkey, popvar == main_lft_inputs$mainpop) %>% select(short))
+          },
+          position = "bottomleft",
+          group = "Population data",
+          layerId = "Population data",
+          pal = main_lft_inputs$pop_pal,
+          values = main_lft_inputs$map_bg_data_main[[1]]
+        )
     }
   )
 
@@ -420,71 +345,38 @@ mod_main_leaflet_server <- function(input, output, session,
           fillColor = ~ main_lft_inputs$pop_pal(main_lft_inputs$map_bg_data_main[[1]]),
           options = list(zIndex = 0),
 
-          # popup = if (main_lft_inputs$source == "Population characteristics") {
-          #   if (main_lft_inputs$mainacs == "adj_meanhhi") {
-          #     ~ paste0(tags$strong(filter(renamekey, ACS == main_lft_inputs$mainacs) %>% select(goodname)), ": $", format(main_lft_inputs$map_bg_data_main[[1]], big.mark = ","))
-          #   } else {
-          #     ~ paste0(
-          #       tags$strong(filter(renamekey, ACS == main_lft_inputs$mainacs) %>% select(goodname)),
-          #       ": ",
-          #       main_lft_inputs$map_bg_data_main[[1]], "%"
-          #     )
-          #   }
-          # } else {
-          #   case_when(
-          #     main_lft_inputs$mainpop == "growth_rel_10_40" ~
-          #     paste0(tags$strong(filter(popkey, popvar == main_lft_inputs$mainpop) %>% select(goodname)), ": ", round(main_lft_inputs$map_bg_data_main[[1]], 2), " x"),
-          #     (main_lft_inputs$mainpop == "popdens_2040_mi" | main_lft_inputs$mainpop == "PopDens_2019") ~
-          #     paste0(tags$strong(filter(popkey, popvar == main_lft_inputs$mainpop) %>% select(goodname)), ": ", format(round(main_lft_inputs$map_bg_data_main[[1]], 1), big.mark = ","), " persons/mile"),
-          #     TRUE ~ paste0(tags$strong(filter(popkey, popvar == main_lft_inputs$mainpop) %>% select(goodname)), ": ", format(main_lft_inputs$map_bg_data_main[[1]], big.mark = ","), " persons")
-          #   )
-          # }
-          
-          popup = if (main_lft_inputs$source %in% acsvars$acsvars) {
-            if (main_lft_inputs$source == "adj_meanhhi") {
-              ~ paste0(tags$strong(filter(renamekey, ACS == main_lft_inputs$source) %>% select(goodname)), ": $", format(main_lft_inputs$map_bg_data_main[[1]], big.mark = ","))
+          popup = if (main_lft_inputs$source == "Population characteristics") {
+            if (main_lft_inputs$mainacs == "adj_meanhhi") {
+              ~ paste0(tags$strong(filter(renamekey, ACS == main_lft_inputs$mainacs) %>% select(goodname)), ": $", format(main_lft_inputs$map_bg_data_main[[1]], big.mark = ","))
             } else {
               ~ paste0(
-                tags$strong(filter(renamekey, ACS == main_lft_inputs$source) %>% select(goodname)),
+                tags$strong(filter(renamekey, ACS == main_lft_inputs$mainacs) %>% select(goodname)),
                 ": ",
                 main_lft_inputs$map_bg_data_main[[1]], "%"
               )
             }
           } else {
             case_when(
-              main_lft_inputs$source == "growth_rel_10_40" ~
-                paste0(tags$strong(filter(popkey, popvar == main_lft_inputs$source) %>% select(goodname)), ": ", round(main_lft_inputs$map_bg_data_main[[1]], 2), " x"),
-              (main_lft_inputs$source == "popdens_2040_mi" | main_lft_inputs$source == "PopDens_2019") ~
-                paste0(tags$strong(filter(popkey, popvar == main_lft_inputs$source) %>% select(goodname)), ": ", format(round(main_lft_inputs$map_bg_data_main[[1]], 1), big.mark = ","), " persons/mile"),
-              TRUE ~ paste0(tags$strong(filter(popkey, popvar == main_lft_inputs$source) %>% select(goodname)), ": ", format(main_lft_inputs$map_bg_data_main[[1]], big.mark = ","), " persons")
+              main_lft_inputs$mainpop == "growth_rel_10_40" ~
+              paste0(tags$strong(filter(popkey, popvar == main_lft_inputs$mainpop) %>% select(goodname)), ": ", round(main_lft_inputs$map_bg_data_main[[1]], 2), " x"),
+              (main_lft_inputs$mainpop == "popdens_2040_mi" | main_lft_inputs$mainpop == "PopDens_2019") ~
+              paste0(tags$strong(filter(popkey, popvar == main_lft_inputs$mainpop) %>% select(goodname)), ": ", format(round(main_lft_inputs$map_bg_data_main[[1]], 1), big.mark = ","), " persons/mile"),
+              TRUE ~ paste0(tags$strong(filter(popkey, popvar == main_lft_inputs$mainpop) %>% select(goodname)), ": ", format(main_lft_inputs$map_bg_data_main[[1]], big.mark = ","), " persons")
             )
           }
-          
         ) %>%
-        # addLegend(
-        #   title = if (main_lft_inputs$source == "Population characteristics") {
-        #     paste0(filter(renamekey, ACS == main_lft_inputs$mainacs) %>% select(goodname))
-        #   } else {
-        #     paste0(filter(popkey, popvar == main_lft_inputs$mainpop) %>% select(short))
-        #   },
-        #   position = "bottomleft",
-        #   group = "Population data",
-        #   layerId = "Population data",
-        #   pal = main_lft_inputs$pop_pal,
-        #   values = main_lft_inputs$map_bg_data_main[[1]]
-        # ) %>%
-    addLegend(
-        title = if (main_lft_inputs$source  %in% acsvars$acsvars) {
-          paste0(filter(renamekey, ACS == main_lft_inputs$source) %>% select(goodname))
-        } else {
-          paste0(filter(popkey, popvar == main_lft_inputs$source) %>% select(short))
-        },
-        position = "bottomleft",
-        group = "Population data",
-        layerId = "Population data",
-        pal = main_lft_inputs$pop_pal,
-        values = main_lft_inputs$map_bg_data_main[[1]]
-      ) %>%
+        addLegend(
+          title = if (main_lft_inputs$source == "Population characteristics") {
+            paste0(filter(renamekey, ACS == main_lft_inputs$mainacs) %>% select(goodname))
+          } else {
+            paste0(filter(popkey, popvar == main_lft_inputs$mainpop) %>% select(short))
+          },
+          position = "bottomleft",
+          group = "Population data",
+          layerId = "Population data",
+          pal = main_lft_inputs$pop_pal,
+          values = main_lft_inputs$map_bg_data_main[[1]]
+        ) %>%
         addPolygons(
           # options = pathOptions(pane = "buff"),
           data = main_lft_inputs$map_buffer_data_main,
