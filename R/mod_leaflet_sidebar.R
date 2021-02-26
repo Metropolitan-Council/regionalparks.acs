@@ -17,11 +17,11 @@ mod_leaflet_sidebar_ui <- function(id) {
 
     wellPanel(
       id = "controls",
-      selectInput(ns("source"), h4("Choose your data source:"),
+      radioButtons(ns("source"), h4("Choose your data source:"),
         choices = c(
           "Population characteristics",
           "Population estimates"
-        ), selectize = FALSE,
+        ), 
         selected = "Population characteristics"
       ),
 
