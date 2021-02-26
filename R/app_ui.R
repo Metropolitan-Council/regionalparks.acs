@@ -72,10 +72,11 @@ app_ui <- function(request) {
             target = "_blank"
           ), ") for all the regional parks and trails. Point location along the x-axis indicates the demographic value which can be compared across and within units or agencies. Subplots indicate either average values within agency boundaries or unit-level values."
         ),br(),
-        shiny::p("Right-click on image to copy or download. Click on any point to create a text-based interpretation. Tabular data filtered by agency may also be downloaded."),
-        mod_summary_download_ui("summary_download_ui_1"),
+        shiny::p("Right-click on image to copy or download. Click on any point to create a text-based interpretation. Tabular data filtered by agency may also be downloaded.",br(), br(),
+        mod_summary_download_ui("summary_download_ui_1")),
         hr(),
-        sidebarPanel(mod_summary_selections_ui("summary_selections_ui_1"),
+        sidebarPanel(style="max-width:400px", #this does work, but it stops the wrapping
+                     mod_summary_selections_ui("summary_selections_ui_1"),
           # style = "position:fixed;"
         ),
         mainPanel(
