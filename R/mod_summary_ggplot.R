@@ -66,7 +66,8 @@ mod_summary_ggplot_server <- function(input, output, session,
       )) +
       facet_grid(level ~ ., scales = "free_y", space = "free") +
       geom_point(size = 8) +
-      scale_shape_manual(values = c("avg" = 8, "Park" = 21, "Trail" = 22)) +
+      scale_shape_manual(values = c("avg" = 8, "Park" = 21, "Trail" = 22),
+                         labels = c("avg" = "Agency\naverage", "Park" = "Park", "Trail" = "Trail")) +
       scale_fill_manual(values = c("Existing" = e_col, "Planned" = p_col, "Search" = s_col)) +
       council_theme() +
       labs(
@@ -77,6 +78,8 @@ mod_summary_ggplot_server <- function(input, output, session,
         caption = ("\nMetropolitan Council, 12 Jan. 2020")
       ) +
       theme(
+        # legend.key.size = unit(1.5, 'lines'),
+        legend.text = element_text(margin = margin(t = 6, b = 6)),
         axis.text = element_text(size = 14),
         axis.title = element_text(size = 14),
         strip.text = element_text(size = 14),
