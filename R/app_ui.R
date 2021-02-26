@@ -79,7 +79,7 @@ app_ui <- function(request) {
           # style = "position:fixed;"
         ),
         mainPanel(
-          fluidRow(mod_summary_ggplot_ui("mod_summary_ggplot_ui_1")) # ,
+          fluidRow(style="min-width:700px; max-width:1200px", mod_summary_ggplot_ui("mod_summary_ggplot_ui_1")) # ,
           # style = "height:1000px")#,
           # height = "mod_summary_utils$sum_plotheight"),
           # style = "height:mod_summary_utils$sum_plotheight"),
