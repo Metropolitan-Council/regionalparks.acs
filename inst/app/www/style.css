@@ -104,21 +104,38 @@ hr {
 */
 
 
-/* //this is presumable how to add a blue bar on top
+/*//this is presumably how to add a blue bar on top
 .navbar-header {
- // margin: 1%;
+  margin: 1%;
   height: 5px; 
-//  width: 100%;
+  width: 100%;
   color: #0054a4;
 }
 */
-
 
 .navbar-default .navbar-nav > .active > a, .navbar-default .navbar-nav > .active > a:focus, .navbar-default .navbar-nav > .active > a:hover {
   color:var(--council-blue);
 	background-color: #d6d6d6;
 	height: 95px;
 }
+
+
+/* change hamburger button border color 
+button.navbar-toggler.navbar-toggler-right {
+  border-color: yellow;
+}*/
+/* change navbar background on collapse 
+@media (max-width: 768px) {
+  nav.navbar {
+    background: --council-black;
+  }
+}*/
+
+.navbar-collapse {
+    background-color:var(--council-gray) !important;
+}
+
+
 /*
 .navbar-nav {
 	float: right;

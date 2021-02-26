@@ -11,50 +11,26 @@ output:
 <img src='www/Walk-on-path.png' width='100%'/img>
 
 # Welcome to the Regional Parks and Trails Equity Tool! 
-If you have a question or need help using this tool or interpreting results, please contact [Darcie Vandegrift](mailto:darcie.vandegrift@metc.state.mn.us?subject=RPT%20equity%20tool) for assistance. 
+If you have a question or need help using this tool or interpreting results, please contact [Darcie Vandegrift](mailto:darcie.vandegrift@metc.state.mn.us?subject=RPT%20equity%20tool) for assistance. Please click on the individual tabs on the top to start using this tool. We suggest you use a desktop web browser for the best experience.
 
 ## What this tool does 
 This interactive provides data—primarily census and Council data—on the characteristics of housing and residents near parks and trails in the Twin Cities’ regional system. It provides a snapshot of who lives there today, and the population changes forecasted to 2040.
 
 ## What this tool *cannot* do
-We have every confidence in our data (and you can read all about the sources and our methods in the "notes" tab). But our experience tells us that demographic and housing data are most powerful when used as starting point. In other words, the data provided by this tool alone is not a substitute for engagement with prioritized stakeholders. The on-the-ground knowledge of agency staff and the community expertise of residents are also valued sources of information and enhance and refine the shared understanding of this data. 
+Users can create valuable, data-driven analysis through this app. But our experience tells us that demographic and housing data are most powerful when used as starting point. In other words, the census and Council data cannot substitute for engagement with prioritized stakeholders. The on-the-ground knowledge of agency staff and the community expertise of residents are also valued sources of information and enhance and refine the shared understanding of this data. 
 
 ## Who can use it? 
-We developed this interactive tool primarily for regional park agency planning, outreach, programming, research and other agency staff. However, its available for anyone who wants detailed information about housing and demographic data surrounding the existing and future regional park system.
+We developed this interactive tool primarily for regional park agency planning, outreach, programming, research and other agency staff. It is available for anyone who wants detailed information about housing and demographic data surrounding the existing and future regional park system.
 
 ## How you can use it
- - **Planning**. Understanding today’s proximate demographics can you help create targeted questions about needed amenities like multilingual signage, for example. Learning more about the forecasted changes in population can help plan for the future. Further, this tool can help complete the Council’s Equity Analysis Requirement for park and trail master plans (Question 1 *Project Data*).
+ - **Planning**. Understanding today’s proximate demographics can help inform questions about needed amenities like multilingual signage. Visualizing forecasted changes in population can help plan for the future. Further, this tool can help complete the Council’s Equity Analysis Requirement for park and trail master plans (<a href="https://metrocouncil.org/Parks/Planning/Parks-Equity-Toolkit.aspx" target="_blank">Question 1 *Project Data*</a>).
 
-- **Outreach and Engagement**. Learning more about who lives near parks and trails can guide strategies for community partnerships, communications efforts, and equity investments such as translation or transportation, helping to ensure you reach traditionally underrepresented residents. 
+- **Outreach and Engagement**. Learning more about who lives near parks and trails can guide strategies for community partnerships, communications efforts, and equity investments such as translation or transportation. 
 
  - **Programming**. Learning more about who lives near parks and trails can deepen your understanding of bilingual, multigenerational, and other programming innovations that might be of interest to who lives close by.
 
- - **Research**. Use the data to better understand neighbors who might *not currently* access the park by comparing demographics in this tool to who currently visits. We can use the data to ask questions about with analyses of the inclusivity of current research practices relative to surrounding demographics. The data can be downloaded for additional analyses.
+ - **Research**. Use the data to better understand demographic gaps in potential versus actual visitors. We can use the data to ask questions about the inclusivity of current research practices relative to surrounding demographics. The data can be downloaded for additional analyses, but are subject to change with regular data releases (see “notes” tab).
 
 ## Why we built it
-*Thrive MSP 2040* directs the Council to collaborate with the Metropolitan Parks and Open Space Commission, regional park implementing agencies, and state partners to strengthen equitable use of regional parks and trails. Read more about this in the 2040 Regional Parks Policy Plan Update or <a href="https://metrocouncil.org/planning/projects/thrive-2040.aspx" target="_blank">Thrive MSP 2040</a>.
-
-<!-- ## Introduction -->
-
-<!-- *Thrive MSP 2040* directs the Council to collaborate with the Metropolitan Parks and Open Space Commission, regional park implementing agencies, and state partners to strengthen equitable use of regional parks and trails. -->
-
-
-<!-- The Regional Parks and Trails Equity tool aims to provide all stakeholders with a shared foundation of data and understanding about the characteristics of residents and households living near parks and trails today, and what population shifts are expected in the future with the goal of enhancing both engagement and planning efforts to achieve Thrive’s directive.  -->
-<!-- <!-- The app complements the [Regional Parks Equity Toolkit](https://metrocouncil.org/parks/Planning/Parks-Equity-Toolkit.aspx), a set of questions and a process to clarify how regional park projects are advancing equity. Other stakeholders are invited to use this app in service of strengthening equitable use through understanding populations and their proximities to the regional park system. --> -->
-
-
-<!-- ## User Guide -->
-
-<!-- **System Map** - is an interactive tool that maps key population demographic variables and population size information alongside regional parks and trails. -->
-
-<!-- **Unit Summary** - is a data visualization that produces discrete demographic characteristics for user-defined inputs across the regional park and trail system. The tool incorporates existing, planned, and search areas for parks and trails.  -->
-<!-- <!-- Within this tab, there are **weighted averages** which will be suitable for most users, a **buffer map** which illustrates the buffer zones geospatially, and the option for users to **download tabular data**. --> -->
-
-<!-- <!-- **Population Growth** - is an interactive map which allows users to view estimated population growth through 2040 alongside regional parks and trails. --> -->
-
-<!-- **Notes** - provides more information about data sources used and the background of this tool. -->
-
-<!-- #### **We suggest you use a desktop web browser. Please click on the individual tabs on the top to start using this tool.** -->
-
-
+*Thrive MSP 2040* directs the Council to collaborate with the Metropolitan Parks and Open Space Commission, regional park implementing agencies, and state partners to strengthen equitable use of regional parks and trails. Read more about this in the <a href="https://metrocouncil.org/Parks/Planning/Parks-Policy-Plan.aspx" target="_blank">2040 Regional Parks Policy Plan Update</a> or <a href="https://metrocouncil.org/planning/projects/thrive-2040.aspx" target="_blank">Thrive MSP 2040</a>.
 
