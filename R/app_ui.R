@@ -33,7 +33,7 @@ app_ui <- function(request) {
         ),
         mainPanel(
           mod_main_leaflet_ui("main_leaflet_ui_1")
-        ),
+        ), br(),
       shiny::p(
         "Population characteristic data is from the U.S. Census Bureau ",
         a(
@@ -41,10 +41,7 @@ app_ui <- function(request) {
           "(American Community Survey, 2015-2019)",
           .noWS = "outside",
           target = "_blank"
-        ), " and shows the highest spatial resolution possible by variable (either Census tract or block group, see 'Notes'). Each demographic characteristic is shown as a percentage of the total population, with the exception of median household income, which is displayed in dollars. The darker the color, the higher the percentage (or income in dollars)."
-      ),br(),
-      shiny::p(
-        "Population estimates are published by the Metropolitan Council. Current population estimates are available for Census block groups. Long-range forecasts are based on 2010 Census data and city comprehensive plans and available at the transportation analysis zone (a coarser spatial resolution than Census block groups). Forecasts of shifting population demographics (race/ethnicity and age) are only available at the regional level, and are summarised in a ",
+        ), " and shows the highest spatial resolution possible by variable (either Census tract or block group, see 'Notes'). Each demographic characteristic is shown as a percentage of the total population, with the exception of median household income, which is displayed in dollars. The darker the color, the higher the percentage (or income in dollars).", br(), br(), "Population estimates are published by the Metropolitan Council. Current population estimates are available for Census block groups. Long-range forecasts are based on 2010 Census data and city comprehensive plans and available at the transportation analysis zone (a coarser spatial resolution than Census block groups). Forecasts of shifting population demographics (race/ethnicity and age) are only available at the regional level, and are summarised in a ",
         a(
           href = "https://metrocouncil.org/Data-and-Maps/Publications-And-Resources/MetroStats/Land-Use-and-Development/Steady-Growth-and-Big-Changes-Ahead-Regional-Forec.aspx",
           "MetroStats publication.",
