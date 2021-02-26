@@ -36,46 +36,7 @@ mod_summary_ggplot_server <- function(input, output, session,
   ns <- session$ns
 
 
-  type_status_legend <- # status legend -------
-    cowplot::get_legend(
-      tibble(
-        status = rep(c("Existing", "Planned", "Search"), 3),
-        type = rep(c(" Park ", " Trail ", "Agency avg."), each = 3),
-        location = rep(1, 9)
-      ) %>%
-        ggplot2::ggplot(aes(
-          fill = status,
-          pch = type,
-          x = location,
-          y = status
-        )) +
-        ggplot2::geom_point() +
-        scale_shape_manual(values = c(
-          " Park " = 21,
-          " Trail " = 22,
-          "Agency avg." = 8
-        )) +
-        scale_fill_manual(
-          values = c(
-            "Existing" = e_col,
-            "Planned" = p_col,
-            "Search" = s_col
-          )
-        ) +
-        cowplot::theme_cowplot() +
-        guides(
-          fill = guide_legend(
-            override.aes = list(pch = 23, size = 8),
-            label.position = "bottom"
-          ),
-          shape = guide_legend(
-            override.aes = list(size = 8),
-            label.position = "bottom"
-          )
-        ) +
-        labs(fill = "        Status:", shape = "Type:") +
-        theme(legend.position = "bottom")
-    )
+ 
 
 
   ## legend -----

@@ -73,7 +73,7 @@ app_ui <- function(request) {
         shiny::p("Right-click on image to copy or download. Click on any point to create a text-based interpretation. Tabular data filtered by agency may also be downloaded.",br(), br(),
         mod_summary_download_ui("summary_download_ui_1")),
         hr(),
-        sidebarPanel(style="max-width:400px", #this does work, but it stops the wrapping
+        sidebarPanel(style="max-width:300px", #this does work, but it stops the wrapping
                      mod_summary_selections_ui("summary_selections_ui_1"),
           # style = "position:fixed;"
         ),

@@ -115,9 +115,9 @@ mod_leaflet_sidebar_ui <- function(id) {
         )
       )%>% 
         shinyhelper::helper(type='inline',title = "Park/Trail status",
-                            content = c("<b>Existing</b> units are currently open to the public.",
-                                        "<b>Planned</b> units are planned.",
-                                        "<b>Search</b> units are under consideration."),
+                            content = c("<b>Existing</b> units are open to the public.<br>",
+                                        "<b>Planned</b> units are in a master plan, either as parts of existing unit not open to the public, or planned units not open to the public but which exist approved master plan boundaries.<br>",
+                                        "<b>Search</b> units are general search corridors for new regional trails and parks. The specific alignments will be determined through a planning process led by the regional park implementing agency. Search corridors were approved by the Metropolitan Council as part of various Regional Parks Policy Plans over the years and also affirmed in 2018 as part of the 2040 Regional Parks Policy Plan."),
                             size = "s"),
     ),
 

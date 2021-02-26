@@ -26,6 +26,20 @@ mod_map_base_server <- function(input, output, session) {
         lng = -93.22,
         zoom = 9
       ) %>%
+      leaflet.extras::addDrawToolbar(
+        editOptions=editToolbarOptions(selectedPathOptions=selectedPathOptions()),
+        polygonOptions = F,
+        circleOptions =F, 
+        rectangleOptions = F,
+        circleMarkerOptions = F,
+        markerOptions = F,
+        polylineOptions = drawPolylineOptions(
+          shapeOptions = drawShapeOptions(color = "black",
+                                          weight = 2), 
+          guidelineDistance = 1, 
+          metric = F,
+          feet = T)) %>% 
+      # addMeasure(primaryLengthUnit="miles", secondaryLengthUnit="feet") %>%
       addMapPane("parks_geo", zIndex = 420) %>%
       addMapPane(name = "Carto Positron", zIndex = 430) %>%
       addProviderTiles("CartoDB.PositronOnlyLabels",
