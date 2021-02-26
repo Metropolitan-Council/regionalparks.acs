@@ -78,32 +78,32 @@ p_col <- "#AA5FEC" # purple
 s_col <- "#DDCC77" # yellow
 
 renamekey <- tibble::tribble(
-  ~goodname, ~"ACS", ~pal,
-  "Total population", "adj_2019pop", "Blues",
-  "% population under age 15", "adj_ageunder15_per", "BuPu",
-  "% population age 15-24", "adj_age15_24_per", "BuPu",
-  "% population age 25-64", "adj_age25_64_per", "BuPu",
-  "% population age 65 and up", "adj_age65up_per", "BuPu",
-  "% White population", "adj_whitenh_per", "RdPu",
-  "% Black population", "adj_blacknh_per", "RdPu",
-  "% Asian population", "adj_asiannh_per", "RdPu",
-  "% American Indian population", "adj_amindnh_per", "RdPu",
-  "% Other + Multiracial population", "adj_othermultinh_per", "RdPu",
-  "% Hispanic population", "adj_hisppop_per", "YlGnBu",
-  "% not-Hispanic population", "adj_nothisppop_per", "YlGnBu",
+  ~goodname, ~"ACS", ~pal, ~gn2,
+  "Total population", "adj_2019pop", "Blues", "Total population",
+  "% population under age 15", "adj_ageunder15_per", "BuPu", "% population<br>under age 15",
+  "% population age 15-24", "adj_age15_24_per", "BuPu", "% population<br>age 15-24",
+  "% population age 25-64", "adj_age25_64_per", "BuPu", "% population<br>age 25-64",
+  "% population age 65 and up", "adj_age65up_per", "BuPu", "% population<br>age 65 and up",
+  "% White population", "adj_whitenh_per", "RdPu", "% White population",
+  "% Black population", "adj_blacknh_per", "RdPu", "% Black<br<br>population",
+  "% Asian population", "adj_asiannh_per", "RdPu", "% Asian<br>population",
+  "% American Indian population", "adj_amindnh_per", "RdPu", "% American Indian<br>population",
+  "% Other + Multiracial population", "adj_othermultinh_per", "RdPu", "% Other + Multi-<br>racial population",
+  "% Hispanic population", "adj_hisppop_per", "YlGnBu", "% Hispanic<br>population",
+  "% not-Hispanic population", "adj_nothisppop_per", "YlGnBu", "% not-Hispanic<br>population",
 
-  "Mean household income", "adj_meanhhi", "YlGnBu",
-  "% households below 185% poverty line", "adj_185pov_per", "YlGnBu",
+  "Mean household income", "adj_meanhhi", "YlGnBu", "Mean household<br>income",
+  "% households below 185% poverty line", "adj_185pov_per", "YlGnBu", "% households below<br>185% poverty line",
 
-  "% housholds without a vehicle", "adj_novehicle_per", "Blues",
-  "% population with limited English proficiency", "adj_lep_per", "Blues",
-  "% population primarily speaking Spanish", "adj_span_per", "Blues",
+  "% housholds without a vehicle", "adj_novehicle_per", "Blues", "% housholds<br>without a vehicle",
+  "% population with limited English proficiency", "adj_lep_per", "Blues", "% population<br>with limited English proficiency",
+  "% population primarily speaking Spanish", "adj_span_per", "Blues", "% population<br>primarily speaking Spanish",
 
-  "% population with any other disability", "adj_anydis_per", "OrRd",
-  "% population with ambulatory disability", "adj_ambdis_per", "OrRd",
+  "% population with any other disability", "adj_anydis_per", "OrRd", "% population with<br>any other disability",
+  "% population with ambulatory disability", "adj_ambdis_per", "OrRd", "% population with<br>ambulatory disability",
 
-  "% US-born population", "adj_usborn_per", "YlGn",
-  "% foreign-born population", "adj_forborn_per", "YlGn"
+  "% US-born population", "adj_usborn_per", "YlGn", "% US-born<br>population",
+  "% foreign-born population", "adj_forborn_per", "YlGn", "% foreign-<br>born population"
 )
 
 recodeadjtable <- tibble::tribble(
@@ -137,13 +137,13 @@ recodeadjtable <- tibble::tribble(
 )
 
 popkey <- tibble::tribble( #------
-  ~goodname, ~"popvar", ~"short",
-  "2019 population", "PopEst_2019", "2019 population\n(persons)",
-  "2019 population density", "PopDens_2019", "2019 population density\n(by percentile)",
-  "2040 population", "POP2040", "2040 pop.\n(persons)",
-  "2040 population density", "popdens_2040_mi", "2040 population density\n(by percentile)",
-  "Growth, relative", "growth_rel_10_40", "Relative growth\n(by percentile)",
-  "Growth, absolute", "growth_abs_10_40", "Absolute growth\n(persons)"
+  ~goodname, ~"popvar", ~"short", ~s2,
+  "2019 population", "PopEst_2019", "2019 population\n(persons)", "2019 population<br>(persons)",
+  "2019 population density", "PopDens_2019", "2019 population density\n(by percentile)", "2019 population density<br>(by percentile)",
+  "2040 population", "POP2040", "2040 pop.\n(persons)", "2040 pop.\n(persons)",
+  "2040 population density", "popdens_2040_mi", "2040 population density\n(by percentile)", "2040 population density<br>(by percentile)",
+  "Growth, relative", "growth_rel_10_40", "Relative growth\n(by percentile)", "Relative growth<br>(by percentile)",
+  "Growth, absolute", "growth_abs_10_40", "Absolute growth\n(persons)", "Absolute growth<br>(persons)"
 )
 
 

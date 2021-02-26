@@ -85,9 +85,9 @@ mod_main_leaflet_server <- function(input, output, session,
         ) %>%
         addLegend(
           title = if (main_lft_inputs$source == "Population characteristics") {
-            paste0(filter(renamekey, ACS == main_lft_inputs$mainacs) %>% select(goodname))
+            paste0(filter(renamekey, ACS == main_lft_inputs$mainacs) %>% select(gn2))
           } else {
-            paste0(filter(popkey, popvar == main_lft_inputs$mainpop) %>% select(short))
+            paste0(filter(popkey, popvar == main_lft_inputs$mainpop) %>% select(s2))
           },
           position = "bottomleft",
           group = "Population data",
@@ -367,9 +367,9 @@ mod_main_leaflet_server <- function(input, output, session,
         ) %>%
         addLegend(
           title = if (main_lft_inputs$source == "Population characteristics") {
-            paste0(filter(renamekey, ACS == main_lft_inputs$mainacs) %>% select(goodname))
+            paste0(filter(renamekey, ACS == main_lft_inputs$mainacs) %>% select(gn2))
           } else {
-            paste0(filter(popkey, popvar == main_lft_inputs$mainpop) %>% select(short))
+            paste0(filter(popkey, popvar == main_lft_inputs$mainpop) %>% select(s2))
           },
           position = "bottomleft",
           group = "Population data",
