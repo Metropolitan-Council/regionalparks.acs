@@ -76,7 +76,7 @@ app_ui <- function(request) {
         mod_summary_download_ui("summary_download_ui_1"),
         hr(),
         sidebarPanel(mod_summary_selections_ui("summary_selections_ui_1"),
-          style = "position:fixed;"
+          # style = "position:fixed;"
         ),
         mainPanel(
           fluidRow(mod_summary_ggplot_ui("mod_summary_ggplot_ui_1")) # ,
