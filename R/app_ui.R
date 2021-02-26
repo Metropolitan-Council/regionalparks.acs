@@ -27,9 +27,7 @@ app_ui <- function(request) {
       tabPanel(
         id = "map_tab",
         "System Map",
-        shiny::p("This map provides a general overview of the population across the 7-county Twin Cities region and adjacent areas."),
-        shiny::p("Population characteristics available for mapping include: age, disability, ethnicity, income national origin, language, race, and transportation."),
-        shiny::p("Forecasted population variables available for mapping include: annual population estimates, long-range population estimates, and population growth."),
+        shiny::p("This map provides a general overview of the population across the 7-county Twin Cities region and adjacent areas.", strong("Population characteristics")," available for mapping include: age, disability, ethnicity, income national origin, language, race, and transportation. ", strong("Forecasted population variables"), " available for mapping include: annual population estimates, long-range population estimates, and population growth."),
         sidebarPanel(
           mod_leaflet_sidebar_ui(id = "leaflet_sidebar_ui_1")
         ),
@@ -44,7 +42,7 @@ app_ui <- function(request) {
           .noWS = "outside",
           target = "_blank"
         ), " and shows the highest spatial resolution possible by variable (either Census tract or block group, see 'Notes'). Each demographic characteristic is shown as a percentage of the total population, with the exception of median household income, which is displayed in dollars. The darker the color, the higher the percentage (or income in dollars)."
-      ),
+      ),br(),
       shiny::p(
         "Population estimates are published by the Metropolitan Council. Current population estimates are available for Census block groups. Long-range forecasts are based on 2010 Census data and city comprehensive plans and available at the transportation analysis zone (a coarser spatial resolution than Census block groups). Forecasts of shifting population demographics (race/ethnicity and age) are only available at the regional level, and are summarised in a ",
         a(
