@@ -86,10 +86,10 @@ mod_summary_ggplot_server <- function(input, output, session,
   PlotHeight <- reactive( # plot height ------
     # #if want to set a minimum height
     return(
-      if ((nrow(summary_util$plot_buffer_data[!duplicated(summary_util$plot_buffer_data[, c("name")]), ]) * 30) > 200) {
-        (nrow(summary_util$plot_buffer_data[!duplicated(summary_util$plot_buffer_data[, c("name")]), ]) * 30)
+      if ((nrow(summary_util$plot_buffer_data[!duplicated(summary_util$plot_buffer_data[, c("name")]), ]) * 33) > 400) {
+        (nrow(summary_util$plot_buffer_data[!duplicated(summary_util$plot_buffer_data[, c("name")]), ]) * 33)
       } else {
-        200
+        400
       }
     )
   )

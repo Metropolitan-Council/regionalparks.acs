@@ -36,6 +36,7 @@ Imports:
     stringr (>= 1.4.0),
     tibble (>= 3.0.4),
     tidyr (>= 1.1.2),
+    shinyhelper (>= 0.3.2),
     utils
 Suggests: 
     data.table (>= 1.12.8),

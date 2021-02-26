@@ -113,7 +113,12 @@ mod_leaflet_sidebar_ui <- function(id) {
           "Park - existing",
           "Trail - existing"
         )
-      )
+      )%>% 
+        shinyhelper::helper(type='inline',title = "Park/Trail status",
+                            content = c("<b>Existing</b> units are currently open to the public.",
+                                        "<b>Planned</b> units are planned.",
+                                        "<b>Search</b> units are under consideration."),
+                            size = "s"),
     ),
 
     wellPanel(
@@ -122,7 +127,10 @@ mod_leaflet_sidebar_ui <- function(id) {
         ns("input_bufferdist"),
         label = h4("Choose buffer distances:"),
         choices = c(1, 1.5, 3), selected = c(1)
-      )
+      ) %>% 
+        shinyhelper::helper(type='inline',title = "Buffer distance",
+                            content = c("Buffer distances (in miles) extend from the perimeter of units. For trails, the buffer distance is effectively a radius (i.e. a 1.0 mile buffer on each side of a trail would mean a 2.0 mile diameter path centered on the trail.)"),
+                            size = "s"),
     )
   )
 }
