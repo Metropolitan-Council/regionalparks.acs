@@ -8,12 +8,14 @@ h1, h2, h3, h4, h5, h6 {
   font-weight: 300;
   color: var(--council-blue);
   font-family: Light, Helvetica, Tahoma, Geneva, "Arial Narrow", Arial,  sans-serif;
-  max-width: 1200px;
+  max-width: 1200px; 
+  width: auto;
 }
 
 ol, ul, li {
-  max-width: 1200px;
   margin: 0 auto;
+  max-width: 1200px; 
+  width: auto;
 }
 
 h1 { font-size: 36px; line-height: 1.2;  letter-spacing: -.1rem;}
@@ -23,8 +25,6 @@ h4 { font-size: 18px; line-height: 1.35; letter-spacing: -.08rem; }
 h5 { font-size: 16px; line-height: 1.3;  letter-spacing: -.05rem; }
 h6 { font-size: 14px; line-height: 1.6;  letter-spacing: 0; }
 
-.hdg-center { text-align: auto; }
-
 body {
 	font-size: 13px;
 	line-height: 1.6;
@@ -32,13 +32,13 @@ body {
 	font-family: Roman, Helvetica, Tahoma, Geneva, Arial, sans-serif;
 	background-color: var(--council-white);
 	color: var(--council-black);
-	max-width: 100%;
 }
 
 p {
 	margin: 0 auto !important; /*0 10px;*/
 	font-size: 13px;
-	max-width: 1200px;
+  max-width: 1200px;
+  width: auto;
 }
 
 b, strong {
@@ -143,12 +143,12 @@ hr {
 
 
 .tab-content {
-	min-width: 950px;
+	/*min-width: 950px;*/
 	padding: 5px;
 	margin-left: 10%;
 	width: 80%;
 	margin-right: 10%;
-	max-width: 100%;
+/*	max-width: 100%;*/
 }
 
 .well {
@@ -168,3 +168,41 @@ hr {
   font-size: 150%;
 }
 
+/*
+.wrap{max-width:100%;margin:0px auto;}
+@media screen and (max-device-width:1200px),screen and (max-width:1200px){.wrap{max-width:1200px;
+ margin:0px auto;}}
+
+
+*/
+/*
+@media (min-width: 1200px){ 
+    img, p, h1, h2, ol, ul {
+        max-width: 1200px;
+    }
+}
+
+@media (min-width: 992px, max-width: 1199px){
+    img, p, h1, h2, ol, ul {
+        max-width: 992px;
+    }
+}
+
+@media (min-width: 768px, max-width: 991px){
+    img, p, h1, h2, ol, ul {
+        max-width: 768px;
+    }
+}
+
+@media (min-width: 576px, max-width: 767px){ 
+    img, p, h1, h2, ol, ul {
+        max-width: 576px;
+    }
+}
+
+@media (max-width: 575px){ 
+    img, p, h1, h2, ol, ul {
+        max-width: 575px;
+    }
+*/
+}
