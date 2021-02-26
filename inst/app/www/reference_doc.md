@@ -13,29 +13,27 @@ processes, and case weighting), as well as statistical inference error
 and uncertainty (which are related to sample size and variance within
 the measured attributes). US Census Bureau’s report on
 <a href="https://www2.census.gov/programs-surveys/acs/tech_docs/accuracy/MultiyearACSAccuracyofData2017.pdf?#" target="_blank">Accuracy
-of the Data</a> gives more information about potential sources of error.
-
-Further, producing the “weighted averages” necessarily assumed equal
-distributions of populations across individual census block groups or
-tracts in order. Population characteristics are likely to be
+of the Data</a> gives more information about potential sources of
+error.  
+<br> Further, producing the “weighted averages” necessarily assumed
+equal distributions of populations across individual census block groups
+or tracts in order. Population characteristics are likely to be
 heterogeneous, rather than homogeneous, across areas. Thus, observed
 population characteristics within a given buffer distance may not
 reflect the weighted averages presented here, but that does not diminish
 the value of the weighted averages as a starting point for conversations
 and actions to increase equitable usage of parks and trails across the
-Metro Region.
-
-ACS statistics were used to calculate the percent of people with a
-certain characteristic within each block group or tract. We scaled these
-percentages by the 2019 small area population estimates to obtain a more
-accurate number of people within each group (this more accurate measure
-of population is not available in collar counties). Weighted averages
-were produced by multiplying by the percent overlap of a given block
-group or tract with the buffer zone around individual park and trail
-units. Variables on disability (% with an ambulatory disability, % with
-any other disability) and national origin (% US-born, % foreign-born)
-were calculated at the tract level. All other variables were calculated
-at the block group.
+Metro Region. <br></br> ACS statistics were used to calculate the
+percent of people with a certain characteristic within each block group
+or tract. We scaled these percentages by the 2019 small area population
+estimates to obtain a more accurate number of people within each group
+(this more accurate measure of population is not available in collar
+counties). Weighted averages were produced by multiplying by the percent
+overlap of a given block group or tract with the buffer zone around
+individual park and trail units. Variables on disability (% with an
+ambulatory disability, % with any other disability) and national origin
+(% US-born, % foreign-born) were calculated at the tract level. All
+other variables were calculated at the block group.
 
 ### Data sources
 
@@ -341,6 +339,6 @@ Simulate Package Installation and Attach</em>.
 </div>
 
 <right style="font-size: 1rem; text-align: right; display: block;">
-*Last updated 2021-02-25*  
-Build ID: 2021-02-25.roten.fb44804  
+*Last updated 2021-02-26*  
+Build ID: 2021-02-26.roten.9e87013  
 </right>

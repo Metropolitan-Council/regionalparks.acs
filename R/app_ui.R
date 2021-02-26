@@ -71,7 +71,7 @@ app_ui <- function(request) {
             .noWS = "outside",
             target = "_blank"
           ), ") for all the regional parks and trails. Point location along the x-axis indicates the demographic value which can be compared across and within units or agencies. Subplots indicate either average values within agency boundaries or unit-level values."
-        ),
+        ),br(),
         shiny::p("Right-click on image to copy or download. Click on any point to create a text-based interpretation. Tabular data filtered by agency may also be downloaded."),
         mod_summary_download_ui("summary_download_ui_1"),
         hr(),
