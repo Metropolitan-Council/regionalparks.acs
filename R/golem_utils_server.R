@@ -167,6 +167,47 @@ tract_vars <- tibble::tibble(ACS = c("adj_anydis_per", "adj_ambdis_per", "adj_fo
 
 quantile_vars <- tibble::tibble (mainpop = c("PopDens_2019", "popdens_2040_mi", "growth_rel_10_40"))
 
+bin_vars <- tibble::tibble (mainacs = c("adj_ageunder15_per","adj_age15_24_per", "adj_age25_64_per",'adj_age65up_per'))
+
+labelFormat2 <- function(
+  prefix = "", suffix = "", between = " &ndash; ", digits = 1, big.mark = ",",
+  transform = identity
+) {
+  
+  formatNum2 <- function(x) {
+    format(
+      round(transform(x), digits), trim = TRUE, scientific = FALSE,
+      big.mark = big.mark
+    )
+  }
+  
+  function(type, ...) {
+    switch(
+      type,
+      numeric = (function(cuts) {
+        paste0(prefix, formatNum2(cuts), suffix)
+      })(...), # nolint
+      bin = (function(cuts) {
+        n <- length(cuts)
+        paste0(prefix, formatNum2(cuts[-n]), between, formatNum2(cuts[-1]), suffix)
+      })(...), # nolint
+      quantile = (function(cuts, p) {
+        n <- length(cuts)
+        p <- paste0(round(p * 100), "%")
+        cuts <- paste0(formatNum2(cuts[-n]), between, formatNum2(cuts[-1]))
+        # mouse over the legend labels to see the values (quantiles)
+        paste0(
+          "<span title=\"", cuts, "\">", prefix, p[-n], between, p[-1], suffix,
+          "</span>"
+        )
+      })(...), # nolint
+      factor = (function(cuts) {
+        paste0(prefix, as.character(transform(cuts)), suffix)
+      })(...) # nolint
+    )
+  }
+  
+}
 
 # leaflet global options -------------------------------------------------------
 

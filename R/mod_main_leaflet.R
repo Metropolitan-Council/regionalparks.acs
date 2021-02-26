@@ -84,6 +84,7 @@ mod_main_leaflet_server <- function(input, output, session,
           }
         ) %>%
         addLegend(
+          labFormat = labelFormat2(),
           title = if (main_lft_inputs$source == "Population characteristics") {
             paste0(filter(renamekey, ACS == main_lft_inputs$mainacs) %>% select(gn2))
           } else {
@@ -366,6 +367,7 @@ mod_main_leaflet_server <- function(input, output, session,
           }
         ) %>%
         addLegend(
+          labFormat = labelFormat2(),
           title = if (main_lft_inputs$source == "Population characteristics") {
             paste0(filter(renamekey, ACS == main_lft_inputs$mainacs) %>% select(gn2))
           } else {

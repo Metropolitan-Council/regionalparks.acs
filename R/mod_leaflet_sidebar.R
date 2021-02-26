@@ -235,9 +235,12 @@ mod_leaflet_sidebar_server <- function(input, output, session) {
   generate_pop_pal <- reactive({
     pal <-
       if (input$mainpop %in% quantile_vars$mainpop) {
-        colorQuantile(n = 8, palette = "Blues", domain = vals$map_bg_data_main[[1]])
+        colorQuantile(n = 5, palette = "Blues", domain = vals$map_bg_data_main[[1]])
+      # } else if (input$mainacs %in% bin_vars$mainacs) {
+        # colorBin(bins=5, palette = "Greens", pretty = T, domain = vals$map_bg_data_main[[1]])
       } else {
-        colorNumeric(n = 8, palette = "Blues", domain = vals$map_bg_data_main[[1]])
+        # colorNumeric(n = 5, palette = "Blues", domain = vals$map_bg_data_main[[1]])
+        colorBin(bins=5, palette = "Blues", pretty = F, domain = vals$map_bg_data_main[[1]])
       }
     return(pal)
   })
