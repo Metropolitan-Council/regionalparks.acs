@@ -84,9 +84,8 @@ mod_summary_selections_ui <- function(id) {
         selected = c(1.0)
         # )
       ) %>% 
-        shinyhelper::helper(type='inline',title = "Buffer distance",
-               content = c("Buffer distances (in miles) extend from the perimeter of units. For trails, the buffer distance is effectively a radius (i.e. a 1.0 mile buffer on each side of a trail would mean a 2.0 mile diameter path centered on the trail.)"),
-               size = "s"),
+        shinyhelper::helper(type = "markdown",
+                            content = "BufferHelp"),
       # column(
       # width = 2,
       checkboxGroupInput(
@@ -104,11 +103,8 @@ mod_summary_selections_ui <- function(id) {
         choices = c("Existing", "Planned", "Search"), # HTML("<strong>Existing</strong>") #something like this doesn't exist, but if these text colors could match point colors that would be great!
         selected = c("Existing", "Planned", "Search")
       ) %>% 
-        shinyhelper::helper(type='inline',title = "Park/Trail status",
-                            content = c("<b>Existing</b> units are currently open to the public.",
-                                        "<b>Planned</b> units are planned.",
-                                        "<b>Search</b> units are under consideration."),
-                            size = "s"),
+        shinyhelper::helper(type = "markdown",
+                            content = "StatusHelp"),
       # )
     )
   )

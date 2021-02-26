@@ -14,7 +14,7 @@ app_server <- function(input, output, session) {
   #   print(input$summary_sub_tab)
   # })
 
-  observe_helpers()
+  observe_helpers(help_dir = "inst/app/www")
   
   # # Introduction/Notes tab -----------------------------------------------------------
   callModule(mod_intro_server, "intro_ui_1")

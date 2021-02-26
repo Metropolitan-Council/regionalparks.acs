@@ -1,0 +1,62 @@
+---
+output: 
+  github_document:
+    html_preview: false
+# params: 
+#   actor_id: "esch" 
+#   data_date: "2020-03-26"
+#   sha: "sha"
+---
+
+### Buffer distance
+
+-----
+
+Buffer distances (in miles) extend from the perimeter of units. For trails, the buffer distance is effectively a radius (i.e. a 1.0 mile buffer on each side of a trail would mean a 2.0 mile diameter path centered on the trail.) <br><br>
+
+```{r include=F}
+library(tidyverse)
+library(sf)
+```
+
+Example of buffer distances around a park polygon
+
+```{r echo=F, message=F, warning=F, fig.width=2, fig.height=2}
+park <- regionalparks.acs::park_trail_geog_LONG[c(15),0] %>%
+  st_transform(3857)
+buf025 <- park  %>%
+  st_buffer(dist = 1609.34 * .25)
+buf05 <- park  %>%
+  st_buffer(dist = 1609.34 * .5)
+
+trail <- regionalparks.acs::park_trail_geog_LONG[c(109),0] %>%
+  st_transform(3857)
+tbuf025 <- trail  %>%
+  st_buffer(dist = 1609.34 * .25)
+tbuf05 <- trail  %>%
+  st_buffer(dist = 1609.34 * .5)
+
+ggplot() +
+  geom_sf(data = buf05, fill = "grey90") +
+  geom_sf(data = buf025, fill = "grey70") +
+  geom_sf(data = park, fill = "#78A22F") +
+  # geom_segment(aes(y = 0, x = 0, yend = 0, xend = 1), inherit.aes = F)
+  # geom_segment(aes(x = 44.977, y = 93.165, xend = 44.977, yend = 93.130), inherit.aes = F)
+  theme_void()
+  # geom_text(data = recruitment_info, aes(x=Long, y=Lat, group=Centre, label=Centre), size = 3, hjust=0, vjust=-1)
+
+```
+ 
+<br>
+Example of buffer distances around a trail segment
+<br>
+```{r echo=F, message=F, warning=F, fig.width=2, fig.height=2}
+ggplot() +
+  geom_sf(data = tbuf05, fill = "grey90") +
+  geom_sf(data = tbuf025, fill = "grey70") +
+  geom_sf(data = trail, color = "#78A22F", size=4) +
+  theme_void()
+```
+ 
+
+
