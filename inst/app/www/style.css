@@ -154,7 +154,7 @@ hr {
 
 .well {
 	min-height: 5px;
-	padding: 5px;
+	padding: 0px;
 	margin-bottom: 5px;
 	background-color: transparent;
 	border: 1px solid transparent;

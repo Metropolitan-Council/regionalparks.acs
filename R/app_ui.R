@@ -28,12 +28,13 @@ app_ui <- function(request) {
         id = "map_tab",
         "System Map",
         shiny::p("This map provides a general overview of the population across the 7-county Twin Cities region and adjacent areas.", strong("Population characteristics")," available for mapping include: age, disability, ethnicity, income national origin, language, race, and transportation. ", strong("Forecasted population variables"), " available for mapping include: annual population estimates, long-range population estimates, and population growth."),
-        sidebarPanel(
+        hr(),
+        sidebarPanel(style="max-width:300px", 
           mod_leaflet_sidebar_ui(id = "leaflet_sidebar_ui_1")
         ),
-        mainPanel(
+        mainPanel(style="max-width:1200px",
           mod_main_leaflet_ui("main_leaflet_ui_1")
-        ), br(),
+        ), br(),hr(),
       shiny::p(
         "Population characteristic data is from the U.S. Census Bureau ",
         a(
