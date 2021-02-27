@@ -32,6 +32,7 @@ app_server <- function(input, output, session) {
 
   # ACS Summary tab ------------------------------------------------------------
   ## get input values
+  
   selected_input_vars <- callModule(mod_summary_selections_server, "summary_selections_ui_1")
 
   ## run reactive calculations with input values

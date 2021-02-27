@@ -36,7 +36,7 @@ mod_summary_ggplot_server <- function(input, output, session,
   ns <- session$ns
 
 
- 
+
 
 
   ## legend -----
@@ -57,6 +57,8 @@ mod_summary_ggplot_server <- function(input, output, session,
 
 
   output$Rggplots <- renderPlot(height = function() PlotHeight(), {
+    
+
     summary_util$facet_data %>%
       ggplot2::ggplot(aes(
         y = name,

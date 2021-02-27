@@ -9,6 +9,7 @@ app_ui <- function(request) {
   tagList(
     # Leave this function for adding external resources
     golem_add_external_resources(),
+use_waiter(),
 
     # List the first level UI elements here
     navbarPage(
@@ -32,8 +33,12 @@ app_ui <- function(request) {
         sidebarPanel(style="max-width:300px", 
           mod_leaflet_sidebar_ui(id = "leaflet_sidebar_ui_1")
         ),
-        mainPanel(style="max-width:1200px",
-          mod_main_leaflet_ui("main_leaflet_ui_1")
+        mainPanel(
+                  # waiter_show_on_load(spin_fading_circles()),
+                  style="max-width:1200px",
+          mod_main_leaflet_ui("main_leaflet_ui_1"),
+          # waiter_hide(),
+          # waiter_hide_on_render("main_leaflet_ui_1$map")
         ), br(),hr()),
 
       # acs summary tab -----

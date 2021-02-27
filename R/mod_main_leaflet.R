@@ -10,7 +10,7 @@
 mod_main_leaflet_ui <- function(id) {
   ns <- NS(id)
   tagList(
-    leafletOutput(ns("map"), width = "100%", height = 700)
+    leafletOutput(ns("map"), width = "100%", height = 700),
   )
 }
 
@@ -21,7 +21,7 @@ mod_main_leaflet_server <- function(input, output, session,
                                     main_lft_inputs,
                                     current_tab) {
   ns <- session$ns
-
+  w <- Waiter$new(ns("map"))#, html="Please wait")#, hide_on_render=T)
 
   # output$map ----
   output$map <- mod_map_base_server(
@@ -234,6 +234,7 @@ mod_main_leaflet_server <- function(input, output, session,
           highlightOptions = leaflet_highlight_options
         )
     }
+    
   )
 
 
@@ -244,6 +245,7 @@ mod_main_leaflet_server <- function(input, output, session,
     label = "startup",
     current_tab,
     {
+      w$show()
       # browser()
       # getDefaultReactiveDomain()
       print("Rendering start-up map")
@@ -394,6 +396,9 @@ mod_main_leaflet_server <- function(input, output, session,
           highlightOptions = leaflet_highlight_options
         ) %>%
         hideGroup(group = "buffers")
+      w$hide()
+      # waiter_hide_on_render()
+      # waiter_hide()
     }
   )
 }

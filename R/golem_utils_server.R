@@ -74,6 +74,7 @@ rvtl <- shiny::reactiveValuesToList
 #' @import ggforestplot
 #' @import shinyhelper
 #' @import leaflet.extras
+#' @import waiter
 
 e_col <- "#78A22F" # CD green
 p_col <- "#AA5FEC" # purple
