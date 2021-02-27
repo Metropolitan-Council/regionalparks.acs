@@ -10,6 +10,7 @@
 mod_map_base_ui <- function(id) {
   ns <- NS(id)
   tagList()
+  # use_waiter()
 }
 
 #' map_base Server Function
@@ -17,9 +18,12 @@ mod_map_base_ui <- function(id) {
 #' @noRd
 mod_map_base_server <- function(input, output, session) {
   ns <- session$ns
-
+  # w <- Waiter$new()#, html="Please wait")#, hide_on_render=T)
+  
 
   output$ns <- renderLeaflet(quoted = TRUE, {
+    # w$show()
+    # waiter_show()
     leaflet() %>%
       setView(
         lat = 44.963,
@@ -142,6 +146,8 @@ mod_map_base_server <- function(input, output, session) {
         options = layersControlOptions(collapsed = T)
       ) %>%
       leaflet::addScaleBar(position = c("bottomleft"))
+    # waiter_hide()
+    # w$hide
   })
 }
 

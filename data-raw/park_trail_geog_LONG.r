@@ -51,7 +51,6 @@ download.file("ftp://ftp.gisdata.mn.gov/pub/gdrs/data/pub/us_mn_state_metc/plan_
 )
 
 parks_temp <- sf::read_sf(unzip(temp, "plan_parks_regional.gpkg")) %>%
-  # filter(STATUS == "Existing") %>%
   left_join(namecleaner) %>%
   mutate(STATUS = recode(STATUS,
     "Existing" = "Park - existing",
@@ -75,8 +74,6 @@ parks_temp <- sf::read_sf(unzip(temp, "plan_parks_regional.gpkg")) %>%
   ) %>%
   st_transform(4326) %>%
   st_as_sf()
-
-# levels(as.factor(parks_temp$PARKNAME)) %>% view()
 
 parks <- parks_temp %>%
   filter(status == "Park - existing") %>%
@@ -102,7 +99,6 @@ download.file("https://resources.gisdata.mn.gov/pub/gdrs/data/pub/us_mn_state_me
 
 
 trails_temp <- sf::read_sf(unzip(temp, "trans_regional_trails_exst_plan.gpkg")) %>%
-  # filter(STATUS == "Existing (Open to Public)") %>%
   filter(
     NAME != "River Crossing",
     Agency != "Wright County"
@@ -219,5 +215,4 @@ park_trail_geog_LONG <- bind_rows(
   )
 
 usethis::use_data(park_trail_geog_LONG, overwrite = TRUE)
-
 # usethis::use_git_ignore(".DS_Store")

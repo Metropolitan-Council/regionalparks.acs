@@ -85,6 +85,18 @@ block_group_map <- block_group %>%
   )
 usethis::use_data(block_group_map, overwrite = TRUE)
 
+# block_group_map %>% #missing
+  # ggplot()+
+  # geom_sf(aes(fill = adj_novehicle_per))
+
+# block_group %>% #missing
+# ggplot()+
+# geom_sf(aes(fill = novehicle_percent))
+
+# block_group_raw %>% #missing
+#   ggplot()+
+#   geom_sf(aes(fill = novehicle_percent))
+# 
 
 # census tracts ----------
 census_tract <- census_tract_raw %>%
@@ -103,12 +115,14 @@ census_tract_map <- census_tract %>%
   mutate(
     disab_percent = `Ability, any other disability` * 100,
     ambdis_percent = `Ability, ambulatory disability` * 100,
+    costburd_percent = `Socioeconomic, housing cost burdened` * 100, 
     usborn_percent = `Origin, US-born` * 100,
     forborn_percent = `Origin, foreign-born` * 100
   ) %>%
   rename(
     "adj_anydis_per" = "disab_percent",
     "adj_ambdis_per" = "ambdis_percent",
+    "adj_costburd_per" = "costburd_percent",
     "adj_usborn_per" = "usborn_percent",
     "adj_forborn_per" = "forborn_percent"
   )

@@ -97,7 +97,8 @@ renamekey <- tibble::tribble(
 
   "Mean household income", "adj_meanhhi", "YlGnBu", "Mean household<br>income",
   "% households below 185% poverty line", "adj_185pov_per", "YlGnBu", "% households below<br>185% poverty line",
-
+  "% cost burdened households (housing >30% income)", "adj_costburd_per", "YlGnBu", "% cost burdened<br>households",
+  
   "% housholds without a vehicle", "adj_novehicle_per", "Blues", "% housholds<br>without a vehicle",
   "% population with limited English proficiency", "adj_lep_per", "Blues", "% population<br>with limited English proficiency",
   "% population primarily speaking Spanish", "adj_span_per", "Blues", "% population<br>primarily speaking Spanish",
@@ -127,6 +128,7 @@ recodeadjtable <- tibble::tribble(
 
   "adj_meanhhi", "Mean household income ($)",
   "adj_185pov_per", "Households below 185% poverty line (%)",
+  "adj_costburd_per", "Cost burdened (housing > 30% income) housholds (%)",
 
   "adj_novehicle_per", "Housholds without a vehicle (%)",
   "adj_lep_per", "Population with limited English proficiency (%)",
@@ -143,7 +145,7 @@ popkey <- tibble::tribble( #------
   ~goodname, ~"popvar", ~"short", ~s2,
   "2019 population", "PopEst_2019", "2019 population\n(persons)", "2019 population<br>(persons)",
   "2019 population density", "PopDens_2019", "2019 population density\n(by percentile)", "2019 population density<br>(by percentile)",
-  "2040 population", "POP2040", "2040 pop.\n(persons)", "2040 pop.\n(persons)",
+  "2040 population", "POP2040", "2040 pop.\n(persons)", "2040 population<br>(persons)",
   "2040 population density", "popdens_2040_mi", "2040 population density\n(by percentile)", "2040 population density<br>(by percentile)",
   "Growth, relative", "growth_rel_10_40", "Relative growth\n(by percentile)", "Relative growth<br>(by percentile)",
   "Growth, absolute", "growth_abs_10_40", "Absolute growth\n(persons)", "Absolute growth<br>(persons)"
@@ -164,7 +166,7 @@ iconentry <- leaflet::awesomeIcons(
   markerColor = "orange"
 )
 
-tract_vars <- tibble::tibble(ACS = c("adj_anydis_per", "adj_ambdis_per", "adj_forborn_per", "adj_usborn_per"))
+tract_vars <- tibble::tibble(ACS = c("adj_anydis_per", "adj_ambdis_per", "adj_costburd_per", "adj_forborn_per", "adj_usborn_per"))
 
 quantile_vars <- tibble::tibble (mainpop = c("PopDens_2019", "popdens_2040_mi", "growth_rel_10_40"))
 

@@ -110,6 +110,7 @@ bg_merge <- right_join(bg_age, bg_race) %>%
 
 ## -----------------------------------------------------------------------------------------------------------------------------------------------------
 MNblock_group <- tigris::block_groups(
+  year = 2019,
   state = "MN",
   county = c(
     "Anoka", "Carver", "Dakota", "Hennepin", "Ramsey", "Scott", "Washington",
@@ -119,8 +120,8 @@ MNblock_group <- tigris::block_groups(
 ) %>%
   select(GEOID)
 
-
 WIblock_group <- tigris::block_groups(
+  year=2019,
   state = "WI",
   county = c("St. Croix", "Polk", "Pierce"),
   class = "sf"
@@ -131,6 +132,5 @@ WIblock_group <- tigris::block_groups(
 block_group_raw <- bind_rows(MNblock_group, WIblock_group) %>%
   left_join(bg_merge, by = c("GEOID" = "geoid2")) %>% # left join, so takes out bg in WI that are not within the 3mi buffer zone
   st_transform(4326) # for leaflet
-
 
 usethis::use_data(block_group_raw, overwrite = TRUE)

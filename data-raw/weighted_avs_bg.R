@@ -1,7 +1,7 @@
 ## code to prepare `buffer_distances`, `long_buffer_data_bg`, `agency_avg` datasets goes here
 
-load("./data/block_group_raw.rda")
-load("./data/park_trail_geog_LONG.rda")
+load("../data/block_group_raw.rda")
+load("../data/park_trail_geog_LONG.rda")
 
 requireNamespace("readxl", quietly = TRUE)
 requireNamespace("fs", quietly = TRUE)

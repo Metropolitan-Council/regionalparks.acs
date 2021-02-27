@@ -14,6 +14,8 @@ library(sf)
 library(tigris)
 library(janitor)
 
+options(tigris_use_cache = TRUE)
+
 temp <- tempfile()
 download.file("https://resources.gisdata.mn.gov/pub/gdrs/data/pub/us_mn_state_metc/society_census_acs/xlsx_society_census_acs.zip",
   destfile = temp
@@ -44,13 +46,32 @@ ct_disability <- ct %>%
   )
 
 
+
+##-------- equity considerations
+temp <- tempfile()
+download.file("https://resources.gisdata.mn.gov/pub/gdrs/data/pub/us_mn_state_metc/society_equity_considerations/xlsx_society_equity_considerations.zip",
+              destfile = temp
+)
+
+equity <- readxl::read_xlsx(unzip(temp, "EquityConsiderations_Full.xlsx")) %>%
+  janitor::clean_names() # %>%
+# filter(tcflag == 1)
+
+fs::file_delete("EquityConsiderations_Full.xlsx")
+
+ct_housing <- equity %>%
+  select(tr10, pcostburd) %>%
+  rename(geoid2 = tr10) 
+
 ## ------------------------------------------------------------------------------------------------------------------------------------------------------
-ct_merge <- right_join(ct_foreign, 
-                       ct_disability)
+ct_merge <- full_join(ct_foreign, 
+                       ct_housing) %>%
+  full_join(ct_disability)
 
 
 ## ----------------------------------------------------------------------------------------------------------------------------------------------------
 MNtract <- tigris::tracts(
+  year=2019,
   state = "MN",
   county = c(
     "Anoka", "Carver", "Dakota", "Hennepin", "Ramsey", "Scott", "Washington",
@@ -61,6 +82,7 @@ MNtract <- tigris::tracts(
   select(GEOID)
 
 WItract <- tigris::tracts(
+  year = 2019,
   state = "WI",
   county = c("St. Croix", "Polk", "Pierce"),
   class = "sf"
@@ -76,6 +98,7 @@ census_tract_raw <- census_tract_spatial %>%
     GEOID,
     "usborncit_percent",
     "forborn_percent",
+    "pcostburd",
     "anydis_percent",
     "ambdis_percent",
     geometry
@@ -85,12 +108,14 @@ names(census_tract_raw) <- c(
   "GEOID",
   "Origin, US-born",
   "Origin, foreign-born",
+  "Socioeconomic, housing cost burdened",
   "Ability, any other disability",
   "Ability, ambulatory disability",
   "geometry"
 )
 
 county_outlines <- tigris::counties(
+  year=2020,
   state = "MN",
   class = "sf"
 ) %>%
@@ -105,6 +130,26 @@ county_outlines <- tigris::counties(
   )) %>%
   dplyr::select(NAME) %>%
   sf::st_transform(4326)
+# 
+# temp <- tempfile()
+# download.file("https://resources.gisdata.mn.gov/pub/gdrs/data/pub/us_mn_state_dnr/bdry_counties_in_minnesota/gpkg_bdry_counties_in_minnesota.zip",
+#               destfile = temp
+# )
+# county_outlines <- sf::read_sf(unzip(temp, "bdry_counties_in_minnesota.gpkg")) %>%
+#   dplyr::filter(CTY_NAME %in% c(
+#         "Hennepin",
+#         "Dakota",
+#         "Carver",
+#         "Ramsey",
+#         "Anoka",
+#         "Scott",
+#         "Washington"
+#       )) %>%
+#     dplyr::select(CTY_NAME) %>%
+#   dplyr::rename(NAME = CTY_NAME) %>%
+#     sf::st_transform(4326)
+
+fs::file_delete("bdry_counties_in_minnesota.gpkg")
 
 usethis::use_data(county_outlines, overwrite = TRUE)
 

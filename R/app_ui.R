@@ -32,7 +32,7 @@ use_waiter(),
         
         tags$li(strong("Population characteristics")," available for mapping include: age, disability, ethnicity, income national origin, language, race, and transportation. "), 
         tags$li(strong("Forecasted population variables"), " available for mapping include: annual population estimates, long-range population estimates, and population growth."),
-        tags$li(strong("Zoom in"), "or ", strong("expand layers (bottom right)"), " to overlay active transit stops (bus and light rail), park entrances, rivers and lakes, and public water access."),
+        tags$li(strong("Zoom in"), "or ", strong("expand layers (bottom right)"), " to overlay buffer zones, active transit stops (bus and light rail), park entrances, rivers and lakes, and public water access."),
         hr(),
         sidebarPanel(style="max-width:300px", 
           mod_leaflet_sidebar_ui(id = "leaflet_sidebar_ui_1")
