@@ -27,35 +27,14 @@ app_ui <- function(request) {
       tabPanel(
         id = "map_tab",
         "System Map",
-        shiny::p("This map provides a general overview of the population across the 7-county Twin Cities region and adjacent areas.", strong("Population characteristics")," available for mapping include: age, disability, ethnicity, income national origin, language, race, and transportation. ", strong("Forecasted population variables"), " available for mapping include: annual population estimates, long-range population estimates, and population growth."),
+        shiny::p("This map provides a general overview of the population across the 7-county Twin Cities region and adjacent areas.", strong("Population characteristics")," available for mapping include: age, disability, ethnicity, income national origin, language, race, and transportation. ", strong("Forecasted population variables"), " available for mapping include: annual population estimates, long-range population estimates, and population growth.", strong("Zoom in"), "or ", strong("expand layers (bottom right)"), " to overlay active transit stops (bus and light rail), park entrances, rivers and lakes, and public water access."),
         hr(),
         sidebarPanel(style="max-width:300px", 
           mod_leaflet_sidebar_ui(id = "leaflet_sidebar_ui_1")
         ),
         mainPanel(style="max-width:1200px",
           mod_main_leaflet_ui("main_leaflet_ui_1")
-        ), br(),hr(),
-      shiny::p(
-        "Population characteristic data is from the U.S. Census Bureau ",
-        a(
-          href = "https://www.census.gov/programs-surveys/acs",
-          "(American Community Survey, 2015-2019)",
-          .noWS = "outside",
-          target = "_blank"
-        ), " and shows the highest spatial resolution possible by variable (either Census tract or block group, see 'Notes'). Each demographic characteristic is shown as a percentage of the total population, with the exception of median household income, which is displayed in dollars. The darker the color, the higher the percentage (or income in dollars).", br(), br(), "Population estimates are published by the Metropolitan Council. Current population estimates are available for Census block groups. Long-range forecasts are based on 2010 Census data and city comprehensive plans and available at the transportation analysis zone (a coarser spatial resolution than Census block groups). Forecasts of shifting population demographics (race/ethnicity and age) are only available at the regional level, and are summarised in a ",
-        a(
-          href = "https://metrocouncil.org/Data-and-Maps/Publications-And-Resources/MetroStats/Land-Use-and-Development/Steady-Growth-and-Big-Changes-Ahead-Regional-Forec.aspx",
-          "MetroStats publication.",
-          .noWS = "outside",
-          target = "_blank"
-        ), " More information and raw data can be found on the ",
-        a(
-          href = "https://metrocouncil.org/Data-and-Maps/Research-and-Data/Thrive-2040-Forecasts.aspx",
-          "Metropolitan Council website.",
-          .noWS = "outside",
-          target = "_blank"
-        )
-      )),
+        ), br(),hr()),
 
       # acs summary tab -----
       tabPanel(

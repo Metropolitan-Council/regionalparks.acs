@@ -170,7 +170,7 @@ quantile_vars <- tibble::tibble (mainpop = c("PopDens_2019", "popdens_2040_mi", 
 bin_vars <- tibble::tibble (mainacs = c("adj_ageunder15_per","adj_age15_24_per", "adj_age25_64_per",'adj_age65up_per'))
 
 labelFormat2 <- function(
-  prefix = "", suffix = "", between = " &ndash; ", digits = 1, big.mark = ",",
+  prefix = "", suffix = "", between = " &ndash; ", digits = 0, big.mark = ",",
   transform = identity
 ) {
   

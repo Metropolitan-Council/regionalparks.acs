@@ -23,7 +23,9 @@ mod_leaflet_sidebar_ui <- function(id) {
           "Population estimates"
         ), 
         selected = "Population characteristics"
-      ),
+      ) %>% 
+        shinyhelper::helper(type = "markdown",
+                            content = "DataSourceHelp"),
 
       conditionalPanel(
         ns = ns,
