@@ -24,7 +24,7 @@ mod_map_base_server <- function(input, output, session) {
       setView(
         lat = 44.963,
         lng = -93.22,
-        zoom = 9
+        zoom = 10
       ) %>%
       leaflet.extras::addDrawToolbar(
         editOptions=editToolbarOptions(selectedPathOptions=selectedPathOptions()),

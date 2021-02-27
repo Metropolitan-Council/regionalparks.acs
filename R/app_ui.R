@@ -61,7 +61,7 @@ use_waiter(),
         tags$li("Right-click on image to copy or download."),
         tags$li("Click on any point to create a text-based interpretation."),
         tags$li("Tabular data filtered by agency may also be downloaded."),
-        shiny::p(br(), br(),
+        shiny::p(br(),
         mod_summary_download_ui("summary_download_ui_1")),
         hr(),
         sidebarPanel(style="max-width:300px", #this does work, but it stops the wrapping
