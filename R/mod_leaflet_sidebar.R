@@ -49,7 +49,7 @@ mod_leaflet_sidebar_ui <- function(id) {
               "Race, % American Indian" = "adj_amindnh_per",
               "Race, % Asian" = "adj_asiannh_per",
               "Race, % Black" = "adj_blacknh_per",
-              "Race, % Other + Multi" = "adj_othermultinh_per",
+              "Race, % Other + Multiracial" = "adj_othermultinh_per",
               "Race, % White" = "adj_whitenh_per"
             ),
             `Language` = list(
