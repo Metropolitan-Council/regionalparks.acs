@@ -28,7 +28,11 @@ use_waiter(),
       tabPanel(
         id = "map_tab",
         "System Map",
-        shiny::p("This map provides a general overview of the population across the 7-county Twin Cities region and adjacent areas.", strong("Population characteristics")," available for mapping include: age, disability, ethnicity, income national origin, language, race, and transportation. ", strong("Forecasted population variables"), " available for mapping include: annual population estimates, long-range population estimates, and population growth.", strong("Zoom in"), "or ", strong("expand layers (bottom right)"), " to overlay active transit stops (bus and light rail), park entrances, rivers and lakes, and public water access."),
+        shiny::p("This map provides a general overview of the population across the 7-county Twin Cities region and adjacent areas."), br(),
+        
+        tags$li(strong("Population characteristics")," available for mapping include: age, disability, ethnicity, income national origin, language, race, and transportation. "), 
+        tags$li(strong("Forecasted population variables"), " available for mapping include: annual population estimates, long-range population estimates, and population growth."),
+        tags$li(strong("Zoom in"), "or ", strong("expand layers (bottom right)"), " to overlay active transit stops (bus and light rail), park entrances, rivers and lakes, and public water access."),
         hr(),
         sidebarPanel(style="max-width:300px", 
           mod_leaflet_sidebar_ui(id = "leaflet_sidebar_ui_1")
@@ -54,7 +58,10 @@ use_waiter(),
             target = "_blank"
           ), ") for all the regional parks and trails. Point location along the x-axis indicates the demographic value which can be compared across and within units or agencies. Subplots indicate either average values within agency boundaries or unit-level values."
         ),br(),
-        shiny::p("Right-click on image to copy or download. Click on any point to create a text-based interpretation. Tabular data filtered by agency may also be downloaded.",br(), br(),
+        tags$li("Right-click on image to copy or download."),
+        tags$li("Click on any point to create a text-based interpretation."),
+        tags$li("Tabular data filtered by agency may also be downloaded."),
+        shiny::p(br(), br(),
         mod_summary_download_ui("summary_download_ui_1")),
         hr(),
         sidebarPanel(style="max-width:300px", #this does work, but it stops the wrapping
