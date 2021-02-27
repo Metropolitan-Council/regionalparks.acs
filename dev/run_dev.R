@@ -79,4 +79,8 @@ golem::document_and_reload()
 # Run the application
 run_app()
 
+#choose data source =population estimates
+#choose data source = population characteristics
+#choose variable to map = housing, % cost burdened
+#THEN ALL VARIABLES QUIT?!?
 

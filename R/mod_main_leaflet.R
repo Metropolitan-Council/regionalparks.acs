@@ -39,7 +39,8 @@ mod_main_leaflet_server <- function(input, output, session,
       main_lft_inputs$map_bg_data_main,
       main_lft_inputs$source,
       main_lft_inputs$mainacs,
-      main_lft_inputs$mainpop
+      main_lft_inputs$mainpop,
+      main_lft_inputs$pop_pal
     )
   })
 
@@ -50,6 +51,7 @@ mod_main_leaflet_server <- function(input, output, session,
       print("Rendering main leaflet map - pop polygons")
       leafletProxy("map") %>%
         clearGroup("Population data") %>%
+        # removeControl("Population data") %>%
         clearControls() %>%
         addPolygons(
           group = "Population data",

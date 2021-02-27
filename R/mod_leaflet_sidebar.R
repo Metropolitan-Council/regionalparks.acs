@@ -78,7 +78,7 @@ mod_leaflet_sidebar_ui <- function(id) {
 
         selectInput(ns("mainpop"),
           h4("Choose a variable to map:"),
-          choices = list(
+          choices = list(#Choose='',
             `Annual population estimates` = list(
               "2019 population" = "PopEst_2019",
               "2019 population density" = "PopDens_2019"
