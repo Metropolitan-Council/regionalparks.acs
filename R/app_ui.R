@@ -7,6 +7,8 @@
 #' @noRd
 app_ui <- function(request) {
   tagList(
+    tags$html(lang="en"),
+    
     # Leave this function for adding external resources
     golem_add_external_resources(),
 use_waiter(),
@@ -14,7 +16,7 @@ use_waiter(),
     # List the first level UI elements here
     navbarPage(
       collapsible = TRUE,
-      title = div(img(src = "www/main-logo.png", height = "60px")),
+      title = div(img(src = "www/main-logo.png", height = "60px", alt = "MetCouncil logo")),
       id = "nav",
 
 
