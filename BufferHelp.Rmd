@@ -33,28 +33,33 @@ tbuf05 <- trail  %>%
   st_buffer(dist = 1609.34 * .5)
 ```
 
-Example of two different buffer distances (dark grey, light grey) around a park polygon (green)
+Example of two different buffer distances (dark grey, light grey) around a park polygon (green):
 
-```{r echo=F, fig.width=2, fig.height=2}
-ggplot() +
+```{r parkbuffer, include=F, echo=F, fig.width=2, fig.height=2}
+parkbuffer = ggplot() +
   geom_sf(data = buf05, fill = "grey90") +
   geom_sf(data = buf025, fill = "grey70") +
   geom_sf(data = park, fill = "#78A22F") +
   theme_void()
-
+# parkbuffer
 ```
+
+<img src='www/BufferHelp_files/figure-gfm/parkbuffer-1.png' alt="Park buffer example" width='50%'/img>
+
  
 <br>
-Example of two different buffer distances (dark grey, light grey) around a trail segment (green)
+Example of two different buffer distances (dark grey, light grey) around a trail segment (green):
 <br>
 
-```{r echo=F, message=F, warning=F, fig.width=2, fig.height=2}
-ggplot() +
+```{r trailbuffer, include = F, echo=F, message=F, warning=F, fig.width=2, fig.height=2}
+trailbuffer = ggplot() +
   geom_sf(data = tbuf05, fill = "grey90") +
   geom_sf(data = tbuf025, fill = "grey70") +
   geom_sf(data = trail, color = "#78A22F", size=4) +
   theme_void()
+# trailbuffer
 ```
  
+ <img src='www/BufferHelp_files/figure-gfm/trailbuffer-1.png' alt="Trail buffer example" width='50%'/img>
 
 

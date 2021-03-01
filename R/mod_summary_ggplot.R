@@ -36,7 +36,9 @@ mod_summary_ggplot_server <- function(input, output, session,
   ns <- session$ns
 
 
-
+  ns <- session$ns
+  w2 <- Waiter$new(ns("Rggplots"))#, html="Please wait")#, hide_on_render=T)
+  
 
 
   ## legend -----
@@ -58,7 +60,8 @@ mod_summary_ggplot_server <- function(input, output, session,
 
   output$Rggplots <- renderPlot(height = function() PlotHeight(), {
     
-
+    # w2$show()
+    
     summary_util$facet_data %>%
       ggplot2::ggplot(aes(
         y = name,
@@ -98,6 +101,9 @@ mod_summary_ggplot_server <- function(input, output, session,
       # guides(shape = FALSE, fill = FALSE) +
       scale_x_continuous(labels = scales::comma) +
       geom_stripes(odd = "#00000000", even = "#cfcfcf33")
+    
+    # w2$hide()
+    
   })
 
   color_code <- data.frame(catg = c("Existing", "Planned", "Search"), color = c(e_col, p_col, s_col))
