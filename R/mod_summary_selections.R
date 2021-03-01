@@ -49,7 +49,7 @@ mod_summary_selections_ui <- function(id) {
           `Socioeconomic` = list("Income, Mean household income ($)" = "adj_meanhhi",
                           "Income, % below 185% poverty line" = "adj_185pov_per",
                           "Housing, % cost burdened" = "adj_costburd_per"),
-          `Transportation` = list("% Housholds without a vehicle" = "adj_novehicle_per")
+          `Transportation` = list("% Households without a vehicle" = "adj_novehicle_per")
         ),
         selected = "adj_ageunder15_per", selectize = F
         # )

@@ -39,9 +39,9 @@ mod_leaflet_sidebar_ui <- function(id) {
               "Age, % 25-64" = "adj_age25_64_per",
               "Age, % 65+" = "adj_age65up_per"
             ),
-            `Disbility` = list(
-              "Disbility, % ambulatory disability" = "adj_ambdis_per",
-              "Disbility, % any other disability" = "adj_anydis_per"
+            `Disability` = list(
+              "Disability, % ambulatory disability" = "adj_ambdis_per",
+              "Disability, % any other disability" = "adj_anydis_per"
             ),
             `Ethnicity & Race` = list(
               "Ethnicity, % Hispanic" = "adj_hisppop_per",

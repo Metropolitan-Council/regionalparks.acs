@@ -79,8 +79,134 @@ Running `weighted_avs_tracts.R` produces:
 
 and then we will join the 2 geographies together to create one cohesive weighted average dataset. 
 
-*this is kind of ridiculous, speed up somehow? Or monitor progress?
+Create some helper functions
 ```{r unitgeo, message=FALSE, warning = F, echo = F}
+agency_filter <- tibble(
+  agency = c(
+    "Anoka County", # Parks and Recreation",
+    "Bloomington", # Parks and Recreation",
+    "Carver County", # Parks and Recreation" ,
+    "Dakota County", # Parks",
+    "MPRB",
+    "Ramsey County", # Parks and Recreation" ,
+    "Scott County", # Parks",
+    "St. Paul", # Parks and Recreation",
+    "Three Rivers",
+    "Washington County"
+  ), # Parks"),
+  num = c(1:10)
+)
+
+agency_boundary <- read_sf("/Volumes/shared/CommDev/Research/Public/GIS/Parks/Park_Operating_Agencies.shp") %>%
+  mutate(COMCD_DESC = recode(COMCD_DESC, "Minneapolis" = "MPRB")) %>%
+  rename(agency = COMCD_DESC) %>%
+  select(agency)
+
+coverage_agency <- function(INPUT){
+  INPUT %>% # this has geography in it
+    select(GEOID, AREA) %>%
+    st_intersection(agency_boundary %>% st_transform(3857)) %>%
+    mutate(intersect_area = st_area(.)) %>% # create new column with shape area
+    select(GEOID, agency, intersect_area) %>% # only select columns needed to merge
+    st_drop_geometry() %>% # drop geometry as we don't need it
+    left_join(acs_temp %>% # merge back in with all block groups
+                select(GEOID, AREA)) %>%
+    mutate(coverage2 = as.numeric(intersect_area / AREA)) %>% # calculate fraction of block group within each agency/park buffer
+    as_tibble() %>%
+    mutate(coverage = if_else(coverage2 > 0.05, 1, 0)) %>%
+    select(GEOID, agency, coverage)
+}
+
+# # for some reason there is not the best alignment of tracts to agency boundaries
+# # but using a threshold of 0.05 as "included" vs "excluded" works well. 
+# # i'm going to put in a 5% cutoff for the park boundaries too. To make it cleaner. 
+# AG <- "Anoka County" #0.05 good threshold
+# 
+# acs_temp %>%
+#   right_join(coverage_agency %>%
+#                filter(agency == AG,
+#                       coverage > 0.05)) %>%
+#   ggplot() +
+#   geom_sf(aes(fill = coverage)) +
+#   geom_sf(data = filter(agency_boundary,agency == AG), fill = NA, col = 'red')
+
+
+buffer_dist_fxn <- function(miles) { # create buffer geometry of x distance
+  buff_Xmi <- park_trail_geog_temp %>%
+    st_buffer(dist = 1609.34 * miles) %>% # the 3857 projection uses meters as a distance, so 1.0 mi =
+    group_by(agency, name, type, status) %>%
+    summarise(geometry = st_union(geom))
+  return(buff_Xmi)
+}
+
+buffer_acs_fxn <- function(df) { # intersect the buffer of x distance with the acs demographics
+  buff_acs <- acs_temp %>%
+    select(GEOID, AREA) %>%
+    st_intersection(df) %>% # every trail name gets own intersection
+    mutate(intersect_area = st_area(.)) %>% # create new column with shape area
+    select(GEOID, agency, name, type, status, intersect_area) %>% # only select columns needed to merge
+    st_drop_geometry() %>% # drop geometry as we don't need it
+    left_join(acs_temp %>% # merge back in with all block groups
+      select(GEOID, AREA)) %>%
+    mutate(coverage = as.numeric(intersect_area / AREA)) %>% # calculate fraction of block group within each agency/park buffer
+    mutate(coverage = if_else(coverage < 0.05, 0, coverage)) %>% #filter out geoms with < 5% overlap. 
+    as_tibble() %>%
+    select(GEOID, agency, name, type, status, coverage)
+  return(buff_acs)
+}
+
+
+park_trail_geog_temp <- park_trail_geog_LONG %>% # bind_rows(park_trail_geog, .id = "status") %>%
+  full_join(agency_filter) %>%
+  mutate(
+    name = paste(name, num, sep = "_"),
+    type = Type,
+    status = status2
+  ) %>%
+  st_transform(3857)
+```
+
+
+Download small area estimates:
+
+```{r smarea, echo=F}
+temp <- tempfile()
+download.file("https://resources.gisdata.mn.gov/pub/gdrs/data/pub/us_mn_state_metc/society_small_area_estimates/xlsx_society_small_area_estimates.zip",
+  destfile = temp
+)
+
+bg_pop_2019 <- readxl::read_xlsx(unzip(temp, "SmallAreaEstimatesBlockGroup.xlsx")) %>%
+  janitor::clean_names() %>%
+  filter(
+    est_year == 2019
+  ) %>%
+  select(pop_est, hh_est, bg10) %>%
+  rename(
+    GEOID = bg10,
+    pop2019 = pop_est,
+    hh2019 = hh_est
+  )
+
+tract_pop_2019 <- readxl::read_xlsx(unzip(temp, "SmallAreaEstimatesTract.xlsx")) %>%
+  janitor::clean_names() %>%
+  filter(
+    est_year == 2019
+  ) %>%
+  select(pop_est, hh_est, tr10) %>%
+  rename(
+    GEOID = tr10,
+    pop2019 = pop_est,
+    hh2019 = hh_est
+  )
+
+fs::file_delete("../SmallAreaEstimatesBlockGroup.xlsx")
+fs::file_delete("../SmallAreaEstimatesTract.xlsx")
+```
+
+
+
+```{r echo=F, message=F, warning=F}
+
 source("weighted_avs_bg.R")
 source("weighted_avs_tracts.R")
 

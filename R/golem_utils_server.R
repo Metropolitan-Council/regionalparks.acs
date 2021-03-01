@@ -99,7 +99,7 @@ renamekey <- tibble::tribble(
   "% households below 185% poverty line", "adj_185pov_per", "YlGnBu", "% households below<br>185% poverty line",
   "% cost burdened households (housing >30% income)", "adj_costburd_per", "YlGnBu", "% cost burdened<br>households",
   
-  "% housholds without a vehicle", "adj_novehicle_per", "Blues", "% housholds<br>without a vehicle",
+  "% households without a vehicle", "adj_novehicle_per", "Blues", "% households<br>without a vehicle",
   "% population with limited English proficiency", "adj_lep_per", "Blues", "% population with<br>limited English proficiency",
   "% population primarily speaking Spanish", "adj_span_per", "Blues", "% population primarily<br>speaking Spanish",
 
@@ -128,9 +128,9 @@ recodeadjtable <- tibble::tribble(
 
   "adj_meanhhi", "Mean household income ($)",
   "adj_185pov_per", "Households below 185% poverty line (%)",
-  "adj_costburd_per", "Cost burdened (housing > 30% income) housholds (%)",
+  "adj_costburd_per", "Cost burdened (housing > 30% income) households (%)",
 
-  "adj_novehicle_per", "Housholds without a vehicle (%)",
+  "adj_novehicle_per", "Households without a vehicle (%)",
   "adj_lep_per", "Population with limited English proficiency (%)",
   "adj_span_per", "Population primarily speaking Spanish (%)",
 
