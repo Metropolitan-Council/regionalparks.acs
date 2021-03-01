@@ -29,14 +29,18 @@ Imports:
     golem (>= 0.2.1),
     htmltools (>= 0.5.0),
     leaflet (>= 2.0.3),
+    leaflet.extras (>= 1.0.0),
     magrittr (>= 1.5),
     scales (>= 1.1.1),
     sf (>= 0.9.3),
     shiny (>= 1.4.0.2),
+    shinyhelper (>= 0.3.2),
     stringr (>= 1.4.0),
     tibble (>= 3.0.4),
     tidyr (>= 1.1.2),
-    utils
+    tidyverse (>= 1.3.0),
+    utils,
+    waiter (>= 0.2.0)
 Suggests: 
     data.table (>= 1.12.8),
     fs (>= 1.4.1),

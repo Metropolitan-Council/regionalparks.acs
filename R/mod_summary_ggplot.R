@@ -36,46 +36,9 @@ mod_summary_ggplot_server <- function(input, output, session,
   ns <- session$ns
 
 
-  type_status_legend <- # status legend -------
-    cowplot::get_legend(
-      tibble(
-        status = rep(c("Existing", "Planned", "Search"), 3),
-        type = rep(c(" Park ", " Trail ", "Agency avg."), each = 3),
-        location = rep(1, 9)
-      ) %>%
-        ggplot2::ggplot(aes(
-          fill = status,
-          pch = type,
-          x = location,
-          y = status
-        )) +
-        ggplot2::geom_point() +
-        scale_shape_manual(values = c(
-          " Park " = 21,
-          " Trail " = 22,
-          "Agency avg." = 8
-        )) +
-        scale_fill_manual(
-          values = c(
-            "Existing" = e_col,
-            "Planned" = p_col,
-            "Search" = s_col
-          )
-        ) +
-        cowplot::theme_cowplot() +
-        guides(
-          fill = guide_legend(
-            override.aes = list(pch = 23, size = 8),
-            label.position = "bottom"
-          ),
-          shape = guide_legend(
-            override.aes = list(size = 8),
-            label.position = "bottom"
-          )
-        ) +
-        labs(fill = "        Status:", shape = "Type:") +
-        theme(legend.position = "bottom")
-    )
+  ns <- session$ns
+  w2 <- Waiter$new(ns("Rggplots"))#, html="Please wait")#, hide_on_render=T)
+  
 
 
   ## legend -----
@@ -86,16 +49,19 @@ mod_summary_ggplot_server <- function(input, output, session,
   PlotHeight <- reactive( # plot height ------
     # #if want to set a minimum height
     return(
-      if ((nrow(summary_util$plot_buffer_data[!duplicated(summary_util$plot_buffer_data[, c("name")]), ]) * 30) > 200) {
-        (nrow(summary_util$plot_buffer_data[!duplicated(summary_util$plot_buffer_data[, c("name")]), ]) * 30)
+      if ((nrow(summary_util$plot_buffer_data[!duplicated(summary_util$plot_buffer_data[, c("name")]), ]) * 33) > 400) {
+        (nrow(summary_util$plot_buffer_data[!duplicated(summary_util$plot_buffer_data[, c("name")]), ]) * 33)
       } else {
-        200
+        400
       }
     )
   )
 
 
   output$Rggplots <- renderPlot(height = function() PlotHeight(), {
+    
+    # w2$show()
+    
     summary_util$facet_data %>%
       ggplot2::ggplot(aes(
         y = name,
@@ -105,7 +71,8 @@ mod_summary_ggplot_server <- function(input, output, session,
       )) +
       facet_grid(level ~ ., scales = "free_y", space = "free") +
       geom_point(size = 8) +
-      scale_shape_manual(values = c("avg" = 8, "Park" = 21, "Trail" = 22)) +
+      scale_shape_manual(values = c("avg" = 8, "Park" = 21, "Trail" = 22),
+                         labels = c("avg" = "Agency\naverage", "Park" = "Park", "Trail" = "Trail")) +
       scale_fill_manual(values = c("Existing" = e_col, "Planned" = p_col, "Search" = s_col)) +
       council_theme() +
       labs(
@@ -116,6 +83,8 @@ mod_summary_ggplot_server <- function(input, output, session,
         caption = ("\nMetropolitan Council, 12 Jan. 2020")
       ) +
       theme(
+        # legend.key.size = unit(1.5, 'lines'),
+        legend.text = element_text(margin = margin(t = 6, b = 6)),
         axis.text = element_text(size = 14),
         axis.title = element_text(size = 14),
         strip.text = element_text(size = 14),
@@ -132,6 +101,9 @@ mod_summary_ggplot_server <- function(input, output, session,
       # guides(shape = FALSE, fill = FALSE) +
       scale_x_continuous(labels = scales::comma) +
       geom_stripes(odd = "#00000000", even = "#cfcfcf33")
+    
+    # w2$hide()
+    
   })
 
   color_code <- data.frame(catg = c("Existing", "Planned", "Search"), color = c(e_col, p_col, s_col))

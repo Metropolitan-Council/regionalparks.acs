@@ -17,13 +17,15 @@ mod_leaflet_sidebar_ui <- function(id) {
 
     wellPanel(
       id = "controls",
-      selectInput(ns("source"), h4("Choose your data source:"),
+      radioButtons(ns("source"), h4("Choose your data source:"),
         choices = c(
           "Population characteristics",
           "Population estimates"
-        ), selectize = FALSE,
+        ), 
         selected = "Population characteristics"
-      ),
+      ) %>% 
+        shinyhelper::helper(type = "markdown",
+                            content = "DataSourceHelp"),
 
       conditionalPanel(
         ns = ns,
@@ -37,33 +39,33 @@ mod_leaflet_sidebar_ui <- function(id) {
               "Age, % 25-64" = "adj_age25_64_per",
               "Age, % 65+" = "adj_age65up_per"
             ),
+            `Disbility` = list(
+              "Disbility, % ambulatory disability" = "adj_ambdis_per",
+              "Disbility, % any other disability" = "adj_anydis_per"
+            ),
             `Ethnicity & Race` = list(
               "Ethnicity, % Hispanic" = "adj_hisppop_per",
               "Ethnicity, % not-Hispanic" = "adj_nothisppop_per",
-              "Race, % Am. Indian" = "adj_amindnh_per",
+              "Race, % American Indian" = "adj_amindnh_per",
               "Race, % Asian" = "adj_asiannh_per",
               "Race, % Black" = "adj_blacknh_per",
-              "Race, % Other + Multi" = "adj_othermultinh_per",
+              "Race, % Other + Multiracial" = "adj_othermultinh_per",
               "Race, % White" = "adj_whitenh_per"
             ),
-
+            `Language` = list(
+              "% limited English proficiency" = "adj_lep_per",
+              "% Spanish speakers" = "adj_span_per"
+            ),
             `National origin` = list(
               "Origin, % foreign-born" = "adj_forborn_per",
               "Origin, % US-born" = "adj_usborn_per"
             ),
-            `Ability` = list(
-              "Ability, % ambulatory disability" = "adj_ambdis_per",
-              "Ability, % any other disability" = "adj_anydis_per"
+            `Socioeconomic` = list(
+              "Income, Mean household income ($)" = "adj_meanhhi",
+              "Income, % below 185% poverty line" = "adj_185pov_per",
+              "Housing, % cost burdened" = "adj_costburd_per"
             ),
-            `Income` = list(
-              "Mean household income ($)" = "adj_meanhhi",
-              "Income, % population below 185% poverty line" = "adj_185pov_per"
-            ),
-            `Transportation` = list("% Housholds without a vehicle" = "adj_novehicle_per"),
-            `Language` = list(
-              "% limited English proficiency" = "adj_lep_per",
-              "% Spanish speakers" = "adj_span_per"
-            )
+            `Transportation` = list("% Housholds without a vehicle" = "adj_novehicle_per")
           ),
           selectize = FALSE,
           selected = "adj_ageunder15_per"
@@ -76,7 +78,7 @@ mod_leaflet_sidebar_ui <- function(id) {
 
         selectInput(ns("mainpop"),
           h4("Choose a variable to map:"),
-          choices = list(
+          choices = list(#Choose='',
             `Annual population estimates` = list(
               "2019 population" = "PopEst_2019",
               "2019 population density" = "PopDens_2019"
@@ -113,7 +115,9 @@ mod_leaflet_sidebar_ui <- function(id) {
           "Park - existing",
           "Trail - existing"
         )
-      )
+      )%>% 
+        shinyhelper::helper(type = "markdown",
+                             content = "StatusHelp"),
     ),
 
     wellPanel(
@@ -122,7 +126,9 @@ mod_leaflet_sidebar_ui <- function(id) {
         ns("input_bufferdist"),
         label = h4("Choose buffer distances:"),
         choices = c(1, 1.5, 3), selected = c(1)
-      )
+      ) %>% 
+        shinyhelper::helper(type = "markdown",
+                            content = "BufferHelp"),
     )
   )
 }
@@ -230,10 +236,13 @@ mod_leaflet_sidebar_server <- function(input, output, session) {
 
   generate_pop_pal <- reactive({
     pal <-
-      if (input$mainpop == "PopDens_2019" | input$mainpop == "popdens_2040_mi" | input$mainpop == "growth_rel_10_40") {
-        colorQuantile(n = 9, palette = "Blues", domain = vals$map_bg_data_main[[1]])
+      if (input$mainpop %in% quantile_vars$mainpop) {
+        colorQuantile(n = 5, palette = "Blues", domain = vals$map_bg_data_main[[1]])
+      # } else if (input$mainacs %in% bin_vars$mainacs) {
+        # colorBin(bins=5, palette = "Greens", pretty = T, domain = vals$map_bg_data_main[[1]])
       } else {
-        colorNumeric(n = 9, palette = "Blues", domain = vals$map_bg_data_main[[1]])
+        # colorNumeric(n = 5, palette = "Blues", domain = vals$map_bg_data_main[[1]])
+        colorBin(bins=5, palette = "Blues", pretty = F, domain = vals$map_bg_data_main[[1]])
       }
     return(pal)
   })
@@ -241,6 +250,13 @@ mod_leaflet_sidebar_server <- function(input, output, session) {
   observe({
     vals$pop_pal <- generate_pop_pal()
   })
+  
+  
+  
+  # generateqpal_colors <- unique(qpal(sort(a[[1]]))) # hex codes
+  # qpal_labs <- quantile(a[[1]], seq(0, 1, (1/8)), na.rm = T) # depends on n from pal
+  # qpal_labs <- paste(lag(qpal_labs), qpal_labs, sep = " - ")[-1] # first lag is NA
+  # qpal_labsPERCENT <- paste0(qpal_labs, " %")
 
   return(vals)
 

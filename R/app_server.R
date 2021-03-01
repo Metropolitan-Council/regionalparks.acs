@@ -14,7 +14,8 @@ app_server <- function(input, output, session) {
   #   print(input$summary_sub_tab)
   # })
 
-
+  observe_helpers(help_dir = "inst/app/www")
+  
   # # Introduction/Notes tab -----------------------------------------------------------
   callModule(mod_intro_server, "intro_ui_1")
 
@@ -31,6 +32,7 @@ app_server <- function(input, output, session) {
 
   # ACS Summary tab ------------------------------------------------------------
   ## get input values
+  
   selected_input_vars <- callModule(mod_summary_selections_server, "summary_selections_ui_1")
 
   ## run reactive calculations with input values
@@ -52,6 +54,8 @@ app_server <- function(input, output, session) {
     selected_vars = selected_input_vars,
     summary_util = summary_util_vars
   )
+  
+  
 
   # callModule(mod_summary_map_server, "summary_map_ui_1",
   #   selected_vars = selected_input_vars,

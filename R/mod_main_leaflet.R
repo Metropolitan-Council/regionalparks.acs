@@ -10,7 +10,7 @@
 mod_main_leaflet_ui <- function(id) {
   ns <- NS(id)
   tagList(
-    leafletOutput(ns("map"), width = "100%", height = 700)
+    leafletOutput(ns("map"), width = "100%", height = 700),
   )
 }
 
@@ -21,7 +21,7 @@ mod_main_leaflet_server <- function(input, output, session,
                                     main_lft_inputs,
                                     current_tab) {
   ns <- session$ns
-
+  w <- Waiter$new(ns("map"))#, html="Please wait")#, hide_on_render=T)
 
   # output$map ----
   output$map <- mod_map_base_server(
@@ -39,7 +39,8 @@ mod_main_leaflet_server <- function(input, output, session,
       main_lft_inputs$map_bg_data_main,
       main_lft_inputs$source,
       main_lft_inputs$mainacs,
-      main_lft_inputs$mainpop
+      main_lft_inputs$mainpop,
+      main_lft_inputs$pop_pal
     )
   })
 
@@ -50,6 +51,7 @@ mod_main_leaflet_server <- function(input, output, session,
       print("Rendering main leaflet map - pop polygons")
       leafletProxy("map") %>%
         clearGroup("Population data") %>%
+        # removeControl("Population data") %>%
         clearControls() %>%
         addPolygons(
           group = "Population data",
@@ -84,10 +86,11 @@ mod_main_leaflet_server <- function(input, output, session,
           }
         ) %>%
         addLegend(
+          labFormat = labelFormat2(),
           title = if (main_lft_inputs$source == "Population characteristics") {
-            paste0(filter(renamekey, ACS == main_lft_inputs$mainacs) %>% select(goodname))
+            paste0(filter(renamekey, ACS == main_lft_inputs$mainacs) %>% select(gn2))
           } else {
-            paste0(filter(popkey, popvar == main_lft_inputs$mainpop) %>% select(short))
+            paste0(filter(popkey, popvar == main_lft_inputs$mainpop) %>% select(s2))
           },
           position = "bottomleft",
           group = "Population data",
@@ -233,6 +236,7 @@ mod_main_leaflet_server <- function(input, output, session,
           highlightOptions = leaflet_highlight_options
         )
     }
+    
   )
 
 
@@ -243,6 +247,7 @@ mod_main_leaflet_server <- function(input, output, session,
     label = "startup",
     current_tab,
     {
+      w$show()
       # browser()
       # getDefaultReactiveDomain()
       print("Rendering start-up map")
@@ -366,10 +371,11 @@ mod_main_leaflet_server <- function(input, output, session,
           }
         ) %>%
         addLegend(
+          labFormat = labelFormat2(),
           title = if (main_lft_inputs$source == "Population characteristics") {
-            paste0(filter(renamekey, ACS == main_lft_inputs$mainacs) %>% select(goodname))
+            paste0(filter(renamekey, ACS == main_lft_inputs$mainacs) %>% select(gn2))
           } else {
-            paste0(filter(popkey, popvar == main_lft_inputs$mainpop) %>% select(short))
+            paste0(filter(popkey, popvar == main_lft_inputs$mainpop) %>% select(s2))
           },
           position = "bottomleft",
           group = "Population data",
@@ -392,6 +398,9 @@ mod_main_leaflet_server <- function(input, output, session,
           highlightOptions = leaflet_highlight_options
         ) %>%
         hideGroup(group = "buffers")
+      w$hide()
+      # waiter_hide_on_render()
+      # waiter_hide()
     }
   )
 }

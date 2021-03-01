@@ -22,7 +22,8 @@ table_ct <- data.table(
     "Race, Multiracial",
     "Ethnicity, Hispanic",
     "Ethnicity, Not Hispanic",
-    "Income, Median Household Income"
+    "Socioeconomic, Median Household Income",
+    "Socioeconomic, Cost Burdened Households"
   ),
   column = c(
     "usborncit_percent",
@@ -42,7 +43,8 @@ table_ct <- data.table(
     "multracenh_percent",
     "hisppop_percent",
     "nothisppop_percent",
-    "medianhhi"
+    "medianhhi",
+    "pcostburd"
   )
 ) %>%
   dplyr::rowwise() %>%
@@ -58,7 +60,7 @@ table_ct <- data.table(
         "RdPu"
       } else if ("Ethn" %in% stringr::str_sub(category, start = 1L, end = 4L)) {
         "YlGnBu"
-      } else if ("Inco" %in% stringr::str_sub(category, start = 1L, end = 4L)) {
+      } else if ("Socioec" %in% stringr::str_sub(category, start = 1L, end = 4L)) {
         # "viridis"
         "PuRd"
       }

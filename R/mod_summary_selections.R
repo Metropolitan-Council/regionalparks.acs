@@ -17,7 +17,7 @@ mod_summary_selections_ui <- function(id) {
       selectInput(
         # width = '100%',
         ns("input_acs"),
-        label = h4("ACS variable"),
+        label = h4("Population characteristic"),
         choices = list(
           `Age` = list(
             "Age, % under 15" = "adj_ageunder15_per",
@@ -25,29 +25,31 @@ mod_summary_selections_ui <- function(id) {
             "Age, % 25-64" = "adj_age25_64_per",
             "Age, % 65+" = "adj_age65up_per"
           ),
+          `Disability` = list(
+            "Disability, % any ambulatory disability" = "adj_ambdis_per",
+            "Disability, % any other disability" = "adj_anydis_per"
+          ),
           `Ethnicity & Race` = list(
             "Ethnicity, % Hispanic" = "adj_hisppop_per",
             "Ethnicity, % not-Hispanic" = "adj_nothisppop_per",
-            "Race, % Am. Indian" = "adj_amindnh_per",
+            "Race, % American Indian" = "adj_amindnh_per",
             "Race, % Asian" = "adj_asiannh_per",
             "Race, % Black" = "adj_blacknh_per",
-            "Race, % Other + Multi" = "adj_othermultinh_per",
+            "Race, % Other + Multiracial" = "adj_othermultinh_per",
             "Race, % White" = "adj_whitenh_per"
           ),
-
+          `Language` = list(
+            "% limited English proficiency" = "adj_lep_per",
+            "% Spanish speakers" = "adj_span_per"
+          ),
           `National origin` = list(
             "Origin, % foreign-born" = "adj_forborn_per",
             "Origin, % US-born" = "adj_usborn_per"
           ),
-          `Ability` = list(
-            "Ability, % any disability" = "adj_anydis_per"
-          ),
-          `Income` = list("Mean household income ($)" = "adj_meanhhi"),
-          `Transportation` = list("% Housholds without a vehicle" = "adj_novehicle_per"),
-          `Language` = list(
-            "% limited English proficiency" = "adj_lep_per",
-            "% Spanish speakers" = "adj_span_per"
-          )
+          `Socioeconomic` = list("Income, Mean household income ($)" = "adj_meanhhi",
+                          "Income, % below 185% poverty line" = "adj_185pov_per",
+                          "Housing, % cost burdened" = "adj_costburd_per"),
+          `Transportation` = list("% Housholds without a vehicle" = "adj_novehicle_per")
         ),
         selected = "adj_ageunder15_per", selectize = F
         # )
@@ -77,11 +79,13 @@ mod_summary_selections_ui <- function(id) {
       # width = 2,
       radioButtons(
         ns("input_distance"),
-        label = h4("Buffer dist. (mi)"),
+        label = h4("Buffer distance (mi)"),
         choices = c(1.0, 1.5, 3),
         selected = c(1.0)
         # )
-      ),
+      ) %>% 
+        shinyhelper::helper(type = "markdown",
+                            content = "BufferHelp"),
       # column(
       # width = 2,
       checkboxGroupInput(
@@ -98,7 +102,9 @@ mod_summary_selections_ui <- function(id) {
         label = h4("Unit Status"),
         choices = c("Existing", "Planned", "Search"), # HTML("<strong>Existing</strong>") #something like this doesn't exist, but if these text colors could match point colors that would be great!
         selected = c("Existing", "Planned", "Search")
-      )
+      ) %>% 
+        shinyhelper::helper(type = "markdown",
+                            content = "StatusHelp"),
       # )
     )
   )

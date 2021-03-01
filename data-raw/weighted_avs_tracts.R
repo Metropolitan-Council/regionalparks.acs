@@ -1,6 +1,6 @@
 
-load("./data/census_tract_raw.rda")
-load("./data/park_trail_geog_LONG.rda")
+load("../data/census_tract_raw.rda")
+load("../data/park_trail_geog_LONG.rda")
 
 
 requireNamespace("readxl", quietly = TRUE)
@@ -67,14 +67,15 @@ acs_temp <- census_tract_raw %>%
   mutate(
     "usborncit_percent" = `Origin, US-born`,
     "forborn_percent" = `Origin, foreign-born`,
+    'pcostburd' = `Socioeconomic, housing cost burdened`,
     "ambdis_percent" = `Ability, ambulatory disability`,
     "anydis_percent" = `Ability, any other disability`
   ) %>%
-  select(GEOID, usborncit_percent, forborn_percent, ambdis_percent, anydis_percent, geometry) %>%
+  select(GEOID, usborncit_percent, forborn_percent, pcostburd, ambdis_percent, anydis_percent, geometry) %>%
   mutate(county = substr(GEOID, start = 3, stop = 5)) %>%
   st_transform(3857) %>% # https://epsg.io/3857\
-  mutate(bg_area = st_area(.)) %>%
-  select(GEOID, usborncit_percent, forborn_percent, ambdis_percent, anydis_percent, geometry, bg_area)
+  mutate(tract_area = st_area(.)) %>%
+  select(GEOID, usborncit_percent, forborn_percent, pcostburd, ambdis_percent, anydis_percent, geometry, tract_area)
 
 agency_boundary <- read_sf("/Volumes/shared/CommDev/Research/Public/GIS/Parks/Park_Operating_Agencies.shp") %>%
   mutate(COMCD_DESC = recode(COMCD_DESC, "Minneapolis" = "MPRB")) %>%
@@ -84,14 +85,14 @@ agency_boundary <- read_sf("/Volumes/shared/CommDev/Research/Public/GIS/Parks/Pa
 
 ## get coverage of block groups falling w/in buffer zones for all
 coverage_agency <- acs_temp %>% # this has geography in it
-  select(GEOID, bg_area) %>%
+  select(GEOID, tract_area) %>%
   st_intersection(agency_boundary %>% st_transform(3857)) %>%
   mutate(intersect_area = st_area(.)) %>% # create new column with shape area
   select(GEOID, agency, intersect_area) %>% # only select columns needed to merge
   st_drop_geometry() %>% # drop geometry as we don't need it
   left_join(acs_temp %>% # merge back in with all block groups
-    select(GEOID, bg_area)) %>%
-  mutate(coverage = as.numeric(intersect_area / bg_area)) %>% # calculate fraction of block group within each agency/park buffer
+    select(GEOID, tract_area)) %>%
+  mutate(coverage = as.numeric(intersect_area / tract_area)) %>% # calculate fraction of block group within each agency/park buffer
   as_tibble() %>%
   select(GEOID, agency, coverage)
 
@@ -110,6 +111,7 @@ return_weighted_demo_persons <- (function(...) {
       adj_2019hh = coverage * hh2019,
       adj_anydis = adj_2019pop * anydis_percent, # calculate total pop in demo groups (weighted)
       adj_ambdis = adj_2019pop * ambdis_percent, # new
+      adj_costburd = adj_2019hh * pcostburd,
       adj_forborn = adj_2019pop * forborn_percent,
       adj_usborn = adj_2019pop * usborncit_percent
     )
@@ -126,6 +128,7 @@ return_weighted_demo_persons_AVG <- (function(...) {
       adj_2019hh = coverage * hh2019,
       adj_anydis = adj_2019pop * anydis_percent, # calculate total pop in demo groups (weighted)
       adj_ambdis = adj_2019pop * ambdis_percent, # new
+      adj_costburd = adj_2019hh * pcostburd,
       adj_forborn = adj_2019pop * forborn_percent,
       adj_usborn = adj_2019pop * usborncit_percent
     )
@@ -137,8 +140,10 @@ return_weighted_demo_percents <- (function(...) {
   current %>%
     mutate(
       adj_2019pop = round(adj_2019pop, 0), # calculate %s again (from the ppl)
+      adj_2019hh = round(adj_2019hh, 0),
       adj_anydis_per = round(adj_anydis / adj_2019pop * 100, 1),
       adj_ambdis_per = round(adj_ambdis / adj_2019pop * 100, 1), # new
+      adj_costburd_per = round(adj_costburd / adj_2019hh * 100, 1),
       adj_forborn_per = round(adj_forborn / adj_2019pop * 100, 1),
       adj_usborn_per = round(adj_usborn / adj_2019pop * 100, 1)
     )
@@ -154,14 +159,14 @@ buffer_dist_fxn <- function(miles) { # create buffer geometry of x distance
 
 buffer_acs_fxn <- function(df) { # intersect the buffer of x distance with the acs demographics
   buff_acs <- acs_temp %>%
-    select(GEOID, bg_area) %>%
+    select(GEOID, tract_area) %>%
     st_intersection(df) %>% # every trail name gets own intersection
     mutate(intersect_area = st_area(.)) %>% # create new column with shape area
     select(GEOID, agency, name, type, status, intersect_area) %>% # only select columns needed to merge
     st_drop_geometry() %>% # drop geometry as we don't need it
     left_join(acs_temp %>% # merge back in with all block groups
-      select(GEOID, bg_area)) %>%
-    mutate(coverage = as.numeric(intersect_area / bg_area)) %>% # calculate fraction of block group within each agency/park buffer
+      select(GEOID, tract_area)) %>%
+    mutate(coverage = as.numeric(intersect_area / tract_area)) %>% # calculate fraction of block group within each agency/park buffer
     as_tibble() %>%
     select(GEOID, agency, name, type, status, coverage)
   return(buff_acs)
@@ -169,7 +174,7 @@ buffer_acs_fxn <- function(df) { # intersect the buffer of x distance with the a
 
 
 ## agency average ------------------
-## use acs%, 2019 pop est, and bg overlap to get adjusted demographics(adj_*)
+## use acs%, 2019 pop est, and tract overlap to get adjusted demographics(adj_*)
 
 agency_avg_tract <- (coverage_agency) %>%
   left_join(acs_temp, by = c("GEOID")) %>%
@@ -299,17 +304,11 @@ long_buffer_data_tract <- bind_rows(
 usethis::use_data(long_buffer_data_tract, overwrite = TRUE)
 
 
-# agency-level averages for each variable including existing and planned units ----
-agency_planned_existing_avgs_tract <- long_buffer_data_tract %>%
-  filter(status != "Search") %>%
-  group_by(agency, distance, ACS) %>%
-  summarize(avg = round(mean(value), 1)) %>%
-  filter(stringr::str_detect(ACS, "per"))
-
-usethis::use_data(agency_planned_existing_avgs_tract, overwrite = TRUE)
-
-# helper tibble ----------------------------------------------------------------
-
-# tract_vars <- tibble(ACS = c("adj_anydis_per", "adj_ambdis_per", "adj_forborn_per", "adj_usborn_per"))
-#
-# usethis::use_data(tract_vars, overwrite = TRUE)
+# # agency-level averages for each variable including existing and planned units ----
+# agency_planned_existing_avgs_tract <- long_buffer_data_tract %>%
+#   filter(status != "Search") %>%
+#   group_by(agency, distance, ACS) %>%
+#   summarize(avg = round(mean(value), 1)) %>%
+#   filter(stringr::str_detect(ACS, "per"))
+# 
+# usethis::use_data(agency_planned_existing_avgs_tract, overwrite = TRUE)

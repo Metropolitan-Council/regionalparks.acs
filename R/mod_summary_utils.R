@@ -22,10 +22,10 @@ mod_summary_utils_server <- function(input, output, session,
   make_table_buffer_data <- reactive({
     p <- regionalparks.acs::long_buffer_data %>%
       dplyr::filter(
-        agency %in% selected_vars$input_agency,
-        type %in% selected_vars$input_type,
-        distance == selected_vars$input_distance,
-        status %in% selected_vars$input_status
+        agency %in% selected_vars$input_agency#,
+        # type %in% selected_vars$input_type,
+        # distance == selected_vars$input_distance,
+        # status %in% selected_vars$input_status
       ) %>%
       separate(
         name,
@@ -45,42 +45,12 @@ mod_summary_utils_server <- function(input, output, session,
     return(p)
   })
 
-
-  make_table_buffer_data_display <- reactive({
-    make_table_buffer_data() %>%
-      left_join(recodeadjtable) %>%
-      select(-ACS) %>%
-      rename(ACS = nicename) %>%
-      filter(!is.na(ACS)) %>%
-      mutate(value = round(value, 1)) %>%
-      select(agency, name, type, status, distance, ACS, value) %>%
-      pivot_wider(names_from = ACS, values_from = value) %>%
-      separate(name,
-        into = c("name", "delete2"),
-        sep = c("_")
-      ) %>%
-      select(-delete2) %>% # , -Population) %>%
-      mutate(name = str_replace_all(
-        name,
-        c(
-          "Regional Park" = "RP",
-          "Regional Trail" = "RT",
-          "Park Reserve" = "PR"
-        )
-      )) %>%
-      rename(
-        Agency = agency,
-        Name = name,
-        Type = type,
-        Status = status,
-        `Buffer Dist.` = distance
-      )
-  })
-
-
   make_plot_buffer_data <- reactive({
     make_table_buffer_data() %>%
       dplyr::filter(
+        type %in% selected_vars$input_type,
+        distance == selected_vars$input_distance,
+        status %in% selected_vars$input_status,
         ACS == selected_vars$input_acs
       ) %>%
       mutate(name = str_replace_all(
@@ -118,7 +88,7 @@ mod_summary_utils_server <- function(input, output, session,
         "."
       ), 50)) %>%
       mutate(
-        level = "Agency avg.",
+        level = "Agency average",
         type = "avg"
       ) %>%
       rename(name = agency) %>%
@@ -201,11 +171,6 @@ mod_summary_utils_server <- function(input, output, session,
   observe({
     vals$facet_data <- make_facet_data()
   })
-
-  # observe({
-  #   vals$table_buffer_data_display <- make_table_buffer_data_display()
-  # })
-
 
   observe({
     vals$sum_plotheight <- make_PlotHeight()
