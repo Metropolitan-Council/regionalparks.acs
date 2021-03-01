@@ -49,8 +49,7 @@ Suggests:
     testthat (>= 2.3.2),
     tigris (>= 0.9.4)
 Remotes:
-    Metropolitan-Council/councilR,
-    NightingaleHealth/ggforestplot
+    Metropolitan-Council/councilR
 Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)
