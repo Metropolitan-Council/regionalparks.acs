@@ -40,7 +40,7 @@ return_weighted_demo_persons <- (function(...) {
       adj_2019hh = coverage * hh2019,
       adj_anydis = adj_2019pop * anydis_percent, # calculate total pop in demo groups (weighted)
       adj_ambdis = adj_2019pop * ambdis_percent, # new
-      adj_costburd = adj_2019hh * pcostburd,
+      adj_costburd = adj_2019hh * pcostburdr,
       adj_forborn = adj_2019pop * forborn_percent,
       adj_usborn = adj_2019pop * usborncit_percent
     )
@@ -57,7 +57,7 @@ return_weighted_demo_persons_AVG <- (function(...) {
       adj_2019hh = coverage * hh2019,
       adj_anydis = adj_2019pop * anydis_percent, # calculate total pop in demo groups (weighted)
       adj_ambdis = adj_2019pop * ambdis_percent, # new
-      adj_costburd = adj_2019hh * pcostburd,
+      adj_costburd = adj_2019hh * pcostburdr,
       adj_forborn = adj_2019pop * forborn_percent,
       adj_usborn = adj_2019pop * usborncit_percent
     )

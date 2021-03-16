@@ -199,8 +199,8 @@ tract_pop_2019 <- readxl::read_xlsx(unzip(temp, "SmallAreaEstimatesTract.xlsx"))
     hh2019 = hh_est
   )
 
-fs::file_delete("../SmallAreaEstimatesBlockGroup.xlsx")
-fs::file_delete("../SmallAreaEstimatesTract.xlsx")
+fs::file_delete("./SmallAreaEstimatesBlockGroup.xlsx")
+fs::file_delete("./SmallAreaEstimatesTract.xlsx")
 ```
 
 
@@ -261,8 +261,8 @@ source("pop_est.R")
 ```{r}
 fs::file_delete("../data/agency_avg_bg.rda")
 fs::file_delete("../data/agency_avg_tract.rda")
-fs::file_delete("../data/agency_planned_existing_avgs.rda")
-fs::file_delete("../data/agency_planned_existing_avgs_tract.rda")
+# fs::file_delete("../data/agency_planned_existing_avgs.rda")
+# fs::file_delete("../data/agency_planned_existing_avgs_tract.rda")
 fs::file_delete("../data/block_group_raw.rda")
 fs::file_delete("../data/census_tract_raw.rda")
 fs::file_delete("../data/long_buffer_data_bg.rda")

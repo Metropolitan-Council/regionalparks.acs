@@ -60,7 +60,7 @@ equity <- readxl::read_xlsx(unzip(temp, "EquityConsiderations_Full.xlsx")) %>%
 fs::file_delete("EquityConsiderations_Full.xlsx")
 
 ct_housing <- equity %>%
-  select(tr10, pcostburd) %>%
+  select(tr10, pcostburdr) %>%
   rename(geoid2 = tr10) 
 
 ## ------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -98,7 +98,7 @@ census_tract_raw <- census_tract_spatial %>%
     GEOID,
     "usborncit_percent",
     "forborn_percent",
-    "pcostburd",
+    "pcostburdr",
     "anydis_percent",
     "ambdis_percent",
     geometry
