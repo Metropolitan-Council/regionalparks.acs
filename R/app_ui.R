@@ -55,7 +55,7 @@ use_waiter(),
           "This plot provides summarized population characteristics (",
           a(
             href = "",
-            "American Community Survey, 2014-2019",
+            "American Community Survey, 2015-2019",
             .noWS = "outside",
             target = "_blank"
           ), ") for all the regional parks and trails. Point location along the x-axis indicates the demographic value which can be compared across and within units or agencies. Subplots indicate either average values within agency boundaries or unit-level values."
