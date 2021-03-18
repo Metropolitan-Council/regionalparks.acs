@@ -1,10 +1,15 @@
 
 <img src='www/Walk-on-path.png' width='100%'/img>
 
-# Welcome to the Regional Parks and Trails Equity Tool\!
+# Welcome to the Regional Parks and Trails Equity Tool
 
-If you have a question or need help using this tool or interpreting
-results, please contact [Darcie
+A
+<a href="https://www.youtube.com/watch?v=gUBI4CIJNLQ" target="_blank">video
+user guide</a> and a
+<a href="www/Text-User-Guide.pdf" target="_blank">text user guide</a>
+have been provided for this tool. If you have an unanswered question or
+need additional help using this tool or interpreting results, please
+contact [Darcie
 Vandegrift](mailto:darcie.vandegrift@metc.state.mn.us?subject=RPT%20equity%20tool)
 for assistance. Please click on the individual tabs on the top to start
 using this tool. We suggest you use a desktop web browser for the best
