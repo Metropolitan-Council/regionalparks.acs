@@ -11,7 +11,7 @@ mod_summary_selections_ui <- function(id) {
   ns <- NS(id)
   tagList(
     wellPanel(
-      h3("Select inputs"),
+      # h3("Select inputs"),
       # column(
       # width = 3,
       selectInput(

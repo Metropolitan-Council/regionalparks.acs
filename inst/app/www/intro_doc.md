@@ -46,7 +46,7 @@ system.
     inform questions about needed amenities like multilingual signage.
     Visualizing forecasted changes in population can help plan for the
     future. Further, this tool can help complete the
-    (<a href="https://metrocouncil.org/Parks/Planning/Parks-Equity-Toolkit.aspx" target="_blank">Council’s
+    <a href="https://metrocouncil.org/Parks/Planning/Parks-Equity-Toolkit.aspx" target="_blank">Council’s
     Equity Analysis Requirement for park and trail master plans
     (Question 1 *Project Data*)</a>.
 
