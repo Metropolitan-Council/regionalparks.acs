@@ -3,15 +3,15 @@
 
 -----
 
-**Existing units** are open to the public.<br><br>
+**Existing park or trail units** are open to the public.<br><br>
 
-**Planned units** are in a master plan, either as parts of existing unit
-not open to the public, or planned units not open to the public but
-which exist approved master plan boundaries.<br><br>
+**Planned park or trail units** are in a master plan, either as parts of
+existing unit not open to the public, or planned units not open to the
+public but which exist approved master plan boundaries.<br><br>
 
-**Search units** are general search corridors for new regional trails
-and parks. The specific alignments will be determined through a planning
-process led by the regional park implementing agency. Search corridors
-were approved by the Metropolitan Council as part of various Regional
-Parks Policy Plans over the years and also affirmed in 2018 as part of
-the 2040 Regional Parks Policy Plan.
+**Search park or trail units** are general search corridors for new
+regional trails and parks. The specific alignments will be determined
+through a planning process led by the regional park implementing agency.
+Search corridors were approved by the Metropolitan Council as part of
+various Regional Parks Policy Plans over the years and also affirmed in
+2018 as part of the 2040 Regional Parks Policy Plan.

@@ -17,7 +17,7 @@ mod_leaflet_sidebar_ui <- function(id) {
 
     wellPanel(
       id = "controls",
-      radioButtons(ns("source"), h4("Choose your data source:"),
+      radioButtons(ns("source"), h4("Choose data source"),
         choices = c(
           "Population characteristics",
           "Population estimates"
@@ -31,7 +31,7 @@ mod_leaflet_sidebar_ui <- function(id) {
         ns = ns,
         condition = "input.source == 'Population characteristics'",
         selectInput(ns("mainacs"),
-          h4("Choose a variable to map:"),
+          h4("Choose a variable to map"),
           choices = list(
             `Age` = list(
               "Age, % under 15" = "adj_ageunder15_per",
@@ -77,7 +77,7 @@ mod_leaflet_sidebar_ui <- function(id) {
         condition = "input.source == 'Population estimates'",
 
         selectInput(ns("mainpop"),
-          h4("Choose a variable to map:"),
+          h4("Choose a variable to map"),
           choices = list(#Choose='',
             `Annual population estimates` = list(
               "2019 population" = "PopEst_2019",
@@ -102,7 +102,7 @@ mod_leaflet_sidebar_ui <- function(id) {
       id = "maintype",
       checkboxGroupInput(
         ns("input_parktype"),
-        label = h4("Choose park/trail units:"),
+        label = h4("Choose park or trail units"),
         choices = c(
           "Park - existing",
           "Trail - existing",
@@ -124,7 +124,7 @@ mod_leaflet_sidebar_ui <- function(id) {
       id = "mainbufs",
       radioButtons(
         ns("input_bufferdist"),
-        label = h4("Choose buffer distances:"),
+        label = h4("Choose buffer distance (in miles)"),
         choices = c(1, 1.5, 3), selected = c(1)
       ) %>% 
         shinyhelper::helper(type = "markdown",
