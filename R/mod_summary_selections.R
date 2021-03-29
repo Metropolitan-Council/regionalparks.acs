@@ -11,13 +11,13 @@ mod_summary_selections_ui <- function(id) {
   ns <- NS(id)
   tagList(
     wellPanel(
-      h3("Select inputs:"),
+      # h3("Select inputs"),
       # column(
       # width = 3,
       selectInput(
         # width = '100%',
         ns("input_acs"),
-        label = h4("Population characteristic"),
+        label = h4("Choose population characteristic"),
         choices = list(
           `Age` = list(
             "Age, % under 15" = "adj_ageunder15_per",
@@ -47,9 +47,9 @@ mod_summary_selections_ui <- function(id) {
             "Origin, % US-born" = "adj_usborn_per"
           ),
           `Socioeconomic` = list("Income, Mean household income ($)" = "adj_meanhhi",
-                          "Income, % below 185% poverty line" = "adj_185pov_per",
-                          "Housing, % cost burdened" = "adj_costburd_per"),
-          `Transportation` = list("% Housholds without a vehicle" = "adj_novehicle_per")
+                          "Income, % below 185% poverty line" = "adj_185pov_per"),
+                          # "Housing, % cost burdened" = "adj_costburd_per"),
+          `Transportation` = list("% Households without a vehicle" = "adj_novehicle_per")
         ),
         selected = "adj_ageunder15_per", selectize = F
         # )
@@ -58,7 +58,7 @@ mod_summary_selections_ui <- function(id) {
       # width = 3,
       selectInput(
         ns("input_agency"),
-        label = h4("Agenc(y/ies)"),
+        label = h4("Select a park agency or agencies"),
         choices = c(
           "Anoka County",
           "Bloomington",
@@ -79,7 +79,7 @@ mod_summary_selections_ui <- function(id) {
       # width = 2,
       radioButtons(
         ns("input_distance"),
-        label = h4("Buffer distance (mi)"),
+        label = h4("Buffer distance (in miles)"),
         choices = c(1.0, 1.5, 3),
         selected = c(1.0)
         # )

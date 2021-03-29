@@ -30,11 +30,10 @@ use_waiter(),
       tabPanel(
         id = "map_tab",
         "System Map",
-        shiny::p("This map provides a general overview of the population across the 7-county Twin Cities region and adjacent areas."), br(),
+        shiny::p("This map provides a general overview of the population across the 7-county Twin Cities region and adjacent areas. Zoom-in or expand layers (bottom right) to overlay buffer zones, active transit stops (bus and light rail), park entrances, rivers and lakes, and public water access."), br(),
         
         tags$li(strong("Population characteristics")," available for mapping include: age, disability, ethnicity, income national origin, language, race, and transportation. "), 
         tags$li(strong("Forecasted population variables"), " available for mapping include: annual population estimates, long-range population estimates, and population growth."),
-        tags$li(strong("Zoom in"), "or ", strong("expand layers (bottom right)"), " to overlay buffer zones, active transit stops (bus and light rail), park entrances, rivers and lakes, and public water access."),
         hr(),
         sidebarPanel(style="max-width:300px", 
           mod_leaflet_sidebar_ui(id = "leaflet_sidebar_ui_1")
@@ -55,10 +54,10 @@ use_waiter(),
           "This plot provides summarized population characteristics (",
           a(
             href = "",
-            "American Community Survey, 2014-2019",
+            "American Community Survey, 2015-2019",
             .noWS = "outside",
             target = "_blank"
-          ), ") for all the regional parks and trails. Point location along the x-axis indicates the demographic value which can be compared across and within units or agencies. Subplots indicate either average values within agency boundaries or unit-level values."
+          ), ") for all the regional parks and trails. Point location along the x-axis indicates the demographic value which can be compared across and within units or agencies. Points show the average value within agency boundaries or unit-level values."
         ),br(),
         tags$li("Right-click on image to copy or download."),
         tags$li("Click on any point to create a text-based interpretation."),

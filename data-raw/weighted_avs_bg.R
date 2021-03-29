@@ -17,76 +17,15 @@ library("stringr")
 library("cowplot")
 
 
-## population, small area estimates -----------------------------------------------------------------------
-temp <- tempfile()
-download.file("https://resources.gisdata.mn.gov/pub/gdrs/data/pub/us_mn_state_metc/society_small_area_estimates/xlsx_society_small_area_estimates.zip",
-  destfile = temp
-)
-
-bg_pop_2019 <- readxl::read_xlsx(unzip(temp, "SmallAreaEstimatesBlockGroup.xlsx")) %>%
-  janitor::clean_names() %>%
-  filter(
-    est_year == 2019
-  ) %>%
-  select(pop_est, hh_est, bg10) %>%
-  rename(
-    GEOID = bg10,
-    pop2019 = pop_est,
-    hh2019 = hh_est
-  )
-
-
-
-agency_filter <- tibble(
-  agency = c(
-    "Anoka County", # Parks and Recreation",
-    "Bloomington", # Parks and Recreation",
-    "Carver County", # Parks and Recreation" ,
-    "Dakota County", # Parks",
-    "MPRB",
-    "Ramsey County", # Parks and Recreation" ,
-    "Scott County", # Parks",
-    "St. Paul", # Parks and Recreation",
-    "Three Rivers",
-    "Washington County"
-  ), # Parks"),
-  num = c(1:10)
-)
-
-park_trail_geog_temp <- park_trail_geog_LONG %>% # bind_rows(park_trail_geog, .id = "status") %>%
-  full_join(agency_filter) %>%
-  mutate(
-    name = paste(name, num, sep = "_"),
-    type = Type,
-    status = status2
-  ) %>%
-  st_transform(3857) # https://epsg.io/3857\
-
-# park_trail_geog_temp %>% filter(agency == "Scott County") %>% view()
-
 acs_temp <- block_group_raw %>%
-  mutate(county = substr(GEOID, start = 3, stop = 5)) %>%
   st_transform(3857) %>% # https://epsg.io/3857\
-  mutate(bg_area = st_area(.))
+  mutate(AREA = st_area(.))
 
-agency_boundary <- read_sf("/Volumes/shared/CommDev/Research/Public/GIS/Parks/Park_Operating_Agencies.shp") %>%
-  mutate(COMCD_DESC = recode(COMCD_DESC, "Minneapolis" = "MPRB")) %>%
-  rename(agency = COMCD_DESC) %>%
-  select(agency)
 
 
 ## get coverage of block groups falling w/in buffer zones for all
-coverage_agency <- acs_temp %>% # this has geography in it
-  select(GEOID, bg_area) %>%
-  st_intersection(agency_boundary %>% st_transform(3857)) %>%
-  mutate(intersect_area = st_area(.)) %>% # create new column with shape area
-  select(GEOID, agency, intersect_area) %>% # only select columns needed to merge
-  st_drop_geometry() %>% # drop geometry as we don't need it
-  left_join(acs_temp %>% # merge back in with all block groups
-    select(GEOID, bg_area)) %>%
-  mutate(coverage = as.numeric(intersect_area / bg_area)) %>% # calculate fraction of block group within each agency/park buffer
-  as_tibble() %>%
-  select(GEOID, agency, coverage)
+agency_bg_coverage <- coverage_agency(acs_temp)
+
 
 ## set up some helper fxns ---------------
 return_weighted_demo_persons <- (function(...) {
@@ -173,34 +112,10 @@ return_weighted_demo_percents <- (function(...) {
     )
 })
 
-buffer_dist_fxn <- function(miles) { # create buffer geometry of x distance
-  buff_Xmi <- park_trail_geog_temp %>%
-    st_buffer(dist = 1609.34 * miles) %>% # the 3857 projection uses meters as a distance, so 1.0 mi =
-    group_by(agency, name, type, status) %>%
-    summarise(geometry = st_union(geom))
-  return(buff_Xmi)
-}
-
-buffer_acs_fxn <- function(df) { # intersect the buffer of x distance with the acs demographics
-  buff_acs <- acs_temp %>%
-    select(GEOID, bg_area) %>%
-    st_intersection(df) %>% # every trail name gets own intersection
-    mutate(intersect_area = st_area(.)) %>% # create new column with shape area
-    select(GEOID, agency, name, type, status, intersect_area) %>% # only select columns needed to merge
-    st_drop_geometry() %>% # drop geometry as we don't need it
-    left_join(acs_temp %>% # merge back in with all block groups
-      select(GEOID, bg_area)) %>%
-    mutate(coverage = as.numeric(intersect_area / bg_area)) %>% # calculate fraction of block group within each agency/park buffer
-    as_tibble() %>%
-    select(GEOID, agency, name, type, status, coverage)
-  return(buff_acs)
-}
-
-
 ## agency average ------------------
 ## use acs%, 2019 pop est, and bg overlap to get adjusted demographics(adj_*)
 
-agency_avg_bg <- (coverage_agency) %>%
+agency_avg_bg <- (agency_bg_coverage) %>%
   left_join(acs_temp, by = c("GEOID")) %>%
   left_join(bg_pop_2019, by = c("GEOID")) %>%
   select(-geometry) %>%

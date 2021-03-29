@@ -60,7 +60,7 @@ equity <- readxl::read_xlsx(unzip(temp, "EquityConsiderations_Full.xlsx")) %>%
 fs::file_delete("EquityConsiderations_Full.xlsx")
 
 ct_housing <- equity %>%
-  select(tr10, pcostburd) %>%
+  select(tr10, pcostburdr) %>%
   rename(geoid2 = tr10) 
 
 ## ------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -98,21 +98,11 @@ census_tract_raw <- census_tract_spatial %>%
     GEOID,
     "usborncit_percent",
     "forborn_percent",
-    "pcostburd",
+    "pcostburdr",
     "anydis_percent",
     "ambdis_percent",
     geometry
   )
-
-names(census_tract_raw) <- c(
-  "GEOID",
-  "Origin, US-born",
-  "Origin, foreign-born",
-  "Socioeconomic, housing cost burdened",
-  "Ability, any other disability",
-  "Ability, ambulatory disability",
-  "geometry"
-)
 
 county_outlines <- tigris::counties(
   year=2020,
@@ -148,10 +138,9 @@ county_outlines <- tigris::counties(
 #     dplyr::select(CTY_NAME) %>%
 #   dplyr::rename(NAME = CTY_NAME) %>%
 #     sf::st_transform(4326)
-
-fs::file_delete("bdry_counties_in_minnesota.gpkg")
+# 
+# fs::file_delete("bdry_counties_in_minnesota.gpkg")
 
 usethis::use_data(county_outlines, overwrite = TRUE)
-
 
 usethis::use_data(census_tract_raw, overwrite = TRUE)

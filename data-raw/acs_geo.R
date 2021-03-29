@@ -113,11 +113,11 @@ usethis::use_data(census_tract, overwrite = TRUE)
 
 census_tract_map <- census_tract %>%
   mutate(
-    disab_percent = `Ability, any other disability` * 100,
-    ambdis_percent = `Ability, ambulatory disability` * 100,
-    costburd_percent = `Socioeconomic, housing cost burdened` * 100, 
-    usborn_percent = `Origin, US-born` * 100,
-    forborn_percent = `Origin, foreign-born` * 100
+    disab_percent = anydis_percent * 100,
+    ambdis_percent = ambdis_percent * 100,
+    costburd_percent = pcostburdr * 100, 
+    usborn_percent = usborncit_percent * 100,
+    forborn_percent = forborn_percent * 100
   ) %>%
   rename(
     "adj_anydis_per" = "disab_percent",

@@ -1,10 +1,15 @@
 
 <img src='www/Walk-on-path.png' width='100%'/img>
 
-# Welcome to the Regional Parks and Trails Equity Tool\!
+# Welcome to the Regional Parks and Trails Equity Tool
 
-If you have a question or need help using this tool or interpreting
-results, please contact [Darcie
+A
+<a href="https://www.youtube.com/watch?v=gUBI4CIJNLQ" target="_blank">video
+user guide</a> and a
+<a href="www/Regional Parks and Trails Equity Tool User Guide (March 2021).pdf" target="_blank">text
+user guide</a> have been provided for this tool. If you have an
+unanswered question or need additional help using this tool or
+interpreting results, please contact [Darcie
 Vandegrift](mailto:darcie.vandegrift@metc.state.mn.us?subject=RPT%20equity%20tool)
 for assistance. Please click on the individual tabs on the top to start
 using this tool. We suggest you use a desktop web browser for the best
@@ -13,19 +18,19 @@ experience.
 ## What this tool does
 
 This interactive provides data—primarily census and Council data—on the
-characteristics of housing and residents near parks and trails in the
-Twin Cities’ regional system. It provides a snapshot of who lives there
-today, and the population changes forecasted to 2040.
+characteristics of residents near parks and trails in the Twin Cities’
+regional system. It provides a snapshot of who lives there today, and
+the population changes forecasted to 2040.
 
 ## What this tool *cannot* do
 
 Users can create valuable, data-driven analysis through this app. But
-our experience tells us that demographic and housing data are most
-powerful when used as starting point. In other words, the census and
-Council data cannot substitute for engagement with prioritized
-stakeholders. The on-the-ground knowledge of agency staff and the
-community expertise of residents are also valued sources of information
-and enhance and refine the shared understanding of this data.
+our experience tells us that demographic data are most powerful when
+used as starting point. In other words, the census and Council data
+cannot substitute for engagement with prioritized stakeholders. The
+on-the-ground knowledge of agency staff and the community expertise of
+residents are also valued sources of information and enhance and refine
+the shared understanding of this data.
 
 ## Who can use it?
 
@@ -40,10 +45,10 @@ system.
   - **Planning**. Understanding today’s proximate demographics can help
     inform questions about needed amenities like multilingual signage.
     Visualizing forecasted changes in population can help plan for the
-    future. Further, this tool can help complete the Council’s Equity
-    Analysis Requirement for park and trail master plans
-    (<a href="https://metrocouncil.org/Parks/Planning/Parks-Equity-Toolkit.aspx" target="_blank">Question
-    1 *Project Data*</a>).
+    future. Further, this tool can help complete the
+    <a href="https://metrocouncil.org/Parks/Planning/Parks-Equity-Toolkit.aspx" target="_blank">Council’s
+    Equity Analysis Requirement for park and trail master plans
+    (Question 1 *Project Data*)</a>.
 
   - **Outreach and Engagement**. Learning more about who lives near
     parks and trails can guide strategies for community partnerships,

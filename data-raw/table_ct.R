@@ -22,8 +22,8 @@ table_ct <- data.table(
     "Race, Multiracial",
     "Ethnicity, Hispanic",
     "Ethnicity, Not Hispanic",
-    "Socioeconomic, Median Household Income",
-    "Socioeconomic, Cost Burdened Households"
+    "Socioeconomic, Median household income",
+    "Socioeconomic, housing cost burdened renters"
   ),
   column = c(
     "usborncit_percent",
@@ -44,7 +44,7 @@ table_ct <- data.table(
     "hisppop_percent",
     "nothisppop_percent",
     "medianhhi",
-    "pcostburd"
+    "pcostburdr"
   )
 ) %>%
   dplyr::rowwise() %>%

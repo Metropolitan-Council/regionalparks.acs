@@ -79,8 +79,8 @@ mod_summary_ggplot_server <- function(input, output, session,
         y = "",
         x = filter(renamekey, ACS == selected_vars$input_acs) %>% select(goodname),
         title = paste0((filter(renamekey, ACS == selected_vars$input_acs) %>% select(goodname)), " - ", selected_vars$input_distance, " mi buffer"),
-        fill = "Unit status", shape = "Unit type",
-        caption = ("\nMetropolitan Council, 12 Jan. 2020")
+        fill = "Unit status", shape = "Unit type"#,
+        # caption = ("\nMetropolitan Council, 12 Jan. 2020")
       ) +
       theme(
         # legend.key.size = unit(1.5, 'lines'),

@@ -208,9 +208,9 @@ park_trail_geog_LONG <- bind_rows(
       agency, "</em>"
     ),
     geog_color = case_when(
-      status2 == "Existing" ~ e_col,
-      status2 == "Planned" ~ p_col,
-      status2 == "Search" ~ s_col
+      status2 == "Existing" ~ "e_col",
+      status2 == "Planned" ~ "p_col",
+      status2 == "Search" ~ "s_col"
     ),
   )
 

@@ -18,8 +18,9 @@ Long-range forecasts are based on 2010 Census data and city
 comprehensive plans and available at the transportation analysis zone (a
 coarser spatial resolution than Census block groups). Forecasts of
 shifting population demographics (race/ethnicity and age) are only
-available at the regional level, and are summarised in a
+available at the regional level, and are summarized in this report
 (<a href="https://metrocouncil.org/Data-and-Maps/Publications-And-Resources/MetroStats/Land-Use-and-Development/Steady-Growth-and-Big-Changes-Ahead-Regional-Forec.aspx" target="_blank">MetroStats
-publication</a>). More information and raw data can be found on the
+publication</a>). More information and detailed data tables can be found
+on the
 (<a href ="https://metrocouncil.org/Data-and-Maps/Research-and-Data/Thrive-2040-Forecasts.aspx" target = "_blank">Metropolitan
 Council website</a>).
