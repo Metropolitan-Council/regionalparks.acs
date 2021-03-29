@@ -8,9 +8,9 @@ app_ui <- function(request) {
   tagList(
     # Leave this function for adding external resources
     golem_add_external_resources(),
-
     # List the first level UI elements here
-    navbarPage("Regional Parks and the American Community Survey",
+    navbarPage(
+      "Regional Parks and the American Community Survey",
       id = "nav",
       ## map tab -----
       tabPanel(
@@ -18,7 +18,6 @@ app_ui <- function(request) {
         mod_leaflet_ui(id = "leaflet_ui_1"),
         mod_input_demos_ui(id = "input_demos_ui_1")
       ),
-
       ## Notes tab -----
       tabPanel(
         "Notes",
@@ -43,7 +42,8 @@ app_ui <- function(request) {
 #' @noRd
 golem_add_external_resources <- function() {
   add_resource_path(
-    "www", app_sys("app/www")
+    "www",
+    app_sys("app/www")
   )
 
   tags$head(

@@ -15,7 +15,8 @@ library(tigris)
 library(janitor)
 
 temp <- tempfile()
-download.file("https://resources.gisdata.mn.gov/pub/gdrs/data/pub/us_mn_state_metc/society_census_acs/xlsx_society_census_acs.zip",
+download.file(
+  "https://resources.gisdata.mn.gov/pub/gdrs/data/pub/us_mn_state_metc/society_census_acs/xlsx_society_census_acs.zip",
   destfile = temp
 )
 

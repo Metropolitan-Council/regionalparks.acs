@@ -12,9 +12,15 @@ mod_input_demos_ui <- function(id) {
   tagList(
     absolutePanel(
       id = ns("controls_ct"),
-      class = "panel panel-default", fixed = FALSE,
-      draggable = TRUE, top = 60, left = "auto", right = 20, bottom = "auto",
-      width = 330, height = "auto",
+      class = "panel panel-default",
+      fixed = FALSE,
+      draggable = TRUE,
+      top = 60,
+      left = "auto",
+      right = 20,
+      bottom = "auto",
+      width = 330,
+      height = "auto",
       ## radio button inputs -----
       HTML("<div id='input_demos_ui_1-inputCensusTracts' class='form-group shiny-input-radiogroup shiny-input-container shiny-bound-input'>
               <label class='control-label' for='input_demos_ui_1-inputCensusTracts'><div></div></label>
@@ -138,10 +144,10 @@ mod_input_demos_ui <- function(id) {
                 </div>
               </div>
             </div>"),
-
       tags$div(
         tags$a(
-          href = "https://metrocouncil.org", target = "_blank",
+          href = "https://metrocouncil.org",
+          target = "_blank",
           img(src = "www/mark.png", align = "right", style = "padding: 1%")
         ),
         "For an accessible version of this information, please contact us at",
@@ -151,9 +157,6 @@ mod_input_demos_ui <- function(id) {
              text-align: left;
              margin: 1%;"
       ),
-
-
-
       # radioButtons(inputId = ns("inputCensusTracts"), label = "Census Tracts",
       # choices = sort(table_ct$category))
     )

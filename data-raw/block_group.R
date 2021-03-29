@@ -14,7 +14,8 @@ library(tigris)
 library(janitor)
 
 temp <- tempfile()
-download.file("https://resources.gisdata.mn.gov/pub/gdrs/data/pub/us_mn_state_metc/society_census_acs/xlsx_society_census_acs.zip",
+download.file(
+  "https://resources.gisdata.mn.gov/pub/gdrs/data/pub/us_mn_state_metc/society_census_acs/xlsx_society_census_acs.zip",
   destfile = temp
 )
 
@@ -83,4 +84,3 @@ block_group <- tigris::block_groups(
 
 usethis::use_data(block_group, overwrite = TRUE)
 # save(block_group, file = "./regionalparks.acs/data/block_group.rda")
-
