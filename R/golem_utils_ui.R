@@ -198,7 +198,8 @@ with_red_star <- function(text) {
       paste0(
         text,
         htmltools::tags$span(
-          style = "color:red", "*"
+          style = "color:red",
+          "*"
         )
       )
     )

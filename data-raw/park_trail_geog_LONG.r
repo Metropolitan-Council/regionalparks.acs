@@ -14,45 +14,76 @@ library(janitor)
 
 ## NameCleaner-----------------------------------------------------------------------
 namecleaner <- tibble::tribble(
-  ~AGENCY, ~consistentagency,
-  "Anoka County Parks and Recreation", "Anoka County",
-  "Anoka County Parks", "Anoka County",
-  "Anoka County", "Anoka County",
-  "Bloomington Parks and Recreation", "Bloomington",
-  "Bloomington", "Bloomington",
-  "City of Bloomington", "Bloomington",
-  "Carver County Parks and Recreation", "Carver County",
-  "Carver County Parks", "Carver County",
-  "Carver County", "Carver County",
-  "Ramsey County Parks and Recreation", "Ramsey County",
-  "Ramsey County", "Ramsey County",
-  "Dakota County Parks", "Dakota County",
-  "Dakota County", "Dakota County",
-  "Minneapolis Park and Recreation Board", "MPRB",
-  "Minneapolis", "MPRB",
-  "Washington County Parks", "Washington County",
-  "Washington County", "Washington County",
-  "St. Paul Parks and Recreation", "St. Paul",
-  "St Paul Parks And Recreation", "St. Paul",
-  "St Paul Parks and Recreation", "St. Paul",
-  "St. Paul", "St. Paul",
-  "Scott County / Three Rivers Park District", "Scott County", # this is the Scott County Regional Trail
-  "Scott County/Three Rivers Park District", "Scott County",
-  "Scott County Parks", "Scott County",
-  "Scott County", "Scott County",
-  "Three Rivers Park District", "Three Rivers",
-  "Three Rivers", "Three Rivers"
+  ~AGENCY,
+  ~consistentagency,
+  "Anoka County Parks and Recreation",
+  "Anoka County",
+  "Anoka County Parks",
+  "Anoka County",
+  "Anoka County",
+  "Anoka County",
+  "Bloomington Parks and Recreation",
+  "Bloomington",
+  "Bloomington",
+  "Bloomington",
+  "City of Bloomington",
+  "Bloomington",
+  "Carver County Parks and Recreation",
+  "Carver County",
+  "Carver County Parks",
+  "Carver County",
+  "Carver County",
+  "Carver County",
+  "Ramsey County Parks and Recreation",
+  "Ramsey County",
+  "Ramsey County",
+  "Ramsey County",
+  "Dakota County Parks",
+  "Dakota County",
+  "Dakota County",
+  "Dakota County",
+  "Minneapolis Park and Recreation Board",
+  "MPRB",
+  "Minneapolis",
+  "MPRB",
+  "Washington County Parks",
+  "Washington County",
+  "Washington County",
+  "Washington County",
+  "St. Paul Parks and Recreation",
+  "St. Paul",
+  "St Paul Parks And Recreation",
+  "St. Paul",
+  "St Paul Parks and Recreation",
+  "St. Paul",
+  "St. Paul",
+  "St. Paul",
+  "Scott County / Three Rivers Park District",
+  "Scott County",
+  # this is the Scott County Regional Trail
+  "Scott County/Three Rivers Park District",
+  "Scott County",
+  "Scott County Parks",
+  "Scott County",
+  "Scott County",
+  "Scott County",
+  "Three Rivers Park District",
+  "Three Rivers",
+  "Three Rivers",
+  "Three Rivers"
 )
 
 ## Parks -----------------------------------------------------------------------
 temp <- tempfile()
-download.file("ftp://ftp.gisdata.mn.gov/pub/gdrs/data/pub/us_mn_state_metc/plan_parks_regional/gpkg_plan_parks_regional.zip",
+download.file(
+  "ftp://ftp.gisdata.mn.gov/pub/gdrs/data/pub/us_mn_state_metc/plan_parks_regional/gpkg_plan_parks_regional.zip",
   destfile = temp
 )
 
 parks_temp <- sf::read_sf(unzip(temp, "plan_parks_regional.gpkg")) %>%
   left_join(namecleaner) %>%
-  mutate(STATUS = recode(STATUS,
+  mutate(STATUS = recode(
+    STATUS,
     "Existing" = "Park - existing",
     "In Master Plan" = "Park - planned",
     "Planned" = "Park - planned"
@@ -93,7 +124,8 @@ fs::file_delete("plan_parks_regional.gpkg")
 
 ## Trails ----------------------------------------------------------------------
 temp <- tempfile()
-download.file("https://resources.gisdata.mn.gov/pub/gdrs/data/pub/us_mn_state_metc/trans_regional_trails_exst_plan/gpkg_trans_regional_trails_exst_plan.zip",
+download.file(
+  "https://resources.gisdata.mn.gov/pub/gdrs/data/pub/us_mn_state_metc/trans_regional_trails_exst_plan/gpkg_trans_regional_trails_exst_plan.zip",
   destfile = temp
 )
 
@@ -103,7 +135,8 @@ trails_temp <- sf::read_sf(unzip(temp, "trans_regional_trails_exst_plan.gpkg")) 
     NAME != "River Crossing",
     Agency != "Wright County"
   ) %>% # Crow River Regional Trail doesn't seem to belong to any particular Metro Agency
-  mutate(STATUS = recode(STATUS,
+  mutate(STATUS = recode(
+    STATUS,
     "Existing (Open to Public)" = "Trail - existing",
     "Alternate" = "Trail - planned",
     "Existing (Not Open to Public)" = "Trail - planned",
@@ -145,7 +178,8 @@ fs::file_delete("trans_regional_trails_exst_plan.gpkg")
 
 ## Trail Search ----------------------------------------------------------------------
 temp <- tempfile()
-download.file("https://resources.gisdata.mn.gov/pub/gdrs/data/pub/us_mn_state_metc/trans_regional_trails_search_cor/gpkg_trans_regional_trails_search_cor.zip",
+download.file(
+  "https://resources.gisdata.mn.gov/pub/gdrs/data/pub/us_mn_state_metc/trans_regional_trails_search_cor/gpkg_trans_regional_trails_search_cor.zip",
   destfile = temp
 )
 
@@ -173,7 +207,8 @@ fs::file_delete("trans_regional_trails_search_cor.gpkg")
 
 ## Park Search ----------------------------------------------------------------------
 temp <- tempfile()
-download.file("https://resources.gisdata.mn.gov/pub/gdrs/data/pub/us_mn_state_metc/plan_parks_regional_search_areas/gpkg_plan_parks_regional_search_areas.zip",
+download.file(
+  "https://resources.gisdata.mn.gov/pub/gdrs/data/pub/us_mn_state_metc/plan_parks_regional_search_areas/gpkg_plan_parks_regional_search_areas.zip",
   destfile = temp
 )
 
@@ -198,14 +233,24 @@ fs::file_delete("plan_parks_regional_search_areas.gpkg")
 
 ## Combine ---------------------------------------------------------------------
 park_trail_geog_LONG <- bind_rows(
-  parks, parks_planned, trails, trails_planned,
-  trailsearch, parksearch
+  parks,
+  parks_planned,
+  trails,
+  trails_planned,
+  trailsearch,
+  parksearch
 ) %>%
   mutate(
     popup_text = paste0(
-      "<b>", status, "</b>", "<br>",
-      name, "<br>", "<em>",
-      agency, "</em>"
+      "<b>",
+      status,
+      "</b>",
+      "<br>",
+      name,
+      "<br>",
+      "<em>",
+      agency,
+      "</em>"
     ),
     geog_color = case_when(
       status2 == "Existing" ~ "e_col",

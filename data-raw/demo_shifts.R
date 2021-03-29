@@ -6,7 +6,8 @@ library(readxl)
 ## set-up -------------------------------------------------------------------------------------------------
 
 # download data here: https://metrocouncil.org/Data-and-Maps/Research-and-Data/Thrive-2040-Forecasts.aspx
-shifts <- read_xlsx("/Users/escheh/Downloads/Regional-Forecast-Tables-(October-2019).xlsx",
+shifts <- read_xlsx(
+  "/Users/escheh/Downloads/Regional-Forecast-Tables-(October-2019).xlsx",
   sheet = "Population",
   skip = 5
 ) %>%

@@ -19,7 +19,7 @@ mod_map_base_ui <- function(id) {
 mod_map_base_server <- function(input, output, session) {
   ns <- session$ns
   # w <- Waiter$new()#, html="Please wait")#, hide_on_render=T)
-  
+
 
   output$ns <- renderLeaflet(quoted = TRUE, {
     # w$show()
@@ -31,26 +31,32 @@ mod_map_base_server <- function(input, output, session) {
         zoom = 10
       ) %>%
       leaflet.extras::addDrawToolbar(
-        editOptions=editToolbarOptions(selectedPathOptions=selectedPathOptions()),
+        editOptions = editToolbarOptions(selectedPathOptions = selectedPathOptions()),
         polygonOptions = F,
-        circleOptions =F, 
+        circleOptions = F,
         rectangleOptions = F,
         circleMarkerOptions = F,
         markerOptions = F,
         polylineOptions = drawPolylineOptions(
-          shapeOptions = drawShapeOptions(color = "black",
-                                          weight = 2), 
-          guidelineDistance = 1, 
+          shapeOptions = drawShapeOptions(
+            color = "black",
+            weight = 2
+          ),
+          guidelineDistance = 1,
           metric = F,
-          feet = T)) %>% 
+          feet = T
+        )
+      ) %>%
       # addMeasure(primaryLengthUnit="miles", secondaryLengthUnit="feet") %>%
       addMapPane("parks_geo", zIndex = 420) %>%
       addMapPane(name = "Carto Positron", zIndex = 430) %>%
-      addProviderTiles("CartoDB.PositronOnlyLabels",
+      addProviderTiles(
+        "CartoDB.PositronOnlyLabels",
         options = leafletOptions(pane = "Carto Positron"),
         group = "Carto Positron"
       ) %>%
-      addProviderTiles("CartoDB.PositronNoLabels",
+      addProviderTiles(
+        "CartoDB.PositronNoLabels",
         group = "Carto Positron"
       ) %>%
       addProviderTiles(
@@ -90,7 +96,8 @@ mod_map_base_server <- function(input, output, session) {
         zoomLevels = 13:20
       ) %>%
       addMapPane("trans", zIndex = 430) %>%
-      addCircles( # Markers(
+      addCircles(
+        # Markers(
         data = regionalparks.acs::trans_stops,
         group = "Active transit stops",
         radius = 20,

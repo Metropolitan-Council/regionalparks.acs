@@ -1,16 +1,16 @@
 # ### quantile color palette labels example
 # library(tidyverse)
 # library(leaflet)
-# 
+#
 # a <- census_tract_map %>%
 #   select(adj_usborn_per)
-# 
+#
 # qpal <- colorQuantile("Blues", a[[1]], n = 6)
 # qpal_colors <- unique(qpal(sort(a[[1]]))) # hex codes
 # qpal_labs <- quantile(a[[1]], seq(0, 1, (1/6)), na.rm = T) # depends on n from pal
 # qpal_labs <- paste(lag(qpal_labs), qpal_labs, sep = " - ")[-1] # first lag is NA
 # qpal_labsPERCENT <- paste0(qpal_labs, " %")
-# 
+#
 # leaflet() %>%
 #   setView(
 #     lat = 44.963,
@@ -34,12 +34,12 @@
 #     position = "bottomleft")
 
 
-# 
+#
 # # -----
-# 
-# 
+#
+#
 # ### quantile color palette labels example
-# 
+#
 # a <- regionalparks.acs::census_tract_map %>%
 #   select(adj_usborn_per)
 # pal <- colorNumeric(n = 7, palette = "Blues", domain = a[[1]])
@@ -48,7 +48,7 @@
 # # bpal_labs <- quantile(a[[1]], seq(0, 1, (1/6)), na.rm = T) # depends on n from pal
 # # qpal_labs <- paste(lag(qpal_labs), qpal_labs, sep = " - ")[-1] # first lag is NA
 # # qpal_labsPERCENT <- paste0(qpal_labs, " %")
-# 
+#
 # leaflet() %>%
 #   setView(
 #     lat = 44.963,

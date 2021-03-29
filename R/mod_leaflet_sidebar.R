@@ -17,20 +17,24 @@ mod_leaflet_sidebar_ui <- function(id) {
 
     wellPanel(
       id = "controls",
-      radioButtons(ns("source"), h4("Choose data source"),
+      radioButtons(
+        ns("source"),
+        h4("Choose data source"),
         choices = c(
           "Population characteristics",
           "Population estimates"
-        ), 
+        ),
         selected = "Population characteristics"
-      ) %>% 
-        shinyhelper::helper(type = "markdown",
-                            content = "DataSourceHelp"),
-
+      ) %>%
+        shinyhelper::helper(
+          type = "markdown",
+          content = "DataSourceHelp"
+        ),
       conditionalPanel(
         ns = ns,
         condition = "input.source == 'Population characteristics'",
-        selectInput(ns("mainacs"),
+        selectInput(
+          ns("mainacs"),
           h4("Choose a variable to map"),
           choices = list(
             `Age` = list(
@@ -62,7 +66,7 @@ mod_leaflet_sidebar_ui <- function(id) {
             ),
             `Socioeconomic` = list(
               "Income, Mean household income ($)" = "adj_meanhhi",
-              "Income, % below 185% poverty line" = "adj_185pov_per"#,
+              "Income, % below 185% poverty line" = "adj_185pov_per" # ,
               # "Housing, % cost burdened" = "adj_costburd_per"
             ),
             `Transportation` = list("% Households without a vehicle" = "adj_novehicle_per")
@@ -71,14 +75,14 @@ mod_leaflet_sidebar_ui <- function(id) {
           selected = "adj_ageunder15_per"
         )
       ),
-
       conditionalPanel(
         ns = ns,
         condition = "input.source == 'Population estimates'",
-
-        selectInput(ns("mainpop"),
+        selectInput(
+          ns("mainpop"),
           h4("Choose a variable to map"),
-          choices = list(#Choose='',
+          choices = list(
+            # Choose='',
             `Annual population estimates` = list(
               "2019 population" = "PopEst_2019",
               "2019 population density" = "PopDens_2019"
@@ -96,7 +100,6 @@ mod_leaflet_sidebar_ui <- function(id) {
         )
       )
     ),
-
     wellPanel(
       # h4("Choose park/trail units:"),
       id = "maintype",
@@ -115,20 +118,24 @@ mod_leaflet_sidebar_ui <- function(id) {
           "Park - existing",
           "Trail - existing"
         )
-      )%>% 
-        shinyhelper::helper(type = "markdown",
-                             content = "StatusHelp"),
+      ) %>%
+        shinyhelper::helper(
+          type = "markdown",
+          content = "StatusHelp"
+        ),
     ),
-
     wellPanel(
       id = "mainbufs",
       radioButtons(
         ns("input_bufferdist"),
         label = h4("Choose buffer distance (in miles)"),
-        choices = c(1, 1.5, 3), selected = c(1)
-      ) %>% 
-        shinyhelper::helper(type = "markdown",
-                            content = "BufferHelp"),
+        choices = c(1, 1.5, 3),
+        selected = c(1)
+      ) %>%
+        shinyhelper::helper(
+          type = "markdown",
+          content = "BufferHelp"
+        ),
     )
   )
 }
@@ -238,11 +245,11 @@ mod_leaflet_sidebar_server <- function(input, output, session) {
     pal <-
       if (input$mainpop %in% quantile_vars$mainpop) {
         colorQuantile(n = 5, palette = "Blues", domain = vals$map_bg_data_main[[1]])
-      # } else if (input$mainacs %in% bin_vars$mainacs) {
+        # } else if (input$mainacs %in% bin_vars$mainacs) {
         # colorBin(bins=5, palette = "Greens", pretty = T, domain = vals$map_bg_data_main[[1]])
       } else {
         # colorNumeric(n = 5, palette = "Blues", domain = vals$map_bg_data_main[[1]])
-        colorBin(bins=5, palette = "Blues", pretty = F, domain = vals$map_bg_data_main[[1]])
+        colorBin(bins = 5, palette = "Blues", pretty = F, domain = vals$map_bg_data_main[[1]])
       }
     return(pal)
   })
@@ -250,9 +257,9 @@ mod_leaflet_sidebar_server <- function(input, output, session) {
   observe({
     vals$pop_pal <- generate_pop_pal()
   })
-  
-  
-  
+
+
+
   # generateqpal_colors <- unique(qpal(sort(a[[1]]))) # hex codes
   # qpal_labs <- quantile(a[[1]], seq(0, 1, (1/8)), na.rm = T) # depends on n from pal
   # qpal_labs <- paste(lag(qpal_labs), qpal_labs, sep = " - ")[-1] # first lag is NA

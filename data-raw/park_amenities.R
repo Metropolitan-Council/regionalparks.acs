@@ -10,7 +10,8 @@ usethis::use_data(entrance, overwrite = TRUE)
 metc <- tibble(counties = c("Anoka", "Carver", "Dakota", "Hennepin", "Ramsey", "Scott", "Washington"))
 
 temp <- tempfile()
-download.file("ftp://ftp.gisdata.mn.gov/pub/gdrs/data/pub/us_mn_state_dnr/loc_water_access_sites/gpkg_loc_water_access_sites.zip",
+download.file(
+  "ftp://ftp.gisdata.mn.gov/pub/gdrs/data/pub/us_mn_state_dnr/loc_water_access_sites/gpkg_loc_water_access_sites.zip",
   destfile = temp
 )
 

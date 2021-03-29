@@ -42,7 +42,8 @@ bg_area <- geo_land %>%
   group_by(bg_id) %>%
   summarise(
     geometry = st_union(geometry),
-    sum_aland = sum(ALAND10), # 2010 Census land area (square meters)
+    sum_aland = sum(ALAND10),
+    # 2010 Census land area (square meters)
     sum_area = sum(as.numeric(Shape_Area))
   )
 
@@ -59,7 +60,8 @@ bg_area <- geo_land %>%
 ### Current Population
 #############
 temp <- tempfile()
-download.file("https://resources.gisdata.mn.gov/pub/gdrs/data/pub/us_mn_state_metc/society_small_area_estimates/xlsx_society_small_area_estimates.zip",
+download.file(
+  "https://resources.gisdata.mn.gov/pub/gdrs/data/pub/us_mn_state_metc/society_small_area_estimates/xlsx_society_small_area_estimates.zip",
   destfile = temp
 )
 
@@ -93,7 +95,8 @@ est_pop <- bg_area %>%
 #############
 
 temp <- tempfile()
-download.file("https://resources.gisdata.mn.gov/pub/gdrs/data/pub/us_mn_state_metc/trans_anlys_zones_offical_curent/gpkg_trans_anlys_zones_offical_curent.zip",
+download.file(
+  "https://resources.gisdata.mn.gov/pub/gdrs/data/pub/us_mn_state_metc/trans_anlys_zones_offical_curent/gpkg_trans_anlys_zones_offical_curent.zip",
   destfile = temp
 )
 
@@ -102,7 +105,8 @@ taz_growth <- sf::read_sf(unzip(temp, "trans_anlys_zones_offical_curent.gpkg")) 
   # filter(TCFLAG == 1) %>%
   select(
     TAZ,
-    POP2010, POP2040,
+    POP2010,
+    POP2040,
     Shape_Area
   ) %>%
   rename(TAZ2012 = TAZ) %>%

@@ -18,7 +18,6 @@ mod_summary_ggplot_ui <- function(id) {
     # hr(),
 
     uiOutput(ns("text_info")),
-
     plotOutput(
       outputId = ns("Rggplots"),
       click = hoverOpts(ns("plot_click"))
@@ -30,15 +29,19 @@ mod_summary_ggplot_ui <- function(id) {
 #'
 #' @noRd
 #' @import ggplot2
-mod_summary_ggplot_server <- function(input, output, session,
-                                      selected_vars,
-                                      summary_util) {
+mod_summary_ggplot_server <- function(
+  input,
+  output,
+  session,
+  selected_vars,
+  summary_util
+) {
   ns <- session$ns
 
 
   ns <- session$ns
-  w2 <- Waiter$new(ns("Rggplots"))#, html="Please wait")#, hide_on_render=T)
-  
+  w2 <- Waiter$new(ns("Rggplots")) # , html="Please wait")#, hide_on_render=T)
+
 
 
   ## legend -----
@@ -59,27 +62,31 @@ mod_summary_ggplot_server <- function(input, output, session,
 
 
   output$Rggplots <- renderPlot(height = function() PlotHeight(), {
-    
+
     # w2$show()
-    
+
     summary_util$facet_data %>%
       ggplot2::ggplot(aes(
         y = name,
-        x = value, # .[, 8],
+        x = value,
+        # .[, 8],
         shape = type,
         fill = status
       )) +
       facet_grid(level ~ ., scales = "free_y", space = "free") +
       geom_point(size = 8) +
-      scale_shape_manual(values = c("avg" = 8, "Park" = 21, "Trail" = 22),
-                         labels = c("avg" = "Agency\naverage", "Park" = "Park", "Trail" = "Trail")) +
+      scale_shape_manual(
+        values = c("avg" = 8, "Park" = 21, "Trail" = 22),
+        labels = c("avg" = "Agency\naverage", "Park" = "Park", "Trail" = "Trail")
+      ) +
       scale_fill_manual(values = c("Existing" = e_col, "Planned" = p_col, "Search" = s_col)) +
       council_theme() +
       labs(
         y = "",
         x = filter(renamekey, ACS == selected_vars$input_acs) %>% select(goodname),
         title = paste0((filter(renamekey, ACS == selected_vars$input_acs) %>% select(goodname)), " - ", selected_vars$input_distance, " mi buffer"),
-        fill = "Unit status", shape = "Unit type"#,
+        fill = "Unit status",
+        shape = "Unit type" # ,
         # caption = ("\nMetropolitan Council, 12 Jan. 2020")
       ) +
       theme(
@@ -101,9 +108,8 @@ mod_summary_ggplot_server <- function(input, output, session,
       # guides(shape = FALSE, fill = FALSE) +
       scale_x_continuous(labels = scales::comma) +
       geom_stripes(odd = "#00000000", even = "#cfcfcf33")
-    
+
     # w2$hide()
-    
   })
 
   color_code <- data.frame(catg = c("Existing", "Planned", "Search"), color = c(e_col, p_col, s_col))
@@ -125,12 +131,25 @@ mod_summary_ggplot_server <- function(input, output, session,
       (
         (
           (paste0(
-            "<div style='font-size:1.8rem;padding:1%;background-color:", background_color, "'>", "Approx. ", "<b>", point$value, "%", "</b>",
-            " of people within ", "<b>",
+            "<div style='font-size:1.8rem;padding:1%;background-color:",
+            background_color,
+            "'>",
+            "Approx. ",
+            "<b>",
+            point$value,
+            "%",
+            "</b>",
+            " of people within ",
+            "<b>",
             (if (point$type == "avg") ("</b>") else (paste0(point$distance, " mi</b> of "))),
-            "<b>", point$name,
+            "<b>",
+            point$name,
             (if (point$type == "avg") ("</b>") else (paste0(" (", point$type, " - ", point$status, ", ", point$agency, ") </b>"))),
-            " fall into the ", "<b>", (filter(renamekey, ACS == selected_vars$input_acs) %>% select(goodname)), "</b> category.", "</br> </div>"
+            " fall into the ",
+            "<b>",
+            (filter(renamekey, ACS == selected_vars$input_acs) %>% select(goodname)),
+            "</b> category.",
+            "</br> </div>"
           ))
         )
       )
@@ -138,7 +157,12 @@ mod_summary_ggplot_server <- function(input, output, session,
       (
         (
           (paste0(
-            "<div style='font-size:1.8rem;padding:1%;background-color:", background_color, "'>", "$", prettyNum(point$value, big.mark = ","), " is the approx. mean household income within ",
+            "<div style='font-size:1.8rem;padding:1%;background-color:",
+            background_color,
+            "'>",
+            "$",
+            prettyNum(point$value, big.mark = ","),
+            " is the approx. mean household income within ",
             (if (point$type == "avg") ("") else (paste0(point$distance, " mi of "))),
             point$name,
             (if (point$type == "avg") ("</b>") else (paste0(" (", point$type, " - ", point$status, ", ", point$agency, ") </b> </div>"))),

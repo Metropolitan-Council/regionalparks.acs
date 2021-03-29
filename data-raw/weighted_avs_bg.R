@@ -33,14 +33,19 @@ return_weighted_demo_persons <- (function(...) {
   current %>%
     transmute(
       agency = agency,
-      name = name, # if_else(("name" %in% names(current)), name, "no name"),
-      type = type, # if_else(("type" %in% names(current)), type, NA_character_),
-      status = status, # if_else(("status" %in% names(current)), status, NA_character_),
+      name = name,
+      # if_else(("name" %in% names(current)), name, "no name"),
+      type = type,
+      # if_else(("type" %in% names(current)), type, NA_character_),
+      status = status,
+      # if_else(("status" %in% names(current)), status, NA_character_),
       coverage = coverage,
       GEOID = GEOID,
-      adj_2019pop = coverage * pop2019, # use 2019 small area estimates to weight
+      adj_2019pop = coverage * pop2019,
+      # use 2019 small area estimates to weight
       adj_2019hh = coverage * hh2019,
-      adj_ageunder15 = adj_2019pop * ageunder15_percent, # calculate total pop in demo groups (weighted)
+      adj_ageunder15 = adj_2019pop * ageunder15_percent,
+      # calculate total pop in demo groups (weighted)
       adj_age15_24 = adj_2019pop * age15_24_percent,
       adj_age25_64 = adj_2019pop * age25_64_percent,
       adj_age65up = adj_2019pop * age65up_percent,
@@ -52,7 +57,8 @@ return_weighted_demo_persons <- (function(...) {
       adj_hisppop = adj_2019pop * hisppop_percent,
       adj_nothisppop = adj_2019pop * nothisppop_percent,
       adj_totalhhi = adj_2019hh * meanhhinc,
-      adj_185pov = adj_2019pop * pov185_percent, # new - this is pop not hh right?
+      adj_185pov = adj_2019pop * pov185_percent,
+      # new - this is pop not hh right?
       adj_novehicle = adj_2019hh * novehicle_percent,
       adj_lep = adj_2019pop * poorenglish_percent,
       adj_span = adj_2019pop * spanish_percent
@@ -66,9 +72,11 @@ return_weighted_demo_persons_AVG <- (function(...) {
       agency = agency,
       coverage = coverage,
       GEOID = GEOID,
-      adj_2019pop = coverage * pop2019, # use 2019 small area estimates to weight
+      adj_2019pop = coverage * pop2019,
+      # use 2019 small area estimates to weight
       adj_2019hh = coverage * hh2019,
-      adj_ageunder15 = adj_2019pop * ageunder15_percent, # calculate total pop in demo groups (weighted)
+      adj_ageunder15 = adj_2019pop * ageunder15_percent,
+      # calculate total pop in demo groups (weighted)
       adj_age15_24 = adj_2019pop * age15_24_percent,
       adj_age25_64 = adj_2019pop * age25_64_percent,
       adj_age65up = adj_2019pop * age65up_percent,
@@ -80,7 +88,8 @@ return_weighted_demo_persons_AVG <- (function(...) {
       adj_hisppop = adj_2019pop * hisppop_percent,
       adj_nothisppop = adj_2019pop * nothisppop_percent,
       adj_totalhhi = adj_2019hh * meanhhinc,
-      adj_185pov = adj_2019pop * pov185_percent, # new - this is pop not hh right?
+      adj_185pov = adj_2019pop * pov185_percent,
+      # new - this is pop not hh right?
       adj_novehicle = adj_2019hh * novehicle_percent,
       adj_lep = adj_2019pop * poorenglish_percent,
       adj_span = adj_2019pop * spanish_percent
@@ -92,7 +101,8 @@ return_weighted_demo_percents <- (function(...) {
   current <- tibble(...)
   current %>%
     mutate(
-      adj_2019pop = round(adj_2019pop, 0), # calculate %s again (from the ppl)
+      adj_2019pop = round(adj_2019pop, 0),
+      # calculate %s again (from the ppl)
       adj_ageunder15_per = round(adj_ageunder15 / adj_2019pop * 100, 1),
       adj_age15_24_per = round(adj_age15_24 / adj_2019pop * 100, 1),
       adj_age25_64_per = round(adj_age25_64 / adj_2019pop * 100, 1),
@@ -105,7 +115,8 @@ return_weighted_demo_percents <- (function(...) {
       adj_hisppop_per = round(adj_hisppop / adj_2019pop * 100, 1),
       adj_nothisppop_per = round(adj_nothisppop / adj_2019pop * 100, 1),
       adj_meanhhi = round(adj_totalhhi / adj_2019hh, 1),
-      adj_185pov_per = round(adj_185pov / adj_2019pop * 100, 1), # just double check pop not hh
+      adj_185pov_per = round(adj_185pov / adj_2019pop * 100, 1),
+      # just double check pop not hh
       adj_novehicle_per = round(adj_novehicle / adj_2019hh * 100, 1),
       adj_lep_per = round(adj_lep / adj_2019pop * 100, 1),
       adj_span_per = round(adj_span / adj_2019pop * 100, 1)
@@ -126,7 +137,8 @@ agency_avg_bg <- (agency_bg_coverage) %>%
   pmap_df(return_weighted_demo_percents) %>%
   as_tibble() %>%
   gather(
-    key = "ACS", value = "value",
+    key = "ACS",
+    value = "value",
     -agency
   ) %>%
   mutate(value = round(value, 3))
@@ -236,8 +248,13 @@ long_buffer_data_bg <- bind_rows(
   as_tibble() %>%
   # select(-geometry) %>%
   gather(
-    key = "ACS", value = "value",
-    -agency, -name, -type, -status, -distance
+    key = "ACS",
+    value = "value",
+    -agency,
+    -name,
+    -type,
+    -status,
+    -distance
   )
 
 usethis::use_data(long_buffer_data_bg, overwrite = TRUE)
@@ -249,7 +266,7 @@ usethis::use_data(long_buffer_data_bg, overwrite = TRUE)
 #   group_by(agency, distance, ACS) %>%
 #   summarize(avg = round(mean(value), 1)) %>%
 #   filter(stringr::str_detect(ACS, "per"))
-# 
+#
 # usethis::use_data(agency_planned_existing_avgs, overwrite = TRUE)
 
 ## Combine RAW long buffer data ---------------------------------------------------------------------

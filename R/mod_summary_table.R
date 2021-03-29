@@ -15,7 +15,6 @@ mod_summary_table_ui <- function(id) {
         shiny::p("Cells show the average weighted value of all ACS variables for the park and/or trail units chosen with the above selections. These data are available for download (but please understand that these data are subject to periodic refinements with model updates and new data releases)."),
         width = 12
       ),
-
       # column(downloadButton(outputID = ns("downloadData"), "Download tabular data"), width = 6),
       # hr(),
 
@@ -27,9 +26,13 @@ mod_summary_table_ui <- function(id) {
 #' summary_table Server Function
 #'
 #' @noRd
-mod_summary_table_server <- function(input, output, session,
-                                     selected_vars,
-                                     summary_util) {
+mod_summary_table_server <- function(
+  input,
+  output,
+  session,
+  selected_vars,
+  summary_util
+) {
   ns <- session$ns
 
   output$output_datatable <- DT::renderDataTable(

@@ -46,12 +46,15 @@ mod_summary_selections_ui <- function(id) {
             "Origin, % foreign-born" = "adj_forborn_per",
             "Origin, % US-born" = "adj_usborn_per"
           ),
-          `Socioeconomic` = list("Income, Mean household income ($)" = "adj_meanhhi",
-                          "Income, % below 185% poverty line" = "adj_185pov_per"),
-                          # "Housing, % cost burdened" = "adj_costburd_per"),
+          `Socioeconomic` = list(
+            "Income, Mean household income ($)" = "adj_meanhhi",
+            "Income, % below 185% poverty line" = "adj_185pov_per"
+          ),
+          # "Housing, % cost burdened" = "adj_costburd_per"),
           `Transportation` = list("% Households without a vehicle" = "adj_novehicle_per")
         ),
-        selected = "adj_ageunder15_per", selectize = F
+        selected = "adj_ageunder15_per",
+        selectize = F
         # )
       ),
       # column(
@@ -72,7 +75,8 @@ mod_summary_selections_ui <- function(id) {
           "Washington County"
         ),
         selected = "Anoka County",
-        multiple = TRUE, selectize = T
+        multiple = TRUE,
+        selectize = T
         # )
       ),
       # column(
@@ -83,9 +87,11 @@ mod_summary_selections_ui <- function(id) {
         choices = c(1.0, 1.5, 3),
         selected = c(1.0)
         # )
-      ) %>% 
-        shinyhelper::helper(type = "markdown",
-                            content = "BufferHelp"),
+      ) %>%
+        shinyhelper::helper(
+          type = "markdown",
+          content = "BufferHelp"
+        ),
       # column(
       # width = 2,
       checkboxGroupInput(
@@ -100,11 +106,14 @@ mod_summary_selections_ui <- function(id) {
       checkboxGroupInput(
         ns("input_status"),
         label = h4("Unit Status"),
-        choices = c("Existing", "Planned", "Search"), # HTML("<strong>Existing</strong>") #something like this doesn't exist, but if these text colors could match point colors that would be great!
+        choices = c("Existing", "Planned", "Search"),
+        # HTML("<strong>Existing</strong>") #something like this doesn't exist, but if these text colors could match point colors that would be great!
         selected = c("Existing", "Planned", "Search")
-      ) %>% 
-        shinyhelper::helper(type = "markdown",
-                            content = "StatusHelp"),
+      ) %>%
+        shinyhelper::helper(
+          type = "markdown",
+          content = "StatusHelp"
+        ),
       # )
     )
   )

@@ -16,7 +16,8 @@ library(tigris)
 library(janitor)
 
 temp <- tempfile()
-download.file("https://resources.gisdata.mn.gov/pub/gdrs/data/pub/us_mn_state_metc/society_census_acs/xlsx_society_census_acs.zip",
+download.file(
+  "https://resources.gisdata.mn.gov/pub/gdrs/data/pub/us_mn_state_metc/society_census_acs/xlsx_society_census_acs.zip",
   destfile = temp
 )
 
@@ -32,9 +33,11 @@ bg_age <- bg %>%
   mutate(
     ageunder15 = ((m_0_4 + f_0_4 +
       m_5_9 + f_5_9 +
-      m_10_14 + f_10_14)), # "youth"
+      m_10_14 + f_10_14)),
+    # "youth"
     age15_24 = ((m_15_19 + f_15_19 +
-      m_20_24 + f_20_24)), # "young adult"
+      m_20_24 + f_20_24)),
+    # "young adult"
     age25_64 = ((m_25_29 + m_30_34 + m_35_39 + m_40_44 + m_45_49 + m_50_54 + m_55_59 + m_60_64 +
       f_25_29 + f_30_34 + f_35_39 + f_40_44 + f_45_49 + f_50_54 + f_55_59 + f_60_64))
   ) %>%
@@ -43,7 +46,6 @@ bg_age <- bg %>%
     ageunder15_percent = round(ageunder15 / poptotal, digits = 2),
     age15_24_percent = round(age15_24 / poptotal, digits = 2),
     age25_64_percent = round(age25_64 / poptotal, digits = 2),
-
     ageunder18_percent = round(ageunder18 / poptotal, digits = 2),
     age18_39_percent = round(age18_39 / poptotal, digits = 2),
     age40_64_percent = round(age40_64 / poptotal, digits = 2),
@@ -113,15 +115,29 @@ MNblock_group <- tigris::block_groups(
   year = 2019,
   state = "MN",
   county = c(
-    "Anoka", "Carver", "Dakota", "Hennepin", "Ramsey", "Scott", "Washington",
-    "Sherburne", "Isanti", "Chisago", "Goodhue", "Rice", "Le Sueur", "Sibley", "McLeod", "Wright"
+    "Anoka",
+    "Carver",
+    "Dakota",
+    "Hennepin",
+    "Ramsey",
+    "Scott",
+    "Washington",
+    "Sherburne",
+    "Isanti",
+    "Chisago",
+    "Goodhue",
+    "Rice",
+    "Le Sueur",
+    "Sibley",
+    "McLeod",
+    "Wright"
   ),
   class = "sf"
 ) %>%
   select(GEOID)
 
 WIblock_group <- tigris::block_groups(
-  year=2019,
+  year = 2019,
   state = "WI",
   county = c("St. Croix", "Polk", "Pierce"),
   class = "sf"

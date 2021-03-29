@@ -18,9 +18,13 @@ mod_summary_download_ui <- function(id) {
 #'
 #' @noRd
 #' @importFrom utils write.csv
-mod_summary_download_server <- function(input, output, session,
-                                        selected_vars,
-                                        summary_util) {
+mod_summary_download_server <- function(
+  input,
+  output,
+  session,
+  selected_vars,
+  summary_util
+) {
   ns <- session$ns
 
   output$download_button <- downloadHandler(
@@ -37,7 +41,8 @@ mod_summary_download_server <- function(input, output, session,
             mutate(value = round(value, 1)) %>%
             select(agency, name, type, status, distance, ACS, value) %>%
             pivot_wider(names_from = ACS, values_from = value) %>%
-            separate(name,
+            separate(
+              name,
               into = c("name", "delete2"),
               sep = c("_")
             ) %>%

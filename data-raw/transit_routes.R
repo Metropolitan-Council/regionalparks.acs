@@ -29,7 +29,8 @@ library(janitor)
 ## transit stops ---------------
 temp <- tempfile()
 temp2 <- tempfile()
-download.file("ftp://ftp.gisdata.mn.gov/pub/gdrs/data/pub/us_mn_state_metc/trans_transit_stops/shp_trans_transit_stops.zip",
+download.file(
+  "ftp://ftp.gisdata.mn.gov/pub/gdrs/data/pub/us_mn_state_metc/trans_transit_stops/shp_trans_transit_stops.zip",
   destfile = temp
 )
 

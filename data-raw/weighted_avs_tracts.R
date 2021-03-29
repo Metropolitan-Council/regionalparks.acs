@@ -19,7 +19,7 @@ library("cowplot")
 
 acs_temp <- census_tract_raw %>%
   st_transform(3857) %>% # https://epsg.io/3857\
-  mutate(AREA = st_area(.)) 
+  mutate(AREA = st_area(.))
 
 
 ## get coverage of block groups falling w/in buffer zones for all
@@ -31,15 +31,21 @@ return_weighted_demo_persons <- (function(...) {
   current %>%
     transmute(
       agency = agency,
-      name = name, # if_else(("name" %in% names(current)), name, "no name"),
-      type = type, # if_else(("type" %in% names(current)), type, NA_character_),
-      status = status, # if_else(("status" %in% names(current)), status, NA_character_),
+      name = name,
+      # if_else(("name" %in% names(current)), name, "no name"),
+      type = type,
+      # if_else(("type" %in% names(current)), type, NA_character_),
+      status = status,
+      # if_else(("status" %in% names(current)), status, NA_character_),
       coverage = coverage,
       GEOID = GEOID,
-      adj_2019pop = coverage * pop2019, # use 2019 small area estimates to weight
+      adj_2019pop = coverage * pop2019,
+      # use 2019 small area estimates to weight
       adj_2019hh = coverage * hh2019,
-      adj_anydis = adj_2019pop * anydis_percent, # calculate total pop in demo groups (weighted)
-      adj_ambdis = adj_2019pop * ambdis_percent, # new
+      adj_anydis = adj_2019pop * anydis_percent,
+      # calculate total pop in demo groups (weighted)
+      adj_ambdis = adj_2019pop * ambdis_percent,
+      # new
       adj_costburd = adj_2019hh * pcostburdr,
       adj_forborn = adj_2019pop * forborn_percent,
       adj_usborn = adj_2019pop * usborncit_percent
@@ -53,10 +59,13 @@ return_weighted_demo_persons_AVG <- (function(...) {
       agency = agency,
       coverage = coverage,
       GEOID = GEOID,
-      adj_2019pop = coverage * pop2019, # use 2019 small area estimates to weight
+      adj_2019pop = coverage * pop2019,
+      # use 2019 small area estimates to weight
       adj_2019hh = coverage * hh2019,
-      adj_anydis = adj_2019pop * anydis_percent, # calculate total pop in demo groups (weighted)
-      adj_ambdis = adj_2019pop * ambdis_percent, # new
+      adj_anydis = adj_2019pop * anydis_percent,
+      # calculate total pop in demo groups (weighted)
+      adj_ambdis = adj_2019pop * ambdis_percent,
+      # new
       adj_costburd = adj_2019hh * pcostburdr,
       adj_forborn = adj_2019pop * forborn_percent,
       adj_usborn = adj_2019pop * usborncit_percent
@@ -68,10 +77,12 @@ return_weighted_demo_percents <- (function(...) {
   current <- tibble(...)
   current %>%
     mutate(
-      adj_2019pop = round(adj_2019pop, 0), # calculate %s again (from the ppl)
+      adj_2019pop = round(adj_2019pop, 0),
+      # calculate %s again (from the ppl)
       adj_2019hh = round(adj_2019hh, 0),
       adj_anydis_per = round(adj_anydis / adj_2019pop * 100, 1),
-      adj_ambdis_per = round(adj_ambdis / adj_2019pop * 100, 1), # new
+      adj_ambdis_per = round(adj_ambdis / adj_2019pop * 100, 1),
+      # new
       adj_costburd_per = round(adj_costburd / adj_2019hh * 100, 1),
       adj_forborn_per = round(adj_forborn / adj_2019pop * 100, 1),
       adj_usborn_per = round(adj_usborn / adj_2019pop * 100, 1)
@@ -95,7 +106,8 @@ agency_avg_tract <- (agency_tract_coverage) %>%
   pmap_df(return_weighted_demo_percents) %>%
   as_tibble() %>%
   gather(
-    key = "ACS", value = "value",
+    key = "ACS",
+    value = "value",
     -agency
   ) %>%
   mutate(value = round(value, 3))
@@ -171,8 +183,13 @@ long_buffer_data_tract <- bind_rows(
   as_tibble() %>%
   # select(-geometry) %>%
   gather(
-    key = "ACS", value = "value",
-    -agency, -name, -type, -status, -distance
+    key = "ACS",
+    value = "value",
+    -agency,
+    -name,
+    -type,
+    -status,
+    -distance
   ) %>%
   filter(
     ACS != "adj_2019pop",

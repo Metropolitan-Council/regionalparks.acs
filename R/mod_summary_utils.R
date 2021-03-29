@@ -15,14 +15,18 @@ mod_summary_utils_ui <- function(id) {
 #' summary_utils Server Function
 #'
 #' @noRd
-mod_summary_utils_server <- function(input, output, session,
-                                     selected_vars) {
+mod_summary_utils_server <- function(
+  input,
+  output,
+  session,
+  selected_vars
+) {
   ns <- session$ns
 
   make_table_buffer_data <- reactive({
     p <- regionalparks.acs::long_buffer_data %>%
       dplyr::filter(
-        agency %in% selected_vars$input_agency#,
+        agency %in% selected_vars$input_agency # ,
         # type %in% selected_vars$input_type,
         # distance == selected_vars$input_distance,
         # status %in% selected_vars$input_status
@@ -34,14 +38,28 @@ mod_summary_utils_server <- function(input, output, session,
       ) %>%
       left_join(renamekey, by = c("ACS" = "ACS")) %>%
       mutate(acs_short = stringr::str_remove(goodname, "% ")) %>%
-      mutate(hover_text = stringr::str_wrap(paste0(
-        "Approx. ",
-        "<b>", value, "%", "</b>", " of the pop. within ",
-        distance, " mile of ",
-        name, " (", status, ")", " falls into the ",
-        "<b>", acs_short, "</b>",
-        " category"
-      ), 55))
+      mutate(hover_text = stringr::str_wrap(
+        paste0(
+          "Approx. ",
+          "<b>",
+          value,
+          "%",
+          "</b>",
+          " of the pop. within ",
+          distance,
+          " mile of ",
+          name,
+          " (",
+          status,
+          ")",
+          " falls into the ",
+          "<b>",
+          acs_short,
+          "</b>",
+          " category"
+        ),
+        55
+      ))
     return(p)
   })
 
@@ -78,15 +96,25 @@ mod_summary_utils_server <- function(input, output, session,
       ) %>%
       left_join(renamekey, by = c("ACS" = "ACS")) %>%
       mutate(acs_short = stringr::str_remove(goodname, "% ")) %>%
-      mutate(hover_text = stringr::str_wrap(paste0(
-        "The average ",
-        "<b>", acs_short, "</b>",
-        " within ",
-        "<b>", agency, "</b>",
-        "'s jurisdiction is ",
-        "<b>", value, "%", "</b>",
-        "."
-      ), 50)) %>%
+      mutate(hover_text = stringr::str_wrap(
+        paste0(
+          "The average ",
+          "<b>",
+          acs_short,
+          "</b>",
+          " within ",
+          "<b>",
+          agency,
+          "</b>",
+          "'s jurisdiction is ",
+          "<b>",
+          value,
+          "%",
+          "</b>",
+          "."
+        ),
+        50
+      )) %>%
       mutate(
         level = "Agency average",
         type = "avg"

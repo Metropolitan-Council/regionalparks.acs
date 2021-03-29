@@ -14,9 +14,13 @@ library(sf)
 park_trail_geog_temp <- park_trail_geog_LONG %>% # bind_rows(park_trail_geog, .id = "status") %>%
   mutate(
     # name = paste(name, num, sep = "_"),
-    type = if_else(status == "park" |
-      status == "park_planned" |
-      status == "park_search", "Park", "Trail"),
+    type = if_else(
+      status == "park" |
+        status == "park_planned" |
+        status == "park_search",
+      "Park",
+      "Trail"
+    ),
     status = case_when(
       status == "park" | status == "trail" ~ "Existing",
       status == "park_planned" | status == "trail_planned" ~ "Planned",

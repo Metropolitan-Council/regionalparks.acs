@@ -17,11 +17,15 @@ mod_main_leaflet_ui <- function(id) {
 #' main_leaflet Server Function
 #'
 #' @noRd
-mod_main_leaflet_server <- function(input, output, session,
-                                    main_lft_inputs,
-                                    current_tab) {
+mod_main_leaflet_server <- function(
+  input,
+  output,
+  session,
+  main_lft_inputs,
+  current_tab
+) {
   ns <- session$ns
-  w <- Waiter$new(ns("map"))#, html="Please wait")#, hide_on_render=T)
+  w <- Waiter$new(ns("map")) # , html="Please wait")#, hide_on_render=T)
 
   # output$map ----
   output$map <- mod_map_base_server(
@@ -64,7 +68,6 @@ mod_main_leaflet_server <- function(input, output, session,
           smoothFactor = 0.2,
           fillColor = ~ main_lft_inputs$pop_pal(main_lft_inputs$map_bg_data_main[[1]]),
           options = list(zIndex = 0),
-
           popup = if (main_lft_inputs$source == "Population characteristics") {
             if (main_lft_inputs$mainacs == "adj_meanhhi") {
               ~ paste0(tags$strong(filter(renamekey, ACS == main_lft_inputs$mainacs) %>% select(goodname)), ": $", format(main_lft_inputs$map_bg_data_main[[1]], big.mark = ","))
@@ -72,7 +75,8 @@ mod_main_leaflet_server <- function(input, output, session,
               ~ paste0(
                 tags$strong(filter(renamekey, ACS == main_lft_inputs$mainacs) %>% select(goodname)),
                 ": ",
-                main_lft_inputs$map_bg_data_main[[1]], "%"
+                main_lft_inputs$map_bg_data_main[[1]],
+                "%"
               )
             }
           } else {
@@ -177,10 +181,12 @@ mod_main_leaflet_server <- function(input, output, session,
           data = main_lft_inputs$map_parktrail_data_main[main_lft_inputs$map_parktrail_data_main$Type == "Trail" & main_lft_inputs$map_parktrail_data_main$status2 == "Search", ],
           group = "Parks and trails",
           stroke = TRUE,
-          weight = 3, # 3,
+          weight = 3,
+          # 3,
           color = s_col,
           smoothFactor = 0.3,
-          opacity = 0.9, # 0.5,
+          opacity = 0.9,
+          # 0.5,
           options = pathOptions(pane = "parks_geo"),
           popup = ~popup_text,
           highlightOptions = leaflet_highlight_options,
@@ -190,10 +196,12 @@ mod_main_leaflet_server <- function(input, output, session,
           data = main_lft_inputs$map_parktrail_data_main[main_lft_inputs$map_parktrail_data_main$Type == "Trail" & main_lft_inputs$map_parktrail_data_main$status2 == "Planned", ],
           group = "Parks and trails",
           stroke = TRUE,
-          weight = 3, # 3,
+          weight = 3,
+          # 3,
           color = p_col,
           smoothFactor = 0.3,
-          opacity = 0.9, # 0.5,
+          opacity = 0.9,
+          # 0.5,
           options = pathOptions(pane = "parks_geo"),
           popup = ~popup_text,
           highlightOptions = leaflet_highlight_options,
@@ -236,7 +244,6 @@ mod_main_leaflet_server <- function(input, output, session,
           highlightOptions = leaflet_highlight_options
         )
     }
-    
   )
 
 
@@ -318,10 +325,12 @@ mod_main_leaflet_server <- function(input, output, session,
           data = main_lft_inputs$map_parktrail_data_main[main_lft_inputs$map_parktrail_data_main$Type == "Trail" & main_lft_inputs$map_parktrail_data_main$status2 == "Search", ],
           group = "Parks and trails",
           stroke = TRUE,
-          weight = 3, # 3,
+          weight = 3,
+          # 3,
           color = s_col,
           smoothFactor = 0.3,
-          opacity = 0.9, # 0.5,
+          opacity = 0.9,
+          # 0.5,
           options = pathOptions(pane = "parks_geo"),
           popup = ~popup_text,
           highlightOptions = leaflet_highlight_options
@@ -330,10 +339,12 @@ mod_main_leaflet_server <- function(input, output, session,
           data = main_lft_inputs$map_parktrail_data_main[main_lft_inputs$map_parktrail_data_main$Type == "Trail" & main_lft_inputs$map_parktrail_data_main$status2 == "Planned", ],
           group = "Parks and trails",
           stroke = TRUE,
-          weight = 3, # 3,
+          weight = 3,
+          # 3,
           color = p_col,
           smoothFactor = 0.3,
-          opacity = 0.9, # 0.5,
+          opacity = 0.9,
+          # 0.5,
           options = pathOptions(pane = "parks_geo"),
           popup = ~popup_text,
           highlightOptions = leaflet_highlight_options
@@ -349,7 +360,6 @@ mod_main_leaflet_server <- function(input, output, session,
           smoothFactor = 0.2,
           fillColor = ~ main_lft_inputs$pop_pal(main_lft_inputs$map_bg_data_main[[1]]),
           options = list(zIndex = 0),
-
           popup = if (main_lft_inputs$source == "Population characteristics") {
             if (main_lft_inputs$mainacs == "adj_meanhhi") {
               ~ paste0(tags$strong(filter(renamekey, ACS == main_lft_inputs$mainacs) %>% select(goodname)), ": $", format(main_lft_inputs$map_bg_data_main[[1]], big.mark = ","))
@@ -357,7 +367,8 @@ mod_main_leaflet_server <- function(input, output, session,
               ~ paste0(
                 tags$strong(filter(renamekey, ACS == main_lft_inputs$mainacs) %>% select(goodname)),
                 ": ",
-                main_lft_inputs$map_bg_data_main[[1]], "%"
+                main_lft_inputs$map_bg_data_main[[1]],
+                "%"
               )
             }
           } else {
