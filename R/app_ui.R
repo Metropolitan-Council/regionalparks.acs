@@ -32,7 +32,7 @@ use_waiter(),
         "System Map",
         shiny::p("This map provides a general overview of the population across the 7-county Twin Cities region and adjacent areas. Zoom-in or expand layers (bottom right) to overlay buffer zones, active transit stops (bus and light rail), park entrances, rivers and lakes, and public water access."), br(),
         
-        tags$li(strong("Population characteristics")," available for mapping include: age, disability, ethnicity, income national origin, language, race, and transportation. "), 
+        tags$li(strong("Population characteristics")," available for mapping include: age, disability, ethnicity, income, national origin, language, race, and transportation. "), 
         tags$li(strong("Forecasted population variables"), " available for mapping include: annual population estimates, long-range population estimates, and population growth."),
         hr(),
         sidebarPanel(style="max-width:300px", 
