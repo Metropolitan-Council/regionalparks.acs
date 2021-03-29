@@ -105,7 +105,7 @@ golem_add_external_resources <- function() {
   tags$head(
     bundle_resources(
       path = app_sys("app/www"),
-      app_title = "Regional Parks and the American Community Survey"
+      app_title = "Regional Parks Equity Tool"
     )
     # Add here other external resources
     # for example, you can add shinyalert::useShinyalert()
