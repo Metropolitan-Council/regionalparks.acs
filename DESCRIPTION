@@ -31,6 +31,7 @@ Imports:
     leaflet (>= 2.0.3),
     leaflet.extras (>= 1.0.0),
     magrittr (>= 1.5),
+    processx (>= 3.4.5),
     scales (>= 1.1.1),
     sf (>= 0.9.3),
     shiny (>= 1.4.0.2),
