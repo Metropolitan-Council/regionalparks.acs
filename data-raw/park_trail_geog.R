@@ -1,6 +1,6 @@
 ## code to prepare `park_trail_geog` dataset goes here
 
-pkgload::load_all()
+# pkgload::load_all()
 requireNamespace("readxl", quietly = TRUE)
 requireNamespace("fs", quietly = TRUE)
 requireNamespace("tigris", quietly = TRUE)
@@ -14,7 +14,7 @@ library(janitor)
 
 ## NameCleaner-----------------------------------------------------------------------
 # update from Darcie conversation 16 oct 2020
-namecleaner <- tribble(
+namecleaner <- tibble::tribble(
   ~AGENCY,
   ~consistentagency,
   "Anoka County Parks and Recreation",
@@ -44,9 +44,9 @@ namecleaner <- tribble(
   "Dakota County",
   "Dakota County",
   "Minneapolis Park and Recreation Board",
-  "Minneapolis Park and Recreation Board",
+  "MPRB",
   "Minneapolis",
-  "Minneapolis Park and Recreation Board",
+  "MPRB",
   "Washington County Parks",
   "Washington County",
   "Washington County",
@@ -69,39 +69,11 @@ namecleaner <- tribble(
   "Scott County",
   "Scott County",
   "Three Rivers Park District",
-  "Three Rivers Park District",
   "Three Rivers",
-  "Three Rivers Park District"
+  "Three Rivers",
+  "Three Rivers"
 )
 
-# namecleaner <- tribble(~AGENCY, ~consistentagency,
-#                        "Anoka County Parks and Recreation",  "Anoka County Parks and Recreation",
-#                        "Anoka County Parks" , "Anoka County Parks and Recreation",
-#                        "Anoka County" , "Anoka County Parks and Recreation",
-#                        "Bloomington Parks and Recreation", "Bloomington Parks and Recreation",
-#                        "Bloomington" , "Bloomington Parks and Recreation",
-#                        "City of Bloomington" , "Bloomington Parks and Recreation",
-#                        "Carver County Parks and Recreation","Carver County Parks and Recreation",
-#                        "Carver County Parks" , "Carver County Parks and Recreation",
-#                        "Carver County" , "Carver County Parks and Recreation",
-#                        "Ramsey County Parks and Recreation","Ramsey County Parks and Recreation",
-#                        "Ramsey County" , "Ramsey County Parks and Recreation",
-#                        "Dakota County Parks","Dakota County Parks",
-#                        "Dakota County" , "Dakota County Parks",
-#                        "Minneapolis Park and Recreation Board","Minneapolis Park and Recreation Board",
-#                        "Minneapolis" , "Minneapolis Park and Recreation Board",
-#                        "Washington County Parks","Washington County Parks",
-#                        "Washington County" , "Washington County Parks",
-#                        "St. Paul Parks and Recreation","St. Paul Parks and Recreation",
-#                        "St Paul Parks And Recreation" , "St. Paul Parks and Recreation",
-#                        "St Paul Parks and Recreation" , "St. Paul Parks and Recreation",
-#                        "St. Paul" , "St. Paul Parks and Recreation",
-#                        "Scott County / Three Rivers Park District" , "Scott County Parks", #this is the Scott County Regional Trail
-#                        "Scott County/Three Rivers Park District", "Scott County Parks",
-#                        "Scott County Parks","Scott County Parks",
-#                        "Scott County" , "Scott County Parks",
-#                        "Three Rivers Park District", "Three Rivers Park District",
-#                        "Three Rivers" , "Three Rivers Park District")
 
 ## Parks -----------------------------------------------------------------------
 temp <- tempfile()
@@ -119,6 +91,13 @@ parks_temp <- sf::read_sf(unzip(temp, "plan_parks_regional.gpkg")) %>%
     "In Master Plan" = "Park - planned",
     "Planned" = "Park - planned"
   )) %>%
+  mutate(
+    consistentagency = if_else((PARKNAME == "Cleary Lake" |
+      PARKNAME == "Murphy-Hanrehan" |
+      # PARKNAME == "Spring Lake" |
+      PARKNAME == "Cedar Lake Farm"), "Scott County", consistentagency),
+    consistentagency = if_else(Label == "Spring Lake Regional Park", "Scott County", consistentagency)
+  ) %>% # becuase Spr.Lake Park Reserve == Dakota, but S.L. Reg. Park = Scott
   group_by(PARKNAME, STATUS, Label, consistentagency) %>%
   summarize(do_union = TRUE) %>%
   ungroup() %>%
@@ -155,9 +134,9 @@ trails_temp <- sf::read_sf(unzip(temp, "trans_regional_trails_exst_plan.gpkg")) 
   mutate(STATUS = recode(
     STATUS,
     "Existing (Open to Public)" = "Trail - existing",
-    "Alternate" = "Trail - planned/closed/alt.",
-    "Existing (Not Open to Public)" = "Trail - planned/closed/alt.",
-    "Planned" = "Trail - planned/closed/alt."
+    "Alternate" = "Trail - planned",
+    "Existing (Not Open to Public)" = "Trail - planned",
+    "Planned" = "Trail - planned"
   )) %>%
   rename(AGENCY = Agency) %>%
   left_join(namecleaner) %>%
@@ -250,3 +229,8 @@ names(park_trail_geog) <- c(
 usethis::use_data(park_trail_geog, overwrite = TRUE)
 
 usethis::use_git_ignore(".DS_Store")
+#
+# levels(as.factor(park_trail_geog$park_planned$name))
+# filter(park_trail_geog$park, name == "Cleary Lake Regional Park")
+# filter(park_trail_geog$park_planned, name == "Cleary Lake Regional Park")
+# filter(park_trail_geog$park, name == "Murphy-Hanrehan Park Reserve")

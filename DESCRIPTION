@@ -1,7 +1,7 @@
 Package: regionalparks.acs
 Title: Regional Parks and the American Community Survey
 Version: 0.1.1
-Date: 2020-09-213
+Date: 2020-09-21
 Authors@R: 
     c(person(given = "Metropolitan Council",
              role = "cph"),
@@ -20,13 +20,28 @@ Depends:
 Imports: 
     config (>= 0.3),
     councilR (>= 0.1.0),
+    cowplot (>= 1.1.0),
     dplyr (>= 1.0.0),
+    DT (>= 0.16),
+    forcats (>= 0.5.0),
+    ggforestplot (>= 0.1.0),
+    ggplot2 (>= 3.3.2),
     golem (>= 0.2.1),
+    htmltools (>= 0.5.0),
     leaflet (>= 2.0.3),
     leaflet.extras (>= 1.0.0),
     magrittr (>= 1.5),
+    processx (>= 3.4.5),
+    scales (>= 1.1.1),
     sf (>= 0.9.3),
-    shiny (>= 1.4.0.2)
+    shiny (>= 1.4.0.2),
+    shinyhelper (>= 0.3.2),
+    stringr (>= 1.4.0),
+    tibble (>= 3.0.4),
+    tidyr (>= 1.1.2),
+    tidyverse (>= 1.3.0),
+    utils,
+    waiter (>= 0.2.0)
 Suggests: 
     data.table (>= 1.12.8),
     fs (>= 1.4.1),
@@ -35,7 +50,8 @@ Suggests:
     testthat (>= 2.3.2),
     tigris (>= 0.9.4)
 Remotes:
-    Metropolitan-Council/councilR
+    Metropolitan-Council/councilR,
+    NightingaleHealth/ggforestplot
 Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)

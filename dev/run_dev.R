@@ -24,8 +24,63 @@ rmarkdown::render("reference_doc.Rmd",
 )
 
 
+rmarkdown::render("intro_doc.Rmd",
+                  output_format = "github_document", # -----
+                  output_file = "intro_doc.md", output_dir = "inst/app/www",
+                  params = list(
+                    actor_id = "esch",
+                    data_date = Sys.Date(),
+                    sha = system("git rev-parse --short HEAD",
+                                 intern = TRUE
+                    )
+                  )
+)
+
+rmarkdown::render("StatusHelp.Rmd",
+                  output_format = "github_document", # -----
+                  output_file = "StatusHelp.md", output_dir = "inst/app/www",
+                  params = list(
+                    actor_id = "esch",
+                    data_date = Sys.Date(),
+                    sha = system("git rev-parse --short HEAD",
+                                 intern = TRUE
+                    )
+                  )
+)
+
+rmarkdown::render("BufferHelp.Rmd",
+                  output_format = "github_document", # -----
+                  output_file = "BufferHelp.md", output_dir = "inst/app/www",
+                  params = list(
+                    actor_id = "esch",
+                    data_date = Sys.Date(),
+                    sha = system("git rev-parse --short HEAD",
+                                 intern = TRUE
+                    )
+                  )
+)
+
+rmarkdown::render("DataSourceHelp.Rmd",
+                  output_format = "github_document", # -----
+                  output_file = "DataSourceHelp.md", output_dir = "inst/app/www",
+                  params = list(
+                    actor_id = "esch",
+                    data_date = Sys.Date(),
+                    sha = system("git rev-parse --short HEAD",
+                                 intern = TRUE
+                    )
+                  )
+)
+
+
 # Document and reload your package
 golem::document_and_reload()
 
 # Run the application
 run_app()
+
+#choose data source =population estimates
+#choose data source = population characteristics
+#choose variable to map = housing, % cost burdened
+#THEN ALL VARIABLES QUIT?!?
+

@@ -9,29 +9,33 @@ params:
 ---
 ## Notes  
 
-*Regional Parks and the American Community Survey* is a mini-app designed for use by Regional Parks implementing agencies to assist in their progressing toward a more equitable use of regional parks. The app complements the [Regional Parks Equity Toolkit](https://metrocouncil.org/parks/Planning/Parks-Equity-Toolkit.aspx), a set of questions and a process to clarify how regional park projects are advancing equity. The app facilitates direct examination of regional parks and trails system and the demographic characteristics of the census tracts surrounding them.  
+The majority of data used in this app are derived from the American Community Survey (ACS). Complete <a href="https://www2.census.gov/programs-surveys/acs/tech_docs/subject_definitions/2019_ACSSubjectDefinitions.pdf" target="_blank">variable definitions</a> can provide more information about each response. These data are survey-based estimates and are subject to error. The errors derive from research design (including instrument bias, data frame, and sampling), the survey data collection (non-response bias and response errors), and processing by the Census Bureau (data coding, compilation processes, and case weighting), as well as statistical inference error and uncertainty (which are related to sample size and variance within the measured attributes). US Census Bureau's report on <a href="https://www2.census.gov/programs-surveys/acs/tech_docs/accuracy/MultiyearACSAccuracyofData2017.pdf?#" target="_blank">Accuracy of the Data</a> gives more information about potential sources of error.  
+<br>
+Further, producing the "weighted averages" necessarily assumed equal distributions of populations across individual census block groups or tracts in order. Population characteristics are likely to be heterogeneous, rather than homogeneous, across areas. Thus, observed population characteristics within a given buffer distance may not reflect the weighted averages presented here, but that does not diminish the value of the weighted averages as a starting point for conversations and actions to increase equitable usage of parks and trails across the Metro Region. 
+<br></br>
+ACS statistics were used to calculate the percent of people with a certain characteristic within each block group or tract. We scaled these percentages by the 2019 small area population estimates to obtain a more accurate number of people within each group (this more accurate measure of population is not available in collar counties). Weighted averages were produced by multiplying by the percent overlap of a given block group or tract with the buffer zone around individual park and trail units. Variables on disability (% with an ambulatory disability, % with any other disability) and national origin (% US-born, % foreign-born) were calculated at the tract level. All other variables were calculated at the block group.
 
+### Data sources
 
+All data used in the application is hosted on the Minnesota Geospatial Commons. 
 
-The "Map" tab displays census tracts in the Twin Cities metropolitan area. The tracts' colors correspond to 2014-2018 (5-year) American Community Survey (ACS) demographic metric selected by the user. Each demographic characteristic is shown as a percentage of the total population, with the exception of median household income, which is displayed in dollars. The darker the color, the higher the percentage (or income in dollars).    
-
-
-
-Statistics produced for American Community Survey and included in ACS tables are survey-based estimates and are subject to error. The errors derive from research design (including instrument bias, data frame, and sampling), the survey data collection (non-response bias and response errors), and processing by the Census Bureau (data coding, compilation processes, and case weighting), as well as statistical inference error and uncertainty (which are related to sample size and variance within the measured attributes). US Census Bureau's report on "Accuracy of the Data" can be found [here](https://www2.census.gov/programs-surveys/acs/tech_docs/accuracy/MultiyearACSAccuracyofData2017.pdf?#).  
+- <a href="https://gisdata.mn.gov/dataset/us-mn-state-metc-society-census-acs" target="_blank">ACS data</a>
+- <a href="https://gisdata.mn.gov/dataset/us-mn-state-metc-trans-anlys-zones-frcst-taz-com" target="_blank">Long-range population forecasts</a>
+- <a href="https://gisdata.mn.gov/dataset/us-mn-state-metc-society-small-area-estimates" target="_blank">Annual small area population estimates</a>
 
 ### Contributors  
-
+- Ellen Esch, Data Scientist [ellen.esch@metc.state.mnu.us](mailto:ellen.esch@metc.state.mn.us)
 - Liz Roten, Associate Data Scientist [liz.roten@metc.state.mn.us](mailto:liz.roten@metc.state.mn.us)  
 - Darcie Vandegrift, Principal Parks Researcher [darcie.vandegrift@metc.state.mn.us](mailto:darcie.vandegrift@metc.state.mn.us)  
   
-*Regional Parks and the American Community Survey* is an open-source project. All the code for this project available on our [GitHub](https://github.com/Metropolitan-Council/regionalparks.acs).   
+*Regional Parks and the American Community Survey* is an open-source project. All the code for this project available on our [GitHub](https://github.com/Metropolitan-Council/regionalparks.acs){target="_blank"}.   
 
 
 ### References  
 
 Bibliography includes both data sources and R packages used in app development.  
 ```{r, include=FALSE}
-pkgs <- c("attempt", "config", "councilR", "dplyr", "glue", "golem", "htmltools", "leaflet", "magrittr", "processx", "shiny", "pkgload", "leaflet.extras", "testthat", "data.table", "tigris", "fs", "readxl", "janitor")
+pkgs <- c("attempt", "config", "councilR", "dplyr", "glue", "golem", "htmltools", "leaflet", "magrittr", "processx", "shiny", "pkgload", "leaflet.extras", "testthat", "data.table", "tigris", "fs", "readxl", "janitor", "sf")
 bibtex::write.bib(pkgs)
 # bibliography: Rpackages.bib
 # nocite: '@*'
@@ -45,7 +49,7 @@ bibtex::write.bib(pkgs)
 <p>“American Community Survey 5-Year Summary File - Minnesota Geospatial Commons.” 2019. <a href="https://gisdata.mn.gov/dataset/us-mn-state-metc-society-census-acs" class="uri">https://gisdata.mn.gov/dataset/us-mn-state-metc-society-census-acs</a>.</p>
 </div>
 <div id="ref-noauthor_american-1">
-<p>“American Community Survey Multiyear Accuracy of the Data (5-Year 2014-2018).” 2019, 29. <a href="https://www2.census.gov/programs-surveys/acs/tech_docs/accuracy/ACS_Accuracy_of_Data_2018.pdf?" class="uri">https://www2.census.gov/programs-surveys/acs/tech_docs/accuracy/ACS_Accuracy_of_Data_2018.pdf?</a></p>
+<p>“American Community Survey Multiyear Accuracy of the Data (5-Year 2015-2019).” 2019, 29. <a href="https://www2.census.gov/programs-surveys/acs/tech_docs/accuracy/ACS_Accuracy_of_Data_2018.pdf?" class="uri">https://www2.census.gov/programs-surveys/acs/tech_docs/accuracy/ACS_Accuracy_of_Data_2018.pdf?</a></p>
 </div>
 <div id="ref-magrittr">
 <p>Bache, Stefan Milton, and Hadley Wickham. 2014. <em>Magrittr: A Forward-Pipe Operator for R</em>. <a href="https://CRAN.R-project.org/package=magrittr" class="uri">https://CRAN.R-project.org/package=magrittr</a>.</p>
