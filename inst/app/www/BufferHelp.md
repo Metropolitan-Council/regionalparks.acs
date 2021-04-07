@@ -1,7 +1,7 @@
 
 ### Buffer distance
 
------
+------------------------------------------------------------------------
 
 Buffer distances (in miles) extend from the perimeter of park or trail
 units. For trails, the buffer distance is effectively a radius. For

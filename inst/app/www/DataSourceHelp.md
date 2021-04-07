@@ -1,7 +1,7 @@
 
 ### Data sources
 
------
+------------------------------------------------------------------------
 
 **Population characteristic** data is from the U.S. Census Bureau
 (<a href ="https://www.census.gov/programs-surveys/acs" target = "_blank">American
