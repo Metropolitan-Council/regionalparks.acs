@@ -127,16 +127,6 @@ mod_summary_utils_server <- function(
       mutate(hovtext = paste0("Approx. ", .$value, "% of pple within", .$distance, " mi are"))
   })
 
-  make_map_parktrail_data <- reactive({
-    p4 <- regionalparks.acs::park_trail_geog_LONG %>%
-      dplyr::filter(
-        agency %in% selected_vars$input_agency,
-        Type %in% selected_vars$input_type,
-        status2 %in% selected_vars$input_status
-      )
-    return(p4)
-  })
-
   make_map_bg_data <- reactive({
     p6 <- if (selected_vars$input_acs %in% tract_vars$ACS) {
       regionalparks.acs::census_tract_map %>%
@@ -154,15 +144,11 @@ mod_summary_utils_server <- function(
   vals <- reactiveValues()
 
   observe({
-    vals$table_buffer_data <- make_table_buffer_data()
+    vals$table_buffer_data <- make_table_buffer_data() #yes, this is used
   })
 
   observe({
-    vals$plot_buffer_data <- make_plot_buffer_data()
-  })
-
-  observe({
-    vals$map_parktrail_data <- make_map_parktrail_data()
+    vals$plot_buffer_data <- make_plot_buffer_data() #yes, this is used
   })
 
   observe({
