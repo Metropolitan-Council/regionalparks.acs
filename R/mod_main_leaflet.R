@@ -123,7 +123,7 @@ mod_main_leaflet_server <- function(
         clearGroup("Parks and trails") %>%
         clearControls() %>%
         addPolygons(
-          data = main_lft_inputs$map_parktrail_data_main[main_lft_inputs$map_parktrail_data_main$Type == "Park" & main_lft_inputs$map_parktrail_data_main$status2 == "Existing", ],
+          data = main_lft_inputs$map_parktrail_data_main[main_lft_inputs$map_parktrail_data_main$status == "Park - existing", ],
           group = "Parks and trails",
           stroke = TRUE,
           color = e_col,
@@ -136,7 +136,7 @@ mod_main_leaflet_server <- function(
           popupOptions = leaflet_popup_options
         ) %>%
         addPolygons(
-          data = main_lft_inputs$map_parktrail_data_main[main_lft_inputs$map_parktrail_data_main$Type == "Park" & main_lft_inputs$map_parktrail_data_main$status2 == "Planned", ],
+          data = main_lft_inputs$map_parktrail_data_main[main_lft_inputs$map_parktrail_data_main$status == "Park - planned", ],
           group = "Parks and trails",
           stroke = TRUE,
           color = p_col,
@@ -150,8 +150,7 @@ mod_main_leaflet_server <- function(
         ) %>%
         addCircles(
           data = main_lft_inputs$map_parktrail_data_main[
-            main_lft_inputs$map_parktrail_data_main$Type == "Park" & main_lft_inputs$map_parktrail_data_main$status2 == "Search",
-          ],
+            main_lft_inputs$map_parktrail_data_main$status == "Park - search", ],
           group = "Parks and trails",
           stroke = TRUE,
           radius = 2000,
@@ -165,7 +164,7 @@ mod_main_leaflet_server <- function(
           popupOptions = leaflet_popup_options
         ) %>%
         addPolylines(
-          data = main_lft_inputs$map_parktrail_data_main[main_lft_inputs$map_parktrail_data_main$Type == "Trail" & main_lft_inputs$map_parktrail_data_main$status2 == "Existing", ],
+          data = main_lft_inputs$map_parktrail_data_main[main_lft_inputs$map_parktrail_data_main$status == "Trail - existing", ],
           group = "Parks and trails",
           stroke = TRUE,
           weight = 3,
@@ -178,7 +177,7 @@ mod_main_leaflet_server <- function(
           popupOptions = leaflet_popup_options
         ) %>%
         addPolylines(
-          data = main_lft_inputs$map_parktrail_data_main[main_lft_inputs$map_parktrail_data_main$Type == "Trail" & main_lft_inputs$map_parktrail_data_main$status2 == "Search", ],
+          data = main_lft_inputs$map_parktrail_data_main[main_lft_inputs$map_parktrail_data_main$status == "Trail - search", ],
           group = "Parks and trails",
           stroke = TRUE,
           weight = 3,
@@ -193,7 +192,7 @@ mod_main_leaflet_server <- function(
           popupOptions = leaflet_popup_options
         ) %>%
         addPolylines(
-          data = main_lft_inputs$map_parktrail_data_main[main_lft_inputs$map_parktrail_data_main$Type == "Trail" & main_lft_inputs$map_parktrail_data_main$status2 == "Planned", ],
+          data = main_lft_inputs$map_parktrail_data_main[main_lft_inputs$map_parktrail_data_main$status == "Trail - planned", ],
           group = "Parks and trails",
           stroke = TRUE,
           weight = 3,
