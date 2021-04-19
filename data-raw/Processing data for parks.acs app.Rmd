@@ -269,6 +269,7 @@ fs::file_delete("../data/long_buffer_data_bg.rda")
 fs::file_delete("../data/long_buffer_data_tract.rda")
 fs::file_delete("../data/block_group.rda")
 fs::file_delete("../data/census_tract.rda")
+fs::file_delete("../data/collar_filter.rda")
 ```
 
 
