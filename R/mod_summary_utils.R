@@ -137,19 +137,6 @@ mod_summary_utils_server <- function(
     return(p4)
   })
 
-
-  make_map_buffer_data <- reactive({
-    p5 <- regionalparks.acs::buffer_geo %>%
-      dplyr::filter(
-        agency %in% selected_vars$input_agency,
-        type %in% selected_vars$input_type,
-        status %in% selected_vars$input_status,
-        distance == selected_vars$input_distance
-      )
-    return(p5)
-  })
-
-
   make_map_bg_data <- reactive({
     p6 <- if (selected_vars$input_acs %in% tract_vars$ACS) {
       regionalparks.acs::census_tract_map %>%
@@ -176,10 +163,6 @@ mod_summary_utils_server <- function(
 
   observe({
     vals$map_parktrail_data <- make_map_parktrail_data()
-  })
-
-  observe({
-    vals$map_buffer_data <- make_map_buffer_data()
   })
 
   observe({
