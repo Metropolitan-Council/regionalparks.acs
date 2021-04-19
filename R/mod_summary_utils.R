@@ -127,18 +127,6 @@ mod_summary_utils_server <- function(
       mutate(hovtext = paste0("Approx. ", .$value, "% of pple within", .$distance, " mi are"))
   })
 
-  make_map_bg_data <- reactive({
-    p6 <- if (selected_vars$input_acs %in% tract_vars$ACS) {
-      regionalparks.acs::census_tract_map %>%
-        select(selected_vars$input_acs)
-    } else {
-      regionalparks.acs::block_group_map %>%
-        select(selected_vars$input_acs)
-    }
-    return(p6)
-  })
-
-
 
 
   vals <- reactiveValues()
@@ -149,10 +137,6 @@ mod_summary_utils_server <- function(
 
   observe({
     vals$plot_buffer_data <- make_plot_buffer_data() #yes, this is used
-  })
-
-  observe({
-    vals$map_bg_data <- make_map_bg_data()
   })
 
   observe({
