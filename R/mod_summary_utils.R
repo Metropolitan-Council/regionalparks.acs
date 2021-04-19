@@ -26,10 +26,7 @@ mod_summary_utils_server <- function(
   make_table_buffer_data <- reactive({
     p <- regionalparks.acs::long_buffer_data %>%
       dplyr::filter(
-        agency %in% selected_vars$input_agency # ,
-        # type %in% selected_vars$input_type,
-        # distance == selected_vars$input_distance,
-        # status %in% selected_vars$input_status
+        agency %in% selected_vars$input_agency
       ) %>%
       separate(
         name,
@@ -132,11 +129,11 @@ mod_summary_utils_server <- function(
   vals <- reactiveValues()
 
   observe({
-    vals$table_buffer_data <- make_table_buffer_data() #yes, this is used
+    vals$table_buffer_data <- make_table_buffer_data() 
   })
 
   observe({
-    vals$plot_buffer_data <- make_plot_buffer_data() #yes, this is used
+    vals$plot_buffer_data <- make_plot_buffer_data() 
   })
 
   observe({
