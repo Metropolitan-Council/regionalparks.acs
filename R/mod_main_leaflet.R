@@ -257,7 +257,7 @@ mod_main_leaflet_server <- function(
       leafletProxy("map") %>%
         ## park start-up polygons ---------
         addPolygons(
-          data = filter(park_trail_geog_LONG, status == "Park - existing"), #main_lft_inputs$map_parktrail_data_main[main_lft_inputs$map_parktrail_data_main$status == "Park - existing", ],
+          data = filter(park_trail_geog_LONG, status == "Park - existing"), 
           group = "Parks and trails",
           stroke = TRUE,
           color = e_col,
@@ -276,7 +276,7 @@ mod_main_leaflet_server <- function(
           popupOptions = leaflet_popup_options
         ) %>%
         addPolylines(
-          data = filter(park_trail_geog_LONG, status == "Trail - existing"), #park_trail_geog_LONGmain_lft_inputs$map_parktrail_data_main[main_lft_inputs$map_parktrail_data_main$status == "Trail - existing", ],
+          data = filter(park_trail_geog_LONG, status == "Trail - existing"),
           group = "Parks and trails",
           stroke = TRUE,
           weight = 3,
