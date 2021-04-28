@@ -114,6 +114,12 @@ mod_summary_selections_ui <- function(id) {
           type = "markdown",
           content = "StatusHelp"
         ),
+      
+      actionButton(ns("update_data_button"),
+                   label = " Update Data",
+                   icon = icon("sync"),
+                   width = "100%")
+      
       # )
     )
   )
@@ -126,27 +132,40 @@ mod_summary_selections_server <- function(input, output, session) {
   ns <- session$ns
 
   input_values <- reactiveValues() # start with an empty reactiveValues object.
-
-  observeEvent(input$input_acs, { # only update when the user changes the ACS input
+  
+# start-up values ----
+  observeEvent(input$input_acs, once = TRUE, { # only update when the user changes the ACS input
     input_values$input_acs <- input$input_acs # create/update the ACS input value in our reactiveValues object
   })
 
-  observeEvent(input$input_agency, {
+  observeEvent(input$input_agency, once = TRUE, {
     input_values$input_agency <- input$input_agency
   })
 
-  observeEvent(input$input_distance, {
+  observeEvent(input$input_distance, once = TRUE, {
     input_values$input_distance <- input$input_distance # sum_CHOICE
   })
 
-  observeEvent(input$input_type, {
+  observeEvent(input$input_type, once = TRUE, {
     input_values$input_type <- input$input_type
   })
 
-  observeEvent(input$input_status, {
+  observeEvent(input$input_status,  once = TRUE,{
     input_values$input_status <- input$input_status
   })
 
+  
+# updating observeEvent ----
+  
+  observeEvent(input$update_data_button, {
+    input_values$input_acs <- input$input_acs # create/update the ACS input value in our reactiveValues object
+    input_values$input_agency <- input$input_agency
+    input_values$input_type <- input$input_type
+    input_values$input_distance <- input$input_distance # sum_CHOICE
+    input_values$input_status <- input$input_status
+    
+  })
+  
   return(input_values)
 }
 
