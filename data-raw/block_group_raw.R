@@ -74,6 +74,10 @@ bg_merge <- bg %>%
     age45_64 = ((m_45_49 + m_50_54 + m_55_59 + m_60_64 +
                    f_45_49 + f_50_54 + f_55_59 + f_60_64)),
     
+    #older
+    age65_up = m_65_69 + m_70_74 + m_75_79 + m_80_84 + m_over85 +
+      f_65_69 + f_70_74 + f_75_79 + f_80_84 + f_over85,
+    
     ### race
     othermultinh = pacificnh + othernh + multracenh) %>%
   
@@ -127,3 +131,4 @@ block_group_raw <- bind_rows(MNblock_group, WIblock_group) %>%
   st_transform(4326) # for leaflet
 
 usethis::use_data(block_group_raw, overwrite = TRUE)
+
