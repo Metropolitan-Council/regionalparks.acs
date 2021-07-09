@@ -83,8 +83,8 @@ mod_summary_ggplot_server <- function(
       council_theme() +
       labs(
         y = "",
-        # x = filter(renamekey, ACS == selected_vars$input_acs) %>% select(goodname),
-        # title = paste0((filter(renamekey, ACS == selected_vars$input_acs) %>% select(goodname)), " - ", selected_vars$input_distance, " mi buffer"),
+        x = filter(name_helper, acscode == selected_vars$input_acs) %>% select(popuplab),
+        title = paste0((filter(name_helper, acscode == selected_vars$input_acs) %>% select(popuplab)), " - ", selected_vars$input_distance, " mi buffer"),
         fill = "Unit status",
         shape = "Unit type" # ,
         # caption = ("\nMetropolitan Council, 12 Jan. 2020")
@@ -148,7 +148,6 @@ mod_summary_ggplot_server <- function(
             " fall into the ",
             "<b>",
             (filter(name_helper, acscode == selected_vars$input_acs) %>% select(popuplab)),
-            # (filter(renamekey, ACS == selected_vars$input_acs) %>% select(goodname)),
             "</b> category.",
             "</br> </div>"
           ))

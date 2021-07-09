@@ -378,7 +378,8 @@ name_helper <- as_tibble(names(as_tibble(block_group_map))) %>%
   mutate(popuplab = gsub("<br>", " ", leglab)) %>%
   
   # include column for buffer geos --> ideally would like to streamline this, but it works for now
-  mutate(buffercode = paste0("adj_", gsub("percent", "per", acscode)))
+  mutate(buffercode = paste0("adj_", gsub("percent", "per", acscode)),
+         buffercode = gsub("adj_adj_", "adj_", buffercode))
   
 usethis::use_data(name_helper, overwrite = TRUE)
 

@@ -24,7 +24,7 @@ mod_summary_utils_server <- function(
   ns <- session$ns
 
   make_table_buffer_data <- reactive({
-    p <- name_helper %>% left_join(long_buffer_data, by = c("acscode" = "ACS")) %>%
+    p <- name_helper %>% left_join(long_buffer_data, by = c("buffercode" = "ACS")) %>% 
       # regionalparks.acs::long_buffer_data %>%
       dplyr::filter(
         # agency == "Anoka County"
@@ -35,7 +35,6 @@ mod_summary_utils_server <- function(
         into = c("name", "delete2"),
         sep = c("_")
       ) %>%
-      # right_join(name_helper, by = c("ACS" = "acscode")) %>%
       mutate(acs_short = stringr::str_remove(popuplab, "% ")) %>%
       mutate(hover_text = stringr::str_wrap(
         paste0(
@@ -70,6 +69,13 @@ mod_summary_utils_server <- function(
         status %in% selected_vars$input_status,
         acscode == selected_vars$input_acs
       ) %>%
+     # t<- p %>%
+     #  filter(
+     #    type %in% c("Park" , "Trail"),
+     #    distance == 1,
+     #    status %in% c("Existing", "Planned",  "Search"))#,
+     #    acscode == "ageunder15_percent"
+     #  )
       mutate(name = str_replace_all(
         name,
         c(
@@ -124,6 +130,7 @@ mod_summary_utils_server <- function(
         mutate(level = "Unit values")) %>%
       pivot_wider(names_from = acscode, values_from = value) %>%
       rename(value = selected_vars$input_acs) %>%
+      # rename(value = name_helper[[1,1]]) %>%
       mutate(hovtext = paste0("Approx. ", .$value, "% of pple within", .$distance, " mi are"))
   })
 
