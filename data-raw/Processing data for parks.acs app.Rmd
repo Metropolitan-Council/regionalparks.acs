@@ -358,7 +358,21 @@ name_helper <- as_tibble(names(as_tibble(block_group_map))) %>%
                               str_detect(dropdownname, "Origin") ~ "Origin",
                               str_detect(dropdownname, "Socioeconomic") ~ "Socioeconomic",
                               str_detect(dropdownname, "Transportation") ~ "Transportation",
-                              TRUE ~ "other"))
+                              TRUE ~ "other"))   %>%
+  
+  # include html for leafletlegends
+  mutate(leglab = case_when(category == "Age" ~ paste0("% population<br>age ", gsub("Age, % ", "", dropdownname)),
+                            category == "Disability" ~ paste0("% population with<br>", gsub("Disability, % ", "", dropdownname)),
+                            category == "EthRace" ~ paste0(gsub("Race, |Ethnicity, ", "", dropdownname), "<br>population"),
+                            category == "Origin" ~ paste0(gsub("Origin, ", "", dropdownname), "<br>population"),
+                            acscode == "lep_percent" ~ "% population with<br>limited English proficiency",
+                            acscode == "lep_span_percent" ~ "% population primarily<br>speaking Spanish",
+                            acscode == "hh_noveh_percent" ~ "% households<br>without a vehicle",
+                            acscode == "pov185_percent" ~ "% households below<br>185% poverty line",
+                            acscode == "meanhhinc" ~ "Mean household<br>income ($)"
+                            ),
+         leglab = gsub("age under", "under age", leglab)) 
+  
 usethis::use_data(name_helper, overwrite = TRUE)
 
 ```
