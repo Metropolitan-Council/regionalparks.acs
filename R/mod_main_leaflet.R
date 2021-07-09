@@ -69,11 +69,12 @@ mod_main_leaflet_server <- function(
           fillColor = ~ main_lft_inputs$pop_pal(main_lft_inputs$map_bg_data_main[[1]]),
           options = list(zIndex = 0),
           popup = if (main_lft_inputs$source == "Population characteristics") {
-            if (main_lft_inputs$mainacs == "adj_meanhhi") {
-              ~ paste0(tags$strong(filter(renamekey, ACS == main_lft_inputs$mainacs) %>% select(goodname)), ": $", format(main_lft_inputs$map_bg_data_main[[1]], big.mark = ","))
+            if (main_lft_inputs$mainacs == "meanhhinc") {
+              ~ paste0(tags$strong(filter(name_helper, acscode == main_lft_inputs$mainacs) %>% select(popuplab)), ": $", 
+                       format(main_lft_inputs$map_bg_data_main[[1]], big.mark = ","))
             } else {
               ~ paste0(
-                tags$strong(filter(renamekey, ACS == main_lft_inputs$mainacs) %>% select(goodname)),
+                tags$strong(filter(name_helper, acscode == main_lft_inputs$mainacs) %>% select(popuplab)),
                 ": ",
                 main_lft_inputs$map_bg_data_main[[1]],
                 "%"
@@ -300,7 +301,7 @@ mod_main_leaflet_server <- function(
                                  domain = select(block_group_map, deframe(name_helper[1,1]))[[1]])(select(block_group_map, deframe(name_helper[1,1]))[[1]]),
           options = list(zIndex = 0),
           popup =  ~ paste0(
-                tags$strong(filter(renamekey, ACS == "adj_ageunder15_per") %>% select(goodname)),
+                tags$strong(filter(name_helper, acscode == deframe(name_helper[1,1])) %>% select(popuplab)),
                 ": ",
                 select(block_group_map, deframe(name_helper[1,1]))[[1]],
                 "%"

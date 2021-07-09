@@ -446,7 +446,7 @@ GeomStripes <- ggplot2::ggproto(
   }
 )
 
-
+load("./data/name_helper.rda")
 ACSMenu <- list(
   `Age` = with(filter(name_helper, category == "Age"), split(acscode, dropdownname)),
   `Disability` = with(filter(name_helper, category == "Disability"), split(acscode, dropdownname)),

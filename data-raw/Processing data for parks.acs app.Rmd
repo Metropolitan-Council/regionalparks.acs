@@ -372,7 +372,10 @@ name_helper <- as_tibble(names(as_tibble(block_group_map))) %>%
                             acscode == "pov185_percent" ~ "% households below<br>185% poverty line",
                             acscode == "meanhhinc" ~ "Mean household<br>income ($)"
                             ),
-         leglab = gsub("age under", "under age", leglab)) 
+         leglab = gsub("age under", "under age", leglab)) %>%
+  
+  # include column for popup labels
+  mutate(popuplab = gsub("<br>", " ", leglab))
   
 usethis::use_data(name_helper, overwrite = TRUE)
 
