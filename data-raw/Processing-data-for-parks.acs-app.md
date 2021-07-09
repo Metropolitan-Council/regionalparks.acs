@@ -13,6 +13,8 @@ Ellen
     -   [Create transit layer](#create-transit-layer)
     -   [Only keep final files](#only-keep-final-files)
 -   [reproject](#reproject)
+-   [create nice names for app
+    selections](#create-nice-names-for-app-selections)
 
 # Overview
 
@@ -46,11 +48,15 @@ the collar counties within this processing step because the buffer area
 for some parks and trails extends into areas beyond the 7 county core
 region.
 
-Running `census_tract_raw.R` produces: - `county_outlines.rda`
-(leveraging the fact that we have to load the tigris package anyways) -
-`census_tract_raw.rda`
+Running `census_tract_raw.R` produces:
 
-Running `block_group_raw.R` produces: - `block_group_raw.rda`
+-   `county_outlines.rda` (leveraging the fact that we have to load the
+    `tigris` package anyways)
+-   `census_tract_raw.rda`
+
+Running `block_group_raw.R` produces:
+
+-   `block_group_raw.rda`
 
 If acs variables need to be added, this is one place where that should
 be done.
@@ -61,16 +67,23 @@ And this is also done at the block group and tract levels. In some cases
 demographic variables are suppressed at the block group. We must process
 those variables at the tract level.
 
-Running `weighted_avs_bg.R` produces: - `agency_avg_bg.rda` (the average
-acs values within an implementing agency’s jurisdiction) -
-`long_buffer_data_bg.rda` (acs values for each park/trail unit at each
-buffer distance for the variables which exist at the block group level)
-- `agency_planned_existing_avgs` (agency-level averages for each
-variable including existing and planned units) - `buffer_geo.rda` (the
-buffer geometries at 1, 1.5 and 3 mi radii. these will be plotted)
+Running `weighted_avs_bg.R` produces:
 
-Running `weighted_avs_tracts.R` produces: - `long_buffer_data_tract.rda`
-() - `agency_planned_existing_avgs_tract.rda` () - `agency_avg_tract` ()
+-   `agency_avg_bg.rda` (the average acs values within an implementing
+    agency’s jurisdiction)
+-   `long_buffer_data_bg.rda` (acs values for each park/trail unit at
+    each buffer distance for the variables which exist at the block
+    group level)
+-   `agency_planned_existing_avgs` (agency-level averages for each
+    variable including existing and planned units)
+-   `buffer_geo.rda` (the buffer geometries at 1, 1.5 and 3 mi radii.
+    these will be plotted)
+
+Running `weighted_avs_tracts.R` produces:
+
+-   `long_buffer_data_tract.rda` ()
+-   `agency_planned_existing_avgs_tract.rda` ()
+-   `agency_avg_tract` ()
 
 and then we will join the 2 geographies together to create one cohesive
 weighted average dataset.
@@ -85,17 +98,24 @@ We only want to plot the block groups/tracts within the 7 county core
 region or within the collar counties if the bg/tract intersects with a
 buffer
 
-Running this produces: - `collar_filter.rda` - `block_group.rda` -
-`census_tract.rda`
+Running this produces:
+
+-   `collar_filter.rda`
+-   `block_group.rda`
+-   `census_tract.rda`
 
 ## Create population estimates
 
 This script doesn’t depend on inputs from any other script.
 
-Running this produces: - `est_pop.rda`
+Running this produces:
+
+-   `est_pop.rda`
 
 ## Create transit layer
 
 ## Only keep final files
 
 # reproject
+
+# create nice names for app selections

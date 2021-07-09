@@ -127,14 +127,14 @@ mod_summary_ggplot_server <- function(
       filter(catg == point$status) %>%
       .[, 2]
 
-    HTML(if (selected_vars$input_acs != "adj_meanhhi") {
+    HTML(if (selected_vars$input_acs != "meanhhinc"){# "adj_meanhhi") {
       (
         (
           (paste0(
             "<div style='font-size:1.8rem;padding:1%;background-color:",
             background_color,
             "'>",
-            "Approx. ",
+            "Approximately ",
             "<b>",
             point$value,
             "%",
@@ -162,11 +162,10 @@ mod_summary_ggplot_server <- function(
             "'>",
             "$",
             prettyNum(point$value, big.mark = ","),
-            " is the approx. mean household income within ",
+            " is the approximate mean household income within ",
             (if (point$type == "avg") ("") else (paste0(point$distance, " mi of "))),
             point$name,
-            (if (point$type == "avg") ("</b>") else (paste0(" (", point$type, " - ", point$status, ", ", point$agency, ") </b> </div>"))),
-            "."
+            (if (point$type == "avg") ("</b>") else (paste0(" (", point$type, " - ", point$status, ", ", point$agency, "). </b> </div>")))
           ))
         )
       )
