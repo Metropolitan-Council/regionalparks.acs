@@ -53,7 +53,7 @@ app_server <- function(input, output, session) {
   print("table_buffer_data")
   observe({print(summary_util_vars$table_buffer_data)})
  
-  observe({print(summary_util_vars$plot_buffer_data)}) 
+  # observe({print(summary_util_vars$plot_buffer_data)}) 
   
   
   # print("facet data")
