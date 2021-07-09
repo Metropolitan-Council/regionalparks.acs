@@ -345,17 +345,18 @@ name_helper <- as_tibble(names(as_tibble(block_group_map))) %>%
         c("adj_anydis_per", "Disability, % any other disability"),
         c("adj_forborn_per", "Origin, % foreign-born"),
         c("adj_usborn_per", "Origin, % US-born")) %>%
+  
   mutate(order = if_else(grepl("under", dropdownname), 1, NA_real_)) %>%
   arrange(order,dropdownname) %>%
-  mutate(category = case_when(str_detect(dropdownname, "Race|Ethnicity") ~ "EthRace",
+  mutate(category = case_when(str_detect(dropdownname, "Age") ~ "Age",
+                              str_detect(dropdownname, "Disability") ~ "Disability",
+                              str_detect(dropdownname, "Race|Ethnicity") ~ "EthRace",
+                              str_detect(dropdownname, "Language") ~ "Language",
+                              str_detect(dropdownname, "Origin") ~ "Origin",
+                              str_detect(dropdownname, "Socioeconomic") ~ "Socioeconomic",
+                              str_detect(dropdownname, "Transportation") ~ "Transportation",
                               TRUE ~ "other"))
 usethis::use_data(name_helper, overwrite = TRUE)
-
-# 
-# lapply(with(filter(name_helper, category == "EthRace"), split(dropdownname, acscode)), as.list)
-# lapply(with(filter(name_helper, category == "EthRace"), split(acscode, dropdownname)), as.list)
-
-with(filter(name_helper, category == "EthRace"), split(acscode, dropdownname))
 
 ```
 
