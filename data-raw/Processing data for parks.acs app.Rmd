@@ -304,7 +304,7 @@ usethis::use_data(agency_boundary, overwrite = TRUE)
 name_helper <- as_tibble(names(as_tibble(block_group_map))) %>% 
   rename(acscode = value) %>%
   filter(str_detect(acscode, "percent|meanhhinc")) %>% 
-  mutate(acscode = gsub("meanhhinc", "meanhhinc_per", acscode)) %>%
+  # mutate(acscode = gsub("meanhhinc", "meanhhinc_per", acscode)) %>%
   mutate(dropdownname = acscode %>%
            str_remove("_percent") %>%
            str_replace("_", "-") %>%
