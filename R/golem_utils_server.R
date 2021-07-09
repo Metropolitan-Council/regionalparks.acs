@@ -83,14 +83,14 @@ s_col <- "#DDCC77" # yellow
 require(magrittr)
 load("./data/name_helper.rda")
 ACSMenu <- list(
-  `Age` = with(filter(regionalparks.acs::name_helper, category == "Age"), split(acscode, dropdownname)),
-  `Disability` = with(filter(name_helper, category == "Disability"), split(acscode, dropdownname)),
-  `Ethnicity & Race` = with(filter(name_helper, category == "EthRace"), split(acscode, dropdownname)),
-  `Language` = with(filter(name_helper, category == "Language"), split(acscode, dropdownname)),
-  `National origin` = with(filter(name_helper, category == "Origin"), split(acscode, dropdownname)),
-  `Socioeconomic` = with(filter(name_helper, category == "Socioeconomic"), split(acscode, dropdownname)),
+  `Age` = with(dplyr::filter(name_helper, category == "Age"), split(acscode, dropdownname)),
+  `Disability` = with(dplyr::filter(name_helper, category == "Disability"), split(acscode, dropdownname)),
+  `Ethnicity & Race` = with(dplyr::filter(name_helper, category == "EthRace"), split(acscode, dropdownname)),
+  `Language` = with(dplyr::filter(name_helper, category == "Language"), split(acscode, dropdownname)),
+  `National origin` = with(dplyr::filter(name_helper, category == "Origin"), split(acscode, dropdownname)),
+  `Socioeconomic` = with(dplyr::filter(name_helper, category == "Socioeconomic"), split(acscode, dropdownname)),
   # "Housing, % cost burdened" = "adj_costburd_per"),
-  `Transportation` = with(filter(name_helper, category == "Transportation"), split(acscode, dropdownname))
+  `Transportation` = with(dplyr::filter(name_helper, category == "Transportation"), split(acscode, dropdownname))
 )
 
 
