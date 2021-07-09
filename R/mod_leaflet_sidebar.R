@@ -36,43 +36,9 @@ mod_leaflet_sidebar_ui <- function(id) {
         selectInput(
           ns("mainacs"),
           h4("Choose a variable to map"),
-          choices = list(
-            `Age` = list(
-              "Age, % under 15" = "adj_ageunder15_per",
-              "Age, % 15-24" = "adj_age15_24_per",
-              "Age, % 25-64" = "adj_age25_64_per",
-              "Age, % 65+" = "adj_age65up_per"
-            ),
-            `Disability` = list(
-              "Disability, % ambulatory disability" = "adj_ambdis_per",
-              "Disability, % any other disability" = "adj_anydis_per"
-            ),
-            `Ethnicity & Race` = list(
-              "Ethnicity, % Hispanic" = "adj_hisppop_per",
-              "Ethnicity, % not-Hispanic" = "adj_nothisppop_per",
-              "Race, % American Indian" = "adj_amindnh_per",
-              "Race, % Asian" = "adj_asiannh_per",
-              "Race, % Black" = "adj_blacknh_per",
-              "Race, % Other + Multiracial" = "adj_othermultinh_per",
-              "Race, % White" = "adj_whitenh_per"
-            ),
-            `Language` = list(
-              "% limited English proficiency" = "adj_lep_per",
-              "% Spanish speakers" = "adj_span_per"
-            ),
-            `National origin` = list(
-              "Origin, % foreign-born" = "adj_forborn_per",
-              "Origin, % US-born" = "adj_usborn_per"
-            ),
-            `Socioeconomic` = list(
-              "Income, Mean household income ($)" = "adj_meanhhi",
-              "Income, % below 185% poverty line" = "adj_185pov_per" # ,
-              # "Housing, % cost burdened" = "adj_costburd_per"
-            ),
-            `Transportation` = list("% Households without a vehicle" = "adj_novehicle_per")
-          ),
+          choices = ACSMenu,
           selectize = FALSE,
-          selected = "adj_ageunder15_per"
+          selected = name_helper[1,1]
         )
       ),
       conditionalPanel(

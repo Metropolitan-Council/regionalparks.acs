@@ -289,19 +289,20 @@ mod_main_leaflet_server <- function(
         ) %>%
         addPolygons(
           group = "Population data",
-          data = select(block_group_map, adj_ageunder15_per), 
+          data = select(block_group_map, deframe(name_helper[1,1])), 
           stroke = TRUE,
           color = councilR::colors$suppGray,
           opacity = 0.6,
           weight = 0.25,
           fillOpacity = 0.6,
           smoothFactor = 0.2,
-          fillColor = ~ colorBin(bins = 5, palette = "Blues", pretty = F, domain = block_group_map$adj_ageunder15_per)(block_group_map$adj_ageunder15_per),
+          fillColor = ~ colorBin(bins = 5, palette = "Blues", pretty = F, 
+                                 domain = select(block_group_map, deframe(name_helper[1,1]))[[1]])(select(block_group_map, deframe(name_helper[1,1]))[[1]]),
           options = list(zIndex = 0),
           popup =  ~ paste0(
                 tags$strong(filter(renamekey, ACS == "adj_ageunder15_per") %>% select(goodname)),
                 ": ",
-                select(block_group_map, adj_ageunder15_per)[[1]],
+                select(block_group_map, deframe(name_helper[1,1]))[[1]],
                 "%"
               )
         ) %>%
@@ -311,8 +312,8 @@ mod_main_leaflet_server <- function(
           position = "bottomleft",
           group = "Population data",
           layerId = "Population data",
-          pal = colorBin(bins = 5, palette = "Blues", pretty = F, domain = block_group_map$adj_ageunder15_per), 
-          values = (block_group_map$adj_ageunder15_per)
+          pal = colorBin(bins = 5, palette = "Blues", pretty = F, domain = select(block_group_map, deframe(name_helper[1,1]))[[1]]), 
+          values = select(block_group_map, deframe(name_helper[1,1]))[[1]]
         ) %>%
         addPolygons(
           # options = pathOptions(pane = "buff"),

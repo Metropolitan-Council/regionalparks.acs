@@ -18,17 +18,8 @@ mod_summary_selections_ui <- function(id) {
         # width = '100%',
         ns("input_acs"),
         label = h4("Choose population characteristic"),
-        choices = list(
-          `Age` = with(filter(name_helper, category == "Age"), split(acscode, dropdownname)),
-          `Disability` = with(filter(name_helper, category == "Disability"), split(acscode, dropdownname)),
-          `Ethnicity & Race` = with(filter(name_helper, category == "EthRace"), split(acscode, dropdownname)),
-          `Language` = with(filter(name_helper, category == "Language"), split(acscode, dropdownname)),
-          `National origin` = with(filter(name_helper, category == "Origin"), split(acscode, dropdownname)),
-          `Socioeconomic` = with(filter(name_helper, category == "Socioeconomic"), split(acscode, dropdownname)),
-          # "Housing, % cost burdened" = "adj_costburd_per"),
-          `Transportation` = with(filter(name_helper, category == "Transportation"), split(acscode, dropdownname))
-        ),
-        selected = name_helper[1,1],
+        choices = ACSMenu,
+        selected = deframe(name_helper[1,1]),
         selectize = F
         # )
       ),
