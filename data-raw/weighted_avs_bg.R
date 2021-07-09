@@ -83,8 +83,11 @@ return_weighted_demo_percents <- (function(...) {
       across(starts_with("adj_") & !contains(c("meanhhinc", "novehicle")),
              ~round(.x / adj_2019pop * 100, 1),
              .names = "{.col}_per"),
-      across(starts_with("adj_") & contains(c("meanhhinc", "novehicle")),
+      across(starts_with("adj_") & contains(c("novehicle")),
              ~round(.x / adj_2019hh * 100, 1),
+             .names = "{.col}_per"),
+      across(starts_with("adj_") & contains(c("meanhhinc")), #income is not a percent
+             ~round(.x / adj_2019hh, 1),
              .names = "{.col}_per"),
     )
 })

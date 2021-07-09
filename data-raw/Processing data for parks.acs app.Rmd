@@ -13,7 +13,7 @@ always_allow_html: true
 urlcolor: blue
 ---
 
-```{r include=F, warning=F, message=F}
+```{r include=F, warning=F, message=F, echo = F}
 knitr::opts_chunk$set(echo = F, message = F, warning = F)
 
 library(tidyverse)
@@ -40,7 +40,7 @@ As an aside, if any parks/trails need to be reassigned to different agencies and
 
 Park amenities produces park entrance locations and public water access locations.And rivers/lakes.
 
-```{r unitgeo, message=FALSE, warning = F, echo = F}
+```{r unitgeo}
 source("park_trail_geog_LONG.R")
 
 source("park_amenities.R")
@@ -62,7 +62,7 @@ Running `block_group_raw.R` produces:
 
 If acs variables need to be added, this is one place where that should be done.
 
-```{r rawdata, message=FALSE, warning = F, echo = F}
+```{r rawacsdata}
 source("census_tract_raw.R")
 source("block_group_raw.R")
 ```
@@ -88,7 +88,7 @@ Running `weighted_avs_tracts.R` produces:
 and then we will join the 2 geographies together to create one cohesive weighted average dataset. 
 
 Create some helper functions
-```{r weighteddata, message=FALSE, warning = F, echo = F}
+```{r weighteddata}
 agency_filter <- tibble(
   agency = c(
     "Anoka County", # Parks and Recreation",
@@ -177,7 +177,7 @@ park_trail_geog_temp <- park_trail_geog_LONG %>% # bind_rows(park_trail_geog, .i
 
 Download small area estimates:
 
-```{r smarea, echo=F}
+```{r smallareapop, echo=F}
 temp <- tempfile()
 download.file("https://resources.gisdata.mn.gov/pub/gdrs/data/pub/us_mn_state_metc/society_small_area_estimates/xlsx_society_small_area_estimates.zip",
   destfile = temp
@@ -213,7 +213,7 @@ fs::file_delete("./SmallAreaEstimatesTract.xlsx")
 
 
 
-```{r echo=F, message=F, warning=F}
+```{r lbdaa}
 
 source("weighted_avs_bg.R")
 source("weighted_avs_tracts.R")
@@ -243,7 +243,7 @@ Running this produces:
 - `block_group.rda`
 - `census_tract.rda`
 
-```{r spatialacs, message=FALSE, warning = F, echo = F}
+```{r spatialacs}
 source("collar_county_filter.R")
 source("acs_geo.R")
 ```
@@ -256,14 +256,14 @@ Running this produces:
 
 - `est_pop.rda`
 
-```{r popest, message=FALSE, warning = F, echo = F}
+```{r popest}
 source("pop_est.R")
 
 ```
 
 ## Create transit layer
 
-```{r transit, message=FALSE, warning = F, echo = F}
+```{r transit}
 
 source("transit_routes.R")
 
@@ -271,7 +271,7 @@ source("transit_routes.R")
 
 ## Only keep final files
 
-```{r}
+```{r deletethigns}
 fs::file_delete("../data/agency_avg_bg.rda")
 fs::file_delete("../data/agency_avg_tract.rda")
 # fs::file_delete("../data/agency_planned_existing_avgs.rda")
@@ -287,33 +287,10 @@ fs::file_delete("../data/collar_filter.rda")
 
 
 # reproject
-```{r}
+```{r reproject}
 agency_boundary <- agency_boundary %>% st_transform(4326)
 usethis::use_data(agency_boundary, overwrite = TRUE)
 
-# block_group <- block_group %>% st_transform(4326)
-# usethis::use_data(block_group, overwrite = TRUE)
-# 
-# buffer_geo <- buffer_geo %>% st_transform(4326)
-# usethis::use_data(buffer_geo, overwrite = TRUE)
-# 
-# census_tract <- census_tract %>% st_transform(4326)
-# usethis::use_data(census_tract, overwrite = TRUE)
-# 
-# county_outlines <- county_outlines %>% st_transform(4326)
-# usethis::use_data(county_outlines, overwrite = TRUE)
-# 
-# est_pop <- est_pop %>% st_transform(4326)
-# usethis::use_data(est_pop, overwrite = TRUE)
-# 
-# park_trail_geog_LONG <- park_trail_geog_LONG %>% st_transform(4326)
-# usethis::use_data(park_trail_geog_LONG, overwrite = TRUE)
-# 
-# taz_growth <- taz_growth %>% st_transform(4326)
-# usethis::use_data(taz_growth, overwrite = TRUE)
-# 
-# trans_stops <- trans_stops %>% st_transform(4326)
-# usethis::use_data(trans_stops, overwrite = TRUE)
 ```
 
 
