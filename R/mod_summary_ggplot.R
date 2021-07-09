@@ -127,7 +127,7 @@ mod_summary_ggplot_server <- function(
       filter(catg == point$status) %>%
       .[, 2]
 
-    HTML(if (selected_vars$input_acs != "meanhhinc"){# "adj_meanhhi") {
+    HTML(if (selected_vars$input_acs != "meanhhinc_per"){# "adj_meanhhi") {
       (
         (
           (paste0(

@@ -231,6 +231,10 @@ agency_avg <- agency_avg_bg %>%
               mutate(geo = "tract"))
 
 usethis::use_data(agency_avg, overwrite = TRUE)
+
+# levels(as.factor(agency_avg$ACS))
+# agency_avg %>% filter(ACS == "adj_meanhhinc" | ACS == "adj_meanhhinc_per")
+# long_buffer_data %>% filter(ACS == "adj_meanhhinc" | ACS == "adj_meanhhinc_per") %>% arrange(agency, name, distance, ACS)
 ```
 
 ## Create the spatial ACS data
@@ -300,6 +304,7 @@ usethis::use_data(agency_boundary, overwrite = TRUE)
 name_helper <- as_tibble(names(as_tibble(block_group_map))) %>% 
   rename(acscode = value) %>%
   filter(str_detect(acscode, "percent|meanhhinc")) %>% 
+  mutate(acscode = gsub("meanhhinc", "meanhhinc_per", acscode)) %>%
   mutate(dropdownname = acscode %>%
            str_remove("_percent") %>%
            str_replace("_", "-") %>%
@@ -319,7 +324,7 @@ name_helper <- as_tibble(names(as_tibble(block_group_map))) %>%
            str_replace("lep", "Language, % limited English proficiency") %>%
            str_replace("hh-noveh", "Transportation, % Households without a vehicle") %>%
            str_replace("pov185", "Socioeconomic, % below 185% poverty line") %>%
-           str_replace("meanhhinc", "Socioeconomic, Mean household income ($)")) %>%
+           str_replace("meanhhinc-per", "Socioeconomic, Mean household income ($)")) %>%
   
   #values from census tract aren't automatically inserted yet
   rbind(c("adj_ambdis_per","Disability, % ambulatory disability"),
@@ -347,7 +352,7 @@ name_helper <- as_tibble(names(as_tibble(block_group_map))) %>%
                             acscode == "lep_span_percent" ~ "% population primarily<br>speaking Spanish",
                             acscode == "hh_noveh_percent" ~ "% households<br>without a vehicle",
                             acscode == "pov185_percent" ~ "% households below<br>185% poverty line",
-                            acscode == "meanhhinc" ~ "Mean household<br>income ($)"
+                            acscode == "meanhhinc_per" ~ "Mean household<br>income ($)"
                             ),
          leglab = gsub("age under", "under age", leglab)) %>%
   
