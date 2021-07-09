@@ -312,3 +312,53 @@ usethis::use_data(agency_boundary, overwrite = TRUE)
 # trans_stops <- trans_stops %>% st_transform(4326)
 # usethis::use_data(trans_stops, overwrite = TRUE)
 ```
+
+
+# create nice names for app selections
+
+```{r nicenames}
+name_helper <- as_tibble(names(as_tibble(block_group_map))) %>% 
+  rename(acscode = value) %>%
+  filter(str_detect(acscode, "percent|meanhhinc")) %>% 
+  mutate(dropdownname = acscode %>%
+           str_remove("_percent") %>%
+           str_replace("_", "-") %>%
+           str_replace("age", "Age, % ") %>%
+           str_replace("under15", "under 15") %>%
+           if_else(grepl("nh$", .), paste0("Race, % ", .), .) %>%
+           str_replace("amindnh", "American Indian") %>%
+           str_replace("asiannh", "Asian") %>%
+           str_replace("blacknh", "Black") %>%
+           str_replace("othermultinh", "Other + Multiracial") %>%
+           str_replace("whitenh", "White") %>%
+           if_else(str_detect(., "hisppop"), paste0("Ethnicity, % ", .), .) %>%
+           str_replace("nothisppop", "not-Hispanic") %>%
+           str_replace("hisppop", "Hispanic") %>%
+           str_replace("lep-span", "Language, % Spanish speakers") %>%
+           str_replace("lep", "Language, % limited English proficiency") %>%
+           str_replace("hh-noveh", "Transportation, % Households without a vehicle") %>%
+           str_replace("pov185", "Socioeconomic, % below 185% poverty line") %>%
+           str_replace("meanhhinc", "Socioeconomic, Mean household income ($)")) %>%
+  
+  #values from census tract aren't automatically inserted yet
+  rbind(c("adj_ambdis_per","Disability, % ambulatory disability"),
+        c("adj_anydis_per", "Disability, % any other disability"),
+        c("adj_forborn_per", "Origin, % foreign-born"),
+        c("adj_usborn_per", "Origin, % US-born")) %>%
+  mutate(order = if_else(grepl("under", dropdownname), 1, NA_real_)) %>%
+  arrange(order,dropdownname) %>%
+  mutate(category = case_when(str_detect(dropdownname, "Race|Ethnicity") ~ "EthRace",
+                              TRUE ~ "other"))
+usethis::use_data(name_helper, overwrite = TRUE)
+
+# 
+# lapply(with(filter(name_helper, category == "EthRace"), split(dropdownname, acscode)), as.list)
+# lapply(with(filter(name_helper, category == "EthRace"), split(acscode, dropdownname)), as.list)
+
+with(filter(name_helper, category == "EthRace"), split(acscode, dropdownname))
+
+```
+
+
+
+
