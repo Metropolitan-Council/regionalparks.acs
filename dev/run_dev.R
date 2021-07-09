@@ -11,7 +11,7 @@ options(
 golem::detach_all_attached()
 # rm(list=ls(all.names = TRUE))
 
-rmarkdown::render("R/reference_doc.Rmd",
+rmarkdown::render("reference_doc.Rmd",
   output_format = "github_document", # -----
   output_file = "reference_doc.md", output_dir = "inst/app/www",
   params = list(
@@ -24,7 +24,7 @@ rmarkdown::render("R/reference_doc.Rmd",
 )
 
 
-rmarkdown::render("R/intro_doc.Rmd",
+rmarkdown::render("intro_doc.Rmd",
                   output_format = "github_document", # -----
                   output_file = "intro_doc.md", output_dir = "inst/app/www",
                   params = list(
@@ -36,7 +36,7 @@ rmarkdown::render("R/intro_doc.Rmd",
                   )
 )
 
-rmarkdown::render("R/StatusHelp.Rmd",
+rmarkdown::render("StatusHelp.Rmd",
                   output_format = "github_document", # -----
                   output_file = "StatusHelp.md", output_dir = "inst/app/www",
                   params = list(
@@ -48,7 +48,7 @@ rmarkdown::render("R/StatusHelp.Rmd",
                   )
 )
 
-rmarkdown::render("R/BufferHelp.Rmd",
+rmarkdown::render("BufferHelp.Rmd",
                   output_format = "github_document", # -----
                   output_file = "BufferHelp.md", output_dir = "inst/app/www",
                   params = list(
@@ -60,7 +60,7 @@ rmarkdown::render("R/BufferHelp.Rmd",
                   )
 )
 
-rmarkdown::render("R/DataSourceHelp.Rmd",
+rmarkdown::render("DataSourceHelp.Rmd",
                   output_format = "github_document", # -----
                   output_file = "DataSourceHelp.md", output_dir = "inst/app/www",
                   params = list(

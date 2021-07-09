@@ -44,14 +44,14 @@ app_server <- function(input, output, session) {
     selected_vars = selected_input_vars
   )
   
-  print("input selections")
-  observe({print(selected_input_vars$input_type)})
-  observe({print(selected_input_vars$input_status)})
-  observe({print(selected_input_vars$input_acs)})
-  observe({print(selected_input_vars$input_distance)})
-
-  print("table_buffer_data")
-  observe({print(summary_util_vars$table_buffer_data)})
+  # print("input selections")
+  # observe({print(selected_input_vars$input_type)})
+  # observe({print(selected_input_vars$input_status)})
+  # observe({print(selected_input_vars$input_acs)})
+  # observe({print(selected_input_vars$input_distance)})
+  # 
+  # print("table_buffer_data")
+  # observe({print(summary_util_vars$table_buffer_data)})
  
   # observe({print(summary_util_vars$plot_buffer_data)}) 
   
