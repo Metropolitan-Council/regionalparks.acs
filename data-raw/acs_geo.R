@@ -48,8 +48,9 @@ usethis::use_data(block_group, overwrite = TRUE)
 
 block_group_map <- block_group %>%
   mutate(across(c(hh_noveh, lep:othermultinh), ~.x * 100,
-                .names = "{.col}_percent")) #%>%
-  # rename(
+                .names = "{.col}_percent")) %>%
+  select(-hh_noveh, -lep:-othermultinh)
+# rename(
   #   "adj_ageunder15_per" = "ageunder15_percent",
   #   "adj_age15_24_per" = "age15_24_percent",
   #   "adj_age25_64_per" = "age25_64_percent",
