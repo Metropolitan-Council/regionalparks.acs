@@ -101,13 +101,16 @@ agency_avg_bg <- (agency_bg_coverage) %>%
   summarise(across(starts_with("adj_"), sum, na.rm = T)) %>% # need to sum for each park/agency parcel
 
   pmap_df(return_weighted_demo_percents) %>%
-  as_tibble() %>%
-  gather(
-    key = "ACS",
-    value = "value",
-    -agency
-  ) %>%
+  # select(agency, ends_with("per"), -adj_2019pop_per, -adj_2019hh_per) %>%
+  pivot_longer(names_to = "ACS", values_to = "value", -agency) %>%
+  # as_tibble() %>%
+  # gather(
+  #   key = "ACS",
+  #   value = "value",
+  #   -agency
+  # ) %>%
   mutate(value = round(value, 3))
+
 
 usethis::use_data(agency_avg_bg, overwrite = TRUE)
 

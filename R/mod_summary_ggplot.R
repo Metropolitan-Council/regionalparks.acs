@@ -83,8 +83,8 @@ mod_summary_ggplot_server <- function(
       council_theme() +
       labs(
         y = "",
-        x = filter(renamekey, ACS == selected_vars$input_acs) %>% select(goodname),
-        title = paste0((filter(renamekey, ACS == selected_vars$input_acs) %>% select(goodname)), " - ", selected_vars$input_distance, " mi buffer"),
+        # x = filter(renamekey, ACS == selected_vars$input_acs) %>% select(goodname),
+        # title = paste0((filter(renamekey, ACS == selected_vars$input_acs) %>% select(goodname)), " - ", selected_vars$input_distance, " mi buffer"),
         fill = "Unit status",
         shape = "Unit type" # ,
         # caption = ("\nMetropolitan Council, 12 Jan. 2020")
@@ -147,7 +147,8 @@ mod_summary_ggplot_server <- function(
             (if (point$type == "avg") ("</b>") else (paste0(" (", point$type, " - ", point$status, ", ", point$agency, ") </b>"))),
             " fall into the ",
             "<b>",
-            (filter(renamekey, ACS == selected_vars$input_acs) %>% select(goodname)),
+            (filter(name_helper, acscode == selected_vars$input_acs) %>% select(popuplab)),
+            # (filter(renamekey, ACS == selected_vars$input_acs) %>% select(goodname)),
             "</b> category.",
             "</br> </div>"
           ))

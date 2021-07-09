@@ -375,7 +375,10 @@ name_helper <- as_tibble(names(as_tibble(block_group_map))) %>%
          leglab = gsub("age under", "under age", leglab)) %>%
   
   # include column for popup labels
-  mutate(popuplab = gsub("<br>", " ", leglab))
+  mutate(popuplab = gsub("<br>", " ", leglab)) %>%
+  
+  # include column for buffer geos --> ideally would like to streamline this, but it works for now
+  mutate(buffercode = paste0("adj_", gsub("percent", "per", acscode)))
   
 usethis::use_data(name_helper, overwrite = TRUE)
 
