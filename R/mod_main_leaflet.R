@@ -92,7 +92,7 @@ mod_main_leaflet_server <- function(
         addLegend(
           labFormat = labelFormat2(),
           title = if (main_lft_inputs$source == "Population characteristics") {
-            paste0(filter(renamekey, ACS == main_lft_inputs$mainacs) %>% select(gn2))
+            deframe(filter(name_helper, acscode == main_lft_inputs$mainacs) %>% select(leglab))
           } else {
             paste0(filter(popkey, popvar == main_lft_inputs$mainpop) %>% select(s2))
           },
@@ -308,7 +308,7 @@ mod_main_leaflet_server <- function(
         ) %>%
         addLegend(
           labFormat = labelFormat2(),
-          title = paste0(filter(renamekey, ACS == "adj_ageunder15_per") %>% select(gn2)),
+          title = deframe(filter(name_helper, acscode == deframe(name_helper[1,1])) %>% select(leglab)),
           position = "bottomleft",
           group = "Population data",
           layerId = "Population data",

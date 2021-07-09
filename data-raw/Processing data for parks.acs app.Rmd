@@ -328,6 +328,7 @@ name_helper <- as_tibble(names(as_tibble(block_group_map))) %>%
            str_replace("_", "-") %>%
            str_replace("age", "Age, % ") %>%
            str_replace("under15", "under 15") %>%
+           str_replace("-up", "+") %>%
            if_else(grepl("nh$", .), paste0("Race, % ", .), .) %>%
            str_replace("amindnh", "American Indian") %>%
            str_replace("asiannh", "Asian") %>%
