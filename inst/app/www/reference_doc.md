@@ -49,9 +49,9 @@ Commons.
 
 ### Contributors
 
--   Ellen Esch, Data Scientist
+-   Ellen Esch, Senior Data Scientist
     [ellen.esch@metc.state.mnu.us](mailto:ellen.esch@metc.state.mn.us)
--   Liz Roten, Associate Data Scientist <liz.roten@metc.state.mn.us>  
+-   Liz Roten, Data Scientist <liz.roten@metc.state.mn.us>  
 -   Darcie Vandegrift, Principal Parks Researcher
     <darcie.vandegrift@metc.state.mn.us>
 
@@ -293,6 +293,6 @@ Simulate Package Installation and Attach</em>.
 </div>
 
 <right style="font-size: 1rem; text-align: right; display: block;">
-*Last updated 2021-07-09*  
-Build ID: 2021-07-09.roten.529b4c2  
+*Last updated 2021-07-12*  
+Build ID: 2021-07-12.roten.9c5c02a  
 </right>
