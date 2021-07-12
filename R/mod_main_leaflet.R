@@ -69,11 +69,12 @@ mod_main_leaflet_server <- function(
           fillColor = ~ main_lft_inputs$pop_pal(main_lft_inputs$map_bg_data_main[[1]]),
           options = list(zIndex = 0),
           popup = if (main_lft_inputs$source == "Population characteristics") {
-            if (main_lft_inputs$mainacs == "adj_meanhhi") {
-              ~ paste0(tags$strong(filter(renamekey, ACS == main_lft_inputs$mainacs) %>% select(goodname)), ": $", format(main_lft_inputs$map_bg_data_main[[1]], big.mark = ","))
+            if (main_lft_inputs$mainacs == "meanhhinc") {
+              ~ paste0(tags$strong(filter(name_helper, acscode == main_lft_inputs$mainacs) %>% select(popuplab)), ": $", 
+                       format(main_lft_inputs$map_bg_data_main[[1]], big.mark = ","))
             } else {
               ~ paste0(
-                tags$strong(filter(renamekey, ACS == main_lft_inputs$mainacs) %>% select(goodname)),
+                tags$strong(filter(name_helper, acscode == main_lft_inputs$mainacs) %>% select(popuplab)),
                 ": ",
                 main_lft_inputs$map_bg_data_main[[1]],
                 "%"
@@ -92,7 +93,7 @@ mod_main_leaflet_server <- function(
         addLegend(
           labFormat = labelFormat2(),
           title = if (main_lft_inputs$source == "Population characteristics") {
-            paste0(filter(renamekey, ACS == main_lft_inputs$mainacs) %>% select(gn2))
+            deframe(filter(name_helper, acscode == main_lft_inputs$mainacs) %>% select(leglab))
           } else {
             paste0(filter(popkey, popvar == main_lft_inputs$mainpop) %>% select(s2))
           },
@@ -289,30 +290,31 @@ mod_main_leaflet_server <- function(
         ) %>%
         addPolygons(
           group = "Population data",
-          data = select(block_group_map, adj_ageunder15_per), 
+          data = select(block_group_map, deframe(name_helper[1,1])), 
           stroke = TRUE,
           color = councilR::colors$suppGray,
           opacity = 0.6,
           weight = 0.25,
           fillOpacity = 0.6,
           smoothFactor = 0.2,
-          fillColor = ~ colorBin(bins = 5, palette = "Blues", pretty = F, domain = block_group_map$adj_ageunder15_per)(block_group_map$adj_ageunder15_per),
+          fillColor = ~ colorBin(bins = 5, palette = "Blues", pretty = F, 
+                                 domain = select(block_group_map, deframe(name_helper[1,1]))[[1]])(select(block_group_map, deframe(name_helper[1,1]))[[1]]),
           options = list(zIndex = 0),
           popup =  ~ paste0(
-                tags$strong(filter(renamekey, ACS == "adj_ageunder15_per") %>% select(goodname)),
+                tags$strong(filter(name_helper, acscode == deframe(name_helper[1,1])) %>% select(popuplab)),
                 ": ",
-                select(block_group_map, adj_ageunder15_per)[[1]],
+                select(block_group_map, deframe(name_helper[1,1]))[[1]],
                 "%"
               )
         ) %>%
         addLegend(
           labFormat = labelFormat2(),
-          title = paste0(filter(renamekey, ACS == "adj_ageunder15_per") %>% select(gn2)),
+          title = deframe(filter(name_helper, acscode == deframe(name_helper[1,1])) %>% select(leglab)),
           position = "bottomleft",
           group = "Population data",
           layerId = "Population data",
-          pal = colorBin(bins = 5, palette = "Blues", pretty = F, domain = block_group_map$adj_ageunder15_per), 
-          values = (block_group_map$adj_ageunder15_per)
+          pal = colorBin(bins = 5, palette = "Blues", pretty = F, domain = select(block_group_map, deframe(name_helper[1,1]))[[1]]), 
+          values = select(block_group_map, deframe(name_helper[1,1]))[[1]]
         ) %>%
         addPolygons(
           # options = pathOptions(pane = "buff"),

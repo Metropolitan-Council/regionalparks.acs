@@ -43,6 +43,21 @@ app_server <- function(input, output, session) {
     "summary_utils_ui_1",
     selected_vars = selected_input_vars
   )
+  
+  # print("input selections")
+  # observe({print(selected_input_vars$input_type)})
+  # observe({print(selected_input_vars$input_status)})
+  # observe({print(selected_input_vars$input_acs)})
+  # observe({print(selected_input_vars$input_distance)})
+  # 
+  # print("table_buffer_data")
+  # observe({print(summary_util_vars$table_buffer_data)})
+ 
+  # observe({print(summary_util_vars$plot_buffer_data)}) 
+  
+  
+  # print("facet data")
+  # observe({print(summary_util_vars$facet_data)})
 
   callModule(
     mod_summary_download_server,
