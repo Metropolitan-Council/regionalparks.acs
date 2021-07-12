@@ -24,20 +24,18 @@ mod_summary_utils_server <- function(
   ns <- session$ns
 
   make_table_buffer_data <- reactive({
-    p <- regionalparks.acs::long_buffer_data %>%
+    p <- name_helper %>% left_join(long_buffer_data, by = c("buffercode" = "ACS")) %>% 
+      # regionalparks.acs::long_buffer_data %>%
       dplyr::filter(
-        agency %in% selected_vars$input_agency # ,
-        # type %in% selected_vars$input_type,
-        # distance == selected_vars$input_distance,
-        # status %in% selected_vars$input_status
+        # agency == "Anoka County"
+        agency %in% selected_vars$input_agency
       ) %>%
       separate(
         name,
         into = c("name", "delete2"),
         sep = c("_")
       ) %>%
-      left_join(renamekey, by = c("ACS" = "ACS")) %>%
-      mutate(acs_short = stringr::str_remove(goodname, "% ")) %>%
+      mutate(acs_short = stringr::str_remove(popuplab, "% ")) %>%
       mutate(hover_text = stringr::str_wrap(
         paste0(
           "Approx. ",
@@ -69,8 +67,15 @@ mod_summary_utils_server <- function(
         type %in% selected_vars$input_type,
         distance == selected_vars$input_distance,
         status %in% selected_vars$input_status,
-        ACS == selected_vars$input_acs
+        acscode == selected_vars$input_acs
       ) %>%
+     # t<- p %>%
+     #  filter(
+     #    type %in% c("Park" , "Trail"),
+     #    distance == 1,
+     #    status %in% c("Existing", "Planned",  "Search"))#,
+     #    acscode == "ageunder15_percent"
+     #  )
       mutate(name = str_replace_all(
         name,
         c(
@@ -86,16 +91,17 @@ mod_summary_utils_server <- function(
   })
 
   make_facet_data <- reactive({
-    regionalparks.acs::agency_avg %>%
+  name_helper %>% left_join(agency_avg, by = c("buffercode" = "ACS")) %>%# regionalparks.acs::agency_avg %>%
       filter(
+        # agency == "Anoka County",
+        # acscode == name_helper[[1,1]] #"age15_24_percent"
         agency %in% selected_vars$input_agency,
-        ACS == selected_vars$input_acs
+        acscode == selected_vars$input_acs
       ) %>%
       mutate(
         agency = forcats::fct_reorder(agency, (value))
       ) %>%
-      left_join(renamekey, by = c("ACS" = "ACS")) %>%
-      mutate(acs_short = stringr::str_remove(goodname, "% ")) %>%
+      mutate(acs_short = stringr::str_remove(popuplab, "% ")) %>%
       mutate(hover_text = stringr::str_wrap(
         paste0(
           "The average ",
@@ -122,87 +128,28 @@ mod_summary_utils_server <- function(
       rename(name = agency) %>%
       bind_rows(make_plot_buffer_data() %>%
         mutate(level = "Unit values")) %>%
-      pivot_wider(names_from = ACS, values_from = value) %>%
-      rename(value = starts_with("adj")) %>%
+      pivot_wider(names_from = acscode, values_from = value) %>%
+      rename(value = selected_vars$input_acs) %>%
+      # rename(value = name_helper[[1,1]]) %>%
       mutate(hovtext = paste0("Approx. ", .$value, "% of pple within", .$distance, " mi are"))
   })
 
-  make_map_parktrail_data <- reactive({
-    p4 <- regionalparks.acs::park_trail_geog_LONG %>%
-      dplyr::filter(
-        agency %in% selected_vars$input_agency,
-        Type %in% selected_vars$input_type,
-        status2 %in% selected_vars$input_status
-      )
-    return(p4)
-  })
-
-
-  make_map_buffer_data <- reactive({
-    p5 <- regionalparks.acs::buffer_geo %>%
-      dplyr::filter(
-        agency %in% selected_vars$input_agency,
-        type %in% selected_vars$input_type,
-        status %in% selected_vars$input_status,
-        distance == selected_vars$input_distance
-      )
-    return(p5)
-  })
-
-
-  make_map_bg_data <- reactive({
-    p6 <- if (selected_vars$input_acs %in% tract_vars$ACS) {
-      regionalparks.acs::census_tract_map %>%
-        select(selected_vars$input_acs)
-    } else {
-      regionalparks.acs::block_group_map %>%
-        select(selected_vars$input_acs)
-    }
-    return(p6)
-  })
-
-
-  make_PlotHeight <- reactive( # plot height ------
-    # #if want to set a minimum height
-    return(
-      if ((nrow(make_plot_buffer_data()[!duplicated(make_plot_buffer_data()[, c("name")]), ]) * 30) > 200) {
-        (nrow(make_plot_buffer_data()[!duplicated(make_plot_buffer_data()[, c("name")]), ]) * 30)
-      } else {
-        200
-      }
-    )
-  )
 
 
   vals <- reactiveValues()
 
   observe({
-    vals$table_buffer_data <- make_table_buffer_data()
+    vals$table_buffer_data <- make_table_buffer_data() 
   })
 
   observe({
-    vals$plot_buffer_data <- make_plot_buffer_data()
-  })
-
-  observe({
-    vals$map_parktrail_data <- make_map_parktrail_data()
-  })
-
-  observe({
-    vals$map_buffer_data <- make_map_buffer_data()
-  })
-
-  observe({
-    vals$map_bg_data <- make_map_bg_data()
+    vals$plot_buffer_data <- make_plot_buffer_data() 
   })
 
   observe({
     vals$facet_data <- make_facet_data()
   })
 
-  observe({
-    vals$sum_plotheight <- make_PlotHeight()
-  })
   return(vals)
 }
 

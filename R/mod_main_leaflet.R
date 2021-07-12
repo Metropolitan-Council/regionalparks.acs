@@ -69,11 +69,12 @@ mod_main_leaflet_server <- function(
           fillColor = ~ main_lft_inputs$pop_pal(main_lft_inputs$map_bg_data_main[[1]]),
           options = list(zIndex = 0),
           popup = if (main_lft_inputs$source == "Population characteristics") {
-            if (main_lft_inputs$mainacs == "adj_meanhhi") {
-              ~ paste0(tags$strong(filter(renamekey, ACS == main_lft_inputs$mainacs) %>% select(goodname)), ": $", format(main_lft_inputs$map_bg_data_main[[1]], big.mark = ","))
+            if (main_lft_inputs$mainacs == "meanhhinc") {
+              ~ paste0(tags$strong(filter(name_helper, acscode == main_lft_inputs$mainacs) %>% select(popuplab)), ": $", 
+                       format(main_lft_inputs$map_bg_data_main[[1]], big.mark = ","))
             } else {
               ~ paste0(
-                tags$strong(filter(renamekey, ACS == main_lft_inputs$mainacs) %>% select(goodname)),
+                tags$strong(filter(name_helper, acscode == main_lft_inputs$mainacs) %>% select(popuplab)),
                 ": ",
                 main_lft_inputs$map_bg_data_main[[1]],
                 "%"
@@ -92,7 +93,7 @@ mod_main_leaflet_server <- function(
         addLegend(
           labFormat = labelFormat2(),
           title = if (main_lft_inputs$source == "Population characteristics") {
-            paste0(filter(renamekey, ACS == main_lft_inputs$mainacs) %>% select(gn2))
+            deframe(filter(name_helper, acscode == main_lft_inputs$mainacs) %>% select(leglab))
           } else {
             paste0(filter(popkey, popvar == main_lft_inputs$mainpop) %>% select(s2))
           },
@@ -123,7 +124,7 @@ mod_main_leaflet_server <- function(
         clearGroup("Parks and trails") %>%
         clearControls() %>%
         addPolygons(
-          data = main_lft_inputs$map_parktrail_data_main[main_lft_inputs$map_parktrail_data_main$Type == "Park" & main_lft_inputs$map_parktrail_data_main$status2 == "Existing", ],
+          data = main_lft_inputs$map_parktrail_data_main[main_lft_inputs$map_parktrail_data_main$status == "Park - existing", ],
           group = "Parks and trails",
           stroke = TRUE,
           color = e_col,
@@ -136,7 +137,7 @@ mod_main_leaflet_server <- function(
           popupOptions = leaflet_popup_options
         ) %>%
         addPolygons(
-          data = main_lft_inputs$map_parktrail_data_main[main_lft_inputs$map_parktrail_data_main$Type == "Park" & main_lft_inputs$map_parktrail_data_main$status2 == "Planned", ],
+          data = main_lft_inputs$map_parktrail_data_main[main_lft_inputs$map_parktrail_data_main$status == "Park - planned", ],
           group = "Parks and trails",
           stroke = TRUE,
           color = p_col,
@@ -150,8 +151,7 @@ mod_main_leaflet_server <- function(
         ) %>%
         addCircles(
           data = main_lft_inputs$map_parktrail_data_main[
-            main_lft_inputs$map_parktrail_data_main$Type == "Park" & main_lft_inputs$map_parktrail_data_main$status2 == "Search",
-          ],
+            main_lft_inputs$map_parktrail_data_main$status == "Park - search", ],
           group = "Parks and trails",
           stroke = TRUE,
           radius = 2000,
@@ -165,7 +165,7 @@ mod_main_leaflet_server <- function(
           popupOptions = leaflet_popup_options
         ) %>%
         addPolylines(
-          data = main_lft_inputs$map_parktrail_data_main[main_lft_inputs$map_parktrail_data_main$Type == "Trail" & main_lft_inputs$map_parktrail_data_main$status2 == "Existing", ],
+          data = main_lft_inputs$map_parktrail_data_main[main_lft_inputs$map_parktrail_data_main$status == "Trail - existing", ],
           group = "Parks and trails",
           stroke = TRUE,
           weight = 3,
@@ -178,30 +178,26 @@ mod_main_leaflet_server <- function(
           popupOptions = leaflet_popup_options
         ) %>%
         addPolylines(
-          data = main_lft_inputs$map_parktrail_data_main[main_lft_inputs$map_parktrail_data_main$Type == "Trail" & main_lft_inputs$map_parktrail_data_main$status2 == "Search", ],
+          data = main_lft_inputs$map_parktrail_data_main[main_lft_inputs$map_parktrail_data_main$status == "Trail - search", ],
           group = "Parks and trails",
           stroke = TRUE,
           weight = 3,
-          # 3,
           color = s_col,
           smoothFactor = 0.3,
           opacity = 0.9,
-          # 0.5,
           options = pathOptions(pane = "parks_geo"),
           popup = ~popup_text,
           highlightOptions = leaflet_highlight_options,
           popupOptions = leaflet_popup_options
         ) %>%
         addPolylines(
-          data = main_lft_inputs$map_parktrail_data_main[main_lft_inputs$map_parktrail_data_main$Type == "Trail" & main_lft_inputs$map_parktrail_data_main$status2 == "Planned", ],
+          data = main_lft_inputs$map_parktrail_data_main[main_lft_inputs$map_parktrail_data_main$status == "Trail - planned", ],
           group = "Parks and trails",
           stroke = TRUE,
           weight = 3,
-          # 3,
           color = p_col,
           smoothFactor = 0.3,
           opacity = 0.9,
-          # 0.5,
           options = pathOptions(pane = "parks_geo"),
           popup = ~popup_text,
           highlightOptions = leaflet_highlight_options,
@@ -262,7 +258,7 @@ mod_main_leaflet_server <- function(
       leafletProxy("map") %>%
         ## park start-up polygons ---------
         addPolygons(
-          data = main_lft_inputs$map_parktrail_data_main[main_lft_inputs$map_parktrail_data_main$Type == "Park" & main_lft_inputs$map_parktrail_data_main$status2 == "Existing", ],
+          data = filter(park_trail_geog_LONG, status == "Park - existing"), 
           group = "Parks and trails",
           stroke = TRUE,
           color = e_col,
@@ -280,37 +276,8 @@ mod_main_leaflet_server <- function(
           popup = ~popup_text,
           popupOptions = leaflet_popup_options
         ) %>%
-        addPolygons(
-          data = main_lft_inputs$map_parktrail_data_main[main_lft_inputs$map_parktrail_data_main$Type == "Park" & main_lft_inputs$map_parktrail_data_main$status2 == "Planned", ],
-          group = "Parks and trails",
-          stroke = TRUE,
-          color = p_col,
-          fill = TRUE,
-          fillColor = p_col,
-          fillOpacity = 0.9,
-          options = pathOptions(pane = "parks_geo"),
-          highlightOptions = leaflet_highlight_options,
-          popup = ~popup_text,
-          popupOptions = leaflet_popup_options
-        ) %>%
-        addCircles(
-          data = main_lft_inputs$map_parktrail_data_main[
-            main_lft_inputs$map_parktrail_data_main$Type == "Park" & main_lft_inputs$map_parktrail_data_main$status2 == "Search",
-          ],
-          group = "Parks and trails",
-          stroke = TRUE,
-          radius = 2000,
-          color = s_col,
-          fill = TRUE,
-          fillColor = s_col,
-          fillOpacity = 0.9,
-          options = pathOptions(pane = "parks_geo"),
-          highlightOptions = leaflet_highlight_options,
-          popup = ~popup_text,
-          popupOptions = leaflet_popup_options
-        ) %>%
         addPolylines(
-          data = main_lft_inputs$map_parktrail_data_main[main_lft_inputs$map_parktrail_data_main$Type == "Trail" & main_lft_inputs$map_parktrail_data_main$status2 == "Existing", ],
+          data = filter(park_trail_geog_LONG, status == "Trail - existing"),
           group = "Parks and trails",
           stroke = TRUE,
           weight = 3,
@@ -321,78 +288,33 @@ mod_main_leaflet_server <- function(
           popup = ~popup_text,
           highlightOptions = leaflet_highlight_options,
         ) %>%
-        addPolylines(
-          data = main_lft_inputs$map_parktrail_data_main[main_lft_inputs$map_parktrail_data_main$Type == "Trail" & main_lft_inputs$map_parktrail_data_main$status2 == "Search", ],
-          group = "Parks and trails",
-          stroke = TRUE,
-          weight = 3,
-          # 3,
-          color = s_col,
-          smoothFactor = 0.3,
-          opacity = 0.9,
-          # 0.5,
-          options = pathOptions(pane = "parks_geo"),
-          popup = ~popup_text,
-          highlightOptions = leaflet_highlight_options
-        ) %>%
-        addPolylines(
-          data = main_lft_inputs$map_parktrail_data_main[main_lft_inputs$map_parktrail_data_main$Type == "Trail" & main_lft_inputs$map_parktrail_data_main$status2 == "Planned", ],
-          group = "Parks and trails",
-          stroke = TRUE,
-          weight = 3,
-          # 3,
-          color = p_col,
-          smoothFactor = 0.3,
-          opacity = 0.9,
-          # 0.5,
-          options = pathOptions(pane = "parks_geo"),
-          popup = ~popup_text,
-          highlightOptions = leaflet_highlight_options
-        ) %>%
         addPolygons(
           group = "Population data",
-          data = main_lft_inputs$map_bg_data_main,
+          data = select(block_group_map, deframe(name_helper[1,1])), 
           stroke = TRUE,
           color = councilR::colors$suppGray,
           opacity = 0.6,
           weight = 0.25,
           fillOpacity = 0.6,
           smoothFactor = 0.2,
-          fillColor = ~ main_lft_inputs$pop_pal(main_lft_inputs$map_bg_data_main[[1]]),
+          fillColor = ~ colorBin(bins = 5, palette = "Blues", pretty = F, 
+                                 domain = select(block_group_map, deframe(name_helper[1,1]))[[1]])(select(block_group_map, deframe(name_helper[1,1]))[[1]]),
           options = list(zIndex = 0),
-          popup = if (main_lft_inputs$source == "Population characteristics") {
-            if (main_lft_inputs$mainacs == "adj_meanhhi") {
-              ~ paste0(tags$strong(filter(renamekey, ACS == main_lft_inputs$mainacs) %>% select(goodname)), ": $", format(main_lft_inputs$map_bg_data_main[[1]], big.mark = ","))
-            } else {
-              ~ paste0(
-                tags$strong(filter(renamekey, ACS == main_lft_inputs$mainacs) %>% select(goodname)),
+          popup =  ~ paste0(
+                tags$strong(filter(name_helper, acscode == deframe(name_helper[1,1])) %>% select(popuplab)),
                 ": ",
-                main_lft_inputs$map_bg_data_main[[1]],
+                select(block_group_map, deframe(name_helper[1,1]))[[1]],
                 "%"
               )
-            }
-          } else {
-            case_when(
-              main_lft_inputs$mainpop == "growth_rel_10_40" ~
-              paste0(tags$strong(filter(popkey, popvar == main_lft_inputs$mainpop) %>% select(goodname)), ": ", round(main_lft_inputs$map_bg_data_main[[1]], 2), " x"),
-              (main_lft_inputs$mainpop == "popdens_2040_mi" | main_lft_inputs$mainpop == "PopDens_2019") ~
-              paste0(tags$strong(filter(popkey, popvar == main_lft_inputs$mainpop) %>% select(goodname)), ": ", format(round(main_lft_inputs$map_bg_data_main[[1]], 1), big.mark = ","), " persons/mile"),
-              TRUE ~ paste0(tags$strong(filter(popkey, popvar == main_lft_inputs$mainpop) %>% select(goodname)), ": ", format(main_lft_inputs$map_bg_data_main[[1]], big.mark = ","), " persons")
-            )
-          }
         ) %>%
         addLegend(
           labFormat = labelFormat2(),
-          title = if (main_lft_inputs$source == "Population characteristics") {
-            paste0(filter(renamekey, ACS == main_lft_inputs$mainacs) %>% select(gn2))
-          } else {
-            paste0(filter(popkey, popvar == main_lft_inputs$mainpop) %>% select(s2))
-          },
+          title = deframe(filter(name_helper, acscode == deframe(name_helper[1,1])) %>% select(leglab)),
           position = "bottomleft",
           group = "Population data",
           layerId = "Population data",
-          pal = main_lft_inputs$pop_pal,
-          values = main_lft_inputs$map_bg_data_main[[1]]
+          pal = colorBin(bins = 5, palette = "Blues", pretty = F, domain = select(block_group_map, deframe(name_helper[1,1]))[[1]]), 
+          values = select(block_group_map, deframe(name_helper[1,1]))[[1]]
         ) %>%
         addPolygons(
           # options = pathOptions(pane = "buff"),

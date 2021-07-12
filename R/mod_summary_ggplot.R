@@ -83,8 +83,8 @@ mod_summary_ggplot_server <- function(
       council_theme() +
       labs(
         y = "",
-        x = filter(renamekey, ACS == selected_vars$input_acs) %>% select(goodname),
-        title = paste0((filter(renamekey, ACS == selected_vars$input_acs) %>% select(goodname)), " - ", selected_vars$input_distance, " mi buffer"),
+        x = filter(name_helper, acscode == selected_vars$input_acs) %>% select(popuplab),
+        title = paste0((filter(name_helper, acscode == selected_vars$input_acs) %>% select(popuplab)), " - ", selected_vars$input_distance, " mi buffer"),
         fill = "Unit status",
         shape = "Unit type" # ,
         # caption = ("\nMetropolitan Council, 12 Jan. 2020")
@@ -127,14 +127,14 @@ mod_summary_ggplot_server <- function(
       filter(catg == point$status) %>%
       .[, 2]
 
-    HTML(if (selected_vars$input_acs != "adj_meanhhi") {
+    HTML(if (selected_vars$input_acs != "meanhhinc_per"){# "adj_meanhhi") {
       (
         (
           (paste0(
             "<div style='font-size:1.8rem;padding:1%;background-color:",
             background_color,
             "'>",
-            "Approx. ",
+            "Approximately ",
             "<b>",
             point$value,
             "%",
@@ -147,7 +147,7 @@ mod_summary_ggplot_server <- function(
             (if (point$type == "avg") ("</b>") else (paste0(" (", point$type, " - ", point$status, ", ", point$agency, ") </b>"))),
             " fall into the ",
             "<b>",
-            (filter(renamekey, ACS == selected_vars$input_acs) %>% select(goodname)),
+            (filter(name_helper, acscode == selected_vars$input_acs) %>% select(popuplab)),
             "</b> category.",
             "</br> </div>"
           ))
@@ -162,11 +162,10 @@ mod_summary_ggplot_server <- function(
             "'>",
             "$",
             prettyNum(point$value, big.mark = ","),
-            " is the approx. mean household income within ",
+            " is the approximate mean household income within ",
             (if (point$type == "avg") ("") else (paste0(point$distance, " mi of "))),
             point$name,
-            (if (point$type == "avg") ("</b>") else (paste0(" (", point$type, " - ", point$status, ", ", point$agency, ") </b> </div>"))),
-            "."
+            (if (point$type == "avg") ("</b>") else (paste0(" (", point$type, " - ", point$status, ", ", point$agency, "). </b> </div>")))
           ))
         )
       )

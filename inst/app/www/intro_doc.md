@@ -42,25 +42,25 @@ system.
 
 ## How you can use it
 
-  - **Planning**. Understanding today’s proximate demographics can help
+-   **Planning**. Understanding today’s proximate demographics can help
     inform questions about needed amenities like multilingual signage.
     Visualizing forecasted changes in population can help plan for the
     future. Further, this tool can help complete the
-    <a href="https://metrocouncil.org/Parks/Planning/Parks-Equity-Toolkit.aspx" target="_blank">Council’s
-    Equity Analysis Requirement for park and trail master plans
-    (Question 1 *Project Data*)</a>.
+    <a href="https://metrocouncil.org/Parks/Publications-And-Resources/POLICY-PLANS/2040-REGIONAL-PARKS-POLICY-PLAN-(2020-version)/2040-Regional-Parks-Policy-Plan.aspx#page=83" target="_blank">Equity
+    Analysis Requirement for park and trail master plans (Question 1
+    *Project Data*)</a>.
 
-  - **Outreach and Engagement**. Learning more about who lives near
+-   **Outreach and Engagement**. Learning more about who lives near
     parks and trails can guide strategies for community partnerships,
     communications efforts, and equity investments such as translation
     or transportation.
 
-  - **Programming**. Learning more about who lives near parks and trails
+-   **Programming**. Learning more about who lives near parks and trails
     can deepen your understanding of bilingual, multigenerational, and
     other programming innovations that might be of interest to who lives
     close by.
 
-  - **Research**. Use the data to better understand demographic gaps in
+-   **Research**. Use the data to better understand demographic gaps in
     potential versus actual visitors. We can use the data to ask
     questions about the inclusivity of current research practices
     relative to surrounding demographics. The data can be downloaded for

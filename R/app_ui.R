@@ -75,12 +75,6 @@ app_ui <- function(request) {
         ),
         mainPanel(
           fluidRow(style = "min-width:700px; max-width:1200px", mod_summary_ggplot_ui("mod_summary_ggplot_ui_1")) # ,
-          # style = "height:1000px")#,
-          # height = "mod_summary_utils$sum_plotheight"),
-          # style = "height:mod_summary_utils$sum_plotheight"),
-          # hr(),
-          # fluidRow(mod_summary_download_ui("summary_download_ui_1"),
-          #          mod_summary_table_ui("summary_table_ui_1"))
         )
       ),
       ## Notes tab -----

@@ -43,11 +43,21 @@ app_server <- function(input, output, session) {
     "summary_utils_ui_1",
     selected_vars = selected_input_vars
   )
-
-  # callModule(mod_summary_table_server, "summary_table_ui_1",
-  #   selected_vars = selected_input_vars,
-  #   summary_util = summary_util_vars
-  # )
+  
+  # print("input selections")
+  # observe({print(selected_input_vars$input_type)})
+  # observe({print(selected_input_vars$input_status)})
+  # observe({print(selected_input_vars$input_acs)})
+  # observe({print(selected_input_vars$input_distance)})
+  # 
+  # print("table_buffer_data")
+  # observe({print(summary_util_vars$table_buffer_data)})
+ 
+  # observe({print(summary_util_vars$plot_buffer_data)}) 
+  
+  
+  # print("facet data")
+  # observe({print(summary_util_vars$facet_data)})
 
   callModule(
     mod_summary_download_server,
@@ -63,29 +73,4 @@ app_server <- function(input, output, session) {
     summary_util = summary_util_vars
   )
 
-
-
-  # callModule(mod_summary_map_server, "summary_map_ui_1",
-  #   selected_vars = selected_input_vars,
-  #   summary_util = summary_util_vars,
-  #   current_tab = input$nav,
-  #   current_sub_tab = input$summary_sub_tab
-  # )
-
-  # # Population growth tab ------------------------------------------------------
-  #
-  # # get input values
-  # selected_population_vars <- callModule(mod_pop_selections_server, "pop_selections_ui_1") # callModule(mod_selections_population_server, "selections_population_ui_1")
-  #
-  # summary_util_popvars <- callModule(mod_pop_utils_server, "pop_utils_ui_1",
-  #   selected_population = selected_population_vars
-  # )
-  #
-  # callModule(mod_pop_map_server, "pop_map_ui_1",
-  #   selected_popvars = selected_population_vars,
-  #   summary_poputil = summary_util_popvars,
-  #   current_tab = input$nav
-  # )
-  #
-  # callModule(mod_pop_demoshifts_server, "pop_demoshifts_ui_1")
 }

@@ -1,7 +1,7 @@
 
 ### Park/Trail status
 
------
+------------------------------------------------------------------------
 
 **Existing park or trail units** are open to the public.<br><br>
 
