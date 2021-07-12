@@ -10,6 +10,7 @@ on:
       - main
       - master
       - v1.0.0
+      - develop
 
 name: R-CMD-check
 
