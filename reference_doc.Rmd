@@ -24,8 +24,8 @@ All data used in the application is hosted on the Minnesota Geospatial Commons.
 - <a href="https://gisdata.mn.gov/dataset/us-mn-state-metc-society-small-area-estimates" target="_blank">Annual small area population estimates</a>
 
 ### Contributors  
-- Ellen Esch, Data Scientist [ellen.esch@metc.state.mnu.us](mailto:ellen.esch@metc.state.mn.us)
-- Liz Roten, Associate Data Scientist [liz.roten@metc.state.mn.us](mailto:liz.roten@metc.state.mn.us)  
+- Ellen Esch, Senior Data Scientist [ellen.esch@metc.state.mnu.us](mailto:ellen.esch@metc.state.mn.us)
+- Liz Roten, Data Scientist [liz.roten@metc.state.mn.us](mailto:liz.roten@metc.state.mn.us)  
 - Darcie Vandegrift, Principal Parks Researcher [darcie.vandegrift@metc.state.mn.us](mailto:darcie.vandegrift@metc.state.mn.us)  
   
 *Regional Parks and the American Community Survey* is an open-source project. All the code for this project available on our [GitHub](https://github.com/Metropolitan-Council/regionalparks.acs){target="_blank"}.   
