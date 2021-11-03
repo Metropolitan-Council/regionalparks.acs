@@ -1,7 +1,7 @@
 Package: regionalparks.acs
 Title: Regional Parks and the American Community Survey
-Version: 1.0.1
-Date: 2021-07-12
+Version: 1.0.2
+Date: 2021-11-03
 Authors@R: 
     c(person(given = "Metropolitan Council",
              role = "cph"),
@@ -55,4 +55,4 @@ Remotes:
 Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.1.1
+RoxygenNote: 7.1.2
