@@ -17,13 +17,11 @@ mod_main_leaflet_ui <- function(id) {
 #' main_leaflet Server Function
 #'
 #' @noRd
-mod_main_leaflet_server <- function(
-  input,
-  output,
-  session,
-  main_lft_inputs,
-  current_tab
-) {
+mod_main_leaflet_server <- function(input,
+                                    output,
+                                    session,
+                                    main_lft_inputs,
+                                    current_tab) {
   ns <- session$ns
   w <- Waiter$new(ns("map")) # , html="Please wait")#, hide_on_render=T)
 
@@ -70,8 +68,10 @@ mod_main_leaflet_server <- function(
           options = list(zIndex = 0),
           popup = if (main_lft_inputs$source == "Population characteristics") {
             if (main_lft_inputs$mainacs == "meanhhinc") {
-              ~ paste0(tags$strong(filter(name_helper, acscode == main_lft_inputs$mainacs) %>% select(popuplab)), ": $", 
-                       format(main_lft_inputs$map_bg_data_main[[1]], big.mark = ","))
+              ~ paste0(
+                tags$strong(filter(name_helper, acscode == main_lft_inputs$mainacs) %>% select(popuplab)), ": $",
+                format(main_lft_inputs$map_bg_data_main[[1]], big.mark = ",")
+              )
             } else {
               ~ paste0(
                 tags$strong(filter(name_helper, acscode == main_lft_inputs$mainacs) %>% select(popuplab)),
@@ -151,7 +151,8 @@ mod_main_leaflet_server <- function(
         ) %>%
         addCircles(
           data = main_lft_inputs$map_parktrail_data_main[
-            main_lft_inputs$map_parktrail_data_main$status == "Park - search", ],
+            main_lft_inputs$map_parktrail_data_main$status == "Park - search",
+          ],
           group = "Parks and trails",
           stroke = TRUE,
           radius = 2000,
@@ -258,7 +259,7 @@ mod_main_leaflet_server <- function(
       leafletProxy("map") %>%
         ## park start-up polygons ---------
         addPolygons(
-          data = filter(park_trail_geog_LONG, status == "Park - existing"), 
+          data = filter(park_trail_geog_LONG, status == "Park - existing"),
           group = "Parks and trails",
           stroke = TRUE,
           color = e_col,
@@ -290,31 +291,33 @@ mod_main_leaflet_server <- function(
         ) %>%
         addPolygons(
           group = "Population data",
-          data = select(block_group_map, deframe(name_helper[1,1])), 
+          data = select(block_group_map, deframe(name_helper[1, 1])),
           stroke = TRUE,
           color = councilR::colors$suppGray,
           opacity = 0.6,
           weight = 0.25,
           fillOpacity = 0.6,
           smoothFactor = 0.2,
-          fillColor = ~ colorBin(bins = 5, palette = "Blues", pretty = F, 
-                                 domain = select(block_group_map, deframe(name_helper[1,1]))[[1]])(select(block_group_map, deframe(name_helper[1,1]))[[1]]),
+          fillColor = ~ colorBin(
+            bins = 5, palette = "Blues", pretty = F,
+            domain = select(block_group_map, deframe(name_helper[1, 1]))[[1]]
+          )(select(block_group_map, deframe(name_helper[1, 1]))[[1]]),
           options = list(zIndex = 0),
-          popup =  ~ paste0(
-                tags$strong(filter(name_helper, acscode == deframe(name_helper[1,1])) %>% select(popuplab)),
-                ": ",
-                select(block_group_map, deframe(name_helper[1,1]))[[1]],
-                "%"
-              )
+          popup = ~ paste0(
+            tags$strong(filter(name_helper, acscode == deframe(name_helper[1, 1])) %>% select(popuplab)),
+            ": ",
+            select(block_group_map, deframe(name_helper[1, 1]))[[1]],
+            "%"
+          )
         ) %>%
         addLegend(
           labFormat = labelFormat2(),
-          title = deframe(filter(name_helper, acscode == deframe(name_helper[1,1])) %>% select(leglab)),
+          title = deframe(filter(name_helper, acscode == deframe(name_helper[1, 1])) %>% select(leglab)),
           position = "bottomleft",
           group = "Population data",
           layerId = "Population data",
-          pal = colorBin(bins = 5, palette = "Blues", pretty = F, domain = select(block_group_map, deframe(name_helper[1,1]))[[1]]), 
-          values = select(block_group_map, deframe(name_helper[1,1]))[[1]]
+          pal = colorBin(bins = 5, palette = "Blues", pretty = F, domain = select(block_group_map, deframe(name_helper[1, 1]))[[1]]),
+          values = select(block_group_map, deframe(name_helper[1, 1]))[[1]]
         ) %>%
         addPolygons(
           # options = pathOptions(pane = "buff"),

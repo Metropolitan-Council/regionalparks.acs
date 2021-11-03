@@ -4,7 +4,7 @@
 #' @param request Internal parameter for `{shiny}`.
 #'     DO NOT REMOVE.
 #' @import shiny
-#' 
+#'
 app_ui <- function(request) {
   tagList(
     tags$html(lang = "en"),
@@ -93,7 +93,7 @@ app_ui <- function(request) {
 #'
 #' @import shiny
 #' @importFrom golem add_resource_path activate_js favicon bundle_resources
-#' 
+#'
 golem_add_external_resources <- function() {
   add_resource_path(
     "www",

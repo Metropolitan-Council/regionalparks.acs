@@ -31,19 +31,22 @@ park_trail_geog_temp <- park_trail_geog_LONG %>% # bind_rows(park_trail_geog, .i
 
 acs_temp_bg <- block_group_raw %>%
   mutate(county = substr(GEOID, start = 3, stop = 5)) %>%
-  st_transform(3857) %>% # https://epsg.io/3857\
+  st_transform(3857) %>%
+  # https://epsg.io/3857\
   mutate(bg_area = st_area(.))
 
 acs_temp_tract <- census_tract_raw %>%
   mutate(county = substr(GEOID, start = 3, stop = 5)) %>%
-  st_transform(3857) %>% # https://epsg.io/3857\
+  st_transform(3857) %>%
+  # https://epsg.io/3857\
   mutate(tract_area = st_area(.))
 
 
 # helper fxns -------------------------
 buffer_dist_fxn <- function(miles) { # create buffer geometry of x distance
   buff_Xmi <- park_trail_geog_temp %>%
-    st_buffer(dist = 1609.34 * miles) %>% # the 3857 projection uses meters as a distance, so 1.0 mi =
+    st_buffer(dist = 1609.34 * miles) %>%
+    # the 3857 projection uses meters as a distance, so 1.0 mi =
     group_by(agency, name, type, status) %>%
     summarise(geometry = st_union(geom))
   return(buff_Xmi)
@@ -52,13 +55,18 @@ buffer_dist_fxn <- function(miles) { # create buffer geometry of x distance
 bg_buffer_acs_fxn <- function(df) { # intersect the buffer of x distance with the acs demographics
   buff_acs <- acs_temp_bg %>%
     select(GEOID, bg_area) %>%
-    st_intersection(df) %>% # every trail name gets own intersection
-    mutate(intersect_area = st_area(.)) %>% # create new column with shape area
-    select(GEOID, agency, name, type, status, intersect_area) %>% # only select columns needed to merge
-    st_drop_geometry() %>% # drop geometry as we don't need it
+    st_intersection(df) %>%
+    # every trail name gets own intersection
+    mutate(intersect_area = st_area(.)) %>%
+    # create new column with shape area
+    select(GEOID, agency, name, type, status, intersect_area) %>%
+    # only select columns needed to merge
+    st_drop_geometry() %>%
+    # drop geometry as we don't need it
     left_join(acs_temp_bg %>% # merge back in with all block groups
       select(GEOID, bg_area)) %>%
-    mutate(coverage = as.numeric(intersect_area / bg_area)) %>% # calculate fraction of block group within each agency/park buffer
+    mutate(coverage = as.numeric(intersect_area / bg_area)) %>%
+    # calculate fraction of block group within each agency/park buffer
     as_tibble() %>%
     select(GEOID, agency, name, type, status, coverage)
   return(buff_acs)
@@ -68,13 +76,18 @@ bg_buffer_acs_fxn <- function(df) { # intersect the buffer of x distance with th
 tract_buffer_acs_fxn <- function(df) { # intersect the buffer of x distance with the acs demographics
   buff_acs <- acs_temp_tract %>%
     select(GEOID, tract_area) %>%
-    st_intersection(df) %>% # every trail name gets own intersection
-    mutate(intersect_area = st_area(.)) %>% # create new column with shape area
-    select(GEOID, agency, name, type, status, intersect_area) %>% # only select columns needed to merge
-    st_drop_geometry() %>% # drop geometry as we don't need it
+    st_intersection(df) %>%
+    # every trail name gets own intersection
+    mutate(intersect_area = st_area(.)) %>%
+    # create new column with shape area
+    select(GEOID, agency, name, type, status, intersect_area) %>%
+    # only select columns needed to merge
+    st_drop_geometry() %>%
+    # drop geometry as we don't need it
     left_join(acs_temp_tract %>% # merge back in with all block groups
       select(GEOID, tract_area)) %>%
-    mutate(coverage = as.numeric(intersect_area / tract_area)) %>% # calculate fraction of block group within each agency/park buffer
+    mutate(coverage = as.numeric(intersect_area / tract_area)) %>%
+    # calculate fraction of block group within each agency/park buffer
     as_tibble() %>%
     select(GEOID, agency, name, type, status, coverage)
   return(buff_acs)

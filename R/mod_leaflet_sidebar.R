@@ -38,7 +38,7 @@ mod_leaflet_sidebar_ui <- function(id) {
           h4("Choose a variable to map"),
           choices = ACSMenu,
           selectize = FALSE,
-          selected = name_helper[1,1]
+          selected = name_helper[1, 1]
         )
       ),
       conditionalPanel(

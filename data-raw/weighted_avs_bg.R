@@ -41,14 +41,14 @@ return_weighted_demo_persons <- (function(...) {
       adj_2019pop = coverage * pop2019,
       # use 2019 small area estimates to weight
       adj_2019hh = coverage * hh2019,
-      
-      across(ageunder15:age65_up | starts_with(c("lep"))| ends_with(c("nh", "hisppop")) | contains("pov185"), 
-             ~.x * adj_2019pop,
-             .names = "adj_{.col}"),
-      
+      across(ageunder15:age65_up | starts_with(c("lep")) | ends_with(c("nh", "hisppop")) | contains("pov185"),
+        ~ .x * adj_2019pop,
+        .names = "adj_{.col}"
+      ),
       across(contains(c("meanhhinc", "noveh")),
-             ~.x * adj_2019hh,
-             .names = "adj_{.col}")
+        ~ .x * adj_2019hh,
+        .names = "adj_{.col}"
+      )
     )
 })
 
@@ -62,14 +62,14 @@ return_weighted_demo_persons_AVG <- (function(...) {
       adj_2019pop = coverage * pop2019,
       # use 2019 small area estimates to weight
       adj_2019hh = coverage * hh2019,
-      
-      across(ageunder15:age65_up | starts_with(c("lep"))| ends_with(c("nh", "hisppop")) | contains("pov185"),
-             ~.x * adj_2019pop,
-             .names = "adj_{.col}"),
-
+      across(ageunder15:age65_up | starts_with(c("lep")) | ends_with(c("nh", "hisppop")) | contains("pov185"),
+        ~ .x * adj_2019pop,
+        .names = "adj_{.col}"
+      ),
       across(contains(c("meanhhinc", "noveh")),
-             ~.x * adj_2019hh,
-             .names = "adj_{.col}")
+        ~ .x * adj_2019hh,
+        .names = "adj_{.col}"
+      )
     )
 })
 
@@ -81,14 +81,17 @@ return_weighted_demo_percents <- (function(...) {
       adj_2019pop = round(adj_2019pop, 0),
       # calculate %s again (from the ppl)
       across(starts_with("adj_") & !contains(c("meanhhinc", "novehicle")),
-             ~round(.x / adj_2019pop * 100, 1),
-             .names = "{.col}_per"),
+        ~ round(.x / adj_2019pop * 100, 1),
+        .names = "{.col}_per"
+      ),
       across(starts_with("adj_") & contains(c("novehicle")),
-             ~round(.x / adj_2019hh * 100, 1),
-             .names = "{.col}_per"),
-      across(starts_with("adj_") & contains(c("meanhhinc")), #income is not a percent
-             ~round(.x / adj_2019hh, 1),
-             .names = "{.col}_per"),
+        ~ round(.x / adj_2019hh * 100, 1),
+        .names = "{.col}_per"
+      ),
+      across(starts_with("adj_") & contains(c("meanhhinc")), # income is not a percent
+        ~ round(.x / adj_2019hh, 1),
+        .names = "{.col}_per"
+      ),
     )
 })
 
@@ -98,10 +101,11 @@ return_weighted_demo_percents <- (function(...) {
 agency_avg_bg <- (agency_bg_coverage) %>%
   left_join(acs_temp, by = c("GEOID")) %>%
   left_join(bg_pop_2019, by = c("GEOID")) %>%
-  select(-geometry) %>% 
+  select(-geometry) %>%
   pmap_df(return_weighted_demo_persons_AVG) %>%
   group_by(agency) %>%
-  summarise(across(starts_with("adj_"), sum, na.rm = T)) %>% # need to sum for each park/agency parcel
+  summarise(across(starts_with("adj_"), sum, na.rm = T)) %>%
+  # need to sum for each park/agency parcel
 
   pmap_df(return_weighted_demo_percents) %>%
   # select(agency, ends_with("per"), -adj_2019pop_per, -adj_2019hh_per) %>%
@@ -163,7 +167,8 @@ buffer_block_group_1.0mi_raw <- intersect_pct_1.0mi %>%
 
 buffer_block_group_1.0mi <- buffer_block_group_1.0mi_raw %>%
   group_by(agency, name, type, status) %>%
-  summarise(across(starts_with("adj_"), sum, na.rm = T)) %>% # need to sum for each park/agency parcel
+  summarise(across(starts_with("adj_"), sum, na.rm = T)) %>%
+  # need to sum for each park/agency parcel
   pmap_df(return_weighted_demo_percents) %>%
   mutate(distance = 1)
 
@@ -182,7 +187,8 @@ buffer_block_group_1.5mi_raw <- intersect_pct_1.5mi %>%
 
 buffer_block_group_1.5mi <- buffer_block_group_1.5mi_raw %>%
   group_by(agency, name, type, status) %>%
-  summarise(across(starts_with("adj_"), sum, na.rm = T)) %>% # need to sum for each park/agency parcel
+  summarise(across(starts_with("adj_"), sum, na.rm = T)) %>%
+  # need to sum for each park/agency parcel
   pmap_df(return_weighted_demo_percents) %>%
   mutate(distance = 1.5)
 
@@ -204,7 +210,8 @@ buffer_block_group_3mi_raw <- intersect_pct_3mi %>%
 
 buffer_block_group_3mi <- buffer_block_group_3mi_raw %>%
   group_by(agency, name, type, status) %>%
-  summarise(across(starts_with("adj_"), sum, na.rm = T)) %>% # need to sum for each park/agency parcel
+  summarise(across(starts_with("adj_"), sum, na.rm = T)) %>%
+  # need to sum for each park/agency parcel
   pmap_df(return_weighted_demo_percents) %>%
   mutate(distance = 3)
 

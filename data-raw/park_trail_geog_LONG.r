@@ -94,7 +94,8 @@ parks_temp <- sf::read_sf(unzip(temp, "plan_parks_regional.gpkg")) %>%
       # PARKNAME == "Spring Lake" |
       PARKNAME == "Cedar Lake Farm"), "Scott County", consistentagency),
     consistentagency = if_else(Label == "Spring Lake Regional Park", "Scott County", consistentagency)
-  ) %>% # becuase Spr.Lake Park Reserve == Dakota, but S.L. Reg. Park = Scott
+  ) %>%
+  # becuase Spr.Lake Park Reserve == Dakota, but S.L. Reg. Park = Scott
   group_by(PARKNAME, STATUS, Label, consistentagency) %>%
   summarize(do_union = TRUE) %>%
   ungroup() %>%
@@ -134,7 +135,8 @@ trails_temp <- sf::read_sf(unzip(temp, "trans_regional_trails_exst_plan.gpkg")) 
   filter(
     NAME != "River Crossing",
     Agency != "Wright County"
-  ) %>% # Crow River Regional Trail doesn't seem to belong to any particular Metro Agency
+  ) %>%
+  # Crow River Regional Trail doesn't seem to belong to any particular Metro Agency
   mutate(STATUS = recode(
     STATUS,
     "Existing (Open to Public)" = "Trail - existing",

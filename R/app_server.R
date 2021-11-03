@@ -4,7 +4,7 @@
 #' @param input,output,session Internal parameters for {shiny}.
 #'     DO NOT REMOVE.
 #' @import shiny
-#' 
+#'
 app_server <- function(input, output, session) {
   # List the first level callModules here
   # note: color assignment for parks/trails by status (existing, search, planned) is within golem_utils_server.R file
@@ -43,19 +43,19 @@ app_server <- function(input, output, session) {
     "summary_utils_ui_1",
     selected_vars = selected_input_vars
   )
-  
+
   # print("input selections")
   # observe({print(selected_input_vars$input_type)})
   # observe({print(selected_input_vars$input_status)})
   # observe({print(selected_input_vars$input_acs)})
   # observe({print(selected_input_vars$input_distance)})
-  # 
+  #
   # print("table_buffer_data")
   # observe({print(summary_util_vars$table_buffer_data)})
- 
-  # observe({print(summary_util_vars$plot_buffer_data)}) 
-  
-  
+
+  # observe({print(summary_util_vars$plot_buffer_data)})
+
+
   # print("facet data")
   # observe({print(summary_util_vars$facet_data)})
 
@@ -72,5 +72,4 @@ app_server <- function(input, output, session) {
     selected_vars = selected_input_vars,
     summary_util = summary_util_vars
   )
-
 }

@@ -29,13 +29,11 @@ mod_summary_ggplot_ui <- function(id) {
 #'
 #' @noRd
 #' @import ggplot2
-mod_summary_ggplot_server <- function(
-  input,
-  output,
-  session,
-  selected_vars,
-  summary_util
-) {
+mod_summary_ggplot_server <- function(input,
+                                      output,
+                                      session,
+                                      selected_vars,
+                                      summary_util) {
   ns <- session$ns
 
 
@@ -127,7 +125,7 @@ mod_summary_ggplot_server <- function(
       filter(catg == point$status) %>%
       .[, 2]
 
-    HTML(if (selected_vars$input_acs != "meanhhinc_per"){# "adj_meanhhi") {
+    HTML(if (selected_vars$input_acs != "meanhhinc_per") { # "adj_meanhhi") {
       (
         (
           (paste0(

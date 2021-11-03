@@ -15,16 +15,15 @@ mod_summary_utils_ui <- function(id) {
 #' summary_utils Server Function
 #'
 #' @noRd
-mod_summary_utils_server <- function(
-  input,
-  output,
-  session,
-  selected_vars
-) {
+mod_summary_utils_server <- function(input,
+                                     output,
+                                     session,
+                                     selected_vars) {
   ns <- session$ns
 
   make_table_buffer_data <- reactive({
-    p <- name_helper %>% left_join(long_buffer_data, by = c("buffercode" = "ACS")) %>% 
+    p <- name_helper %>%
+      left_join(long_buffer_data, by = c("buffercode" = "ACS")) %>%
       # regionalparks.acs::long_buffer_data %>%
       dplyr::filter(
         # agency == "Anoka County"
@@ -69,13 +68,13 @@ mod_summary_utils_server <- function(
         status %in% selected_vars$input_status,
         acscode == selected_vars$input_acs
       ) %>%
-     # t<- p %>%
-     #  filter(
-     #    type %in% c("Park" , "Trail"),
-     #    distance == 1,
-     #    status %in% c("Existing", "Planned",  "Search"))#,
-     #    acscode == "ageunder15_percent"
-     #  )
+      # t<- p %>%
+      #  filter(
+      #    type %in% c("Park" , "Trail"),
+      #    distance == 1,
+      #    status %in% c("Existing", "Planned",  "Search"))#,
+      #    acscode == "ageunder15_percent"
+      #  )
       mutate(name = str_replace_all(
         name,
         c(
@@ -91,7 +90,9 @@ mod_summary_utils_server <- function(
   })
 
   make_facet_data <- reactive({
-  name_helper %>% left_join(agency_avg, by = c("buffercode" = "ACS")) %>%# regionalparks.acs::agency_avg %>%
+    name_helper %>%
+      left_join(agency_avg, by = c("buffercode" = "ACS")) %>%
+      # regionalparks.acs::agency_avg %>%
       filter(
         # agency == "Anoka County",
         # acscode == name_helper[[1,1]] #"age15_24_percent"
@@ -139,11 +140,11 @@ mod_summary_utils_server <- function(
   vals <- reactiveValues()
 
   observe({
-    vals$table_buffer_data <- make_table_buffer_data() 
+    vals$table_buffer_data <- make_table_buffer_data()
   })
 
   observe({
-    vals$plot_buffer_data <- make_plot_buffer_data() 
+    vals$plot_buffer_data <- make_plot_buffer_data()
   })
 
   observe({

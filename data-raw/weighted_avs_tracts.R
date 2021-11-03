@@ -101,7 +101,8 @@ agency_avg_tract <- (agency_tract_coverage) %>%
   select(-geometry) %>%
   pmap_df(return_weighted_demo_persons_AVG) %>%
   group_by(agency) %>%
-  summarise(across(adj_2019pop:adj_usborn, sum, na.rm = T)) %>% # need to sum for each park/agency parcel
+  summarise(across(adj_2019pop:adj_usborn, sum, na.rm = T)) %>%
+  # need to sum for each park/agency parcel
 
   pmap_df(return_weighted_demo_percents) %>%
   as_tibble() %>%
@@ -130,7 +131,8 @@ buffer_tract_1.0mi_raw <- intersect_pct_1.0mi %>%
 
 buffer_tract_1.0mi <- buffer_tract_1.0mi_raw %>%
   group_by(agency, name, type, status) %>%
-  summarise(across(adj_2019pop:adj_usborn, sum, na.rm = T)) %>% # need to sum for each park/agency parcel
+  summarise(across(adj_2019pop:adj_usborn, sum, na.rm = T)) %>%
+  # need to sum for each park/agency parcel
   pmap_df(return_weighted_demo_percents) %>%
   mutate(distance = 1)
 
@@ -150,7 +152,8 @@ buffer_tract_1.5mi_raw <- intersect_pct_1.5mi %>%
 
 buffer_tract_1.5mi <- buffer_tract_1.5mi_raw %>%
   group_by(agency, name, type, status) %>%
-  summarise(across(adj_2019pop:adj_usborn, sum, na.rm = T)) %>% # need to sum for each park/agency parcel
+  summarise(across(adj_2019pop:adj_usborn, sum, na.rm = T)) %>%
+  # need to sum for each park/agency parcel
   pmap_df(return_weighted_demo_percents) %>%
   mutate(distance = 1.5)
 
@@ -170,7 +173,8 @@ buffer_tract_3mi_raw <- intersect_pct_3mi %>%
 
 buffer_tract_3mi <- buffer_tract_3mi_raw %>%
   group_by(agency, name, type, status) %>%
-  summarise(across(adj_2019pop:adj_usborn, sum, na.rm = T)) %>% # need to sum for each park/agency parcel
+  summarise(across(adj_2019pop:adj_usborn, sum, na.rm = T)) %>%
+  # need to sum for each park/agency parcel
   pmap_df(return_weighted_demo_percents) %>%
   mutate(distance = 3)
 

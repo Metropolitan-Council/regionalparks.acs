@@ -148,14 +148,12 @@ quantile_vars <- tibble::tibble(mainpop = c("PopDens_2019", "popdens_2040_mi", "
 
 bin_vars <- tibble::tibble(mainacs = c("adj_ageunder15_per", "adj_age15_24_per", "adj_age25_64_per", "adj_age65up_per"))
 
-labelFormat2 <- function(
-  prefix = "",
-  suffix = "",
-  between = " &ndash; ",
-  digits = 0,
-  big.mark = ",",
-  transform = identity
-) {
+labelFormat2 <- function(prefix = "",
+                         suffix = "",
+                         between = " &ndash; ",
+                         digits = 0,
+                         big.mark = ",",
+                         transform = identity) {
   formatNum2 <- function(x) {
     format(
       round(transform(x), digits),
@@ -166,8 +164,7 @@ labelFormat2 <- function(
   }
 
   function(type, ...) {
-    switch(
-      type,
+    switch(type,
       numeric = (function(cuts) {
         paste0(prefix, formatNum2(cuts), suffix)
       })(...),
@@ -224,6 +221,3 @@ leaflet_popup_options <- quote(
     )
   )
 )
-
-
-

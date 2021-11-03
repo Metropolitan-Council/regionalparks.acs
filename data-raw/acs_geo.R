@@ -47,10 +47,11 @@ block_group <- block_group_raw %>%
 usethis::use_data(block_group, overwrite = TRUE)
 
 block_group_map <- block_group %>%
-  mutate(across(c(hh_noveh, lep:othermultinh), ~.x * 100,
-                .names = "{.col}_percent")) %>%
+  mutate(across(c(hh_noveh, lep:othermultinh), ~ .x * 100,
+    .names = "{.col}_percent"
+  )) %>%
   select(-hh_noveh, -lep:-othermultinh) %>%
-rename(
+  rename(
     "meanhhinc_per" = "meanhhinc"
   )
 usethis::use_data(block_group_map, overwrite = TRUE)

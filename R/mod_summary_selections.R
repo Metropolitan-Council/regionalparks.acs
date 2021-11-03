@@ -19,7 +19,7 @@ mod_summary_selections_ui <- function(id) {
         ns("input_acs"),
         label = h4("Choose population characteristic"),
         choices = ACSMenu,
-        selected = deframe(name_helper[1,1]),
+        selected = deframe(name_helper[1, 1]),
         selectize = F
         # )
       ),

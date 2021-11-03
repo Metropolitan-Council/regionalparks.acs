@@ -77,7 +77,8 @@ bg_pop_2019_xlsx <- readxl::read_xlsx(unzip(temp, "SmallAreaEstimatesBlockGroup.
 
 est_pop <- bg_area %>%
   right_join(bg_pop_2019_xlsx, by = c("bg_id" = "bg10")) %>%
-  mutate(popdens_2019_mi = round((pop_est / sum_area / 3.861022e-7), 0)) %>% # , #convert m2 to mi2
+  mutate(popdens_2019_mi = round((pop_est / sum_area / 3.861022e-7), 0)) %>%
+  # , #convert m2 to mi2
   # would love to calculate population density over LAND AREA ONLY (use `sum_aland` rather than `sum_area`, however we'd need to mask lakes/river then, and then we should update our buffer "coverage" with water masks too (ie what if 50% of total block area falls w/in buffer zone, but that is only 70% of block land area.?)) In essence, this is just a slippery slope (do we mask non-residential areas? protected wetlands?), so its probably best to keep as simple as we can (dennis convo)
   # popdens_2019_mi = if_else(popdens_2019_mi > 60000, NA_real_, popdens_2019_mi)) %>% #UofM = unreasonable; warehouse district also too high to be reasonable.
   rename(
@@ -129,7 +130,8 @@ taz_growth <- sf::read_sf(unzip(temp, "trans_anlys_zones_offical_curent.gpkg")) 
     growth_rel_10_40 >= 1.5 ~ "1.5+"
   )) %>%
   # left_join(taz_area %>% st_drop_geometry()) %>% #shape_area in growth forcast, and uom: m
-  mutate(popdens_2040_mi = round((POP2040 / Shape_Area / 3.861022e-7), 0)) %>% # , #convert m2 to mi2
+  mutate(popdens_2040_mi = round((POP2040 / Shape_Area / 3.861022e-7), 0)) %>%
+  # , #convert m2 to mi2
   mutate(dens40_cat = case_when(
     popdens_2040_mi < 100 ~ "<100 ppl/mi",
     popdens_2040_mi < 1000 ~ "100-999 ppl/mi",
@@ -137,7 +139,8 @@ taz_growth <- sf::read_sf(unzip(temp, "trans_anlys_zones_offical_curent.gpkg")) 
     popdens_2040_mi < 5000 ~ "2,000-4,999 ppl/mi",
     popdens_2040_mi >= 5000 ~ ">5,000 ppl/mi"
   )) %>%
-  st_transform(4326) %>% # for leaflet
+  st_transform(4326) %>%
+  # for leaflet
   st_as_sf() %>%
   rename(geometry = geom) %>%
   select(-Shape_Area)
