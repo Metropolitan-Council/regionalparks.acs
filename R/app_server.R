@@ -4,7 +4,7 @@
 #' @param input,output,session Internal parameters for {shiny}.
 #'     DO NOT REMOVE.
 #' @import shiny
-#' @noRd
+#' 
 app_server <- function(input, output, session) {
   # List the first level callModules here
   # note: color assignment for parks/trails by status (existing, search, planned) is within golem_utils_server.R file
