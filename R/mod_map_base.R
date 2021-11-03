@@ -21,7 +21,9 @@ mod_map_base_server <- function(input, output, session) {
   # w <- Waiter$new()#, html="Please wait")#, hide_on_render=T)
 
 
-  output$ns <- renderLeaflet(quoted = TRUE, {
+  output$ns <- renderLeaflet(
+    # quoted = TRUE, 
+    {
     # w$show()
     # waiter_show()
     leaflet() %>%
