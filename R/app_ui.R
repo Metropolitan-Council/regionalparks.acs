@@ -93,7 +93,7 @@ app_ui <- function(request) {
 #'
 #' @import shiny
 #' @importFrom golem add_resource_path activate_js favicon bundle_resources
-#' @noRd
+#' 
 golem_add_external_resources <- function() {
   add_resource_path(
     "www",
@@ -101,8 +101,8 @@ golem_add_external_resources <- function() {
   )
 
   tags$head(
-    shiny::includeHTML("inst/app/www/google-analytics.html"),
     favicon(),
+    shiny::includeHTML(paste0(app_sys("app/www"), "/google-analytics.html")),
     bundle_resources(
       path = app_sys("app/www"),
       app_title = "Regional Parks Equity Tool"
