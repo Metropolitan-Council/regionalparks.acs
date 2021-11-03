@@ -11,67 +11,7 @@ options(
 golem::detach_all_attached()
 # rm(list=ls(all.names = TRUE))
 
-rmarkdown::render("reference_doc.Rmd",
-  output_format = "github_document", # -----
-  output_file = "reference_doc.md", output_dir = "inst/app/www",
-  params = list(
-    actor_id = "roten",
-    data_date = Sys.Date(),
-    sha = system("git rev-parse --short HEAD",
-      intern = TRUE
-    )
-  )
-)
-
-
-rmarkdown::render("intro_doc.Rmd",
-                  output_format = "github_document", # -----
-                  output_file = "intro_doc.md", output_dir = "inst/app/www",
-                  params = list(
-                    actor_id = "esch",
-                    data_date = Sys.Date(),
-                    sha = system("git rev-parse --short HEAD",
-                                 intern = TRUE
-                    )
-                  )
-)
-
-rmarkdown::render("StatusHelp.Rmd",
-                  output_format = "github_document", # -----
-                  output_file = "StatusHelp.md", output_dir = "inst/app/www",
-                  params = list(
-                    actor_id = "esch",
-                    data_date = Sys.Date(),
-                    sha = system("git rev-parse --short HEAD",
-                                 intern = TRUE
-                    )
-                  )
-)
-
-rmarkdown::render("BufferHelp.Rmd",
-                  output_format = "github_document", # -----
-                  output_file = "BufferHelp.md", output_dir = "inst/app/www",
-                  params = list(
-                    actor_id = "esch",
-                    data_date = Sys.Date(),
-                    sha = system("git rev-parse --short HEAD",
-                                 intern = TRUE
-                    )
-                  )
-)
-
-rmarkdown::render("DataSourceHelp.Rmd",
-                  output_format = "github_document", # -----
-                  output_file = "DataSourceHelp.md", output_dir = "inst/app/www",
-                  params = list(
-                    actor_id = "esch",
-                    data_date = Sys.Date(),
-                    sha = system("git rev-parse --short HEAD",
-                                 intern = TRUE
-                    )
-                  )
-)
-
+regionalparks.acs::render_markdowns()
 
 # Document and reload your package
 golem::document_and_reload()
