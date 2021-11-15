@@ -64,6 +64,15 @@ census_demos <- ct %>%
     bachelors = bachelors / poptotal,
     gradprof = gradprof / poptotal,
     
+    racewhite = whitenh / poptotal,
+    raceblack = blacknh / poptotal,
+    raceamind = amindnh / poptotal,
+    raceasian = asiannh / poptotal,
+    racemulti = multracenh / poptotal,
+    racepacific = pacificnh / poptotal,
+    raceother = othernh / poptotal,
+    racehisp = hisppop / poptotal,
+    
     langenglish = english / poptotal,
     langspanish = lep_span / poptotal,
     # langsomali = lep_africa / poptotal,
@@ -130,3 +139,4 @@ census_tract_spatial_visitorstudy <- bind_rows(MNtract, WItract) %>%
 
 
 usethis::use_data(census_tract_spatial_visitorstudy, overwrite = TRUE)
+

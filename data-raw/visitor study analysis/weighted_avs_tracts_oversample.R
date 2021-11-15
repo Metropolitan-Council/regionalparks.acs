@@ -47,6 +47,15 @@ return_weighted_demo_persons <- (function(...) {
       `65-74` = adj_2019pop * pop_6574,
       `75+` = adj_2019pop * pop_75up,
       
+      White = racewhite * adj_2019pop,
+      `Black/ African/ African American` = raceblack * adj_2019pop,
+      `American Indian/ Alaska Native` = raceamind  * adj_2019pop,
+      `Asian/ Asian American` = raceasian  * adj_2019pop,
+      `Multiple races/ ethnicities` = racemulti  * adj_2019pop,
+      # racepacific = pacificnh / poptotal,
+      `Other race` = (raceother + racepacific)   * adj_2019pop,
+      `Hispanic/ Latinx/ Latino` = racehisp   * adj_2019pop,
+      
       # over18 = adj_2019pop * pop_over18,
       English = langenglish * adj_2019pop,
       # Hmong = langhmong * adj_2019pop,
