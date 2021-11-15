@@ -1,0 +1,309 @@
+---
+title: "Processing data for visitor study demographics"
+author: "Ellen"
+date: "`r format(Sys.time(), '%d %B %Y')`"
+# output:
+#   pdf_document: default
+#   word_document: default
+#   html_document: default
+output: 
+  github_document:
+    toc: true
+always_allow_html: true
+urlcolor: blue
+---
+
+```{r include=F, warning=F, message=F, echo = F}
+knitr::opts_chunk$set(echo = F, message = F, warning = F)
+
+library(tidyverse)
+library(sf)
+library(tigris)
+```
+
+# Overview
+
+This markdown file walks through the creation of all the data files necessary to run the parks.acs app. 
+
+**You must connect to the N drive to run this script**
+
+
+## Park and trail geography
+
+First a single file containing the geographies of the regional parks and trail units needs to be created from files which are published to the MN geospatial commons. *Note:* this is a single, long sf file because the buffer map parses all combinations of agencies * status * type. All code has been updated so that the leaflet map works with the long data as well. 
+
+Running this script produces:
+- `park_trail_geog_LONG.rda`. 
+
+As an aside, if any parks/trails need to be reassigned to different agencies and/or statuses, this is the place to do that. 
+
+
+Park amenities produces park entrance locations and public water access locations.And rivers/lakes.
+
+```{r unitgeo}
+source("./park_trail_geog_oversample.R")
+
+# source("../park_amenities.R")
+```
+
+
+## ACS data
+
+ACS data at both the tract and block group levels needs to be processed for the 7 county core, as well as collar counties. We want to include the collar counties within this processing step because the buffer area for some parks and trails extends into areas beyond the 7 county core region. 
+
+Running `census_tract_raw.R` produces:
+
+- `county_outlines.rda` (leveraging the fact that we have to load the `tigris` package anyways)
+- `census_tract_raw.rda`
+
+Running `block_group_raw.R` produces:
+
+- `block_group_raw.rda`
+
+If acs variables need to be added, this is one place where that should be done.
+
+```{r rawacsdata}
+source("census_tract_raw_oversample.R")
+```
+
+
+## Create the tabular weighted average ACS values 
+
+And this is also done at the block group and tract levels. In some cases demographic variables are suppressed at the block group. We must process those variables at the tract level. 
+
+Running `weighted_avs_bg.R` produces:
+
+- `agency_avg_bg.rda` (the average acs values within an implementing agency's jurisdiction)
+- `long_buffer_data_bg.rda` (acs values for each park/trail unit at each buffer distance for the variables which exist at the block group level)
+- `agency_planned_existing_avgs` (agency-level averages for each variable including existing and planned units)
+- `buffer_geo.rda` (the buffer geometries at 1, 1.5 and 3 mi radii. these will be plotted)
+
+Running `weighted_avs_tracts.R` produces:
+
+- `long_buffer_data_tract.rda` ()
+- `agency_planned_existing_avgs_tract.rda` ()
+- `agency_avg_tract` ()
+
+and then we will join the 2 geographies together to create one cohesive weighted average dataset. 
+
+Create some helper functions
+```{r weighteddata}
+agency_filter <- tibble(
+  agency = c(
+    "Anoka County", # Parks and Recreation",
+    "Bloomington", # Parks and Recreation",
+    "Carver County", # Parks and Recreation" ,
+    "Dakota County", # Parks",
+    "MPRB",
+    "Ramsey County", # Parks and Recreation" ,
+    "Scott County", # Parks",
+    "St. Paul", # Parks and Recreation",
+    "Three Rivers",
+    "Washington County"
+  ), # Parks"),
+  num = c(1:10)
+)
+
+agency_boundary <- read_sf("/Volumes/shared/CommDev/Research/Public/GIS/Parks/Park_Operating_Agencies.shp") %>%
+  mutate(COMCD_DESC = recode(COMCD_DESC, "Minneapolis" = "MPRB")) %>%
+  rename(agency = COMCD_DESC) %>%
+  select(agency)
+
+coverage_agency <- function(INPUT){
+  INPUT %>% # this has geography in it
+    select(GEOID, AREA) %>%
+    st_intersection(agency_boundary %>% st_transform(3857)) %>%
+    mutate(intersect_area = st_area(.)) %>% # create new column with shape area
+    select(GEOID, agency, intersect_area) %>% # only select columns needed to merge
+    st_drop_geometry() %>% # drop geometry as we don't need it
+    left_join(acs_temp %>% # merge back in with all block groups
+                select(GEOID, AREA)) %>%
+    mutate(coverage2 = as.numeric(intersect_area / AREA)) %>% # calculate fraction of block group within each agency/park buffer
+    as_tibble() %>%
+    mutate(coverage = if_else(coverage2 > 0.05, 1, 0)) %>%
+    select(GEOID, agency, coverage)
+}
+
+# # for some reason there is not the best alignment of tracts to agency boundaries
+# # but using a threshold of 0.05 as "included" vs "excluded" works well. 
+# # i'm going to put in a 5% cutoff for the park boundaries too. To make it cleaner. 
+# AG <- "Anoka County" #0.05 good threshold
+# 
+# acs_temp %>%
+#   right_join(coverage_agency %>%
+#                filter(agency == AG,
+#                       coverage > 0.05)) %>%
+#   ggplot() +
+#   geom_sf(aes(fill = coverage)) +
+#   geom_sf(data = filter(agency_boundary,agency == AG), fill = NA, col = 'red')
+
+
+buffer_dist_fxn <- function(miles) { # create buffer geometry of x distance
+  buff_Xmi <- park_trail_geog_temp %>%
+    st_buffer(dist = 1609.34 * miles) %>% # the 3857 projection uses meters as a distance, so 1.0 mi =
+    group_by(agency, name) %>%#, type, status) %>%
+    summarise(geometry = st_union(geom))
+  return(buff_Xmi)
+}
+
+buffer_acs_fxn <- function(df) { # intersect the buffer of x distance with the acs demographics
+  buff_acs <- acs_temp %>%
+    select(GEOID, AREA) %>%
+    st_intersection(df) %>% # every trail name gets own intersection
+    mutate(intersect_area = st_area(.)) %>% # create new column with shape area
+    select(GEOID, agency, name,  intersect_area) %>% # only select columns needed to merge
+    st_drop_geometry() %>% # drop geometry as we don't need it
+    left_join(acs_temp %>% # merge back in with all block groups
+      select(GEOID, AREA)) %>%
+    mutate(coverage = as.numeric(intersect_area / AREA)) %>% # calculate fraction of block group within each agency/park buffer
+    mutate(coverage = if_else(coverage < 0.05, 0, coverage)) %>% #filter out geoms with < 5% overlap. 
+    as_tibble() %>%
+    select(GEOID, agency, name, coverage)
+  return(buff_acs)
+}
+
+
+park_trail_geog_temp <- park_trail_geog_oversample %>% # bind_rows(park_trail_geog, .id = "status") %>%
+  full_join(agency_filter) %>%
+  # mutate(
+  #   name = paste(name, num, sep = "_"),
+  #   type = Type,
+  #   status = status2
+  # ) %>%
+  st_transform(3857)
+```
+
+
+Download small area estimates:
+
+```{r smallareapop, echo=F}
+temp <- tempfile()
+download.file("https://resources.gisdata.mn.gov/pub/gdrs/data/pub/us_mn_state_metc/society_small_area_estimates/xlsx_society_small_area_estimates.zip",
+  destfile = temp
+)
+
+# bg_pop_2019 <- readxl::read_xlsx(unzip(temp, "SmallAreaEstimatesBlockGroup.xlsx")) %>%
+#   janitor::clean_names() %>%
+#   filter(
+#     est_year == 2019
+#   ) %>%
+#   select(pop_est, hh_est, bg10) %>%
+#   rename(
+#     GEOID = bg10,
+#     pop2019 = pop_est,
+#     hh2019 = hh_est
+#   )
+
+tract_pop_2019 <- readxl::read_xlsx(unzip(temp, "SmallAreaEstimatesTract.xlsx")) %>%
+  janitor::clean_names() %>%
+  filter(
+    est_year == 2019
+  ) %>%
+  select(pop_est, hh_est, tr10) %>%
+  rename(
+    GEOID = tr10,
+    pop2019 = pop_est,
+    hh2019 = hh_est
+  )
+
+# fs::file_delete("./SmallAreaEstimatesBlockGroup.xlsx")
+fs::file_delete("./SmallAreaEstimatesTract.xlsx")
+```
+
+
+
+```{r lbdaa}
+
+# source("weighted_avs_bg.R")
+source("weighted_avs_tracts.R")
+
+long_buffer_data_oversample <- long_buffer_data_bg %>% 
+  mutate(geo = "blockgroup") %>%
+  bind_rows(long_buffer_data_tract %>%
+              mutate(geo = "tract"))
+
+usethis::use_data(long_buffer_data, overwrite = TRUE)
+
+agency_avg <- agency_avg_bg %>%
+  mutate(geo = "blockgroup") %>%
+  bind_rows(agency_avg_tract %>%
+              mutate(geo = "tract"))
+
+usethis::use_data(agency_avg, overwrite = TRUE)
+
+# levels(as.factor(agency_avg$ACS))
+# agency_avg %>% filter(ACS == "adj_meanhhinc" | ACS == "adj_meanhhinc_per")
+# long_buffer_data %>% filter(ACS == "adj_meanhhinc" | ACS == "adj_meanhhinc_per") %>% arrange(agency, name, distance, ACS)
+```
+
+## Create the spatial ACS data
+
+We only want to plot the block groups/tracts within the 7 county core region or within the collar counties if the bg/tract intersects with a buffer
+
+Running this produces: 
+
+- `collar_filter.rda`
+- `block_group.rda`
+- `census_tract.rda`
+
+```{r spatialacs}
+source("collar_county_filter.R")
+source("acs_geo.R")
+```
+
+## Create population estimates
+
+This script doesn't depend on inputs from any other script.
+
+Running this produces:
+
+- `est_pop.rda`
+
+```{r popest}
+source("pop_est.R")
+
+```
+
+## Create transit layer
+
+```{r transit}
+
+source("transit_routes.R")
+
+```
+
+## Only keep final files
+
+```{r deletethigns}
+fs::file_delete("../data/agency_avg_bg.rda")
+fs::file_delete("../data/agency_avg_tract.rda")
+# fs::file_delete("../data/agency_planned_existing_avgs.rda")
+# fs::file_delete("../data/agency_planned_existing_avgs_tract.rda")
+fs::file_delete("../data/block_group_raw.rda")
+fs::file_delete("../data/census_tract_raw.rda")
+fs::file_delete("../data/long_buffer_data_bg.rda")
+fs::file_delete("../data/long_buffer_data_tract.rda")
+fs::file_delete("../data/block_group.rda")
+fs::file_delete("../data/census_tract.rda")
+fs::file_delete("../data/collar_filter.rda")
+```
+
+
+# reproject
+```{r reproject}
+agency_boundary <- agency_boundary %>% st_transform(4326)
+usethis::use_data(agency_boundary, overwrite = TRUE)
+
+```
+
+
+# create nice names for app selections
+
+```{r nicenames}
+source("name_helper.R")
+
+```
+
+
+
+
