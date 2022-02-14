@@ -4,7 +4,7 @@ options(
   scipen = 9999,
   warn = -1,
   verbose = FALSE,
-  golem.app.prod = FALSE
+  golem.app.prod = TRUE
 ) # TRUE = production mode, FALSE = development mode
 
 # Detach all loaded packages and clean your environment
